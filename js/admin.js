@@ -48,7 +48,84 @@ function initAdminIcons() {
   if (exportBtn) exportBtn.innerHTML = `${icon('download', { size: 14 })} Export CSV`;
 }
 
-document.addEventListener('DOMContentLoaded', initAdminIcons);
+document.addEventListener('DOMContentLoaded', () => {
+  initAdminIcons();
+  initLoginForm();
+});
+
+/* ══════════════════════════════════════════════════════════
+   LOGIN FORM — validation & password visibility
+══════════════════════════════════════════════════════════ */
+function initLoginForm() {
+  const form = document.getElementById('loginForm');
+  const pwdInput = document.getElementById('loginPassword');
+  const pwdToggle = document.getElementById('pwdToggle');
+  const forgotBtn = document.getElementById('forgotBtn');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    doLogin();
+  });
+
+  forgotBtn?.addEventListener('click', () => doForgotPassword());
+
+  pwdToggle?.addEventListener('click', () => {
+    const isPwd = pwdInput.type === 'password';
+    pwdInput.type = isPwd ? 'text' : 'password';
+    pwdToggle.textContent = isPwd ? 'Hide' : 'Show';
+    pwdToggle.setAttribute('aria-label', isPwd ? 'Hide password' : 'Show password');
+    pwdInput.focus();
+  });
+
+  ['loginEmail', 'loginPassword'].forEach((id) => {
+    document.getElementById(id)?.addEventListener('input', () => {
+      clearFieldError(id);
+      clearLoginMsg();
+    });
+  });
+}
+
+function validateLoginForm() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pwd = document.getElementById('loginPassword').value;
+  let valid = true;
+
+  clearFieldError('loginEmail');
+  clearFieldError('loginPassword');
+
+  if (!email) {
+    setFieldError('loginEmail', 'Email is required.');
+    valid = false;
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    setFieldError('loginEmail', 'Enter a valid email address.');
+    valid = false;
+  }
+
+  if (!pwd) {
+    setFieldError('loginPassword', 'Password is required.');
+    valid = false;
+  } else if (pwd.length < 6) {
+    setFieldError('loginPassword', 'Password must be at least 6 characters.');
+    valid = false;
+  }
+
+  return valid;
+}
+
+function setFieldError(fieldId, message) {
+  const wrap = document.getElementById(`field-${fieldId.replace('login', '').toLowerCase()}`);
+  const err = document.getElementById(`err-${fieldId}`);
+  if (wrap) wrap.classList.add('has-error');
+  if (err) err.textContent = message;
+}
+
+function clearFieldError(fieldId) {
+  const key = fieldId.replace('login', '').toLowerCase();
+  const wrap = document.getElementById(`field-${key}`);
+  const err = document.getElementById(`err-${fieldId}`);
+  if (wrap) wrap.classList.remove('has-error');
+  if (err) err.textContent = '';
+}
 
 /* ══════════════════════════════════════════════════════════
    AUTH
@@ -76,8 +153,8 @@ window.doLogin = async function() {
   const pwd   = document.getElementById('loginPassword').value;
   clearLoginMsg();
 
-  if (!email || !pwd) {
-    showLoginMsg('Please enter your email address and password.', 'error');
+  if (!validateLoginForm()) {
+    showLoginMsg('Please correct the highlighted fields.', 'error');
     return;
   }
 
@@ -90,7 +167,7 @@ window.doLogin = async function() {
       await signOut(auth);
       showLoginMsg('This account does not have access to the main site admin.', 'error');
       btn.disabled    = false;
-      btn.textContent = 'Login →';
+      btn.textContent = 'Login';
       return;
     }
     // onAuthStateChanged handles the rest
@@ -104,10 +181,9 @@ window.doLogin = async function() {
       'auth/network-request-failed': 'Network error — please check your connection.',
     };
     showLoginMsg(msgs[err.code] || 'Login failed. Please check your credentials.', 'error');
+    btn.disabled    = false;
+    btn.textContent = 'Login';
   }
-
-  btn.disabled    = false;
-  btn.textContent = 'Login →';
 };
 
 window.doLogout = async function() {
@@ -122,9 +198,15 @@ window.doLogout = async function() {
 window.doForgotPassword = async function() {
   const email = document.getElementById('loginEmail').value.trim();
   clearLoginMsg();
+  clearFieldError('loginEmail');
 
   if (!email) {
-    showLoginMsg('Please enter your email address above, then click "Forgot password?"', 'error');
+    setFieldError('loginEmail', 'Enter your email above to reset your password.');
+    showLoginMsg('Please enter your email address first.', 'error');
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    setFieldError('loginEmail', 'Enter a valid email address.');
     return;
   }
 

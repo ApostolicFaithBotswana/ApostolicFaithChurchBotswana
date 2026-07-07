@@ -5,84 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin – AFC Botswana</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/admin.css" />
   <style>
-    .login-card { max-width: 420px; }
-
-    .login-field { margin-bottom: .9rem; }
-    .login-field label {
-      display: block;
-      font-size: .73rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      color: #8899aa;
-      margin-bottom: .35rem;
-    }
-    .login-field input {
-      width: 100%;
-      padding: .72rem 1rem;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      color: white;
-      font-family: 'Lato', sans-serif;
-      font-size: .92rem;
-      outline: none;
-      transition: border-color .2s;
-    }
-    .login-field input:focus { border-color: #d4af37; }
-    .login-field input::placeholder { color: rgba(255,255,255,.22); }
-
-    .forgot-link {
-      display: block;
-      text-align: right;
-      font-size: .76rem;
-      color: #8899aa;
-      cursor: pointer;
-      margin-top: -.2rem;
-      margin-bottom: .9rem;
-      background: none;
-      border: none;
-      font-family: 'Lato', sans-serif;
-      padding: 0;
-      transition: color .2s;
-    }
-    .forgot-link:hover { color: #d4af37; }
-
-    .login-msg {
-      display: none;
-      margin-bottom: .9rem;
-      padding: .75rem 1rem;
-      border-radius: 8px;
-      font-size: .83rem;
-      line-height: 1.5;
-    }
-    .login-msg.error   { background: rgba(220,50,50,.15);  color: #ff8080; border: 1px solid rgba(220,50,50,.2); }
-    .login-msg.success { background: rgba(46,204,113,.12); color: #2ecc71; border: 1px solid rgba(46,204,113,.2); }
-
-    /* Verse ref field helper text */
-    .field-hint {
-      font-size: .72rem;
-      color: #8899aa;
-      margin-top: .3rem;
-    }
-
-    @media(max-width:480px){
-      .login-card { padding: 1.75rem 1.25rem; }
-    }
+    /* Admin-only overrides — do NOT style login inputs here (was white-on-white) */
     .sidebar-link-live {
       color: var(--gold, #d4af37) !important;
       font-weight: 700;
       border: 1px solid rgba(212,175,55,.35);
       border-radius: 8px;
       margin-bottom: .5rem;
-    }
-    .login-back-gold {
-      margin-top: .5rem;
-      color: var(--gold, #d4af37) !important;
     }
   </style>
 </head>
@@ -91,39 +23,58 @@
 <!-- ══ LOGIN SCREEN ══ -->
 <div id="loginScreen" class="login-screen">
   <div class="login-card">
-
-    <!-- FIX 1: was logo.png (missing file) — corrected to logo1.png -->
-    <div class="logo-icon logo-icon-sm">
-      <img src="css/images/logo1.png" alt="AFC Botswana"/>
+    <div class="login-brand">
+      <div class="login-logo-wrap">
+        <img src="css/images/logo1.png" alt="Apostolic Faith Church Botswana" />
+      </div>
+      <p class="login-eyebrow">Apostolic Faith Church · Botswana</p>
+      <h1>Admin Panel</h1>
+      <p class="login-sub">Sign in to manage the website</p>
     </div>
 
-    <h1>Admin Panel</h1>
-    <p>AFC Botswana Website</p>
+    <div id="loginMsg" class="login-msg" role="alert"></div>
 
-    <div id="loginMsg" class="login-msg"></div>
+    <form id="loginForm" class="login-form" novalidate>
+      <div class="login-field" id="field-email">
+        <label for="loginEmail">Email address <span class="req" aria-hidden="true">*</span></label>
+        <input
+          type="email"
+          id="loginEmail"
+          name="email"
+          required
+          autocomplete="email"
+          inputmode="email"
+          placeholder="you@example.com"
+        />
+        <span class="field-error" id="err-loginEmail"></span>
+      </div>
 
-    <div class="login-field">
-      <label>Email Address</label>
-      <input type="email" id="loginEmail" placeholder="admin@afcbotswana.org"
-        onkeydown="if(event.key==='Enter') doLogin()"/>
+      <div class="login-field" id="field-password">
+        <label for="loginPassword">Password <span class="req" aria-hidden="true">*</span></label>
+        <div class="password-wrap">
+          <input
+            type="password"
+            id="loginPassword"
+            name="password"
+            required
+            autocomplete="current-password"
+            minlength="6"
+            placeholder="Enter your password"
+          />
+          <button type="button" class="pwd-toggle" id="pwdToggle" aria-label="Show password">Show</button>
+        </div>
+        <span class="field-error" id="err-loginPassword"></span>
+      </div>
+
+      <button type="button" class="forgot-link" id="forgotBtn">Forgot password?</button>
+
+      <button type="submit" class="admin-btn-primary" id="loginBtn">Login</button>
+    </form>
+
+    <div class="login-footer-links">
+      <a href="index.html" class="login-back">← Back to website</a>
+      <a href="index.html" class="login-back login-back-gold">After login → Edit live site</a>
     </div>
-
-    <div class="login-field">
-      <label>Password</label>
-      <input type="password" id="loginPassword" placeholder="Enter your password"
-        onkeydown="if(event.key==='Enter') doLogin()"/>
-    </div>
-
-    <button class="forgot-link" id="forgotBtn" onclick="doForgotPassword()">
-      Forgot password?
-    </button>
-
-    <button class="admin-btn-primary" id="loginBtn" onclick="doLogin()">
-      Login →
-    </button>
-
-    <a href="index.html" class="login-back">← Back to website</a>
-    <a href="index.html" class="login-back login-back-gold">After login → Edit live site</a>
   </div>
 </div>
 
