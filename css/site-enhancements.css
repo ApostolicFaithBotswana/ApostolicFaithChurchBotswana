@@ -238,16 +238,14 @@ body.page-exit {
   color: #fff;
 }
 
-/* ── EDIT BUTTON ON CARDS (top-right) ── */
+/* ── EDIT BUTTON ON CARDS — placement-aware, no text overlap ── */
 .live-editable {
   position: relative;
 }
 
 .live-edit-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 5;
+  z-index: 8;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
@@ -262,7 +260,110 @@ body.page-exit {
   text-transform: uppercase;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.2s, transform 0.2s, background 0.2s, color 0.2s;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+/* Inline text — float above the block, never on top of words */
+.is-live-admin .live-editable--float-above {
+  margin-top: 2.25rem;
+}
+
+.live-editable--float-above .live-edit-btn {
+  top: auto;
+  bottom: calc(100% + 6px);
+  right: 0;
+}
+
+.is-live-admin .live-editable--float-above[style*="text-align:center"] .live-edit-btn {
+  right: 50%;
+  transform: translateX(50%);
+}
+
+/* Cards, panels, districts — reserved strip at top */
+.is-live-admin .live-editable--card-top {
+  padding-top: 2.65rem;
+}
+
+.live-editable--card-top .live-edit-btn {
+  top: 8px;
+  right: 8px;
+}
+
+.is-live-admin .live-editable--card-top.social-item {
+  padding-right: 0.5rem;
+}
+
+/* Section headings — edit control above title block */
+.is-live-admin .live-editable--section-header {
+  padding-top: 2.65rem;
+}
+
+.live-editable--section-header .live-edit-btn {
+  top: 0;
+  right: 0;
+}
+
+/* Small cycle chips — centered above */
+.is-live-admin .live-editable--chip {
+  margin-top: 2.25rem;
+}
+
+.live-editable--chip .live-edit-btn {
+  top: auto;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  padding: 0.3rem 0.55rem;
+}
+
+.live-editable--chip .live-edit-btn-label {
+  display: none;
+}
+
+/* Contact values — room on the right, button in corner */
+.is-live-admin .live-editable--contact-value {
+  padding-right: 4.75rem;
+  min-height: 1.75rem;
+}
+
+.live-editable--contact-value .live-edit-btn {
+  top: 0;
+  right: 0;
+}
+
+/* Gallery / images — corner overlay on media */
+.live-editable--media .live-edit-btn {
+  top: 8px;
+  right: 8px;
+}
+
+/* Ticker & full-width bars */
+body.is-live-admin .ticker-wrap {
+  padding-top: 2.75rem;
+}
+
+.live-editable--bar-top .live-edit-btn {
+  top: auto;
+  bottom: calc(100% + 8px);
+  right: 0;
+}
+
+/* Timeline — mirror button to the open side of each card */
+.is-live-admin .timeline-card.live-editable--card-top {
+  padding-top: 2.65rem;
+}
+
+.timeline-card.live-editable--card-top:nth-child(odd) .live-edit-btn {
+  right: auto;
+  left: 8px;
+}
+
+.timeline-card.live-editable--card-top:nth-child(even) .live-edit-btn {
+  right: 8px;
+  left: auto;
 }
 
 .live-editable:hover .live-edit-btn,
@@ -274,6 +375,14 @@ body.page-exit {
   background: var(--gold);
   color: var(--navy-900);
   transform: scale(1.04);
+}
+
+.live-editable--chip .live-edit-btn:hover {
+  transform: translateX(-50%) scale(1.04);
+}
+
+.is-live-admin .live-editable--float-above[style*="text-align:center"] .live-edit-btn:hover {
+  transform: translateX(50%) scale(1.04);
 }
 
 .live-edit-btn-label {
@@ -400,6 +509,21 @@ body.modal-open {
   .live-edit-btn-label {
     display: none;
   }
+
+  .is-live-admin .live-editable--card-top,
+  .is-live-admin [data-list-item-id].live-editable {
+    padding-top: 2.35rem;
+  }
+
+  .list-delete-btn {
+    right: 2.75rem;
+  }
+
+  .timeline-card.live-editable--card-top:nth-child(odd) .live-edit-btn,
+  .timeline-card.live-editable--card-top:nth-child(even) .live-edit-btn {
+    right: 8px;
+    left: auto;
+  }
 }
 
 /* JSON / calendar admin block — visible only when live editor is active */
@@ -468,11 +592,17 @@ body.modal-open {
   color: var(--navy-900, #0a1628);
 }
 
+/* List cards — edit/delete sit in top strip, not on content */
+.is-live-admin [data-list-item-id].live-editable {
+  padding-top: 2.65rem;
+}
+
 .list-delete-btn {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 6;
+  top: 8px;
+  right: 5.25rem;
+  left: auto;
+  z-index: 8;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -486,92 +616,7 @@ body.modal-open {
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.2s, background 0.2s;
-}
-
-.live-editable:hover .list-delete-btn,
-.is-live-admin .list-delete-btn {
-  opacity: 1;
-}
-
-.list-delete-btn:hover {
-  background: #e05252;
-  color: #fff;
-}
-
-.list-empty-hint {
-  text-align: center;
-  color: #8899aa;
-  font-size: 0.9rem;
-  padding: 2rem;
-  font-style: italic;
-}
-
-/* ── Section list admin toolbars (live editor) ── */
-[data-edit-list] {
-  position: relative;
-}
-
-.list-admin-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-  padding: 0.65rem 1rem;
-  background: rgba(10, 22, 40, 0.92);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 10px;
-}
-
-.list-admin-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--gold, #d4af37);
-}
-
-.list-add-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 0.85rem;
-  border-radius: 6px;
-  border: 1px solid var(--gold, #d4af37);
-  background: transparent;
-  color: var(--gold, #d4af37);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-
-.list-add-btn:hover {
-  background: var(--gold, #d4af37);
-  color: var(--navy-900, #0a1628);
-}
-
-.list-delete-btn {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 6;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  border-radius: 6px;
-  border: 1px solid #e05252;
-  background: rgba(10, 22, 40, 0.92);
-  color: #e05252;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s, background 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
 .live-editable:hover .list-delete-btn,

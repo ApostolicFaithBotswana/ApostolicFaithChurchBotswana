@@ -351,7 +351,12 @@ export async function saveListItemFromForm(ctx, fd, itemId = null) {
 
 export function attachListToolbars(isAdmin) {
   document.querySelectorAll('[data-edit-list]').forEach((container) => {
+    if (container.previousElementSibling?.classList?.contains('list-admin-toolbar')) {
+      container.previousElementSibling.remove();
+    }
     container.querySelector('.list-admin-toolbar')?.remove();
+    container.classList.remove('has-list-toolbar');
+
     if (!isAdmin) return;
 
     const listId = container.dataset.editList;
@@ -364,7 +369,8 @@ export function attachListToolbars(isAdmin) {
     bar.innerHTML = `
       <span class="list-admin-label">${esc(config.label)}</span>
       <button type="button" class="list-add-btn" data-list-add="${escAttr(listId)}">${icon('edit', { size: 14 })} Add card</button>`;
-    container.prepend(bar);
+    container.parentNode?.insertBefore(bar, container);
+    container.classList.add('has-list-toolbar');
 
     bar.querySelector('[data-list-add]')?.addEventListener('click', (e) => {
       e.preventDefault();
@@ -372,6 +378,7 @@ export function attachListToolbars(isAdmin) {
     });
   });
 
+  document.querySelectorAll('.list-delete-btn').forEach((b) => b.remove());
   if (isAdmin) attachListDeleteButtons();
 }
 

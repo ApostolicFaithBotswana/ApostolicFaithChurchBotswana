@@ -155,11 +155,53 @@ function updateAdminBar(user) {
   document.body.classList.toggle('has-live-admin-bar', isAdmin);
 }
 
+const EDIT_PLACEMENT_CLASSES = [
+  'live-editable--float-above',
+  'live-editable--card-top',
+  'live-editable--chip',
+  'live-editable--contact-value',
+  'live-editable--media',
+  'live-editable--section-header',
+  'live-editable--bar-top',
+];
+
+function getEditPlacement(el) {
+  const type = el.dataset.editType || 'text';
+  const tag = el.tagName.toLowerCase();
+
+  if (el.closest('.contact-item')) return 'contact-value';
+  if (type === 'list') return 'bar-top';
+  if (type === 'image' || el.classList.contains('gallery-tile')) return 'media';
+  if (type === 'section' || el.classList.contains('section-heading')) return 'section-header';
+  if (el.classList.contains('cycle-item')) return 'chip';
+  if (el.classList.contains('motto-banner')) return 'bar-top';
+  if (type === 'panel' || el.classList.contains('social-item')) return 'card-top';
+
+  const cardLike = [
+    'timeline-card', 'event-card', 'district-card', 'pillar-card',
+    'resource-card', 'belief-card', 'structure-card', 'superintendent-section',
+  ];
+  if (cardLike.some((cls) => el.classList.contains(cls))) return 'card-top';
+  if (['card', 'district', 'timeline', 'event-card', 'profile'].includes(type)) return 'card-top';
+
+  if ((type === 'text' || type === 'html') && ['p', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag)) {
+    return 'float-above';
+  }
+
+  return 'card-top';
+}
+
 function attachEditButtons() {
   document.querySelectorAll('[data-edit]').forEach((el) => {
     const key = el.dataset.edit;
     if (key?.startsWith('event.')) return;
-    if (el.querySelector('.live-edit-btn')) return;
+
+    const placement = getEditPlacement(el);
+    EDIT_PLACEMENT_CLASSES.forEach((cls) => el.classList.remove(cls));
+    el.classList.add('live-editable', `live-editable--${placement}`);
+
+    if (el.querySelector(':scope > .live-edit-btn')) return;
+
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'live-edit-btn';
@@ -172,14 +214,15 @@ function attachEditButtons() {
       if (key?.startsWith('event.')) openEventEditor(key.replace('event.', ''));
       else openBlockEditor(el);
     };
-    el.classList.add('live-editable');
     el.appendChild(btn);
   });
 }
 
 function detachEditButtons() {
   document.querySelectorAll('.live-edit-btn').forEach((b) => b.remove());
-  document.querySelectorAll('.live-editable').forEach((el) => el.classList.remove('live-editable'));
+  document.querySelectorAll('.live-editable').forEach((el) => {
+    el.classList.remove('live-editable', ...EDIT_PLACEMENT_CLASSES);
+  });
 }
 
 async function loadAndApplyBlocks() {
