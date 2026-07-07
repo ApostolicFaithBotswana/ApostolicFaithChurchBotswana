@@ -27,13 +27,17 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; }
 
 body {
   font-family: 'Lato', sans-serif;
   color: var(--text-dark);
   background: var(--off-white);
   overflow-x: hidden;
+  padding-top: 72px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ---- TYPOGRAPHY ---- */
@@ -48,13 +52,15 @@ a { text-decoration: none; color: inherit; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: transparent;
+  background: var(--navy-800);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.28);
   transition: background 0.4s, box-shadow 0.4s;
   padding: 0 2rem;
 }
-#navbar.scrolled {
-  background: var(--navy-900);
-  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+#navbar.scrolled,
+#navbar.nav-pinned {
+  background: var(--navy-700);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.32);
 }
 .nav-inner {
   max-width: 1280px;

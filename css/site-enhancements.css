@@ -1,0 +1,354 @@
+/* ============================================================
+   AFC BOTSWANA — SITE ENHANCEMENTS
+   Navbar, live editor, motion, buttons, footer
+   ============================================================ */
+
+/* ── NAVBAR: always fixed, always blue ── */
+#navbar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9000 !important;
+  background: var(--navy-800) !important;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.28);
+  transform: none !important;
+  padding-top: 0;
+}
+
+#navbar.nav-pinned,
+#navbar.scrolled {
+  background: var(--navy-700) !important;
+}
+
+body {
+  padding-top: 72px;
+}
+
+body.has-live-admin-bar {
+  padding-top: 112px;
+}
+
+/* ── PAGE TRANSITIONS ── */
+body.page-enter {
+  animation: pageEnter 0.45s ease both;
+}
+
+body.page-exit {
+  animation: pageExit 0.28s ease both;
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pageExit {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── SVG ICONS INLINE ── */
+.afc-icon {
+  display: inline-block;
+  vertical-align: -0.15em;
+  flex-shrink: 0;
+}
+
+.event-card-date,
+.event-card-loc,
+.contact-item .contact-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.contact-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--gold);
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── BUTTON READABILITY FIXES ── */
+.btn-primary {
+  color: var(--navy-900) !important;
+  text-shadow: none;
+}
+
+.btn-on-dark,
+.section-dark .btn-primary,
+.event-card .btn-primary {
+  color: var(--navy-900) !important;
+  background: var(--gold) !important;
+  font-weight: 700;
+}
+
+.btn-outline {
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.section-light .btn-outline,
+.about-links .btn-outline {
+  color: var(--navy-700) !important;
+  border-color: var(--navy-500) !important;
+}
+
+.social-join-btn {
+  color: var(--navy-900) !important;
+  background: var(--gold) !important;
+  font-weight: 700;
+}
+
+.prayer-btn {
+  color: #fff !important;
+}
+
+.contact-section .btn-primary {
+  width: auto;
+  display: inline-block;
+}
+
+/* ── FOOTER LAYOUT ── */
+.footer {
+  margin-top: auto;
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+  align-items: center;
+  justify-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.footer-brand {
+  justify-content: center;
+}
+
+.footer-socials a svg {
+  display: block;
+}
+
+.footer-motto .afc-icon {
+  vertical-align: middle;
+}
+
+/* ── LIVE ADMIN BAR ── */
+.live-admin-bar {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  right: 0;
+  z-index: 8999;
+  background: linear-gradient(90deg, #1a3a6b, #2551a0);
+  border-bottom: 2px solid var(--gold);
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.live-admin-bar.visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.live-admin-bar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.45rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.live-admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.live-admin-email {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.75);
+  flex: 1;
+}
+
+.live-admin-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.live-admin-btn {
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: var(--navy-900);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+
+.live-admin-btn-ghost {
+  background: transparent;
+  color: #fff;
+}
+
+/* ── EDIT BUTTON ON CARDS (top-right) ── */
+.live-editable {
+  position: relative;
+}
+
+.live-edit-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid var(--gold);
+  background: rgba(10, 22, 40, 0.92);
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.live-editable:hover .live-edit-btn,
+.is-live-admin .live-edit-btn {
+  opacity: 1;
+}
+
+.live-edit-btn:hover {
+  background: var(--gold);
+  color: var(--navy-900);
+  transform: scale(1.04);
+}
+
+.live-edit-btn-label {
+  pointer-events: none;
+}
+
+/* ── LIVE EDIT MODAL ── */
+.live-edit-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(10, 22, 40, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.live-edit-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.live-edit-dialog {
+  background: #fff;
+  border-radius: 14px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.3s ease;
+}
+
+.live-edit-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+}
+
+.live-edit-hint {
+  font-size: 0.82rem;
+  color: #667;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+  padding: 0.65rem 0.85rem;
+  background: #f5f8fc;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+}
+
+.live-edit-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.live-edit-actions .btn-primary {
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+}
+
+/* Ticker star icon */
+.ticker-track .afc-icon {
+  margin: 0 0.35rem;
+}
+
+@media (max-width: 768px) {
+  body.has-live-admin-bar {
+    padding-top: 128px;
+  }
+
+  .live-admin-bar {
+    top: 72px;
+  }
+
+  .live-edit-btn-label {
+    display: none;
+  }
+}

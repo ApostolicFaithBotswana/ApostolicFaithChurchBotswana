@@ -22,6 +22,10 @@ onAuthStateChanged(auth, async (user) => {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminApp').style.display    = 'flex';
     document.getElementById('adminEmailDisplay').textContent = user.email;
+
+    // If admin came from live site or wants live editor, stay on dashboard but session persists on index.html
+    sessionStorage.setItem('afc_admin_session', '1');
+
     await initAdminApp();
   } else if (user) {
     await signOut(auth);
@@ -124,11 +128,16 @@ function clearLoginMsg() {
 
 async function initAdminApp() {
   setupSidebarNav();
-  // Load dashboard and content immediately; others load on demand
   await Promise.all([
     loadDashboard(),
     loadContent(),
   ]);
+
+  // Real-time: refresh events list when live editor or another tab changes them
+  DB.subscribeEvents(async () => {
+    await renderAdminEventsList();
+    await loadDashboard();
+  });
 }
 
 function updateClock() {

@@ -132,6 +132,8 @@ const FIELD_TO_COL = {
   day: 'day_name',
   time: 'time_slot',
   registrantId: 'registrant_id',
+  page: 'page',
+  block_key: 'block_key',
 };
 
 const COL_TO_FIELD = Object.fromEntries(
@@ -184,6 +186,9 @@ function rowToDoc(row) {
   }
   if (row.session) data.session = row.session;
   if (row.registrant_id) data.registrantId = row.registrant_id;
+  if (row.page) data.page = row.page;
+  if (row.block_key) data.block_key = row.block_key;
+  if (row.block_type) data.block_type = row.block_type;
   return data;
 }
 
@@ -206,6 +211,9 @@ function buildRowPayload(rawData, existingId) {
   if (data.day !== undefined) row.day_name = data.day;
   if (data.time !== undefined) row.time_slot = data.time;
   if (data.registrantId !== undefined) row.registrant_id = data.registrantId;
+  if (data.page !== undefined) row.page = data.page;
+  if (data.block_key !== undefined) row.block_key = data.block_key;
+  if (data.block_type !== undefined) row.block_type = data.block_type;
 
   return { data, row };
 }

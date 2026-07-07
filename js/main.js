@@ -1,34 +1,48 @@
 /* ============================================================
-   AFCO BOTSWANA — MAIN JS (index.html)
+   AFC BOTSWANA — MAIN JS (index.html)
    ============================================================ */
 
 import { DB } from './data.js';
+import { icon } from './icons.js';
+import { initSiteMotion } from './site-motion.js';
+import { initLiveAdmin, isLiveAdmin } from './live-admin.js';
 
 let currentEventForReg = null;
+let eventsCache = [];
 
 /* ---------- INIT ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
+  initSiteMotion();
+  initLiveAdmin('index');
   initNavScroll();
   initHamburger();
-  updateHeroEventPanel();
   initSecretAdminTriggers();
+
   await applyConfig();
   await renderEvents();
-});
 
-async function renderGallery() {
-  // Gallery uses static placeholder tiles in HTML
-}
+  // Real-time: events + config update without page refresh
+  DB.subscribeEvents((events) => {
+    eventsCache = events;
+    paintEvents(events);
+  });
+
+  DB.subscribeConfig(async (cfg) => {
+    applyConfigFromData(cfg);
+  });
+
+  window.addEventListener('afc:events-changed', () => renderEvents());
+  window.addEventListener('afc:admin-changed', () => paintEvents(eventsCache));
+});
 
 /* ---------- SECRET ADMIN TRIGGERS ---------- */
 function initSecretAdminTriggers() {
-
-  // TRIGGER 1: Click the logo 5 times within 3 seconds
   let logoClicks = 0;
   let logoTimer = null;
   const logo = document.querySelector('.nav-brand');
   if (logo) {
     logo.addEventListener('click', (e) => {
+      if (isLiveAdmin()) return; // admins use the live editor bar instead
       e.preventDefault();
       logoClicks++;
       clearTimeout(logoTimer);
@@ -37,20 +51,16 @@ function initSecretAdminTriggers() {
         goToAdmin();
         return;
       }
-      // Reset count if 3 seconds pass without reaching 5
       logoTimer = setTimeout(() => { logoClicks = 0; }, 3000);
     });
   }
 
-  // TRIGGER 2: Type the secret keyword anywhere on the page
-  const SECRET_WORD = 'grace2024';  // ← Change this to your preferred secret word
+  const SECRET_WORD = 'grace2024';
   let typedBuffer = '';
   let keyTimer = null;
   document.addEventListener('keydown', (e) => {
-    // Ignore if user is typing in an input/textarea
-    if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
     typedBuffer += e.key.toLowerCase();
-    // Only keep last N characters matching the secret word length
     if (typedBuffer.length > SECRET_WORD.length) {
       typedBuffer = typedBuffer.slice(-SECRET_WORD.length);
     }
@@ -64,16 +74,21 @@ function initSecretAdminTriggers() {
 }
 
 function goToAdmin() {
-  // Brief subtle flash so you know it worked, then redirect
-  document.body.style.transition = 'opacity 0.3s';
-  document.body.style.opacity = '0';
-  setTimeout(() => { window.location.href = 'admin.html'; }, 300);
+  document.body.classList.add('page-exit');
+  setTimeout(() => { window.location.href = 'admin.html'; }, 280);
 }
 
 /* ---------- CONFIG ---------- */
 async function applyConfig() {
   const cfg = await DB.getConfig();
-  setEl('heroTitle', cfg.hero_title);
+  applyConfigFromData(cfg);
+}
+
+function applyConfigFromData(cfg) {
+  const verseEl = document.getElementById('weeklyVerse');
+  if (verseEl && cfg.verse_text) {
+    verseEl.textContent = `"${cfg.verse_text}" — ${cfg.verse_reference || ''}`;
+  }
   setEl('aboutText', cfg.about_text);
   setEl('contactEmail', cfg.contact_email);
   setEl('contactPhone', cfg.contact_phone);
@@ -81,54 +96,51 @@ async function applyConfig() {
 
 /* ---------- EVENTS ---------- */
 async function renderEvents() {
-  const events = await DB.getEvents();
+  eventsCache = await DB.getEvents();
+  paintEvents(eventsCache);
+}
+
+function paintEvents(events) {
   const grid = document.getElementById('eventsGrid');
   const noMsg = document.getElementById('noEventsMsg');
   if (!grid) return;
 
   if (!events.length) {
     grid.innerHTML = '';
-    noMsg.style.display = 'block';
+    if (noMsg) noMsg.style.display = 'block';
     return;
   }
-  noMsg.style.display = 'none';
+  if (noMsg) noMsg.style.display = 'none';
 
-  // Sort by start date ascending
   events.sort((a, b) => getEventDate(a) - getEventDate(b));
 
-  grid.innerHTML = events.map(ev => `
-  <div class="event-card" ${ev.externalUrl ? '' : `onclick="openRegModal('${ev.id}')"`}>
+  grid.innerHTML = events.map((ev) => `
+  <div class="event-card ${isLiveAdmin() ? 'live-editable' : ''}"
+       data-edit="event.${ev.id}" data-edit-type="event" data-edit-label="${escAttr(ev.name)}"
+       ${ev.externalUrl ? '' : `onclick="openRegModal('${ev.id}')"`}>
+    ${isLiveAdmin() ? `<button type="button" class="live-edit-btn" title="Edit this event — click to change details" onclick="event.stopPropagation();window.dispatchEvent(new CustomEvent('afc:edit-event',{detail:'${ev.id}'}))">${icon('edit', { size: 14 })}<span class="live-edit-btn-label">Edit</span></button>` : ''}
     ${ev.poster ? `<img src="${escAttr(ev.poster)}" alt="${escAttr(ev.name)} poster" class="event-card-poster" loading="lazy" onerror="this.style.display='none'" />` : ''}
-    <div class="event-card-date">📅 ${formatDateRange(ev.startDate, ev.endDate)}</div>
+    <div class="event-card-date">${icon('calendar', { size: 14 })} ${formatDateRange(ev.startDate, ev.endDate)}</div>
     <h3>${escHtml(ev.name)}</h3>
-    <div class="event-card-loc">📍 ${escHtml(ev.location)}</div>
+    <div class="event-card-loc">${icon('location', { size: 14 })} ${escHtml(ev.location)}</div>
     <p>${escHtml(ev.description || '')}</p>
     ${ev.externalUrl
-      ? `<a href="${escAttr(ev.externalUrl)}" target="_blank" rel="noopener" class="btn-primary" onclick="event.stopPropagation();">Register on Camp Portal ↗</a>`
-      : `<button class="btn-primary" onclick="event.stopPropagation();openRegModal('${ev.id}')">Register / RSVP</button>`
+      ? `<a href="${escAttr(ev.externalUrl)}" target="_blank" rel="noopener" class="btn-primary btn-on-dark" onclick="event.stopPropagation();">${icon('external', { size: 14 })} Register on Camp Portal</a>`
+      : `<button class="btn-primary btn-on-dark" onclick="event.stopPropagation();openRegModal('${ev.id}')">Register / RSVP</button>`
     }
-  </div>
-`).join('');
-}
-
-function updateHeroEventPanel() {
-  // Social panel content is static HTML — nothing to update
-}
-
-function updateHeroEventPanel() {
-  // Social panel content is static HTML — nothing to update
+  </div>`).join('');
 }
 
 /* ---------- REGISTRATION MODAL ---------- */
 async function openRegModal(eventId) {
-  const events = await DB.getEvents();
-  const ev = events.find(e => e.id === eventId);
+  const events = eventsCache.length ? eventsCache : await DB.getEvents();
+  const ev = events.find((e) => e.id === eventId);
   if (!ev) return;
 
   currentEventForReg = ev;
   const info = document.getElementById('modalEventInfo');
   if (info) {
-    info.innerHTML = `<strong>${escHtml(ev.name)}</strong><br>📅 ${formatDateRange(ev.startDate, ev.endDate)}<br>📍 ${escHtml(ev.location)}`;
+    info.innerHTML = `<strong>${escHtml(ev.name)}</strong><br>${icon('calendar', { size: 14 })} ${formatDateRange(ev.startDate, ev.endDate)}<br>${icon('location', { size: 14 })} ${escHtml(ev.location)}`;
   }
   document.getElementById('regModal').style.display = 'flex';
 }
@@ -154,58 +166,42 @@ async function handleRegistration(e) {
 
   await DB.addRegistration(reg);
   closeRegModal();
-  showToast('✓ Registration confirmed! We look forward to seeing you.', 'success');
+  showToast('Registration confirmed! We look forward to seeing you.', 'success');
 }
 
-/* Close modal on overlay click */
-document.getElementById('regModal')?.addEventListener('click', function(e) {
+document.getElementById('regModal')?.addEventListener('click', function (e) {
   if (e.target === this) closeRegModal();
 });
 
-/* ---------- CONTACT FORM ---------- */
 function handleContactForm(e) {
   e.preventDefault();
-  showToast('✓ Message received! We will get back to you soon.', 'success');
+  showToast('Message received! We will get back to you soon.', 'success');
   e.target.reset();
 }
 
-
-
-function getPlaceholderTiles(n) {
-  const icons = ['📸','🙏','🎵','🤝','✝️','🌟'];
-  const labels = ['Worship Service','Prayer Meeting','Choir Practice','Community Outreach','Convention','Youth Ministry'];
-  let html = '';
-  for (let i = 0; i < n; i++) {
-    html += `<div class="gallery-tile gallery-tile-placeholder" style="--delay:${0.1*i}s"><div class="gallery-placeholder-inner"><span>${icons[i]}</span><p>${labels[i]}</p></div></div>`;
-  }
-  return html;
-}
-
-/* ---------- NAV SCROLL ---------- */
+/* ---------- NAV SCROLL — navbar stays fixed at top, always blue ---------- */
 function initNavScroll() {
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('navbar');
-    if (nav) nav.classList.toggle('scrolled', window.scrollY > 50);
-  }, { passive: true });
+  const nav = document.getElementById('navbar');
+  if (nav) {
+    nav.classList.add('nav-pinned');
+  }
 }
 
-/* ---------- HAMBURGER ---------- */
 function initHamburger() {
   const btn = document.getElementById('hamburger');
   const links = document.getElementById('navLinks');
   if (!btn || !links) return;
   btn.addEventListener('click', () => links.classList.toggle('open'));
-  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+  links.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => links.classList.remove('open')));
 }
 
-/* ---------- UTILS ---------- */
 function setEl(id, val) {
   const el = document.getElementById(id);
-  if (el) el.textContent = val;
+  if (el && val) el.textContent = val;
 }
 
 function escHtml(str = '') {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function escAttr(str = '') {
@@ -221,8 +217,8 @@ function formatDateRange(startStr, endStr) {
   if (!endStr || endStr === startStr) return formatDate(startStr);
 
   const start = new Date(startStr + 'T00:00:00');
-  const end   = new Date(endStr + 'T00:00:00');
-  const opts  = { day: 'numeric', month: 'long', year: 'numeric' };
+  const end = new Date(endStr + 'T00:00:00');
+  const opts = { day: 'numeric', month: 'long', year: 'numeric' };
 
   if (start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth()) {
     return `${start.getDate()} – ${end.toLocaleDateString('en-BW', opts)}`;
@@ -235,16 +231,6 @@ function formatDate(dateStr) {
   try {
     return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-BW', { day: 'numeric', month: 'long', year: 'numeric' });
   } catch { return dateStr; }
-}
-
-function formatTime(timeStr) {
-  if (!timeStr) return '';
-  try {
-    const [h, m] = timeStr.split(':');
-    const d = new Date();
-    d.setHours(+h, +m);
-    return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-  } catch { return timeStr; }
 }
 
 function showToast(msg, type = 'success') {

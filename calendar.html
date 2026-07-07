@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/site-enhancements.css"/>
   <style>
   /* ── CALENDAR PAGE SPECIFIC ── */
   :root{
@@ -263,7 +264,7 @@
 
 </style>
 </head>
-<body>
+<body data-page="calendar">
 
 <!-- NAV -->
 <header id="navbar">
@@ -687,5 +688,7 @@ updateStats();
 gridMonth = new Date().getMonth();
 if (gridMonth < 0 || gridMonth > 11) gridMonth = 0;
 </script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script type="module" src="js/site-core.js"></script>
 </body>
 </html>

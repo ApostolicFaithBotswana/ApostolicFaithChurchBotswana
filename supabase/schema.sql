@@ -179,3 +179,41 @@ CREATE POLICY "public_read_camp_journal" ON camp_journal FOR SELECT TO anon, aut
 
 -- Optional: enable Realtime in Dashboard → Database → Replication for:
 -- camp_announcements, camp_orders, camp_testimonies, camp_schedule
+-- site_events, site_blocks, site_config
+
+-- ─────────────────────────────────────────────
+-- LIVE EDITOR: site_blocks + media storage
+-- Run this section if you already ran the schema before
+-- ─────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS site_blocks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  data JSONB NOT NULL DEFAULT '{}',
+  page TEXT NOT NULL,
+  block_key TEXT NOT NULL,
+  block_type TEXT DEFAULT 'text',
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(page, block_key)
+);
+
+CREATE INDEX IF NOT EXISTS idx_site_blocks_page ON site_blocks (page);
+
+ALTER TABLE site_blocks ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "public_read_site_blocks" ON site_blocks FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "admin_all_site_blocks" ON site_blocks FOR ALL TO authenticated USING (true) WITH CHECK (true);
+
+-- Optional realtime (skip lines that error if already enabled):
+-- ALTER PUBLICATION supabase_realtime ADD TABLE site_events;
+-- ALTER PUBLICATION supabase_realtime ADD TABLE site_blocks;
+-- ALTER PUBLICATION supabase_realtime ADD TABLE site_config;
+
+-- Storage bucket for uploaded images (Dashboard → Storage → New bucket also works)
+INSERT INTO storage.buckets (id, name, public) VALUES ('site-media', 'site-media', true)
+ON CONFLICT (id) DO NOTHING;
+
+CREATE POLICY "public_read_site_media" ON storage.objects FOR SELECT TO anon, authenticated USING (bucket_id = 'site-media');
+CREATE POLICY "admin_upload_site_media" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'site-media');
+CREATE POLICY "admin_update_site_media" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'site-media');
+CREATE POLICY "admin_delete_site_media" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'site-media');

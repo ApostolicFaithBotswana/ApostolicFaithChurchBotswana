@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Branch Locations – AFC Botswana</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/site-enhancements.css" />
   <style>
     /* ── LOCATIONS PAGE SPECIFIC ── */
 
@@ -277,7 +278,7 @@
     }
   </style>
 </head>
-<body>
+<body data-page="locations">
 
 <!-- ═══ NAVBAR ═══ -->
 <header id="navbar">
@@ -1028,5 +1029,7 @@ function showToast(msg, type = 'success') {
   t._t = setTimeout(() => t.classList.remove('show'), 4500);
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script type="module" src="js/site-core.js"></script>
 </body>
 </html>

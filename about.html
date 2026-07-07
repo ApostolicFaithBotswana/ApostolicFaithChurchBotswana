@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/site-enhancements.css"/>
   <style>
   /* ── ABOUT PAGE SPECIFIC ── */
 
@@ -224,7 +225,7 @@
 
   </style>
 </head>
-<body>
+<body data-page="about">
 
 <!-- NAV -->
 <header id="navbar">
@@ -255,7 +256,7 @@
     <div class="about-hero-text">
       <span class="about-hero-eyebrow">Since 1906 · Azusa Street to Botswana</span>
       <h1 class="section-title light"> One Gospel.<br>One Mission.</h1>
-      <p>
+      <p data-edit="about.hero.intro" data-edit-type="text" data-edit-field="body" data-edit-label="About hero introduction">
         From a revival on Azusa Street in Los Angeles, to Portland, Oregon, through
         Nigeria and Zimbabwe, and into all regions of Botswana — the Apostolic Faith
         Church has carried a single, unchanging message for over a century: salvation,
@@ -605,15 +606,13 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script type="module" src="js/site-core.js"></script>
 <script>
 document.getElementById('hamburger').addEventListener('click', () => {
   document.getElementById('navLinks').classList.toggle('open');
 });
-window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
-
-// Reveal timeline cards as they scroll into view
+// Timeline reveal (about page specific)
 const revealTargets = document.querySelectorAll('.timeline-card');
 if ('IntersectionObserver' in window && revealTargets.length){
   const io = new IntersectionObserver((entries) => {

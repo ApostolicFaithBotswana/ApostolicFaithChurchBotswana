@@ -1,17 +1,18 @@
 /* ============================================================
    AFC BOTSWANA — SUPABASE DATA LAYER
-   Shared by public site and main website admin.
+   Shared by public site, live editor, and admin dashboard.
    ============================================================ */
 
 import {
   supabase,
   collection, addDoc, getDocs, doc, updateDoc, deleteDoc,
-  query, orderBy, setDoc, getDoc, serverTimestamp
+  query, orderBy, where, setDoc, getDoc, serverTimestamp, onSnapshot
 } from '../camp/camp-firebase.js';
 
 const SITE_EVENTS = 'site_events';
 const SITE_CONFIG = 'site_config';
 const SITE_REGISTRATIONS = 'site_registrations';
+const SITE_BLOCKS = 'site_blocks';
 const LEGACY_EVENTS_KEY = 'afco_events';
 
 const defaultConfig = {
@@ -31,13 +32,28 @@ function normalizeDoc(row) {
   };
 }
 
+function sortItems(items, field, dir = 'asc') {
+  return items.sort((a, b) => {
+    const av = a[field] || '';
+    const bv = b[field] || '';
+    return dir === 'asc' ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+  });
+}
+
 async function getCollection(name, sortField = 'createdAt', sortDir = 'desc') {
   try {
     const snap = await getDocs(query(collection(null, name), orderBy(sortField, sortDir)));
     return snap.docs.map(normalizeDoc);
   } catch (e) {
-    console.warn(`Could not load ${name}:`, e);
-    return [];
+    console.warn(`Ordered load failed for ${name}, using fallback:`, e);
+    try {
+      const snap = await getDocs(collection(null, name));
+      const items = snap.docs.map(normalizeDoc);
+      return sortItems(items, sortField, sortDir);
+    } catch (e2) {
+      console.warn(`Could not load ${name}:`, e2);
+      return [];
+    }
   }
 }
 
@@ -47,10 +63,31 @@ const DB = {
     events: SITE_EVENTS,
     config: SITE_CONFIG,
     registrations: SITE_REGISTRATIONS,
+    blocks: SITE_BLOCKS,
   },
 
   async getEvents() {
     return getCollection(SITE_EVENTS, 'startDate', 'asc');
+  },
+
+  /** Real-time listener — re-fires callback whenever events change in Supabase */
+  subscribeEvents(callback) {
+    return onSnapshot(
+      collection(null, SITE_EVENTS),
+      async () => callback(await this.getEvents()),
+      (err) => console.warn('Events subscription error:', err)
+    );
+  },
+
+  /** Real-time listener for site config (hero verse, contact info, etc.) */
+  subscribeConfig(callback) {
+    const refresh = async () => callback(await this.getConfig());
+    refresh();
+    return onSnapshot(
+      collection(null, SITE_CONFIG),
+      refresh,
+      (err) => console.warn('Config subscription error:', err)
+    );
   },
 
   async addEvent(evt) {
@@ -135,12 +172,11 @@ const DB = {
   },
 
   async saveConfig(cfg) {
-    const payload = {
+    await setDoc(doc(null, SITE_CONFIG, 'main'), {
       key: 'main',
       ...cfg,
       updatedAt: serverTimestamp(),
-    };
-    await setDoc(doc(null, SITE_CONFIG, 'main'), payload);
+    });
   },
 
   async saveHeroVerse(text, reference) {
@@ -157,6 +193,69 @@ const DB = {
       createdAt: serverTimestamp(),
     });
     return { id: ref.id, ...reg };
+  },
+
+  /* ── LIVE EDITOR: site_blocks ── */
+  async getBlocks(page) {
+    try {
+      const snap = await getDocs(query(collection(null, SITE_BLOCKS), where('page', '==', page)));
+      const map = {};
+      snap.docs.forEach((d) => {
+        const row = normalizeDoc(d);
+        const key = row.block_key || row.blockKey;
+        map[key] = { id: row.id, data: row.data?.title ? row.data : (row.data?.data || row.data || row) };
+      });
+      return map;
+    } catch (e) {
+      console.warn('Could not load blocks:', e);
+      return {};
+    }
+  },
+
+  async saveBlock(page, blockKey, blockType, data) {
+    const snap = await getDocs(query(
+      collection(null, SITE_BLOCKS),
+      where('page', '==', page)
+    ));
+    const existing = snap.docs.find((d) => {
+      const row = d.data();
+      return row.block_key === blockKey || row.blockKey === blockKey;
+    });
+
+    const payload = {
+      page,
+      block_key: blockKey,
+      block_type: blockType,
+      data,
+      updatedAt: serverTimestamp(),
+    };
+
+    if (existing) {
+      await updateDoc(doc(null, SITE_BLOCKS, existing.id), payload);
+      return existing.id;
+    }
+
+    const ref = await addDoc(collection(null, SITE_BLOCKS), {
+      ...payload,
+      createdAt: serverTimestamp(),
+    });
+    return ref.id;
+  },
+
+  /**
+   * Upload image to Supabase Storage bucket `site-media`.
+   * Returns public URL for use in cards / events / gallery.
+   */
+  async uploadMedia(file) {
+    const ext = file.name.split('.').pop() || 'jpg';
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { error } = await supabase.storage.from('site-media').upload(path, file, {
+      cacheControl: '3600',
+      upsert: false,
+    });
+    if (error) throw error;
+    const { data } = supabase.storage.from('site-media').getPublicUrl(path);
+    return data.publicUrl;
   },
 };
 
