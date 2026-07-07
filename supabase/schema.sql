@@ -121,6 +121,12 @@ INSERT INTO site_config (id, data) VALUES
   ('hero_verse', '{
     "text": "For where two or three gather in my name, there am I with them.",
     "reference": "Matthew 18:20"
+  }'::jsonb),
+  ('youtube', '{
+    "channel_handle": "apostolicfaithbotswanahead3540",
+    "channel_id": "",
+    "api_key": "",
+    "poll_seconds": 45
   }'::jsonb)
 ON CONFLICT (id) DO NOTHING;
 

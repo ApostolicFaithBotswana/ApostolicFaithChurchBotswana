@@ -278,6 +278,30 @@
           </div>
         </div>
 
+        <hr style="border:none;border-top:1px solid #e8edf5;margin:2rem 0;" />
+        <h3 style="margin:0 0 .5rem;">YouTube Live Stream</h3>
+        <p style="color:#8899aa;font-size:.82rem;line-height:1.6;margin:0 0 1.25rem;">
+          Powers the <a href="live.html" target="_blank">Live page</a>. Create a free API key in
+          <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener">Google Cloud</a>
+          (enable <strong>YouTube Data API v3</strong>, restrict key to your site domain).
+        </p>
+        <div class="aform-group">
+          <label>YouTube Channel Handle</label>
+          <input type="text" id="cfgYtHandle" placeholder="apostolicfaithbotswanahead3540"/>
+        </div>
+        <div class="aform-group">
+          <label>YouTube Channel ID <span style="color:#8899aa;font-weight:400;">(optional — auto-detected)</span></label>
+          <input type="text" id="cfgYtChannelId" placeholder="UCxxxxxxxx"/>
+        </div>
+        <div class="aform-group">
+          <label>YouTube Data API Key</label>
+          <input type="password" id="cfgYtApiKey" placeholder="AIza…" autocomplete="off"/>
+        </div>
+        <div class="aform-group">
+          <label>Live check interval (seconds)</label>
+          <input type="number" id="cfgYtPoll" min="30" max="300" value="45"/>
+        </div>
+
         <button class="admin-btn-primary" onclick="saveContent()">Save All Changes</button>
       </div>
     </div>

@@ -194,6 +194,34 @@ const DB = {
     await setDoc(doc(null, SITE_CONFIG, 'hero_verse'), { text, reference });
   },
 
+  async getYouTubeConfig() {
+    try {
+      const snap = await getDoc(doc(null, SITE_CONFIG, 'youtube'));
+      const defaults = {
+        channel_handle: 'apostolicfaithbotswanahead3540',
+        channel_id: '',
+        api_key: '',
+        poll_seconds: 45,
+      };
+      return snap.exists() ? { ...defaults, ...snap.data() } : { ...defaults };
+    } catch (e) {
+      console.warn('Could not load YouTube config:', e);
+      return {
+        channel_handle: 'apostolicfaithbotswanahead3540',
+        channel_id: '',
+        api_key: '',
+        poll_seconds: 45,
+      };
+    }
+  },
+
+  async saveYouTubeConfig(cfg) {
+    await setDoc(doc(null, SITE_CONFIG, 'youtube'), {
+      ...cfg,
+      updatedAt: serverTimestamp(),
+    });
+  },
+
   async getRegistrations() {
     return getCollection(SITE_REGISTRATIONS, 'createdAt', 'desc');
   },

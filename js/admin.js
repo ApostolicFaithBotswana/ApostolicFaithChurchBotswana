@@ -554,6 +554,11 @@ window.migrateLegacyEvents = async function() {
 async function loadContent() {
   try {
     applyConfigToForm(await DB.getConfig());
+    const yt = await DB.getYouTubeConfig();
+    setInput('cfgYtHandle', yt.channel_handle || '');
+    setInput('cfgYtChannelId', yt.channel_id || '');
+    setInput('cfgYtApiKey', yt.api_key || '');
+    setInput('cfgYtPoll', yt.poll_seconds || 45);
   } catch(e) {
     console.error('loadContent error:', e);
     showToast('Could not load content: ' + e.message, 'error');
@@ -576,12 +581,18 @@ window.saveContent = async function() {
       about_text:    aboutText,
       contact_email: email,
       contact_phone: phone,
-      // Also store verse here so DB.getConfig() can return it next time
       verse_text:      verseText,
       verse_reference: verseRef,
     });
 
-    showToast('Content saved. Homepage verse updated.', 'success');
+    await DB.saveYouTubeConfig({
+      channel_handle: document.getElementById('cfgYtHandle')?.value.trim() || 'apostolicfaithbotswanahead3540',
+      channel_id: document.getElementById('cfgYtChannelId')?.value.trim() || '',
+      api_key: document.getElementById('cfgYtApiKey')?.value.trim() || '',
+      poll_seconds: Number(document.getElementById('cfgYtPoll')?.value) || 45,
+    });
+
+    showToast('Content saved. Live page settings updated.', 'success');
   } catch(e) {
     console.error('saveContent error:', e);
     showToast('Save failed: ' + e.message, 'error');
