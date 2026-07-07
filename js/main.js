@@ -4,7 +4,7 @@
 
 import { DB } from './data.js';
 import { icon } from './icons.js';
-import { initSiteMotion } from './site-motion.js';
+import { initSiteMotion, softNavigate } from './site-motion.js';
 import { initLiveAdmin, isLiveAdmin } from './live-admin.js';
 
 let currentEventForReg = null;
@@ -74,8 +74,7 @@ function initSecretAdminTriggers() {
 }
 
 function goToAdmin() {
-  document.body.classList.add('page-exit');
-  setTimeout(() => { window.location.href = 'admin.html'; }, 280);
+  softNavigate('admin.html');
 }
 
 /* ---------- CONFIG ---------- */

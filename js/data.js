@@ -90,6 +90,17 @@ const DB = {
     );
   },
 
+  /** Real-time listener for event registrations */
+  subscribeRegistrations(callback) {
+    const refresh = async () => callback(await this.getRegistrations());
+    refresh();
+    return onSnapshot(
+      collection(null, SITE_REGISTRATIONS),
+      refresh,
+      (err) => console.warn('Registrations subscription error:', err)
+    );
+  },
+
   async addEvent(evt) {
     const ref = await addDoc(collection(null, SITE_EVENTS), {
       ...evt,

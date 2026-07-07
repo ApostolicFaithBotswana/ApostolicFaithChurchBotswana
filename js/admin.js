@@ -4,6 +4,7 @@
    ============================================================ */
 
 import { DB } from './data.js';
+import { icon } from './icons.js';
 import {
   auth,
   signInWithEmailAndPassword,
@@ -12,6 +13,42 @@ import {
   sendPasswordResetEmail,
   ROLE_EMAILS
 } from '../camp/camp-firebase.js';
+
+const CONFIG_FIELD_IDS = ['cfgHeroTitle', 'cfgVerseText', 'cfgVerseRef', 'cfgAboutText', 'cfgEmail', 'cfgPhone'];
+const EVENT_FIELD_IDS = ['evtName', 'evtStartDate', 'evtEndDate', 'evtLocation', 'evtDesc', 'evtPoster', 'evtExternalUrl'];
+let realtimeUnsubs = [];
+
+/* ══════════════════════════════════════════════════════════
+   ICONS — sidebar & UI (replaces emojis)
+══════════════════════════════════════════════════════════ */
+function initAdminIcons() {
+  const tabIcons = {
+    dashboard: 'dashboard',
+    events: 'calendar',
+    content: 'edit',
+    registrations: 'users',
+    gallery: 'image',
+  };
+
+  document.querySelectorAll('.sidebar-link[data-tab]').forEach((link) => {
+    const tab = link.dataset.tab;
+    const label = link.querySelector('.nav-label')?.textContent?.trim() || '';
+    link.innerHTML = `${icon(tabIcons[tab] || 'star', { size: 16, class: 'nav-icon' })}<span class="nav-label">${label}</span>`;
+  });
+
+  document.querySelectorAll('.sidebar-footer .sidebar-link').forEach((link) => {
+    const label = link.querySelector('.nav-label')?.textContent?.trim() || '';
+    let ic = 'globe';
+    if (link.classList.contains('sidebar-link-live')) ic = 'edit';
+    if (link.classList.contains('sidebar-link-logout')) ic = 'logout';
+    link.innerHTML = `${icon(ic, { size: 16, class: 'nav-icon' })}<span class="nav-label">${label}</span>`;
+  });
+
+  const exportBtn = document.getElementById('exportRegsBtn');
+  if (exportBtn) exportBtn.innerHTML = `${icon('download', { size: 14 })} Export CSV`;
+}
+
+document.addEventListener('DOMContentLoaded', initAdminIcons);
 
 /* ══════════════════════════════════════════════════════════
    AUTH
@@ -133,11 +170,49 @@ async function initAdminApp() {
     loadContent(),
   ]);
 
-  // Real-time: refresh events list when live editor or another tab changes them
-  DB.subscribeEvents(async () => {
+  realtimeUnsubs.forEach((u) => u?.());
+  realtimeUnsubs = [];
+
+  // Real-time: events
+  realtimeUnsubs.push(DB.subscribeEvents(async () => {
     await renderAdminEventsList();
     await loadDashboard();
-  });
+    pulseRealtime();
+  }));
+
+  // Real-time: site content (skip if admin is mid-edit in content tab)
+  realtimeUnsubs.push(DB.subscribeConfig((cfg) => {
+    if (!isEditingForm(CONFIG_FIELD_IDS)) applyConfigToForm(cfg);
+    pulseRealtime();
+  }));
+
+  // Real-time: registrations
+  realtimeUnsubs.push(DB.subscribeRegistrations(async (regs) => {
+    setEl('statRegistrations', regs.length);
+    paintRegistrations(regs);
+    pulseRealtime();
+  }));
+}
+
+function pulseRealtime() {
+  const el = document.getElementById('realtimeStatus');
+  if (!el) return;
+  el.classList.add('pulse');
+  setTimeout(() => el.classList.remove('pulse'), 600);
+}
+
+function isEditingForm(fieldIds) {
+  const active = document.activeElement;
+  return active && fieldIds.includes(active.id);
+}
+
+function applyConfigToForm(cfg) {
+  setInput('cfgHeroTitle', cfg.hero_title || '');
+  setInput('cfgAboutText', cfg.about_text || '');
+  setInput('cfgEmail', cfg.contact_email || '');
+  setInput('cfgPhone', cfg.contact_phone || '');
+  setInput('cfgVerseText', cfg.verse_text || '');
+  setInput('cfgVerseRef', cfg.verse_reference || '');
 }
 
 function updateClock() {
@@ -201,12 +276,15 @@ async function loadDashboard() {
     return;
   }
   recent.innerHTML = events
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .sort((a, b) => new Date(b.startDate || 0) - new Date(a.startDate || 0))
     .slice(0, 3)
     .map(ev => `
       <div class="admin-event-item">
         <div class="admin-event-item-title">${escHtml(ev.name)}</div>
-        <div class="admin-event-item-meta">📅 ${formatDate(ev.date)} · 📍 ${escHtml(ev.location)}</div>
+        <div class="admin-event-item-meta">
+          <span class="meta-with-icon">${icon('calendar', { size: 13 })} ${formatDateRange(ev.startDate, ev.endDate)}</span>
+          <span class="meta-with-icon">${icon('location', { size: 13 })} ${escHtml(ev.location)}</span>
+        </div>
       </div>`).join('');
 }
 
@@ -228,17 +306,17 @@ async function renderAdminEventsList() {
     return;
   }
   list.innerHTML = events
-    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .sort((a, b) => new Date(a.startDate || 0) - new Date(b.startDate || 0))
     .map(ev => `
       <div class="admin-event-item">
         <div class="admin-event-item-title">${escHtml(ev.name)}</div>
         <div class="admin-event-item-meta">
-          📅 ${formatDate(ev.date)} at ${formatTime(ev.time)}<br>
-          📍 ${escHtml(ev.location)}
+          <span class="meta-with-icon">${icon('calendar', { size: 13 })} ${formatDateRange(ev.startDate, ev.endDate)}</span><br>
+          <span class="meta-with-icon">${icon('location', { size: 13 })} ${escHtml(ev.location)}</span>
         </div>
         <div class="admin-event-item-actions">
-          <button class="btn-edit"   onclick="editEvent('${ev.id}')">✏ Edit</button>
-          <button class="btn-delete" onclick="deleteEvent('${ev.id}')">✕ Delete</button>
+          <button class="btn-edit" onclick="editEvent('${ev.id}')">${icon('edit', { size: 13 })} Edit</button>
+          <button class="btn-delete" onclick="deleteEvent('${ev.id}')">${icon('trash', { size: 13 })} Delete</button>
         </div>
       </div>`).join('');
 }
@@ -340,16 +418,7 @@ window.migrateLegacyEvents = async function() {
 
 async function loadContent() {
   try {
-    const cfg = await DB.getConfig();
-
-    // General fields
-    setInput('cfgHeroTitle', cfg.hero_title    || '');
-    setInput('cfgAboutText', cfg.about_text    || '');
-    setInput('cfgEmail',     cfg.contact_email || '');
-    setInput('cfgPhone',     cfg.contact_phone || '');
-
-    setInput('cfgVerseText', cfg.verse_text      || '');
-    setInput('cfgVerseRef',  cfg.verse_reference || '');
+    applyConfigToForm(await DB.getConfig());
   } catch(e) {
     console.error('loadContent error:', e);
     showToast('Could not load content: ' + e.message, 'error');
@@ -389,7 +458,10 @@ window.saveContent = async function() {
 ══════════════════════════════════════════════════════════ */
 
 async function loadRegistrations() {
-  const regs      = await DB.getRegistrations();
+  paintRegistrations(await DB.getRegistrations());
+}
+
+function paintRegistrations(regs) {
   const container = document.getElementById('registrationsTable');
   if (!container) return;
 
