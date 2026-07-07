@@ -72,7 +72,10 @@ function initLoginForm() {
   pwdToggle?.addEventListener('click', () => {
     const isPwd = pwdInput.type === 'password';
     pwdInput.type = isPwd ? 'text' : 'password';
-    pwdToggle.textContent = isPwd ? 'Hide' : 'Show';
+    const showIcon = pwdToggle.querySelector('.pwd-icon-show');
+    const hideIcon = pwdToggle.querySelector('.pwd-icon-hide');
+    showIcon?.toggleAttribute('hidden', isPwd);
+    hideIcon?.toggleAttribute('hidden', !isPwd);
     pwdToggle.setAttribute('aria-label', isPwd ? 'Hide password' : 'Show password');
     pwdInput.focus();
   });
@@ -148,9 +151,10 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 window.doLogin = async function() {
-  const btn   = document.getElementById('loginBtn');
-  const email = document.getElementById('loginEmail').value.trim();
-  const pwd   = document.getElementById('loginPassword').value;
+  const btn     = document.getElementById('loginBtn');
+  const btnText = btn?.querySelector('.login-submit-text');
+  const email   = document.getElementById('loginEmail').value.trim();
+  const pwd     = document.getElementById('loginPassword').value;
   clearLoginMsg();
 
   if (!validateLoginForm()) {
@@ -158,16 +162,16 @@ window.doLogin = async function() {
     return;
   }
 
-  btn.disabled    = true;
-  btn.textContent = 'Logging in…';
+  btn.disabled = true;
+  if (btnText) btnText.textContent = 'Signing in…';
 
   try {
     const cred = await signInWithEmailAndPassword(auth, email, pwd);
     if (cred.user.email.toLowerCase() !== ROLE_EMAILS.mainsite) {
       await signOut(auth);
       showLoginMsg('This account does not have access to the main site admin.', 'error');
-      btn.disabled    = false;
-      btn.textContent = 'Login';
+      btn.disabled = false;
+      if (btnText) btnText.textContent = 'Sign in';
       return;
     }
     // onAuthStateChanged handles the rest
@@ -181,8 +185,8 @@ window.doLogin = async function() {
       'auth/network-request-failed': 'Network error — please check your connection.',
     };
     showLoginMsg(msgs[err.code] || 'Login failed. Please check your credentials.', 'error');
-    btn.disabled    = false;
-    btn.textContent = 'Login';
+    btn.disabled = false;
+    if (btnText) btnText.textContent = 'Sign in';
   }
 };
 

@@ -22,59 +22,88 @@
 
 <!-- ══ LOGIN SCREEN ══ -->
 <div id="loginScreen" class="login-screen">
-  <div class="login-card">
-    <div class="login-brand">
-      <div class="login-logo-wrap">
-        <img src="css/images/logo1.png" alt="Apostolic Faith Church Botswana" />
+  <div class="login-shell">
+
+    <!-- Brand panel -->
+    <aside class="login-panel-brand" aria-hidden="false">
+      <div class="login-brand-inner">
+        <img src="css/images/logo.png" alt="Apostolic Faith Church Botswana" class="login-emblem" />
+        <p class="login-brand-eyebrow">Apostolic Faith Church</p>
+        <h2 class="login-brand-title">Botswana<br><em>Website Admin</em></h2>
+        <p class="login-brand-tagline">Manage events, site content, and registrations from one secure dashboard.</p>
+        <ul class="login-brand-features">
+          <li>Live site editing</li>
+          <li>Real-time updates</li>
+          <li>Secure Supabase login</li>
+        </ul>
       </div>
-      <p class="login-eyebrow">Apostolic Faith Church · Botswana</p>
-      <h1>Admin Panel</h1>
-      <p class="login-sub">Sign in to manage the website</p>
-    </div>
+      <p class="login-brand-footer">Portland, Oregon · Botswana Branch</p>
+    </aside>
 
-    <div id="loginMsg" class="login-msg" role="alert"></div>
+    <!-- Form panel -->
+    <main class="login-panel-form">
+      <div class="login-form-inner">
+        <header class="login-form-header">
+          <h1>Sign in</h1>
+          <p>Enter your credentials to access the admin panel.</p>
+        </header>
 
-    <form id="loginForm" class="login-form" novalidate>
-      <div class="login-field" id="field-email">
-        <label for="loginEmail">Email address <span class="req" aria-hidden="true">*</span></label>
-        <input
-          type="email"
-          id="loginEmail"
-          name="email"
-          required
-          autocomplete="email"
-          inputmode="email"
-          placeholder="you@example.com"
-        />
-        <span class="field-error" id="err-loginEmail"></span>
+        <div id="loginMsg" class="login-msg" role="alert"></div>
+
+        <form id="loginForm" class="login-form" novalidate>
+          <div class="login-field" id="field-email">
+            <label for="loginEmail">Email address <span class="req" aria-hidden="true">*</span></label>
+            <input
+              type="email"
+              id="loginEmail"
+              name="email"
+              required
+              autocomplete="email"
+              inputmode="email"
+              placeholder="you@example.com"
+            />
+            <span class="field-error" id="err-loginEmail"></span>
+          </div>
+
+          <div class="login-field" id="field-password">
+            <div class="login-label-row">
+              <label for="loginPassword">Password <span class="req" aria-hidden="true">*</span></label>
+              <button type="button" class="forgot-link" id="forgotBtn">Forgot password?</button>
+            </div>
+            <div class="password-wrap">
+              <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                required
+                autocomplete="current-password"
+                minlength="6"
+                placeholder="Enter your password"
+              />
+              <button type="button" class="pwd-toggle" id="pwdToggle" aria-label="Show password">
+                <svg class="pwd-icon pwd-icon-show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="pwd-icon pwd-icon-hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" hidden><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+            <span class="field-error" id="err-loginPassword"></span>
+          </div>
+
+          <button type="submit" class="login-submit" id="loginBtn">
+            <span class="login-submit-text">Sign in</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+
+        <footer class="login-footer-links">
+          <a href="index.html" class="login-back">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to website
+          </a>
+          <a href="index.html" class="login-back login-back-gold">After login → Edit live site</a>
+        </footer>
       </div>
+    </main>
 
-      <div class="login-field" id="field-password">
-        <label for="loginPassword">Password <span class="req" aria-hidden="true">*</span></label>
-        <div class="password-wrap">
-          <input
-            type="password"
-            id="loginPassword"
-            name="password"
-            required
-            autocomplete="current-password"
-            minlength="6"
-            placeholder="Enter your password"
-          />
-          <button type="button" class="pwd-toggle" id="pwdToggle" aria-label="Show password">Show</button>
-        </div>
-        <span class="field-error" id="err-loginPassword"></span>
-      </div>
-
-      <button type="button" class="forgot-link" id="forgotBtn">Forgot password?</button>
-
-      <button type="submit" class="admin-btn-primary" id="loginBtn">Login</button>
-    </form>
-
-    <div class="login-footer-links">
-      <a href="index.html" class="login-back">← Back to website</a>
-      <a href="index.html" class="login-back login-back-gold">After login → Edit live site</a>
-    </div>
   </div>
 </div>
 
