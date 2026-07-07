@@ -629,6 +629,30 @@ a { text-decoration: none; color: inherit; }
 .footer-links a:hover { color: var(--gold); }
 .footer-copy { font-size: 0.82rem; color: rgba(255,255,255,0.4); }
 .footer-motto { font-size: 0.85rem; color: var(--gold); letter-spacing: 0.1em; }
+.footer-socials {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+.footer-socials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.55);
+  border: 1px solid rgba(255,255,255,0.1);
+  text-decoration: none;
+  transition: all 0.22s;
+}
+.footer-socials a:hover {
+  background: var(--gold);
+  color: var(--navy-900);
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
 
 /* ============================================================
    MODAL
