@@ -106,19 +106,29 @@ const TS_FIELDS = new Set([
 ]);
 
 const INDEX_COLS = {
-  site_events: ['start_date', 'created_at'],
+  site_events: ['start_date', 'created_at', 'updated_at'],
+  site_config: ['created_at', 'updated_at'],
+  site_blocks: ['page', 'block_key', 'created_at', 'updated_at'],
   site_registrations: ['created_at'],
   camp_registrations: ['created_at', 'timestamp'],
   camp_orders: ['created_at'],
   camp_announcements: ['timestamp'],
   camp_attendance: ['session'],
-  camp_prayers: ['created_at'],
+  camp_prayers: ['created_at', 'timestamp'],
   camp_journal: ['created_at'],
   camp_testimonies: ['timestamp', 'published'],
   store_products: ['product_key'],
   camp_service_attendance: ['service_date', 'created_at'],
   camp_schedule: ['day_name', 'time_slot'],
 };
+
+/** Tables that have a top-level `timestamp` column (not all Supabase tables do). */
+const TABLES_WITH_TIMESTAMP = new Set([
+  'camp_registrations',
+  'camp_announcements',
+  'camp_prayers',
+  'camp_testimonies',
+]);
 
 const FIELD_TO_COL = {
   startDate: 'start_date',
@@ -192,7 +202,7 @@ function rowToDoc(row) {
   return data;
 }
 
-function buildRowPayload(rawData, existingId) {
+function buildRowPayload(rawData, existingId, table = '') {
   const data = serializeData(rawData);
   const row = { data };
 
@@ -202,8 +212,10 @@ function buildRowPayload(rawData, existingId) {
   if (data.createdAt) row.created_at = data.createdAt;
   else if (!existingId) row.created_at = new Date().toISOString();
   if (data.updatedAt) row.updated_at = data.updatedAt;
-  if (data.timestamp) row.timestamp = data.timestamp;
-  else if (data.createdAt && !data.timestamp) row.timestamp = data.createdAt;
+  if (TABLES_WITH_TIMESTAMP.has(table)) {
+    if (data.timestamp) row.timestamp = data.timestamp;
+    else if (data.createdAt && !data.timestamp) row.timestamp = data.createdAt;
+  }
   if (data.session !== undefined) row.session = data.session;
   if (data.published !== undefined) row.published = !!data.published;
   if (data.date !== undefined) row.service_date = data.date;
@@ -315,7 +327,7 @@ export async function getDoc(docRef) {
 }
 
 export async function addDoc(colRef, rawData) {
-  const { row } = buildRowPayload(rawData);
+  const { row } = buildRowPayload(rawData, null, colRef._table);
   const { data, error } = await supabase
     .from(colRef._table)
     .insert(row)
@@ -326,14 +338,14 @@ export async function addDoc(colRef, rawData) {
 }
 
 export async function setDoc(docRef, rawData) {
-  const { row } = buildRowPayload(rawData, docRef._id);
+  const { row } = buildRowPayload(rawData, docRef._id, docRef._table);
   row.id = docRef._id;
   const { error } = await supabase.from(docRef._table).upsert(row, { onConflict: 'id' });
   if (error) throw error;
 }
 
 export async function updateDoc(docRef, rawData) {
-  const { row } = buildRowPayload(rawData);
+  const { row } = buildRowPayload(rawData, null, docRef._table);
   delete row.id;
   const { error } = await supabase.from(docRef._table).update(row).eq('id', docRef._id);
   if (error) throw error;
