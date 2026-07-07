@@ -365,3 +365,21 @@ body.page-exit {
     display: none;
   }
 }
+
+/* JSON / calendar admin block — visible only when live editor is active */
+.is-live-admin .cal-admin-json,
+.is-live-admin [data-edit-type="json"] {
+  display: block !important;
+  visibility: visible;
+  position: relative;
+  max-width: 720px;
+  margin: -2rem auto 2rem;
+  padding: 0.85rem 1rem;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--gold, #d4af37);
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px dashed rgba(212, 175, 55, 0.45);
+  border-radius: 10px;
+}

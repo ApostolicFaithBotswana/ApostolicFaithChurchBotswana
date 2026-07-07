@@ -214,7 +214,7 @@ const DB = {
       snap.docs.forEach((d) => {
         const row = normalizeDoc(d);
         const key = row.block_key || row.blockKey;
-        map[key] = { id: row.id, data: row.data?.title ? row.data : (row.data?.data || row.data || row) };
+        map[key] = { id: row.id, data: row.data || {} };
       });
       return map;
     } catch (e) {

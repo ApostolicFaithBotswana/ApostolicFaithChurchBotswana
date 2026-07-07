@@ -310,8 +310,8 @@
 <!-- ═══ HERO ═══ -->
 <div class="locations-hero" >
 
-  <h1 class="hero-title">Our Branches <em>Across Botswana</em></h1>
-  <span class="section-label" style="text-align:center;display:block;color:white;"> We have active congregations across four regions of Botswana. Find the district nearest to you and connect with your local fellowship.</span>
+  <h1 class="hero-title" data-edit="locations.hero.title" data-edit-type="html" data-edit-field="body" data-edit-label="Hero title">Our Branches <em>Across Botswana</em></h1>
+  <span class="section-label" style="text-align:center;display:block;color:white;" data-edit="locations.hero.subtitle" data-edit-type="text" data-edit-field="body" data-edit-label="Hero subtitle"> We have active congregations across four regions of Botswana. Find the district nearest to you and connect with your local fellowship.</span>
   <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
     <button class="geo-btn" onclick="getUserLocation()" id="geoBtn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" stroke-width="1.5"/></svg>
@@ -334,24 +334,24 @@
 
     <!-- ── SOUTHERN REGION ── -->
     <div class="region-section" id="region-southern">
-      <div class="region-header">
+      <div class="region-header" data-edit="locations.region.southern" data-edit-type="section" data-edit-label="Southern Region header">
         <div class="region-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </div>
         <div>
-          <div class="region-title">Southern Region</div>
-          <div class="region-count">2 Districts &nbsp;·&nbsp; Gaborone &amp; Kgalagadi</div>
+          <div class="region-title" data-edit-field="title">Southern Region</div>
+          <div class="region-count" data-edit-field="body">2 Districts &nbsp;·&nbsp; Gaborone &amp; Kgalagadi</div>
         </div>
       </div>
 
       <div class="districts-grid">
 
         <!-- Greater Gaborone -->
-        <div class="district-card" id="district-gaborone" data-lat="-24.68379" data-lng="25.88294">
+        <div class="district-card" id="district-gaborone" data-lat="-24.68379" data-lng="25.88294" data-edit="locations.district.gaborone" data-edit-type="district" data-edit-label="Greater Gaborone District">
           <div class="district-card-head">
             <div>
-              <div class="district-name">Greater Gaborone District</div>
-              <span class="district-hq-badge">National HQ</span>
+              <div class="district-name" data-edit-field="title">Greater Gaborone District</div>
+              <span class="district-hq-badge" data-edit-field="badge">National HQ</span>
             </div>
           </div>
           <div class="district-card-body">
@@ -362,7 +362,7 @@
                 </div>
                 <div>
                   <span class="meta-label">District Pastor</span>
-                  <span class="meta-value">Sister Edith Nthaba</span>
+                  <span class="meta-value" data-edit-field="pastor">Sister Edith Nthaba</span>
                 </div>
               </div>
               <div class="district-meta-row">
@@ -371,7 +371,7 @@
                 </div>
                 <div>
                   <span class="meta-label">Contact</span>
-                  <span class="meta-value"><a href="tel:+26771111111">+267 71 111 111</a></span>
+                  <span class="meta-value"><a href="tel:+26771111111" data-edit-field="phone">+267 71 111 111</a></span>
                 </div>
               </div>
               <div class="district-meta-row">
@@ -380,7 +380,7 @@
                 </div>
                 <div>
                   <span class="meta-label">Location</span>
-                  <span class="meta-value">Plot 54201, Phase 4, Gaborone<br><small style="color:var(--muted);">(Behind Pure Drop)</small></span>
+                  <span class="meta-value" data-edit-field="address" data-edit-format="html">Plot 54201, Phase 4, Gaborone<br><small style="color:var(--muted);">(Behind Pure Drop)</small></span>
                 </div>
               </div>
               <div class="district-meta-row">
@@ -389,7 +389,7 @@
                 </div>
                 <div>
                   <span class="meta-label">Sunday Service</span>
-                  <span class="meta-value">09:00 AM</span>
+                  <span class="meta-value" data-edit-field="serviceTime">09:00 AM</span>
                 </div>
               </div>
             </div>
@@ -397,7 +397,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               Branches in this district
             </div>
-            <div class="sub-branches-list">
+            <div class="sub-branches-list" data-edit-field="branches">
               <span class="sub-branch-tag">Gaborone</span>
               <span class="sub-branch-tag">Mmopane</span>
               <span class="sub-branch-tag">Moshupa</span>
@@ -428,10 +428,10 @@
         </div>
 
         <!-- Kgalagadi District -->
-        <div class="district-card" id="district-kgalagadi" data-lat="-24.6018" data-lng="24.9116">
+        <div class="district-card" id="district-kgalagadi" data-lat="-24.6018" data-lng="24.9116" data-edit="locations.district.kgalagadi" data-edit-type="district" data-edit-label="Kgalagadi District">
           <div class="district-card-head">
             <div>
-              <div class="district-name">Kgalagadi District</div>
+              <div class="district-name" data-edit-field="title">Kgalagadi District</div>
             </div>
           </div>
           <div class="district-card-body">
@@ -442,7 +442,7 @@
                 </div>
                 <div>
                   <span class="meta-label">District Pastor</span>
-                  <span class="meta-value">Bro Motlhabani Kemorwale</span>
+                  <span class="meta-value" data-edit-field="pastor">Bro Motlhabani Kemorwale</span>
                 </div>
               </div>
               <div class="district-meta-row">
@@ -451,7 +451,7 @@
                 </div>
                 <div>
                   <span class="meta-label">Contact</span>
-                  <span class="meta-value"><a href="tel:+26771111111">+267 71 111 111</a></span>
+                  <span class="meta-value"><a href="tel:+26771111111" data-edit-field="phone">+267 71 111 111</a></span>
                 </div>
               </div>
               <div class="district-meta-row">
@@ -460,7 +460,7 @@
                 </div>
                 <div>
                   <span class="meta-label">Location</span>
-                  <span class="meta-value">Jwaneng, Southern District</span>
+                  <span class="meta-value" data-edit-field="address">Jwaneng, Southern District</span>
                 </div>
               </div>
               <div class="district-meta-row">
@@ -469,7 +469,7 @@
                 </div>
                 <div>
                   <span class="meta-label">Sunday Service</span>
-                  <span class="meta-value">09:00 AM</span>
+                  <span class="meta-value" data-edit-field="serviceTime">09:00 AM</span>
                 </div>
               </div>
             </div>
@@ -477,7 +477,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               Branches in this district
             </div>
-            <div class="sub-branches-list">
+            <div class="sub-branches-list" data-edit-field="branches">
               <span class="sub-branch-tag">Jwaneng</span>
               <span class="sub-branch-tag">Sese</span>
               <span class="sub-branch-tag">Hukuntsi</span>
@@ -510,22 +510,22 @@
 
     <!-- ── NORTH EAST REGION ── -->
     <div class="region-section" id="region-northeast">
-      <div class="region-header">
+      <div class="region-header" data-edit="locations.region.northeast" data-edit-type="section" data-edit-label="North East Region header">
         <div class="region-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </div>
         <div>
-          <div class="region-title">North East Region</div>
-          <div class="region-count">1 District &nbsp;·&nbsp; Francistown</div>
+          <div class="region-title" data-edit-field="title">North East Region</div>
+          <div class="region-count" data-edit-field="body">1 District &nbsp;·&nbsp; Francistown</div>
         </div>
       </div>
       <div class="districts-grid">
 
         <!-- Greater Francistown -->
-        <div class="district-card" id="district-francistown" data-lat="-21.17071" data-lng="27.50435">
+        <div class="district-card" id="district-francistown" data-lat="-21.17071" data-lng="27.50435" data-edit="locations.district.francistown" data-edit-type="district" data-edit-label="Greater Francistown District">
           <div class="district-card-head">
             <div>
-              <div class="district-name">Greater Francistown District</div>
+              <div class="district-name" data-edit-field="title">Greater Francistown District</div>
             </div>
           </div>
           <div class="district-card-body">
@@ -536,7 +536,7 @@
                 </div>
                 <div>
                   <span class="meta-label">District Pastor</span>
-                  <span class="meta-value">Rev Isaac Mabelebele</span>
+                  <span class="meta-value" data-edit-field="pastor">Rev Isaac Mabelebele</span>
                 </div>
               </div>
               <div class="district-meta-row">
@@ -545,7 +545,7 @@
                 </div>
                 <div>
                   <span class="meta-label">Contact</span>
-                  <span class="meta-value"><a href="tel:+26771111111">+267 71 111 111</a></span>
+                  <span class="meta-value"><a href="tel:+26771111111" data-edit-field="phone">+267 71 111 111</a></span>
                 </div>
               </div>
               <div class="district-meta-row">
@@ -554,7 +554,7 @@
                 </div>
                 <div>
                   <span class="meta-label">Location</span>
-                  <span class="meta-value">Opposite Mokaleng Primary School, Francistown</span>
+                  <span class="meta-value" data-edit-field="address">Opposite Mokaleng Primary School, Francistown</span>
                 </div>
               </div>
               <div class="district-meta-row">
@@ -563,7 +563,7 @@
                 </div>
                 <div>
                   <span class="meta-label">Sunday Service</span>
-                  <span class="meta-value">09:00 AM</span>
+                  <span class="meta-value" data-edit-field="serviceTime">09:00 AM</span>
                 </div>
               </div>
             </div>
@@ -571,7 +571,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               Branches in this district
             </div>
-            <div class="sub-branches-list">
+            <div class="sub-branches-list" data-edit-field="branches">
               <span class="sub-branch-tag">Francistown</span>
               <span class="sub-branch-tag">Tsamaya</span>
               <span class="sub-branch-tag">Matsitama</span>
@@ -604,42 +604,42 @@
 
     <!-- ── CENTRAL REGION ── -->
     <div class="region-section" id="region-central">
-      <div class="region-header">
+      <div class="region-header" data-edit="locations.region.central" data-edit-type="section" data-edit-label="Central Region header">
         <div class="region-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </div>
         <div>
-          <div class="region-title">Central Region</div>
-          <div class="region-count">2 Districts &nbsp;·&nbsp; Palapye &amp; Selebi Phikwe</div>
+          <div class="region-title" data-edit-field="title">Central Region</div>
+          <div class="region-count" data-edit-field="body">2 Districts &nbsp;·&nbsp; Palapye &amp; Selebi Phikwe</div>
         </div>
       </div>
       <div class="districts-grid">
 
         <!-- Greater Palapye -->
-        <div class="district-card" id="district-palapye" data-lat="-22.5558" data-lng="27.1333">
+        <div class="district-card" id="district-palapye" data-lat="-22.5558" data-lng="27.1333" data-edit="locations.district.palapye" data-edit-type="district" data-edit-label="Greater Palapye District">
           <div class="district-card-head">
-            <div><div class="district-name">Greater Palapye District</div></div>
+            <div><div class="district-name" data-edit-field="title">Greater Palapye District</div></div>
           </div>
           <div class="district-card-body">
             <div class="district-meta">
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <div><span class="meta-label">District Pastor</span><span class="meta-value">Rev Loomatsoga Gaogane</span></div>
+                <div><span class="meta-label">District Pastor</span><span class="meta-value" data-edit-field="pastor">Rev Loomatsoga Gaogane</span></div>
               </div>
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div><span class="meta-label">Location</span><span class="meta-value">Palapye, Central District</span></div>
+                <div><span class="meta-label">Location</span><span class="meta-value" data-edit-field="address">Palapye, Central District</span></div>
               </div>
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-                <div><span class="meta-label">Sunday Service</span><span class="meta-value">09:00 AM</span></div>
+                <div><span class="meta-label">Sunday Service</span><span class="meta-value" data-edit-field="serviceTime">09:00 AM</span></div>
               </div>
             </div>
             <div class="sub-branches-label">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               Branches in this district
             </div>
-            <div class="sub-branches-list">
+            <div class="sub-branches-list" data-edit-field="branches">
               <span class="sub-branch-tag">Palapye</span>
               <span class="sub-branch-tag">Mahalapye</span>
               <span class="sub-branch-tag">Mmutlane</span>
@@ -663,30 +663,30 @@
         </div>
 
         <!-- Greater Selebi Phikwe -->
-        <div class="district-card" id="district-phikwe" data-lat="-21.9893" data-lng="27.8335">
+        <div class="district-card" id="district-phikwe" data-lat="-21.9893" data-lng="27.8335" data-edit="locations.district.phikwe" data-edit-type="district" data-edit-label="Greater Selebi Phikwe District">
           <div class="district-card-head">
-            <div><div class="district-name">Greater Selebi Phikwe District</div></div>
+            <div><div class="district-name" data-edit-field="title">Greater Selebi Phikwe District</div></div>
           </div>
           <div class="district-card-body">
             <div class="district-meta">
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <div><span class="meta-label">District Pastor</span><span class="meta-value">Bro Ezekiel Ntshwarang</span></div>
+                <div><span class="meta-label">District Pastor</span><span class="meta-value" data-edit-field="pastor">Bro Ezekiel Ntshwarang</span></div>
               </div>
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div><span class="meta-label">Location</span><span class="meta-value">Selebi Phikwe, Central District</span></div>
+                <div><span class="meta-label">Location</span><span class="meta-value" data-edit-field="address">Selebi Phikwe, Central District</span></div>
               </div>
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-                <div><span class="meta-label">Sunday Service</span><span class="meta-value">09:00 AM</span></div>
+                <div><span class="meta-label">Sunday Service</span><span class="meta-value" data-edit-field="serviceTime">09:00 AM</span></div>
               </div>
             </div>
             <div class="sub-branches-label">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               Branches in this district
             </div>
-            <div class="sub-branches-list">
+            <div class="sub-branches-list" data-edit-field="branches">
               <span class="sub-branch-tag">Selebi Phikwe</span>
               <span class="sub-branch-tag">Mmadinare</span>
             </div>
@@ -712,42 +712,42 @@
 
     <!-- ── NORTH WEST REGION ── -->
     <div class="region-section" id="region-northwest">
-      <div class="region-header">
+      <div class="region-header" data-edit="locations.region.northwest" data-edit-type="section" data-edit-label="North West Region header">
         <div class="region-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </div>
         <div>
-          <div class="region-title">North West Region</div>
-          <div class="region-count">3 Districts &nbsp;·&nbsp; Boteti, Ngami &amp; Chobe</div>
+          <div class="region-title" data-edit-field="title">North West Region</div>
+          <div class="region-count" data-edit-field="body">3 Districts &nbsp;·&nbsp; Boteti, Ngami &amp; Chobe</div>
         </div>
       </div>
       <div class="districts-grid">
 
         <!-- Boteti -->
-        <div class="district-card" id="district-boteti" data-lat="-21.4220" data-lng="25.5874">
+        <div class="district-card" id="district-boteti" data-lat="-21.4220" data-lng="25.5874" data-edit="locations.district.boteti" data-edit-type="district" data-edit-label="Boteti District">
           <div class="district-card-head">
-            <div><div class="district-name">Boteti District</div></div>
+            <div><div class="district-name" data-edit-field="title">Boteti District</div></div>
           </div>
           <div class="district-card-body">
             <div class="district-meta">
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <div><span class="meta-label">District Pastor</span><span class="meta-value">Bro Chiyapo Motshidisi</span></div>
+                <div><span class="meta-label">District Pastor</span><span class="meta-value" data-edit-field="pastor">Bro Chiyapo Motshidisi</span></div>
               </div>
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div><span class="meta-label">Location</span><span class="meta-value">Letlhakane, Boteti</span></div>
+                <div><span class="meta-label">Location</span><span class="meta-value" data-edit-field="address">Letlhakane, Boteti</span></div>
               </div>
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-                <div><span class="meta-label">Sunday Service</span><span class="meta-value">09:00 AM</span></div>
+                <div><span class="meta-label">Sunday Service</span><span class="meta-value" data-edit-field="serviceTime">09:00 AM</span></div>
               </div>
             </div>
             <div class="sub-branches-label">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               Branches in this district
             </div>
-            <div class="sub-branches-list">
+            <div class="sub-branches-list" data-edit-field="branches">
               <span class="sub-branch-tag">Letlhakane</span>
               <span class="sub-branch-tag">Mopipi</span>
               <span class="sub-branch-tag">Rakops</span>
@@ -771,30 +771,30 @@
         </div>
 
         <!-- Ngami -->
-        <div class="district-card" id="district-ngami" data-lat="-19.9833" data-lng="23.4167">
+        <div class="district-card" id="district-ngami" data-lat="-19.9833" data-lng="23.4167" data-edit="locations.district.ngami" data-edit-type="district" data-edit-label="Ngami District">
           <div class="district-card-head">
-            <div><div class="district-name">Ngami District</div></div>
+            <div><div class="district-name" data-edit-field="title">Ngami District</div></div>
           </div>
           <div class="district-card-body">
             <div class="district-meta">
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <div><span class="meta-label">District Pastor</span><span class="meta-value">Bro Taudi</span></div>
+                <div><span class="meta-label">District Pastor</span><span class="meta-value" data-edit-field="pastor">Bro Taudi</span></div>
               </div>
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div><span class="meta-label">Location</span><span class="meta-value">Maun, Ngamiland</span></div>
+                <div><span class="meta-label">Location</span><span class="meta-value" data-edit-field="address">Maun, Ngamiland</span></div>
               </div>
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-                <div><span class="meta-label">Sunday Service</span><span class="meta-value">09:00 AM</span></div>
+                <div><span class="meta-label">Sunday Service</span><span class="meta-value" data-edit-field="serviceTime">09:00 AM</span></div>
               </div>
             </div>
             <div class="sub-branches-label">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               Branches in this district
             </div>
-            <div class="sub-branches-list">
+            <div class="sub-branches-list" data-edit-field="branches">
               <span class="sub-branch-tag">Maun</span>
             </div>
           </div>
@@ -815,30 +815,30 @@
         </div>
 
         <!-- Chobe -->
-        <div class="district-card" id="district-chobe" data-lat="-17.7975" data-lng="25.3253">
+        <div class="district-card" id="district-chobe" data-lat="-17.7975" data-lng="25.3253" data-edit="locations.district.chobe" data-edit-type="district" data-edit-label="Chobe District">
           <div class="district-card-head">
-            <div><div class="district-name">Chobe District</div></div>
+            <div><div class="district-name" data-edit-field="title">Chobe District</div></div>
           </div>
           <div class="district-card-body">
             <div class="district-meta">
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <div><span class="meta-label">District Pastor</span><span class="meta-value">Rev Ben Bhuka</span></div>
+                <div><span class="meta-label">District Pastor</span><span class="meta-value" data-edit-field="pastor">Rev Ben Bhuka</span></div>
               </div>
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div><span class="meta-label">Location</span><span class="meta-value">Kasane, Chobe District</span></div>
+                <div><span class="meta-label">Location</span><span class="meta-value" data-edit-field="address">Kasane, Chobe District</span></div>
               </div>
               <div class="district-meta-row">
                 <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-                <div><span class="meta-label">Sunday Service</span><span class="meta-value">09:00 AM</span></div>
+                <div><span class="meta-label">Sunday Service</span><span class="meta-value" data-edit-field="serviceTime">09:00 AM</span></div>
               </div>
             </div>
             <div class="sub-branches-label">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               Branches in this district
             </div>
-            <div class="sub-branches-list">
+            <div class="sub-branches-list" data-edit-field="branches">
               <span class="sub-branch-tag">Kazungula</span>
               <span class="sub-branch-tag">Nata</span>
             </div>

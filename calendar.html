@@ -291,10 +291,12 @@
 
 <!-- HERO -->
 <div class="cal-page-hero">
-  <span class="section-label">AFC Botswana</span>
-  <h1 class="page-hero-title">2026 <em>Calendar</em></h1>
-  <p style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);">Full schedule of services, camps, revivals, and events</p>
+  <span class="section-label" data-edit="calendar.hero.label" data-edit-type="text" data-edit-field="body" data-edit-label="Calendar hero label">AFC Botswana</span>
+  <h1 class="page-hero-title" data-edit="calendar.hero.title" data-edit-type="html" data-edit-field="body" data-edit-label="Calendar hero title">2026 <em>Calendar</em></h1>
+  <p style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);" data-edit="calendar.hero.subtitle" data-edit-type="text" data-edit-field="body" data-edit-label="Calendar hero subtitle">Full schedule of services, camps, revivals, and events</p>
 </div>
+
+<div class="cal-admin-json" data-edit="calendar.events.data" data-edit-type="json" data-edit-label="Edit all 2026 calendar events (JSON)" hidden aria-hidden="true">Annual calendar events</div>
 
 <!-- MAIN -->
 <section class="section section-list" style="padding-top:2rem;padding-bottom:3rem;">
@@ -398,7 +400,7 @@
 //         'international'  = a specific district, branch, or local group
 
 // ══════════════════════════════════════════════
-const EVENTS_2026 = [
+const EVENTS_2026_DEFAULT = [
   { id:1,  name:'National Committees Meeting',    start:'2026-01-24', end:'2026-01-24', place:'Mahalapye',             type:'special',  scope:'national', resp:'National Committees' },
   { id:2,  name:'National Youth Retreat',         start:'2026-02-20', end:'2026-02-22', place:'Francistown',           type:'youth',    scope:'national', resp:'Youths' },
   { id:3,  name:'Revival',                        start:'2026-03-06', end:'2026-03-08', place:'Selebi Phikwe & Molepolole', type:'revival', scope:'regional', resp:'Central + Greater Phikwe' },
@@ -437,6 +439,26 @@ const EVENTS_2026 = [
   { id:36, name:'Thanksgiving',                   start:'2026-11-21', end:'2026-11-21', place:'National',              type:'special',  scope:'regional', resp:'Regional/Branch' },
   { id:37, name:'SEA Camp',                       start:'2026-12-06', end:'2026-12-20', place:'Bulawayo, Zimbabwe',    type:'camp',     scope:'international', resp:'All' },
 ];
+
+let EVENTS_2026 = [...EVENTS_2026_DEFAULT];
+window.__afcJsonSources = window.__afcJsonSources || {};
+window.__afcJsonSources['calendar.events.data'] = EVENTS_2026;
+
+function refreshCalendarViews() {
+  renderList();
+  renderGrid();
+  renderTable();
+  renderUpcoming();
+  updateStats();
+}
+
+window.addEventListener('afc:json-block', (e) => {
+  if (e.detail?.key === 'calendar.events.data' && Array.isArray(e.detail.data)) {
+    EVENTS_2026 = e.detail.data;
+    window.__afcJsonSources['calendar.events.data'] = EVENTS_2026;
+    refreshCalendarViews();
+  }
+});
 
 const BOARD_MEETINGS = [];
 

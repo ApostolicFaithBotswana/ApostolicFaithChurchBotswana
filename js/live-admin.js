@@ -3,40 +3,32 @@
    ────────────────────────────────────────────────────────────
    When a mainsite admin is logged in (Supabase Auth), this module:
      1. Shows a floating admin bar at the top of every public page
-     2. Adds an edit button (top-right) on every [data-edit] element
-     3. Opens a modal to change text, images, or full cards
+     2. Adds an edit button on every [data-edit] element
+     3. Opens a modal to change text, images, cards, districts, JSON lists
      4. Saves to Supabase `site_blocks` and syncs in real time
 
-   HOW TO MAKE SOMETHING EDITABLE:
-     Add to any HTML element:
-       data-edit="page.section.key"
-       data-edit-type="text|card|image|html"
-       data-edit-label="Friendly name shown in modal"
-
-     Example — editable pillar card on index.html:
-       <div class="pillar-card" data-edit="index.pillar.mission"
-            data-edit-type="card" data-edit-label="Mission card">
-         <h3 data-edit-field="title">Our Mission</h3>
-         <p data-edit-field="body">To spread the Gospel...</p>
-       </div>
-
-     Block keys use format: {page}.{section}.{name}
-     Page = value of <body data-page="index">
-
-   HOW TO ADD A NEW PAGE:
-     1. Set <body data-page="about"> on the page
-     2. Add data-edit attributes to editable sections
-     3. Import site-core.js on that page
+   Block keys: {page}.{section}.{name}  (page = <body data-page="...">)
    ============================================================ */
 
 import {
-  auth, onAuthStateChanged, ROLE_EMAILS, supabase,
+  auth, onAuthStateChanged, ROLE_EMAILS,
   onSnapshot, collection, query, where,
 } from '../camp/camp-firebase.js';
 import { DB } from './data.js';
 import { icon } from './icons.js';
 
 const SITE_BLOCKS = 'site_blocks';
+const FIELD_TYPES = new Set(['card', 'district', 'profile', 'timeline', 'panel', 'section', 'event-card', 'fields']);
+
+const FIELD_LABELS = {
+  title: 'Title', body: 'Body text', image: 'Image URL', link: 'Link URL',
+  date: 'Date label', badge: 'Badge', accent: 'Accent label', pastor: 'Pastor',
+  phone: 'Phone', address: 'Address', serviceTime: 'Service times',
+  branches: 'Branches (comma-separated)', quote: 'Quote', name: 'Name',
+  role: 'Role / title', subtitle: 'Subtitle', label: 'Label', detail: 'Detail',
+  eyebrow: 'Eyebrow', verse: 'Verse', reference: 'Reference', url: 'Image URL', alt: 'Alt text',
+};
+
 let isAdmin = false;
 let currentPage = 'index';
 let blocksCache = {};
@@ -49,24 +41,20 @@ export function initLiveAdmin(pageId = 'index') {
 
   window.addEventListener('afc:edit-event', (e) => openEventEditor(e.detail));
 
+  // Published content loads for ALL visitors (not only when admin is logged in)
+  loadAndApplyBlocks();
+  subscribeBlocks();
+
   onAuthStateChanged(auth, (user) => {
     isAdmin = !!user && user.email?.toLowerCase() === ROLE_EMAILS.mainsite;
     document.body.classList.toggle('is-live-admin', isAdmin);
     updateAdminBar(user);
-    if (isAdmin) {
-      attachEditButtons();
-      loadAndApplyBlocks();
-      subscribeBlocks();
-    } else {
-      detachEditButtons();
-      blocksUnsub?.();
-      blocksUnsub = null;
-    }
+    if (isAdmin) attachEditButtons();
+    else detachEditButtons();
     window.dispatchEvent(new CustomEvent('afc:admin-changed', { detail: isAdmin }));
   });
 }
 
-/** Subscribe public pages to event changes (passed from main.js too) */
 export function subscribeLiveEvents(onUpdate) {
   eventsUnsub?.();
   eventsUnsub = onSnapshot(
@@ -140,13 +128,12 @@ function attachEditButtons() {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'live-edit-btn';
-    btn.title = 'Edit this section — click to change text or image';
+    btn.title = 'Edit this section';
     btn.setAttribute('aria-label', 'Edit this section');
     btn.innerHTML = `${icon('edit', { size: 14 })}<span class="live-edit-btn-label">Edit</span>`;
     btn.onclick = (e) => {
       e.stopPropagation();
       e.preventDefault();
-      const key = el.dataset.edit;
       if (key?.startsWith('event.')) openEventEditor(key.replace('event.', ''));
       else openBlockEditor(el);
     };
@@ -171,12 +158,14 @@ function subscribeBlocks() {
     query(collection(null, SITE_BLOCKS), where('page', '==', currentPage)),
     (snap) => {
       blocksCache = {};
-    snap.docs.forEach((d) => {
-      const row = d.data();
-      const key = row.block_key || row.blockKey;
-      blocksCache[key] = { id: d.id, data: row.data || row };
-    });
+      snap.docs.forEach((d) => {
+        const row = d.data();
+        const key = row.block_key || row.blockKey;
+        blocksCache[key] = { id: d.id, data: row.data || {} };
+      });
       applyAllBlocks();
+      if (isAdmin) attachEditButtons();
+      window.dispatchEvent(new CustomEvent('afc:blocks-changed', { detail: blocksCache }));
     },
     (err) => console.warn('Blocks realtime error:', err)
   );
@@ -192,43 +181,99 @@ function applyAllBlocks() {
   });
 }
 
+function usesFieldChildren(type) {
+  return FIELD_TYPES.has(type);
+}
+
 function applyBlockToElement(el, data) {
   const type = el.dataset.editType || 'text';
+
   if (type === 'image') {
     const img = el.querySelector('img') || el;
-    if (img.tagName === 'IMG' && data.url) {
-      img.src = data.url;
+    if (img.tagName === 'IMG') {
+      if (data.url || data.image) img.src = data.url || data.image;
       if (data.alt) img.alt = data.alt;
     }
     return;
   }
-  if (type === 'text' || type === 'html') {
+
+  if (type === 'text') {
     const field = el.dataset.editField || 'body';
-    if (data[field] !== undefined) {
-      if (type === 'html') el.innerHTML = data[field];
-      else el.textContent = data[field];
+    if (data[field] !== undefined) el.textContent = data[field];
+    return;
+  }
+
+  if (type === 'html') {
+    const field = el.dataset.editField || 'body';
+    if (data[field] !== undefined) el.innerHTML = data[field];
+    return;
+  }
+
+  if (type === 'list') {
+    const items = String(data.body || '').split('\n').map((s) => s.trim()).filter(Boolean);
+    el.innerHTML = items.map((s) => `<span>${escHtml(s)}</span>`).join('\n    ');
+    return;
+  }
+
+  if (type === 'json') {
+    try {
+      const parsed = typeof data.body === 'string' ? JSON.parse(data.body) : data.body;
+      window.dispatchEvent(new CustomEvent('afc:json-block', {
+        detail: { key: el.dataset.edit, data: parsed },
+      }));
+    } catch (e) {
+      console.warn('Invalid JSON block:', e);
     }
     return;
   }
-  // card — update child fields
-  el.querySelectorAll('[data-edit-field]').forEach((child) => {
-    const f = child.dataset.editField;
-    if (data[f] !== undefined) {
-      if (child.tagName === 'IMG') child.src = data[f];
-      else if (child.tagName === 'A') {
-        child.href = data[f];
-        if (!child.textContent.trim()) child.textContent = data[f];
-      } else child.textContent = data[f];
+
+  if (usesFieldChildren(type)) {
+    el.querySelectorAll('[data-edit-field]').forEach((child) => {
+      const f = child.dataset.editField;
+      if (data[f] === undefined) return;
+      applyFieldValue(child, f, data[f]);
+    });
+    if (data.image) {
+      const imgEl = el.querySelector('[data-edit-field="image"]');
+      if (imgEl?.tagName === 'IMG') imgEl.src = data.image;
     }
-  });
-  if (data.image && el.querySelector('[data-edit-field="image"]')) {
-    el.querySelector('[data-edit-field="image"]').src = data.image;
+    return;
   }
+
+  const field = el.dataset.editField || 'body';
+  if (data[field] !== undefined) el.textContent = data[field];
+}
+
+function applyFieldValue(child, field, value) {
+  if (field === 'branches') {
+    const tags = String(value).split(',').map((s) => s.trim()).filter(Boolean);
+    child.innerHTML = tags.map((t) => `<span class="sub-branch-tag">${escHtml(t)}</span>`).join('');
+    return;
+  }
+  if (child.tagName === 'IMG') {
+    child.src = value;
+    return;
+  }
+  if (child.tagName === 'A') {
+    if (field === 'phone') {
+      const tel = String(value).replace(/\s/g, '');
+      child.href = tel.startsWith('tel:') ? tel : `tel:${tel}`;
+      child.textContent = value;
+    } else {
+      child.href = value;
+      if (!child.textContent.trim() || child.classList.contains('resource-link')) {
+        child.textContent = child.textContent.trim() || value;
+      }
+    }
+    return;
+  }
+  if (child.dataset.editFormat === 'html') child.innerHTML = value;
+  else child.textContent = value;
 }
 
 let editingEl = null;
 let editingEventId = null;
-let editingMode = null; // 'block' | 'event'
+let editingMode = null;
 
 function openBlockEditor(el) {
   editingMode = 'block';
@@ -238,12 +283,13 @@ function openBlockEditor(el) {
   const label = el.dataset.editLabel || el.dataset.edit || 'Content';
   document.getElementById('liveEditTitle').textContent = `Edit: ${label}`;
   document.getElementById('liveEditHint').textContent =
-    'Tip: Changes publish immediately for all visitors. Use a full image URL or upload a photo below.';
+    type === 'json'
+      ? 'Edit the JSON carefully. Invalid JSON will not save correctly.'
+      : 'Changes publish immediately for all visitors. Use a full image URL or upload a photo below.';
 
   const form = document.getElementById('liveEditForm');
   const key = el.dataset.edit;
   const existing = blocksCache[key]?.data || gatherDataFromElement(el, type);
-
   form.innerHTML = buildFormFields(type, existing);
   document.getElementById('liveEditModal').classList.add('open');
 }
@@ -251,32 +297,60 @@ function openBlockEditor(el) {
 function gatherDataFromElement(el, type) {
   if (type === 'text' || type === 'html') {
     const field = el.dataset.editField || 'body';
-    return { [field]: type === 'html' ? el.innerHTML : el.textContent.trim() };
+    return { [field]: type === 'html' ? el.innerHTML.trim() : el.textContent.trim() };
   }
   if (type === 'image') {
     const img = el.querySelector('img') || el;
     return { url: img.src || '', alt: img.alt || '' };
+  }
+  if (type === 'list') {
+    const items = [...el.querySelectorAll('span')].map((s) => s.textContent.trim()).filter(Boolean);
+    return { body: items.join('\n') };
+  }
+  if (type === 'json') {
+    const src = window.__afcJsonSources?.[el.dataset.edit];
+    return { body: JSON.stringify(src || [], null, 2) };
+  }
+  if (usesFieldChildren(type)) {
+    const data = {};
+    el.querySelectorAll('[data-edit-field]').forEach((child) => {
+      const f = child.dataset.editField;
+      if (f === 'branches') {
+        data[f] = [...child.querySelectorAll('.sub-branch-tag, span')]
+          .map((s) => s.textContent.trim()).filter(Boolean).join(', ');
+      } else if (child.tagName === 'IMG') {
+        data[f] = child.src;
+      } else if (child.tagName === 'A' && f === 'phone') {
+        data[f] = child.textContent.trim() || child.getAttribute('href')?.replace('tel:', '') || '';
+      } else if (child.tagName === 'A') {
+        data[f] = child.getAttribute('href') || child.textContent.trim();
+      } else if (child.dataset.editFormat === 'html') {
+        data[f] = child.innerHTML.trim();
+      } else {
+        data[f] = child.textContent.trim();
+      }
+    });
+    return data;
   }
   const data = {};
   el.querySelectorAll('[data-edit-field]').forEach((child) => {
     const f = child.dataset.editField;
     data[f] = child.tagName === 'IMG' ? child.src : child.textContent.trim();
   });
-  const linkEl = el.querySelector('a[data-edit-field="link"], a.resource-link');
-  if (linkEl) data.link = linkEl.getAttribute('href') || '';
   return data;
 }
 
 function buildFormFields(type, data) {
   if (type === 'text') {
     const field = editingEl?.dataset.editField || 'body';
-    const isLong = (data[field] || '').length > 120;
+    const val = data[field] || '';
+    const isLong = val.length > 120;
     return `
       <div class="form-group">
-        <label>${field === 'title' ? 'Title' : 'Text'}</label>
+        <label>${FIELD_LABELS[field] || (field === 'title' ? 'Title' : 'Text')}</label>
         ${isLong
-          ? `<textarea name="${field}" rows="5">${esc(data[field] || '')}</textarea>`
-          : `<input type="text" name="${field}" value="${esc(data[field] || '')}">`}
+          ? `<textarea name="${field}" rows="5">${esc(val)}</textarea>`
+          : `<input type="text" name="${field}" value="${esc(val)}">`}
       </div>`;
   }
   if (type === 'html') {
@@ -285,17 +359,47 @@ function buildFormFields(type, data) {
   }
   if (type === 'image') {
     return `
-      <div class="form-group"><label>Image URL</label><input type="url" name="url" value="${esc(data.url || '')}" placeholder="https://..."></div>
+      <div class="form-group"><label>Image URL</label><input type="url" name="url" value="${esc(data.url || data.image || '')}" placeholder="https://..."></div>
       <div class="form-group"><label>Or upload image</label><input type="file" name="file" accept="image/*"></div>
       <div class="form-group"><label>Alt text</label><input type="text" name="alt" value="${esc(data.alt || '')}"></div>`;
   }
-  // card
-  return `
-    <div class="form-group"><label>Title</label><input type="text" name="title" value="${esc(data.title || '')}"></div>
-    <div class="form-group"><label>Body text</label><textarea name="body" rows="4">${esc(data.body || '')}</textarea></div>
-    <div class="form-group"><label>Image URL (optional)</label><input type="url" name="image" value="${esc(data.image || '')}"></div>
-    <div class="form-group"><label>Or upload image</label><input type="file" name="file" accept="image/*"></div>
-    <div class="form-group"><label>Link URL (optional)</label><input type="url" name="link" value="${esc(data.link || '')}"></div>`;
+  if (type === 'list') {
+    return `<div class="form-group"><label>Items (one per line)</label><textarea name="body" rows="8">${esc(data.body || '')}</textarea></div>`;
+  }
+  if (type === 'json') {
+    return `<div class="form-group"><label>JSON data</label><textarea name="body" rows="16" style="font-family:monospace;font-size:.8rem;">${esc(data.body || '')}</textarea></div>`;
+  }
+  if (usesFieldChildren(type)) {
+    return buildDynamicFields(data);
+  }
+  return buildDynamicFields(data);
+}
+
+function buildDynamicFields(data) {
+  const keys = editingEl
+    ? [...editingEl.querySelectorAll('[data-edit-field]')].map((c) => c.dataset.editField)
+    : Object.keys(data);
+  const uniqueKeys = [...new Set(keys)];
+  let html = '';
+  let hasImage = false;
+
+  uniqueKeys.forEach((key) => {
+    const val = data[key] || '';
+    const label = FIELD_LABELS[key] || key;
+    if (key === 'image') {
+      hasImage = true;
+      html += `<div class="form-group"><label>${label}</label><input type="url" name="image" value="${esc(val)}"></div>`;
+    } else if (key === 'body' || key === 'quote' || key === 'address' || String(val).length > 120) {
+      html += `<div class="form-group"><label>${label}</label><textarea name="${key}" rows="4">${esc(val)}</textarea></div>`;
+    } else {
+      html += `<div class="form-group"><label>${label}</label><input type="text" name="${key}" value="${esc(val)}"></div>`;
+    }
+  });
+
+  if (hasImage || editingEl?.querySelector('[data-edit-field="image"]')) {
+    html += `<div class="form-group"><label>Or upload image</label><input type="file" name="file" accept="image/*"></div>`;
+  }
+  return html || `<div class="form-group"><label>Text</label><textarea name="body" rows="4">${esc(data.body || '')}</textarea></div>`;
 }
 
 async function openEventEditor(eventId) {
@@ -342,7 +446,6 @@ function closeEditModal() {
 async function saveEditModal() {
   const form = document.getElementById('liveEditForm');
   const fd = new FormData(form);
-
   try {
     if (editingMode === 'event') await saveEventFromForm(fd);
     else if (editingMode === 'block') await saveBlockFromForm(fd);
@@ -358,15 +461,24 @@ async function saveBlockFromForm(fd) {
   const data = {};
 
   for (const [k, v] of fd.entries()) {
-    if (k !== 'file' && v) data[k] = v;
+    if (k !== 'file' && v !== '') data[k] = v;
   }
 
   const file = fd.get('file');
-  if (file?.size) data.image = data.url = await DB.uploadMedia(file);
+  if (file?.size) {
+    const url = await DB.uploadMedia(file);
+    data.image = data.url = url;
+  }
+
+  if (type === 'json') {
+    JSON.parse(data.body);
+  }
 
   await DB.saveBlock(currentPage, key, type, data);
   blocksCache[key] = { data };
   applyBlockToElement(editingEl, data);
+  if (isAdmin) attachEditButtons();
+  window.dispatchEvent(new CustomEvent('afc:blocks-changed', { detail: blocksCache }));
 }
 
 async function saveEventFromForm(fd) {
@@ -383,18 +495,19 @@ async function saveEventFromForm(fd) {
     alert('Please fill in all required fields.');
     return;
   }
-
   const posterFile = fd.get('posterFile');
   if (posterFile?.size) data.poster = await DB.uploadMedia(posterFile);
-
   if (editingEventId) await DB.updateEvent(editingEventId, data);
   else await DB.addEvent(data);
-
   window.dispatchEvent(new CustomEvent('afc:events-changed'));
 }
 
 function esc(s) {
   return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+}
+
+function escHtml(s) {
+  return esc(s);
 }
 
 export function isLiveAdmin() {

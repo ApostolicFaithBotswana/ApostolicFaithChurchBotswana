@@ -84,13 +84,15 @@ async function applyConfig() {
 }
 
 function applyConfigFromData(cfg) {
+  // site_blocks (live editor) is the source of truth for elements with data-edit.
+  // Legacy site_config only fills elements that are not live-editable.
   const verseEl = document.getElementById('weeklyVerse');
-  if (verseEl && cfg.verse_text) {
+  if (verseEl && cfg.verse_text && !verseEl.hasAttribute('data-edit')) {
     verseEl.textContent = `"${cfg.verse_text}" — ${cfg.verse_reference || ''}`;
   }
-  setEl('aboutText', cfg.about_text);
-  setEl('contactEmail', cfg.contact_email);
-  setEl('contactPhone', cfg.contact_phone);
+  setElIfNoEdit('aboutText', cfg.about_text);
+  setElIfNoEdit('contactEmail', cfg.contact_email);
+  setElIfNoEdit('contactPhone', cfg.contact_phone);
 }
 
 /* ---------- EVENTS ---------- */
@@ -197,6 +199,11 @@ function initHamburger() {
 function setEl(id, val) {
   const el = document.getElementById(id);
   if (el && val) el.textContent = val;
+}
+
+function setElIfNoEdit(id, val) {
+  const el = document.getElementById(id);
+  if (el && val && !el.hasAttribute('data-edit')) el.textContent = val;
 }
 
 function escHtml(str = '') {
