@@ -6,6 +6,7 @@ import { DB } from './data.js';
 import { icon } from './icons.js';
 import { initSiteMotion, softNavigate } from './site-motion.js';
 import { initLiveAdmin, isLiveAdmin } from './live-admin.js';
+import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js';
 
 let currentEventForReg = null;
 let eventsCache = [];
@@ -33,6 +34,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   window.addEventListener('afc:events-changed', () => renderEvents());
   window.addEventListener('afc:admin-changed', () => paintEvents(eventsCache));
+
+  const regModal = document.getElementById('regModal');
+  if (regModal) trapModalWheel(regModal);
 });
 
 /* ---------- SECRET ADMIN TRIGGERS ---------- */
@@ -144,12 +148,14 @@ async function openRegModal(eventId) {
     info.innerHTML = `<strong>${escHtml(ev.name)}</strong><br>${icon('calendar', { size: 14 })} ${formatDateRange(ev.startDate, ev.endDate)}<br>${icon('location', { size: 14 })} ${escHtml(ev.location)}`;
   }
   document.getElementById('regModal').style.display = 'flex';
+  lockScroll();
 }
 
 function closeRegModal() {
   document.getElementById('regModal').style.display = 'none';
   document.getElementById('regForm').reset();
   currentEventForReg = null;
+  unlockScroll();
 }
 
 async function handleRegistration(e) {

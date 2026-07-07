@@ -51,6 +51,7 @@ function initAdminIcons() {
 document.addEventListener('DOMContentLoaded', () => {
   initAdminIcons();
   initLoginForm();
+  document.getElementById('evtPosterFile')?.addEventListener('change', previewEventPoster);
 });
 
 /* ══════════════════════════════════════════════════════════
@@ -254,6 +255,7 @@ async function initAdminApp() {
   await Promise.all([
     loadDashboard(),
     loadContent(),
+    renderAdminEventsList(),
   ]);
 
   realtimeUnsubs.forEach((u) => u?.());
@@ -409,13 +411,25 @@ async function renderAdminEventsList() {
 
 window.saveEvent = async function() {
   const id   = document.getElementById('editingEventId').value;
+  let poster = document.getElementById('evtPoster').value.trim();
+
+  const posterFile = document.getElementById('evtPosterFile')?.files?.[0];
+  if (posterFile?.size) {
+    try {
+      poster = await DB.uploadMedia(posterFile);
+    } catch (e) {
+      showToast('Poster upload failed: ' + e.message, 'error');
+      return;
+    }
+  }
+
   const data = {
     name:         document.getElementById('evtName').value.trim(),
     startDate:    document.getElementById('evtStartDate').value,
     endDate:      document.getElementById('evtEndDate').value,
     location:     document.getElementById('evtLocation').value.trim(),
     description:  document.getElementById('evtDesc').value.trim(),
-    poster:       document.getElementById('evtPoster').value.trim(),
+    poster,
     externalUrl:  document.getElementById('evtExternalUrl').value.trim(),
   };
 
@@ -437,10 +451,37 @@ window.saveEvent = async function() {
     clearEventForm();
     await renderAdminEventsList();
     await loadDashboard();
+    window.dispatchEvent(new CustomEvent('afc:events-changed'));
   } catch(e) {
     showToast('Save failed: ' + e.message, 'error');
   }
 };
+
+function previewEventPoster() {
+  const file = document.getElementById('evtPosterFile')?.files?.[0];
+  const preview = document.getElementById('evtPosterPreview');
+  const img = document.getElementById('evtPosterImg');
+  if (!file || !preview || !img) return;
+  img.src = URL.createObjectURL(file);
+  preview.style.display = 'block';
+}
+
+function showPosterPreview(url) {
+  const preview = document.getElementById('evtPosterPreview');
+  const img = document.getElementById('evtPosterImg');
+  if (!url || !preview || !img) return;
+  img.src = url;
+  preview.style.display = 'block';
+}
+
+function hidePosterPreview() {
+  const preview = document.getElementById('evtPosterPreview');
+  const img = document.getElementById('evtPosterImg');
+  const fileInput = document.getElementById('evtPosterFile');
+  if (preview) preview.style.display = 'none';
+  if (img) img.removeAttribute('src');
+  if (fileInput) fileInput.value = '';
+}
 
 window.editEvent = async function(id) {
   const ev = (await DB.getEvents()).find(e => e.id === id);
@@ -453,6 +494,8 @@ window.editEvent = async function(id) {
   document.getElementById('evtDesc').value         = ev.description || '';
   document.getElementById('evtPoster').value       = ev.poster      || '';
   document.getElementById('evtExternalUrl').value  = ev.externalUrl || '';
+  if (ev.poster) showPosterPreview(ev.poster);
+  else hidePosterPreview();
   setEl('eventFormTitle', 'Edit Event');
 };
 
@@ -460,6 +503,7 @@ window.clearEventForm = function() {
   document.getElementById('editingEventId').value = '';
   ['evtName','evtStartDate','evtEndDate','evtLocation','evtDesc','evtPoster','evtExternalUrl']
     .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  hidePosterPreview();
   setEl('eventFormTitle', 'Add New Event');
 };
 
@@ -470,6 +514,7 @@ window.deleteEvent = async function(id) {
     showToast('Event deleted.', 'success');
     await renderAdminEventsList();
     await loadDashboard();
+    window.dispatchEvent(new CustomEvent('afc:events-changed'));
   } catch(e) {
     showToast('Delete failed: ' + e.message, 'error');
   }

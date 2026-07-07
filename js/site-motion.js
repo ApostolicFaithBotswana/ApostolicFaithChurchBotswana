@@ -37,6 +37,8 @@ function initLenis() {
   }
   requestAnimationFrame(raf);
 
+  window.__afcLenis = lenis;
+
   lenis.on('scroll', () => {
     const nav = document.getElementById('navbar');
     if (nav) nav.classList.add('nav-pinned');

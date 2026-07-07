@@ -16,6 +16,7 @@ import {
 } from '../camp/camp-firebase.js';
 import { DB } from './data.js';
 import { icon } from './icons.js';
+import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js';
 
 const SITE_BLOCKS = 'site_blocks';
 const FIELD_TYPES = new Set(['card', 'district', 'profile', 'timeline', 'panel', 'section', 'event-card', 'fields']);
@@ -98,6 +99,7 @@ function ensureEditorShell() {
       </div>
     </div>`;
   document.body.appendChild(modal);
+  trapModalWheel(modal);
 
   document.getElementById('liveEditClose').onclick = closeEditModal;
   document.getElementById('liveEditCancel').onclick = closeEditModal;
@@ -275,6 +277,15 @@ let editingEl = null;
 let editingEventId = null;
 let editingMode = null;
 
+function imagePreviewHtml(url, label = 'Current image') {
+  if (!url || url.startsWith('data:')) return '';
+  return `<div class="img-upload-preview"><img src="${esc(url)}" alt=""><span class="img-upload-preview-label">${label}</span></div>`;
+}
+
+function uploadImageField(name = 'file', label = 'Upload image') {
+  return `<div class="form-group"><label>${label}</label><input type="file" name="${name}" accept="image/*"></div>`;
+}
+
 function openBlockEditor(el) {
   editingMode = 'block';
   editingEl = el;
@@ -285,13 +296,14 @@ function openBlockEditor(el) {
   document.getElementById('liveEditHint').textContent =
     type === 'json'
       ? 'Edit the JSON carefully. Invalid JSON will not save correctly.'
-      : 'Changes publish immediately for all visitors. Use a full image URL or upload a photo below.';
+      : 'Changes publish immediately for all visitors. Upload photos from your device.';
 
   const form = document.getElementById('liveEditForm');
   const key = el.dataset.edit;
   const existing = blocksCache[key]?.data || gatherDataFromElement(el, type);
   form.innerHTML = buildFormFields(type, existing);
   document.getElementById('liveEditModal').classList.add('open');
+  lockScroll();
 }
 
 function gatherDataFromElement(el, type) {
@@ -358,9 +370,10 @@ function buildFormFields(type, data) {
     return `<div class="form-group"><label>Content (HTML allowed)</label><textarea name="${field}" rows="8">${esc(data[field] || '')}</textarea></div>`;
   }
   if (type === 'image') {
+    const current = data.url || data.image || '';
     return `
-      <div class="form-group"><label>Image URL</label><input type="url" name="url" value="${esc(data.url || data.image || '')}" placeholder="https://..."></div>
-      <div class="form-group"><label>Or upload image</label><input type="file" name="file" accept="image/*"></div>
+      ${imagePreviewHtml(current)}
+      ${uploadImageField('file', current ? 'Replace image' : 'Upload image')}
       <div class="form-group"><label>Alt text</label><input type="text" name="alt" value="${esc(data.alt || '')}"></div>`;
   }
   if (type === 'list') {
@@ -388,7 +401,7 @@ function buildDynamicFields(data) {
     const label = FIELD_LABELS[key] || key;
     if (key === 'image') {
       hasImage = true;
-      html += `<div class="form-group"><label>${label}</label><input type="url" name="image" value="${esc(val)}"></div>`;
+      html += imagePreviewHtml(val, 'Current photo');
     } else if (key === 'body' || key === 'quote' || key === 'address' || String(val).length > 120) {
       html += `<div class="form-group"><label>${label}</label><textarea name="${key}" rows="4">${esc(val)}</textarea></div>`;
     } else {
@@ -397,7 +410,8 @@ function buildDynamicFields(data) {
   });
 
   if (hasImage || editingEl?.querySelector('[data-edit-field="image"]')) {
-    html += `<div class="form-group"><label>Or upload image</label><input type="file" name="file" accept="image/*"></div>`;
+    const current = data.image || '';
+    html += uploadImageField('file', current ? 'Replace photo' : 'Upload photo');
   }
   return html || `<div class="form-group"><label>Text</label><textarea name="body" rows="4">${esc(data.body || '')}</textarea></div>`;
 }
@@ -421,8 +435,8 @@ async function openEventEditor(eventId) {
     <div class="form-group"><label>End date *</label><input type="date" name="endDate" value="${esc(ev.endDate || '')}" required></div>
     <div class="form-group"><label>Location *</label><input type="text" name="location" value="${esc(ev.location || '')}" required></div>
     <div class="form-group"><label>Description</label><textarea name="description" rows="3">${esc(ev.description || '')}</textarea></div>
-    <div class="form-group"><label>Poster image URL</label><input type="url" name="poster" value="${esc(ev.poster || '')}"></div>
-    <div class="form-group"><label>Or upload poster</label><input type="file" name="posterFile" accept="image/*"></div>
+    ${imagePreviewHtml(ev.poster || '', 'Current poster')}
+    ${uploadImageField('posterFile', ev.poster ? 'Replace poster' : 'Upload poster')}
     <div class="form-group"><label>External registration URL (optional)</label><input type="url" name="externalUrl" value="${esc(ev.externalUrl || '')}" placeholder="https://..."></div>
     ${eventId ? `<button type="button" class="btn-outline-dark" id="liveDeleteEvent" style="margin-top:.5rem;color:#c0392b;border-color:#c0392b;">Delete event</button>` : ''}`;
 
@@ -434,6 +448,7 @@ async function openEventEditor(eventId) {
   });
 
   document.getElementById('liveEditModal').classList.add('open');
+  lockScroll();
 }
 
 function closeEditModal() {
@@ -441,6 +456,7 @@ function closeEditModal() {
   editingEl = null;
   editingEventId = null;
   editingMode = null;
+  unlockScroll();
 }
 
 async function saveEditModal() {
@@ -458,16 +474,20 @@ async function saveEditModal() {
 async function saveBlockFromForm(fd) {
   const type = editingEl.dataset.editType || 'text';
   const key = editingEl.dataset.edit;
+  const existing = blocksCache[key]?.data || {};
   const data = {};
 
   for (const [k, v] of fd.entries()) {
-    if (k !== 'file' && v !== '') data[k] = v;
+    if (k !== 'file' && k !== 'posterFile' && v !== '') data[k] = v;
   }
 
   const file = fd.get('file');
   if (file?.size) {
     const url = await DB.uploadMedia(file);
     data.image = data.url = url;
+  } else if (existing.image || existing.url) {
+    data.image = existing.image || existing.url;
+    data.url = data.image;
   }
 
   if (type === 'json') {
@@ -488,15 +508,23 @@ async function saveEventFromForm(fd) {
     endDate: fd.get('endDate'),
     location: fd.get('location')?.trim(),
     description: fd.get('description')?.trim() || '',
-    poster: fd.get('poster')?.trim() || '',
+    poster: '',
     externalUrl: fd.get('externalUrl')?.trim() || '',
   };
   if (!data.name || !data.startDate || !data.endDate || !data.location) {
     alert('Please fill in all required fields.');
     return;
   }
+
   const posterFile = fd.get('posterFile');
-  if (posterFile?.size) data.poster = await DB.uploadMedia(posterFile);
+  if (posterFile?.size) {
+    data.poster = await DB.uploadMedia(posterFile);
+  } else if (editingEventId) {
+    const events = await DB.getEvents();
+    const prev = events.find((e) => e.id === editingEventId);
+    if (prev?.poster) data.poster = prev.poster;
+  }
+
   if (editingEventId) await DB.updateEvent(editingEventId, data);
   else await DB.addEvent(data);
   window.dispatchEvent(new CustomEvent('afc:events-changed'));

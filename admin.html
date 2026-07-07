@@ -204,8 +204,13 @@
             <textarea id="evtDesc" rows="3" placeholder="Describe the event…"></textarea>
           </div>
           <div class="aform-group">
-            <label>Event Poster URL <span style="color:#8899aa;font-weight:400;">(optional)</span></label>
-            <input type="url" id="evtPoster" placeholder="https://…"/>
+            <label>Event Poster <span style="color:#8899aa;font-weight:400;">(optional — upload from your device)</span></label>
+            <div id="evtPosterPreview" class="img-upload-preview" style="display:none;margin-bottom:.75rem;">
+              <img id="evtPosterImg" alt="Event poster preview" style="display:block;width:100%;max-height:160px;object-fit:cover;"/>
+              <span class="img-upload-preview-label">Current poster</span>
+            </div>
+            <input type="file" id="evtPosterFile" accept="image/*"/>
+            <input type="hidden" id="evtPoster" value=""/>
           </div>
           <div class="aform-group">
   <label>External Registration URL <span style="color:#8899aa;font-weight:400;">(optional — e.g. Camp Portal)</span></label>
