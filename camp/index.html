@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Camp Meeting 2026 — AFC Botswana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="camp-shared.css"/>
+
+<style>
+:root{
+    --navy-900:#081225;
+    --navy-800:#0d1b3e;
+    --navy-700:#132852;
+    --navy-600:#1d3a73;
+
+    --gold:#d4af37;
+    --gold-light:#f2d06b;
+
+    --white:#ffffff;
+    --offwhite:#f8f9fc;
+
+    --shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Lato',sans-serif;
+    background:var(--navy-900);
+    color:#fff;
+    line-height:1.7;
+}
+
+/* =====================
+   NAVIGATION
+===================== */
+
+.camp-nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:1000;
+    background:rgba(8,18,37,.92);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.camp-nav-inner{
+    max-width:1400px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 40px;
+}
+
+.camp-nav-brand{
+    display:flex;
+    gap:15px;
+    align-items:center;
+    text-decoration:none;
+    color:white;
+}
+
+.camp-nav-logo{
+    height:55px;
+}
+
+.camp-nav-title{
+    display:block;
+    font-weight:900;
+    font-size:1rem;
+}
+
+.camp-nav-sub{
+    color:var(--gold);
+    font-size:.85rem;
+}
+
+.camp-nav-links{
+    display:flex;
+    gap:25px;
+}
+
+.camp-nav-links a{
+    color:white;
+    text-decoration:none;
+    font-weight:700;
+    position:relative;
+}
+
+.camp-nav-links a::after{
+    content:'';
+    position:absolute;
+    width:0;
+    height:2px;
+    background:var(--gold);
+    bottom:-6px;
+    left:0;
+    transition:.3s;
+}
+
+.camp-nav-links a:hover::after,
+.camp-nav-links .active::after{
+    width:100%;
+}
+
+/* =====================
+   HERO
+===================== */
+
+.camp-hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+    background:
+    linear-gradient(rgba(8,18,37,.45), rgba(8,18,37,.65)),
+    url('../css/images/camptheme.png');
+    background-size:cover;
+    background-position:center;
+}
+
+.camp-hero::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+    radial-gradient(circle at top,
+    rgba(212,175,55,.18),
+    transparent 20%);
+}
+
+.camp-hero-content{
+    max-width:950px;
+    padding:40px;
+    z-index:2;
+}
+
+.camp-hero-badge{
+    display:inline-block;
+    padding:10px 22px;
+    border:1px solid rgba(212,175,55,.4);
+    border-radius:100px;
+    color:var(--gold-light);
+    margin-bottom:30px;
+    backdrop-filter:blur(15px);
+}
+
+.camp-hero-title{
+    font-family:'Playfair Display',serif;
+    font-size:5rem;
+    line-height:1.05;
+    margin-bottom:20px;
+}
+
+.camp-hero-title em{
+    color:var(--gold);
+    font-style:italic;
+}
+
+.camp-hero-verse{
+    color:var(--gold-light);
+    font-size:1.3rem;
+    margin-bottom:30px;
+}
+
+.camp-hero-meta{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    flex-wrap:wrap;
+    margin-bottom:35px;
+}
+
+.camp-hero-meta span{
+    background:rgba(255,255,255,.08);
+    padding:12px 18px;
+    border-radius:12px;
+}
+
+.camp-hero-actions{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+/* =====================
+   BUTTONS
+===================== */
+
+.camp-btn-gold{
+    background:linear-gradient(
+    135deg,
+    var(--gold),
+    var(--gold-light));
+    color:#081225;
+    font-weight:900;
+    text-decoration:none;
+    padding:16px 32px;
+    border-radius:50px;
+    transition:.3s;
+    box-shadow:0 0 25px rgba(212,175,55,.35);
+}
+
+.camp-btn-gold:hover{
+    transform:translateY(-5px);
+}
+
+.camp-btn-outline{
+    border:2px solid var(--gold);
+    color:white;
+    text-decoration:none;
+    padding:16px 32px;
+    border-radius:50px;
+    transition:.3s;
+}
+
+.camp-btn-outline:hover{
+    background:var(--gold);
+    color:#081225;
+}
+
+/* =====================
+   SECTIONS
+===================== */
+
+.camp-section{
+    padding:100px 20px;
+}
+
+.camp-container{
+    max-width:1300px;
+    margin:auto;
+}
+
+.camp-section-title{
+    font-family:'Playfair Display',serif;
+    font-size:3rem;
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.camp-section-title em{
+    color:var(--gold);
+}
+
+.camp-section-label{
+    text-align:center;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    color:var(--gold);
+    margin-bottom:15px;
+}
+
+.camp-section-dark{
+    background:var(--navy-800);
+}
+
+/* =====================
+   STATS
+===================== */
+
+.camp-stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.camp-stat{
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(15px);
+    border-top:4px solid var(--gold);
+    border-radius:20px;
+    padding:35px;
+    text-align:center;
+    transition:.3s;
+}
+
+.camp-stat:hover{
+    transform:translateY(-8px);
+}
+
+.camp-stat-num{
+    font-size:3rem;
+    font-weight:900;
+    color:var(--gold);
+}
+
+.camp-stat-lbl{
+    margin-top:10px;
+}
+
+/* =====================
+   QUICK CARDS
+===================== */
+
+.camp-quick-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.camp-quick-card{
+    text-decoration:none;
+    color:white;
+    background:rgba(255,255,255,.04);
+    padding:35px;
+    border-radius:22px;
+    transition:.4s;
+    border:1px solid rgba(255,255,255,.05);
+}
+
+.camp-quick-card:hover{
+    transform:translateY(-10px);
+    box-shadow:var(--shadow);
+}
+
+.camp-quick-icon{
+    font-size:3rem;
+    margin-bottom:20px;
+}
+
+.camp-quick-card h3{
+    margin-bottom:12px;
+}
+
+.camp-quick-link{
+    display:inline-block;
+    margin-top:20px;
+    color:var(--gold);
+    font-weight:700;
+}
+
+/* =====================
+   THEME SECTION
+===================== */
+
+.camp-theme-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+}
+
+.camp-theme-image img{
+    width:100%;
+    border-radius:25px;
+    box-shadow:var(--shadow);
+}
+
+.camp-theme-body{
+    color:#d5d9e6;
+}
+
+.camp-theme-verse{
+    color:var(--gold);
+    font-size:1.2rem;
+    margin-bottom:25px;
+}
+
+/* =====================
+   ANNOUNCEMENTS
+===================== */
+
+.camp-announce-card{
+    background:rgba(255,255,255,.05);
+    padding:25px;
+    border-radius:18px;
+    margin-bottom:15px;
+    border-left:4px solid var(--gold);
+}
+
+.camp-announce-title{
+    font-weight:900;
+    margin-bottom:10px;
+}
+
+.camp-announce-time{
+    margin-top:10px;
+    opacity:.7;
+    font-size:.9rem;
+}
+
+/* =====================
+   LOCATION
+===================== */
+
+.camp-location-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+}
+
+.camp-location-info{
+    background:rgba(255,255,255,.04);
+    padding:35px;
+    border-radius:20px;
+}
+
+.camp-info-item{
+    display:flex;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.camp-info-icon{
+    font-size:1.5rem;
+    color:var(--gold);
+}
+
+/* =====================
+   FOOTER
+===================== */
+
+.camp-footer{
+    background:#040914;
+    padding:60px 20px;
+}
+
+.camp-footer-inner{
+    text-align:center;
+}
+
+.camp-footer-brand{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.camp-footer-links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.camp-footer-links a{
+    color:white;
+    text-decoration:none;
+}
+
+.camp-footer-links a:hover{
+    color:var(--gold);
+}
+
+.camp-footer-copy{
+    opacity:.7;
+}
+
+.camp-footer-verse{
+    margin-top:15px;
+    color:var(--gold);
+}
+/* =====================
+   WEATHER BAR
+===================== */
+
+.camp-weather-bar {
+  background: linear-gradient(135deg, #0d1b3e 0%, #0a1628 60%, #0f1d36 100%);
+  border-top: 1px solid rgba(212,175,55,0.15);
+  border-bottom: 1px solid rgba(212,175,55,0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.camp-weather-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at left center, rgba(212,175,55,0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.camp-weather-inner {
+  max-width: 1300px;
+  margin: auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-height: 66px;
+  position: relative;
+}
+
+/* LEFT ZONE */
+.camp-weather-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 28px 14px 0;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.camp-weather-icon-wrap {
+  width: 46px;
+  height: 46px;
+  background: rgba(212,175,55,0.1);
+  border: 1px solid rgba(212,175,55,0.22);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  flex-shrink: 0;
+}
+
+.camp-weather-temp {
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.camp-weather-loc {
+  font-size: .65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: rgba(255,255,255,0.38);
+  margin-top: 4px;
+}
+
+/* CENTRE ZONE */
+.camp-weather-centre {
+  flex: 1;
+  padding: 14px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.camp-weather-condition {
+  font-size: .9rem;
+  font-weight: 700;
+  color: white;
+}
+
+.camp-weather-feels {
+  font-size: .74rem;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.4;
+}
+
+/* RIGHT ZONE */
+.camp-weather-right {
+  padding: 14px 28px 14px 28px;
+  border-left: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+  max-width: 380px;
+}
+
+.camp-weather-advisory-pill {
+  display: inline-block;
+  font-size: .6rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  background: rgba(212,175,55,0.12);
+  color: var(--gold);
+  border: 1px solid rgba(212,175,55,0.25);
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-bottom: 7px;
+}
+
+.camp-weather-advisory {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.camp-advisory-icon {
+  font-size: .88rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.camp-advisory-text {
+  font-size: .78rem;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.55;
+}
+
+.camp-advisory-text strong,
+#weatherAdvisory strong {
+  color: var(--gold-light);
+  font-weight: 700;
+}
+
+/* LIVE DOT */
+.camp-weather-live {
+  width: 7px;
+  height: 7px;
+  background: #2ecc71;
+  border-radius: 50%;
+  margin-left: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(46,204,113,0.2);
+  animation: weatherPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes weatherPulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(46,204,113,0.18); }
+  50%       { box-shadow: 0 0 0 7px rgba(46,204,113,0.06); }
+}
+
+/* MOBILE */
+@media(max-width: 768px) {
+  .camp-weather-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 20px;
+    gap: 12px;
+    min-height: unset;
+  }
+  .camp-weather-left {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 0 0 12px 0;
+    width: 100%;
+  }
+  .camp-weather-centre {
+    padding: 0;
+  }
+  .camp-weather-right {
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 12px 0 0 0;
+    max-width: 100%;
+    width: 100%;
+  }
+  .camp-weather-live {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    margin-left: 0;
+  }
+}
+/* =====================
+   MOBILE
+===================== */
+
+@media(max-width:900px){
+
+    .camp-theme-grid,
+    .camp-location-grid{
+        grid-template-columns:1fr;
+    }
+
+    .camp-hero-title{
+        font-size:3rem;
+    }
+
+    .camp-nav-links{
+        display:none;
+    }
+
+    .camp-nav-inner{
+        padding:15px 20px;
+    }
+}
+</style>
+
+
+</head>
+<body>
+<!-- NAV -->
+<header class="camp-nav">
+  <div class="camp-nav-inner">
+    <a href="index.html" class="camp-nav-brand">
+      <img src="../css/images/logo1.png" class="camp-nav-logo" alt="AFC"/>
+      <div><span class="camp-nav-title">Camp Meeting 2026</span><span class="camp-nav-sub">AFC Botswana</span></div>
+    </a>
+    <nav class="camp-nav-links">
+      <a href="../index.html" class="active">Home</a>
+      <a href="registration.html">Register</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="store.html">Store</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="testimonies.html">Testimonies</a>
+     
+    </nav>
+    <button class="camp-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="camp-mobile-nav" id="mobileNav">
+  <a href="../index.html" class="active"> Home</a>
+  <a href="registration.html">Register</a>
+  <a href="schedule.html"> Schedule</a>
+  <a href="store.html"> Store</a>
+  <a href="announcements.html">Announcements</a>
+  <a href="testimonies.html"> Testimonies</a>
+
+  <a href="../index.html">← Main Site</a>
+</div>
+
+<!-- HERO -->
+<section class="camp-hero">
+  <div class="camp-hero-bg"></div>
+  <div class="camp-hero-overlay"></div>
+  <div class="camp-hero-content">
+    <div class="camp-hero-badge">AFC Botswana · Annual Camp Meeting</div>
+    <h1 class="camp-hero-title">
+      <em>"The Just Shall</em><br>Live by Faith"
+    </h1>
+    <p class="camp-hero-verse">— Romans 1:17 (KJV)</p>
+    <div class="camp-hero-meta">
+      <span>📅 19-26 July 2026</span>
+      <span>📍 Plot 54201, Phase 4, Gaborone</span>
+    </div>
+    <div class="camp-hero-actions">
+      <a href="registration.html" class="camp-btn-gold">Register Now</a>
+      <a href="schedule.html" class="camp-btn-outline">View Schedule</a>
+    </div>
+  </div>
+</section>
+
+<!-- WEATHER ALERT -->
+<div class="camp-weather-bar" id="weatherBar">
+  <div class="camp-weather-inner">
+
+    <!-- LEFT: icon + temp -->
+    <div class="camp-weather-left">
+      <div class="camp-weather-icon-wrap">
+        <span id="weatherIcon">🌤️</span>
+      </div>
+      <div class="camp-weather-temp-block">
+        <div class="camp-weather-temp" id="weatherTemp">—°C</div>
+        <div class="camp-weather-loc">Gaborone</div>
+      </div>
+    </div>
+
+    <!-- CENTRE: condition + feels like -->
+    <div class="camp-weather-centre">
+      <div class="camp-weather-condition" id="weatherTitle">Loading conditions…</div>
+      <div class="camp-weather-feels" id="weatherDetail">Phase 4, Gaborone · July is typically cool and dry</div>
+    </div>
+
+    <!-- RIGHT: advisory -->
+    <div class="camp-weather-right">
+      <div class="camp-weather-advisory-pill">Camp Advisory</div>
+      <div class="camp-weather-advisory" id="weatherAdvisory">
+        <span class="camp-advisory-icon">🧥</span>
+        <span class="camp-advisory-text">July nights in Gaborone can be cold — pack a jacket for evening services.</span>
+      </div>
+    </div>
+
+    <!-- live dot -->
+    <div class="camp-weather-live" title="Live weather data"></div>
+
+  </div>
+</div>
+
+
+<!-- QUICK LINKS -->
+<section class="camp-section camp-section-dark">
+  <div class="camp-container">
+    <p class="camp-section-label">Get Started</p>
+    <h2 class="camp-section-title">Everything You Need<br><em>for Camp</em></h2>
+    <div class="camp-quick-grid">
+      <a href="registration.html" class="camp-quick-card">
+        <div class="camp-quick-icon">📋</div>
+        <h3>Register</h3>
+        <p>Secure your spot at Camp Meeting 2026. Registration is free.</p>
+        <span class="camp-quick-link">Register Now →</span>
+      </a>
+      <a href="schedule.html" class="camp-quick-card">
+        <div class="camp-quick-icon">📅</div>
+        <h3>Schedule</h3>
+        <p>Full daily programme — services, meals, workshops and more.</p>
+        <span class="camp-quick-link">View Schedule →</span>
+      </a>
+      <a href="store.html" class="camp-quick-card">
+        <div class="camp-quick-icon">👕</div>
+        <h3>Merch Store</h3>
+        <p>Order your Camp Meeting 2026 t-shirts, hoodies and more.</p>
+        <span class="camp-quick-link">Shop Now →</span>
+      </a>
+      <a href="announcements.html" class="camp-quick-card">
+        <div class="camp-quick-icon">📢</div>
+        <h3>Announcements</h3>
+        <p>Latest updates and notices from the camp management team.</p>
+        <span class="camp-quick-link">Read More →</span>
+      </a>
+      <a href="https://wa.me/26776159933"
+   class="camp-quick-card">
+   <div class="camp-quick-icon">💬</div>
+   <h3>WhatsApp Hub</h3>
+   <p>
+      Receive camp updates, schedules,
+      announcements and support directly
+      through WhatsApp.
+   </p>
+   <span class="camp-quick-link">
+      Chat Now →
+   </span>
+</a>
+    </div>
+  </div>
+</section>
+
+<!-- THEME SECTION -->
+<section class="camp-section camp-theme-section">
+  <div class="camp-container">
+    <div class="camp-theme-grid">
+      <div class="camp-theme-text">
+        <p class="camp-section-label">2026 Theme</p>
+        <h2 class="camp-section-title">"The Just Shall<br><em>Live by Faith"</em></h2>
+        <p class="camp-theme-verse">Romans 1:17 (KJV)</p>
+        <p class="camp-theme-body">
+          "For therein is the righteousness of God revealed from faith to faith: as it is written,
+          The just shall live by faith."
+        </p>
+        <p class="camp-theme-body" style="margin-top:1rem;">
+          This year's camp meeting calls us to a deeper walk of faith — trusting God completely,
+          living by His Word, and standing firm in His righteousness. Join us as we gather
+          together to be renewed, refreshed, and revived in faith.
+        </p>
+        <a href="registration.html" class="camp-btn-gold" style="margin-top:2rem;display:inline-block;">Join Us This July</a>
+      </div>
+      <div class="camp-theme-image">
+        <img src="../css/images/camp-theme.jpeg" alt="The Just Shall Live by Faith" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LATEST ANNOUNCEMENTS -->
+<section class="camp-section camp-section-dark">
+  <div class="camp-container">
+    <p class="camp-section-label">Updates</p>
+    <h2 class="camp-section-title">Latest <em>Announcements</em></h2>
+    <div id="homeAnnouncements">
+      <div class="camp-empty">📢 No announcements yet. Check back soon.</div>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <a href="announcements.html" class="camp-btn-outline">View All Announcements</a>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="camp-section">
+  <div class="camp-container">
+    <p class="camp-section-label">Getting Here</p>
+    <h2 class="camp-section-title">Camp <em>Location</em></h2>
+    <div class="camp-location-grid">
+      <div class="camp-location-info">
+        <div class="camp-info-item">
+          <span class="camp-info-icon">📍</span>
+          <div>
+            <strong>Venue</strong>
+            <p>Apostolic Faith Church — Greater Gaborone Branch</p>
+            <p>Plot 54201, Phase 4, Gaborone</p>
+          </div>
+        </div>
+        <div class="camp-info-item">
+          <span class="camp-info-icon">📅</span>
+          <div>
+            <strong>Date</strong>
+            <p>19 July 2026</p>
+          </div>
+        </div>
+        <div class="camp-info-item">
+          <span class="camp-info-icon">🕘</span>
+          <div>
+            <strong>Opening Service</strong>
+            <p>09:00 AM</p>
+          </div>
+        </div>
+        <div class="camp-info-item">
+          <span class="camp-info-icon">📱</span>
+          <div>
+            <strong>Contact</strong>
+            <p>+267 75 222 415</p>
+          </div>
+        </div>
+        <a href="https://maps.google.com/?q=-24.68379308147856,25.882944318902148" target="_blank" class="camp-btn-gold" style="margin-top:1.5rem;display:inline-block;">Open in Google Maps</a>
+      </div>
+      <div class="camp-location-map">
+        <iframe
+          src="https://maps.google.com/maps?q=-24.68379308147856,25.882944318902148&z=15&output=embed"
+          width="100%" height="320" style="border:0;border-radius:12px;" allowfullscreen="" loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="camp-footer">
+  <div class="camp-container camp-footer-inner">
+    <div class="camp-footer-brand">
+      <img src="../css/images/logo1.png" alt="AFC" style="height:36px;"/>
+      <div>
+        <p>Camp Meeting 2026</p>
+        <span>Apostolic Faith Church · Botswana</span>
+      </div>
+    </div>
+    <div class="camp-footer-links">
+      <a href="registration.html">Register</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="store.html">Store</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="../index.html">← Main Site</a>
+      <a href="./admin/adminlogin.html">← Admin</a>
+    </div>
+    <p class="camp-footer-copy">© 2026 Apostolic Faith Church – Botswana. All rights reserved.</p>
+    <p class="camp-footer-verse">✦ "The just shall live by faith." — Romans 1:17 ✦</p>
+  </div>
+</footer>
+
+<script type="module">
+import {
+  db,
+  collection, getDocs, query, orderBy,
+  CAMP_REGS, CAMP_ORDERS, CAMP_ANN
+} from './camp-firebase.js';
+
+// ── MOBILE NAV ──
+document.getElementById('hamburger').addEventListener('click', function() {
+  document.getElementById('mobileNav').classList.toggle('open');
+});
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function fmtTime(val) {
+  if (!val) return '';
+  if (val.toDate) {
+    return val.toDate().toLocaleDateString('en-BW', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+  }
+  return String(val);
+}
+
+// ── STATS FROM FIRESTORE ──
+async function loadStats() {
+  try {
+    const [regs, orders] = await Promise.all([
+      getDocs(collection(db, CAMP_REGS)),
+      getDocs(collection(db, CAMP_ORDERS))
+    ]);
+    document.getElementById('statReg').textContent = regs.size;
+    document.getElementById('statOrders').textContent = orders.size;
+  } catch (e) {
+    console.warn('Could not load camp stats:', e);
+  }
+
+  // days to camp
+  const diff = new Date('2026-07-19') - new Date();
+  const days = Math.max(0, Math.floor(diff / 86400000));
+  document.getElementById('statDays').textContent = days;
+}
+loadStats();
+
+// ── ANNOUNCEMENTS ──
+async function loadAnnouncements() {
+  const el = document.getElementById('homeAnnouncements');
+  try {
+    const snap = await getDocs(query(collection(db, CAMP_ANN), orderBy('timestamp', 'desc')));
+    if (snap.empty) return;
+    el.innerHTML = snap.docs.slice(0, 3).map(d => {
+      const a = d.data();
+      const time = fmtTime(a.createdAt) || fmtTime(a.timestamp);
+      return `
+        <div class="camp-announce-card">
+          <div class="camp-announce-title">${esc(a.title)}</div>
+          <div class="camp-announce-body">${esc(a.body).replace(/\n/g,'<br>')}</div>
+          ${time ? `<div class="camp-announce-time">${time}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    console.warn('Could not load announcements:', e);
+  }
+}
+loadAnnouncements();
+
+// ── WEATHER ──
+async function loadWeather() {
+  try {
+    const res = await fetch('https://wttr.in/Gaborone?format=j1');
+    const data = await res.json();
+    const current = data.current_condition[0];
+    const temp    = current.temp_C;
+    const feels   = current.FeelsLikeC;
+    const wind    = current.windspeedKmph;
+    const desc    = current.weatherDesc[0].value;
+    const d       = desc.toLowerCase();
+
+    // ── icon ──
+    let icon = '🌤️';
+    if (d.includes('sunny') || d.includes('clear'))       icon = '☀️';
+    else if (d.includes('thunder'))                        icon = '⛈️';
+    else if (d.includes('rain') || d.includes('drizzle')) icon = '🌧️';
+    else if (d.includes('cloud'))                          icon = '⛅';
+    else if (d.includes('fog')  || d.includes('mist'))    icon = '🌫️';
+    else if (d.includes('wind'))                           icon = '💨';
+    else if (d.includes('snow') || d.includes('sleet'))   icon = '❄️';
+
+    // ── populate new elements ──
+    document.getElementById('weatherIcon').textContent      = icon;
+    document.getElementById('weatherTemp').textContent      = `${temp}°C`;
+    document.getElementById('weatherTitle').textContent     = desc;
+    document.getElementById('weatherDetail').textContent    = `Feels like ${feels}°C · Wind ${wind} km/h`;
+
+    // ── advisory ──
+    let advisoryIcon  = '✅';
+    let advisoryLabel = 'Comfortable weather';
+    let advisoryBody  = 'Great conditions expected for camp. Come prepared!';
+
+    const t = parseInt(temp);
+    if      (t < 10)              { advisoryIcon = '🧥'; advisoryLabel = 'Very cold expected';   advisoryBody = 'Pack warm layers — overnight temperatures can be near freezing in July.'; }
+    else if (t < 15)              { advisoryIcon = '🧣'; advisoryLabel = 'Cool weather expected'; advisoryBody = 'A light jacket is recommended, especially for evening and early morning services.'; }
+    else if (t > 30)              { advisoryIcon = '💧'; advisoryLabel = 'Hot conditions';        advisoryBody = 'Stay hydrated and bring sunscreen for outdoor sessions.'; }
+    else if (d.includes('rain'))  { advisoryIcon = '☂️'; advisoryLabel = 'Rain expected';         advisoryBody = 'Bring an umbrella or raincoat — sessions may be affected.'; }
+    else if (d.includes('wind'))  { advisoryIcon = '💨'; advisoryLabel = 'Windy conditions';      advisoryBody = 'Secure loose items and dress in layers for outdoor services.'; }
+
+    document.getElementById('weatherAdvisory').innerHTML =
+      `<span class="camp-advisory-icon">${advisoryIcon}</span>
+       <span class="camp-advisory-text"><strong>${advisoryLabel}</strong> — ${advisoryBody}</span>`;
+
+  } catch(e) {
+    // ── fallback ──
+    document.getElementById('weatherIcon').textContent   = '🌤️';
+    document.getElementById('weatherTemp').textContent   = '—°C';
+    document.getElementById('weatherTitle').textContent  = 'July is typically cool and dry in Gaborone';
+    document.getElementById('weatherDetail').textContent = 'Phase 4, Gaborone · Morning and evenings can be cold';
+    document.getElementById('weatherAdvisory').innerHTML =
+      `<span class="camp-advisory-icon">🧥</span>
+       <span class="camp-advisory-text"><strong>Pack warm layers</strong> — July nights in Gaborone can be cold for evening services.</span>`;
+  }
+}
+
+loadWeather();
+
+// ── DYNAMIC WELCOME MESSAGE ──
+function setWelcome() {
+  const hour = new Date().getHours();
+  let msg = '';
+  if (hour < 12) msg = '🌅 Good morning! Camp Meeting 2026 registration is open.';
+  else if (hour < 17) msg = '☀️ Good afternoon! Have you registered for Camp Meeting 2026?';
+  else msg = '🌙 Good evening! Join us for Camp Meeting 2026 — 19 July, Gaborone.';
+  document.getElementById('campAlertMsg').innerHTML = msg + ' <a href="registration.html">Register here →</a>';
+}
+setWelcome();
+</script>
+
+<a href="https://wa.me/26776159933"
+style="
+position:fixed;
+right:25px;
+bottom:25px;
+width:65px;
+height:65px;
+border-radius:50%;
+background:#25D366;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+text-decoration:none;
+z-index:9999;
+box-shadow:0 10px 25px rgba(0,0,0,.3);
+">
+💬
+</a>
+
+</body>
+</html>

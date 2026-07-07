@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Spiritual Journal — Camp Meeting 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="camp-shared.css"/>
+<style>
+.journal-entry {
+  background: var(--c-panel);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 4px solid var(--c-gold);
+  border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;
+  transition: all .2s;
+}
+.journal-entry:hover { border-color: rgba(212,175,55,0.3); transform: translateY(-2px); }
+.je-title    { font-weight: 800; font-size: 1rem; color: white; margin-bottom: .3rem; }
+.je-scripture{ font-size: .8rem; color: var(--c-gold); margin-bottom: .6rem; }
+.je-text     { font-size: .88rem; color: rgba(255,255,255,0.75); line-height: 1.6; }
+.je-prayer   { font-size: .85rem; color: rgba(255,255,255,0.6); margin-top: .6rem; padding-top: .6rem; border-top: 1px solid rgba(255,255,255,0.06); }
+.je-date     { font-size: .72rem; color: var(--c-muted); margin-top: .6rem; }
+.je-delete   { float: right; background: none; border: none; color: rgba(224,82,82,0.6); cursor: pointer; font-size: .78rem; padding: 2px 6px; border-radius: 4px; }
+.je-delete:hover { color: var(--c-danger); background: rgba(224,82,82,0.1); }
+.info-note {
+  background: rgba(212,175,55,0.06); border: 1px solid var(--c-border);
+  border-radius: 10px; padding: .85rem 1.25rem; font-size: .82rem;
+  color: rgba(255,255,255,0.6); margin-bottom: 1.5rem;
+}
+</style>
+</head>
+<body>
+
+<header class="camp-nav">
+  <div class="camp-nav-inner">
+    <a href="index.html" class="camp-nav-brand">
+      <img src="../css/images/logo1.png" class="camp-nav-logo" alt="AFC"/>
+      <div><span class="camp-nav-title">Camp Meeting 2026</span><span class="camp-nav-sub">AFC Botswana</span></div>
+    </a>
+    <nav class="camp-nav-links">
+      <a href="index.html">Home</a>
+      <a href="registration.html">Register</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="store.html">Store</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="testimonies.html">Testimonies</a>
+      <a href="journal.html" class="active">Journal</a>
+      <a href="admin/adminlogin.html">Admin</a>
+      <a href="https://wa.me/26776159933" class="nav-wa" target="_blank">💬 WhatsApp</a>
+    </nav>
+    <button class="camp-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="camp-mobile-nav" id="mobileNav">
+  <a href="index.html">🏠 Home</a>
+  <a href="registration.html">📋 Register</a>
+  <a href="schedule.html">📅 Schedule</a>
+  <a href="store.html">👕 Store</a>
+  <a href="announcements.html">📢 Announcements</a>
+  <a href="testimonies.html">✨ Testimonies</a>
+  <a href="journal.html" class="active">📖 Journal</a>
+  <a href="admin/adminlogin.html">⚙️ Admin</a>
+  <a href="../index.html">← Main Site</a>
+</div>
+
+<div class="camp-page-hero">
+  <p class="camp-eyebrow">⛺ Camp Meeting 2026</p>
+  <h1 class="camp-page-title">Spiritual <em>Journal</em></h1>
+  <p class="camp-page-sub">Record what God speaks to you during camp — saved securely in Firebase</p>
+</div>
+
+<section class="camp-section">
+  <div class="camp-container" style="max-width:720px;">
+
+    <div class="info-note">📱 Your journal entries are saved in Firebase so they remain available beyond this device.</div>
+
+    <!-- NEW ENTRY FORM -->
+    <div class="camp-card">
+      <div class="camp-card-title">New Entry</div>
+      <div class="camp-form-row">
+        <div class="camp-form-group">
+          <label>Sermon / Session Title</label>
+          <input type="text" id="jTitle" placeholder="e.g. Walking in the Light"/>
+        </div>
+        <div class="camp-form-group">
+          <label>Scripture Reference</label>
+          <input type="text" id="jScripture" placeholder="e.g. Romans 1:17"/>
+        </div>
+      </div>
+      <div class="camp-form-group">
+        <label>What God Spoke to Me Today *</label>
+        <textarea id="jReflection" rows="4" placeholder="Write your reflection, insights or what stood out from the message..."></textarea>
+      </div>
+      <div class="camp-form-group">
+        <label>Personal Prayer Points</label>
+        <textarea id="jPrayer" rows="3" placeholder="What are you believing God for? What do you want to pray about?"></textarea>
+      </div>
+      <div id="jError" class="camp-error" style="display:none;">Please write your reflection before saving.</div>
+      <button class="camp-btn-submit" onclick="saveEntry()">📖 Save Journal Entry</button>
+    </div>
+
+    <!-- ENTRIES -->
+    <div style="margin-top:2.5rem;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:1.25rem;">My Entries <span id="entryCount" style="font-size:.8rem;color:var(--c-muted);font-family:'Lato',sans-serif;font-weight:400;"></span></h3>
+      <div id="journalList">
+        <div class="camp-empty"><div class="camp-empty-icon">📖</div><p>No entries yet. Start journaling today.</p></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="camp-footer">
+  <div class="camp-container camp-footer-inner">
+    <p class="camp-footer-verse">✦ "The just shall live by faith." — Romans 1:17 ✦</p>
+    <p class="camp-footer-copy">© 2026 Apostolic Faith Church – Botswana</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/26776159933" class="wa-float" target="_blank">💬</a>
+<div id="toast" class="camp-toast"></div>
+
+<script type="module">
+import {
+  db,
+  collection, addDoc, getDocs, doc, deleteDoc,
+  query, orderBy, serverTimestamp,
+  CAMP_JOURNAL
+} from './camp-firebase.js';
+
+document.getElementById('hamburger').onclick = () => document.getElementById('mobileNav').classList.toggle('open');
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+let entries = [];
+
+function fmtDate(ts) {
+  if (!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleString('en-BW');
+}
+
+async function loadEntries() {
+  try {
+    const snap = await getDocs(query(collection(db, CAMP_JOURNAL), orderBy('createdAt', 'desc')));
+    entries = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch (e) {
+    console.error(e);
+    toast('Could not load journal entries.');
+  }
+  renderEntries();
+}
+
+window.saveEntry = async function() {
+  const reflection = document.getElementById('jReflection').value.trim();
+  if (!reflection) { document.getElementById('jError').style.display='block'; return; }
+  document.getElementById('jError').style.display='none';
+  const entry = {
+    title: document.getElementById('jTitle').value.trim() || 'Untitled',
+    scripture: document.getElementById('jScripture').value.trim(),
+    reflection,
+    prayer: document.getElementById('jPrayer').value.trim(),
+    createdAt: serverTimestamp(),
+  };
+  await addDoc(collection(db, CAMP_JOURNAL), entry);
+  document.getElementById('jTitle').value = '';
+  document.getElementById('jScripture').value = '';
+  document.getElementById('jReflection').value = '';
+  document.getElementById('jPrayer').value = '';
+  toast('📖 Entry saved!');
+  await loadEntries();
+};
+
+window.deleteEntry = async function(id) {
+  if (!confirm('Delete this entry?')) return;
+  await deleteDoc(doc(db, CAMP_JOURNAL, id));
+  await loadEntries();
+  toast('Entry deleted.');
+};
+
+function renderEntries() {
+  const el = document.getElementById('journalList');
+  const cnt = document.getElementById('entryCount');
+  cnt.textContent = entries.length ? `(${entries.length})` : '';
+  if (!entries.length) {
+    el.innerHTML = '<div class="camp-empty"><div class="camp-empty-icon">📖</div><p>No entries yet. Start journaling today.</p></div>';
+    return;
+  }
+  el.innerHTML = entries.map(e => `
+    <div class="journal-entry">
+      <button class="je-delete" onclick="deleteEntry('${e.id}')">✕ delete</button>
+      <div class="je-title">${esc(e.title)}</div>
+      ${e.scripture ? `<div class="je-scripture">📖 ${esc(e.scripture)}</div>` : ''}
+      <div class="je-text">${esc(e.reflection).replace(/\n/g,'<br>')}</div>
+      ${e.prayer ? `<div class="je-prayer">🙏 <strong>Prayer:</strong> ${esc(e.prayer).replace(/\n/g,'<br>')}</div>` : ''}
+      <div class="je-date">${fmtDate(e.createdAt)}</div>
+    </div>
+  `).join('');
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'camp-toast show success';
+  clearTimeout(t._t); t._t = setTimeout(() => t.className='camp-toast',4000);
+}
+
+loadEntries();
+</script>
+</body>
+</html>

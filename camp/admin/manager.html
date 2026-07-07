@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camp Manager Dashboard · AFC Botswana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../camp-shared.css">
+
+<style>
+/* ── LAYOUT ── */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{height:100vh;overflow:hidden;}
+
+#adminPanel{display:flex;height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:240px;min-width:240px;
+  background:rgba(255,255,255,.03);
+  border-right:1px solid rgba(255,255,255,.08);
+  display:flex;flex-direction:column;
+  transition:width .25s;
+}
+.sidebar-brand{
+  padding:18px 20px;text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.sidebar-brand img{height:50px;}
+.sidebar-brand h4{font-size:.85rem;margin-top:8px;color:var(--c-gold);}
+.sidebar-nav{flex:1;padding:10px;overflow-y:auto;}
+.sidebar-btn{
+  width:100%;text-align:left;padding:11px 14px;
+  margin-bottom:4px;border:none;border-radius:10px;
+  background:none;color:rgba(255,255,255,.75);
+  cursor:pointer;font-weight:700;font-size:.83rem;
+  font-family:'Lato',sans-serif;transition:all .2s;
+  display:flex;align-items:center;gap:10px;
+}
+.sidebar-btn:hover{background:rgba(212,175,55,.1);color:white;}
+.sidebar-btn.active{background:rgba(212,175,55,.18);color:var(--c-gold);}
+.sidebar-footer{padding:14px;border-top:1px solid rgba(255,255,255,.06);}
+
+/* ── MAIN ── */
+.admin-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 22px;border-bottom:1px solid rgba(255,255,255,.08);
+  gap:12px;
+}
+.topbar h2{font-size:1.1rem;font-weight:900;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.tab-content{flex:1;overflow-y:auto;padding:22px;}
+.atab{display:none;}
+.atab.active{display:block;animation:fadeUp .25s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── CARDS ── */
+.a-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:20px;margin-bottom:20px;
+}
+.a-card-title{
+  font-size:.95rem;font-weight:900;margin-bottom:16px;
+  padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.07);
+  color:var(--c-gold);display:flex;justify-content:space-between;align-items:center;
+}
+
+/* ── STAT GRID ── */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+.stat-box{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-top:3px solid var(--c-gold);
+  border-radius:12px;padding:18px;text-align:center;
+}
+.stat-num{font-size:2.2rem;color:var(--c-gold);font-weight:900;line-height:1;}
+.stat-lbl{font-size:.75rem;color:var(--c-muted);margin-top:5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ── TABLE ── */
+.a-table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:.82rem;}
+th{
+  text-align:left;padding:9px 12px;
+  color:var(--c-gold);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;
+  border-bottom:1px solid rgba(255,255,255,.1);white-space:nowrap;
+}
+td{
+  padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.05);
+  vertical-align:middle;
+}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.03);}
+
+/* ── BADGES ── */
+.badge{
+  display:inline-block;padding:3px 9px;border-radius:20px;
+  font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+}
+.badge-gold{background:rgba(212,175,55,.18);color:var(--c-gold);}
+.badge-green{background:rgba(46,204,113,.15);color:#2ecc71;}
+.badge-red{background:rgba(224,82,82,.15);color:#e05252;}
+.badge-blue{background:rgba(99,179,237,.15);color:#63b3ed;}
+.badge-gray{background:rgba(255,255,255,.08);color:var(--c-muted);}
+.badge-purple{background:rgba(155,89,182,.15);color:#c39bd3;}
+.badge-orange{background:rgba(231,76,60,.15);color:#ff8a80;}
+
+/* ── SEARCH ── */
+.search-row{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap;}
+.a-input{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;padding:8px 13px;color:white;font-family:'Lato',sans-serif;
+  font-size:.83rem;outline:none;transition:border-color .2s;
+}
+.a-input:focus{border-color:var(--c-gold);}
+.a-input::placeholder{color:var(--c-muted);}
+.a-select{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;padding:8px 13px;color:white;font-family:'Lato',sans-serif;
+  font-size:.83rem;outline:none;cursor:pointer;
+}
+.a-select option{background:#0d1b3e;color:white;}
+
+/* ── FORM ── */
+.a-form-group{margin-bottom:14px;}
+.a-form-group label{display:block;font-size:.75rem;font-weight:700;color:var(--c-muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.06em;}
+.a-form-group .a-input,.a-form-group textarea{width:100%;}
+.a-form-group textarea{resize:vertical;min-height:80px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+/* ── BUTTONS ── */
+.btn-action{
+  border:none;border-radius:7px;padding:5px 11px;cursor:pointer;
+  font-size:.75rem;font-weight:700;font-family:'Lato',sans-serif;
+  transition:all .15s;
+}
+.btn-approve{background:rgba(46,204,113,.2);color:#2ecc71;border:1px solid rgba(46,204,113,.3);}
+.btn-approve:hover{background:rgba(46,204,113,.35);}
+.btn-delete{background:rgba(224,82,82,.15);color:#e05252;border:1px solid rgba(224,82,82,.3);}
+.btn-delete:hover{background:rgba(224,82,82,.3);}
+.btn-edit{background:rgba(99,179,237,.15);color:#63b3ed;border:1px solid rgba(99,179,237,.3);}
+.btn-edit:hover{background:rgba(99,179,237,.3);}
+.btn-gold{
+  background:linear-gradient(135deg,var(--c-gold),var(--c-gold2));
+  color:#081225;border:none;border-radius:9px;padding:9px 20px;
+  cursor:pointer;font-family:'Lato',sans-serif;font-weight:900;font-size:.83rem;
+  transition:all .2s;
+}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,175,55,.3);}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.btn-outline-sm{
+  background:transparent;border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.7);border-radius:7px;padding:5px 12px;
+  cursor:pointer;font-size:.75rem;font-weight:700;font-family:'Lato',sans-serif;
+  transition:all .15s;
+}
+.btn-outline-sm:hover{border-color:var(--c-gold);color:var(--c-gold);}
+.btn-cancel{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.7);border-radius:9px;padding:9px 20px;
+  cursor:pointer;font-family:'Lato',sans-serif;font-weight:700;font-size:.83rem;
+  transition:all .2s;
+}
+.btn-cancel:hover{background:rgba(255,255,255,.1);}
+
+/* ── ANNOUNCEMENT CARD ── */
+.ann-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:15px;margin-bottom:12px;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:12px;
+}
+.ann-priority-bar{width:4px;border-radius:4px;flex-shrink:0;align-self:stretch;}
+.ann-body{flex:1;}
+.ann-title{font-weight:900;font-size:.9rem;margin-bottom:4px;}
+.ann-text{font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:6px;}
+.ann-meta{font-size:.72rem;color:var(--c-muted);}
+
+/* ── TESTIMONY / PRAYER CARD ── */
+.review-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:16px;margin-bottom:12px;
+}
+.review-card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.review-card-name{font-weight:900;font-size:.9rem;}
+.review-card-meta{font-size:.75rem;color:var(--c-muted);margin-top:2px;}
+.review-card-body{font-size:.83rem;color:rgba(255,255,255,.8);line-height:1.6;}
+.review-card-actions{display:flex;gap:8px;margin-top:12px;}
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:40px 20px;color:var(--c-muted);}
+.empty-state .empty-icon{font-size:2.5rem;margin-bottom:10px;}
+.empty-state p{font-size:.85rem;}
+
+/* ── LOADING ── */
+.loading{text-align:center;padding:30px;color:var(--c-muted);font-size:.85rem;}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:24px;right:24px;
+  background:#1d3a73;border:1px solid var(--c-gold);
+  color:white;padding:12px 20px;border-radius:10px;
+  font-size:.83rem;font-weight:700;
+  opacity:0;transform:translateY(10px);
+  transition:all .3s;pointer-events:none;z-index:9999;
+}
+#toast.show{opacity:1;transform:translateY(0);}
+
+/* ── ATTENDANCE ── */
+.session-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.session-pill{
+  padding:6px 14px;border-radius:20px;cursor:pointer;border:1.5px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.6);font-size:.78rem;font-weight:700;transition:all .2s;background:none;
+  font-family:'Lato',sans-serif;
+}
+.session-pill.active{background:rgba(212,175,55,.15);border-color:var(--c-gold);color:var(--c-gold);}
+
+.att-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:14px;}
+.att-person{
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;padding:10px 14px;cursor:pointer;transition:all .2s;
+}
+.att-person:hover{border-color:rgba(212,175,55,.3);}
+.att-person.present{border-color:rgba(46,204,113,.4);background:rgba(46,204,113,.07);}
+.att-name{font-size:.83rem;font-weight:700;}
+.att-branch{font-size:.72rem;color:var(--c-muted);}
+.att-check{font-size:1.1rem;}
+
+/* ── REPORT TABLE ── */
+.report-person{margin-bottom:20px;}
+.report-name{font-weight:900;font-size:.9rem;margin-bottom:6px;}
+.report-sessions{display:flex;flex-wrap:wrap;gap:6px;}
+.session-tag{
+  font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:12px;
+}
+.session-tag.yes{background:rgba(46,204,113,.15);color:#2ecc71;}
+.session-tag.no{background:rgba(255,255,255,.06);color:var(--c-muted);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .sidebar{width:60px;min-width:60px;}
+  .sidebar-brand h4,.sidebar-btn span.btn-label{display:none;}
+  .sidebar-btn{justify-content:center;padding:12px;}
+  .stat-grid{grid-template-columns:1fr 1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .form-row-3{grid-template-columns:1fr;}
+  .topbar h2{font-size:.95rem;}
+}
+
+/* ── ATTENDANCE BARS ── */
+.att-bar-row { display:flex; align-items:center; gap:10px; }
+.att-bar-label { width:160px; flex-shrink:0; font-size:.78rem; font-weight:700; color:rgba(255,255,255,.8); text-align:right; }
+.att-bar-track { flex:1; background:rgba(255,255,255,.06); border-radius:6px; height:28px; overflow:hidden; }
+.att-bar-fill {
+  height:100%; border-radius:6px; display:flex; align-items:center;
+  padding-left:10px; font-size:.75rem; font-weight:900; color:#081225;
+  transition:width .5s ease; min-width:36px; white-space:nowrap;
+}
+.att-bar-gold   { background:linear-gradient(90deg,#d4af37,#f5d76e); }
+.att-bar-blue   { background:linear-gradient(90deg,#4299e1,#63b3ed); }
+.att-bar-green  { background:linear-gradient(90deg,#27ae60,#2ecc71); }
+.att-bar-purple { background:linear-gradient(90deg,#8b5cf6,#a78bfa); }
+.att-bar-orange { background:linear-gradient(90deg,#e67e22,#f39c12); }
+.att-bar-teal   { background:linear-gradient(90deg,#17a589,#1abc9c); }
+.att-bar-gray   { background:linear-gradient(90deg,#636e72,#b2bec3); }
+
+/* ── SCHEDULE EDITOR ── */
+.sched-type-badge {
+  display:inline-block;padding:3px 10px;border-radius:20px;
+  font-size:.7rem;font-weight:700;text-transform:capitalize;
+}
+.sched-type-service    { background:rgba(212,175,55,.15);  color:#d4af37; }
+.sched-type-prayer     { background:rgba(46,204,113,.15);  color:#2ecc71; }
+.sched-type-teaching   { background:rgba(52,152,219,.15);  color:#5dade2; }
+.sched-type-meeting    { background:rgba(255,255,255,.12); color:#ddd; }
+.sched-type-discussion { background:rgba(155,89,182,.15);  color:#c39bd3; }
+.sched-type-free       { background:rgba(231,76,60,.15);   color:#ff8a80; }
+
+/* Edit inline row highlight */
+tr.editing-row td { background:rgba(212,175,55,.06) !important; }
+
+/* Modal overlay for edit */
+.sched-modal-overlay {
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.72);backdrop-filter:blur(6px);
+  z-index:9000;align-items:center;justify-content:center;
+}
+.sched-modal-overlay.open { display:flex; }
+.sched-modal {
+  background:#0f1e38;border:1px solid rgba(212,175,55,.25);
+  border-radius:16px;padding:28px;width:100%;max-width:500px;
+  box-shadow:0 24px 60px rgba(0,0,0,.6);
+}
+.sched-modal h3 {
+  font-family:'Playfair Display',serif;font-size:1.1rem;
+  color:var(--c-gold);margin-bottom:20px;
+  padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.07);
+}
+.sched-modal-actions { display:flex;gap:10px;margin-top:20px;justify-content:flex-end; }
+
+/* Schedule item count chip */
+.sched-count-chip {
+  font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;
+  background:rgba(212,175,55,.12);color:var(--c-gold);border:1px solid rgba(212,175,55,.2);
+}
+
+/* Day group header row */
+.sched-day-row td {
+  background:rgba(212,175,55,.06);
+  color:var(--c-gold);font-weight:900;font-size:.78rem;
+  text-transform:uppercase;letter-spacing:.08em;
+  padding:7px 12px;border-bottom:1px solid rgba(212,175,55,.15) !important;
+}
+</style>
+</head>
+<body>
+
+<div id="adminPanel">
+
+  <!-- ══════════════════════ SIDEBAR ══════════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+    
+<img src="../../css/images/logo1.png" alt="AFC Botswana"/>
+      <h4>Camp Manager</h4>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="sidebar-btn active" data-tab="dashboard">
+        <span>📊</span><span class="btn-label">Dashboard</span>
+      </button>
+      <button class="sidebar-btn" data-tab="registrations">
+        <span>📋</span><span class="btn-label">Registrations</span>
+      </button>
+      <button class="sidebar-btn" data-tab="announcements">
+        <span>📢</span><span class="btn-label">Announcements</span>
+      </button>
+      <button class="sidebar-btn" data-tab="schedule">
+        <span>🗓️</span><span class="btn-label">Schedule</span>
+      </button>
+      <button class="sidebar-btn" data-tab="attendance">
+        <span>✅</span><span class="btn-label">Attendance</span>
+      </button>
+      <button class="sidebar-btn" data-tab="attreport">
+        <span>📈</span><span class="btn-label">Att. Report</span>
+      </button>
+      <button class="sidebar-btn" data-tab="orders">
+        <span>👕</span><span class="btn-label">Orders</span>
+      </button>
+      <button class="sidebar-btn" data-tab="prayers">
+        <span>🙏</span><span class="btn-label">Prayers</span>
+      </button>
+      <button class="sidebar-btn" data-tab="testimonies">
+        <span>✨</span><span class="btn-label">Testimonies</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-btn" id="logoutBtn">
+        <span>🚪</span><span class="btn-label">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ══════════════════════ MAIN ══════════════════════ -->
+  <main class="admin-main">
+
+    <div class="topbar">
+      <h2 id="pageTitle">Dashboard</h2>
+      <div class="topbar-right">
+        <span id="managerEmail" style="font-size:.78rem;color:var(--c-muted);"></span>
+      </div>
+    </div>
+
+    <div class="tab-content">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="atab active" id="atab-dashboard">
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-num" id="ds-regs">—</div>
+            <div class="stat-lbl">Registrations</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="ds-orders">—</div>
+            <div class="stat-lbl">Merch Orders</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="ds-att">—</div>
+            <div class="stat-lbl">Attendance Records</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="ds-testim">—</div>
+            <div class="stat-lbl">Pending Testimonies</div>
+          </div>
+        </div>
+
+        <div class="a-card">
+          <div class="a-card-title">Recent Registrations</div>
+          <div class="a-table-wrap">
+            <table id="dashRecentTable">
+              <thead>
+                <tr>
+                  <th>Name</th><th>Branch</th><th>Phone</th><th>Accom</th><th>Registered</th>
+                </tr>
+              </thead>
+              <tbody id="dashRecentBody">
+                <tr><td colspan="5" class="loading">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── REGISTRATIONS ── -->
+      <div class="atab" id="atab-registrations">
+        <div class="a-card">
+          <div class="a-card-title">
+            <span>All Registrations</span>
+            <button class="btn-outline-sm" id="exportCsvBtn">⬇ Export CSV</button>
+          </div>
+          <div class="search-row">
+            <input class="a-input" id="regSearch" placeholder="🔍  Search name, phone, branch…" style="flex:1;min-width:180px;">
+            <select class="a-select" id="regFilterAccom">
+              <option value="">All — Accommodation</option>
+              <option value="Yes">Needs Accommodation</option>
+              <option value="No">No Accommodation</option>
+            </select>
+            <select class="a-select" id="regFilterWorker">
+              <option value="">All — Worker</option>
+              <option value="Yes">Workers</option>
+              <option value="No">Non-workers</option>
+            </select>
+          </div>
+          <div class="a-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th><th>Name</th><th>Gender</th><th>Age</th><th>Phone</th>
+                  <th>Branch</th><th>Country</th><th>Accom</th><th>Transport</th>
+                  <th>Worker</th><th>Children</th><th>Arrival</th><th>Departure</th>
+                </tr>
+              </thead>
+              <tbody id="regTableBody">
+                <tr><td colspan="13" class="loading">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="regCount" style="font-size:.75rem;color:var(--c-muted);margin-top:10px;"></div>
+        </div>
+      </div>
+
+      <!-- ── ANNOUNCEMENTS ── -->
+      <div class="atab" id="atab-announcements">
+        <div class="a-card">
+          <div class="a-card-title">Post Announcement</div>
+          <div class="form-row">
+            <div class="a-form-group">
+              <label>Title *</label>
+              <input class="a-input" id="annTitle" placeholder="Announcement title">
+            </div>
+            <div class="a-form-group">
+              <label>Priority</label>
+              <select class="a-select a-input" id="annPriority" style="width:100%">
+                <option value="general">🟢 General</option>
+                <option value="transportation">🚌 Transportation</option>
+                <option value="accommodation">🏕️ Accommodation</option>
+                <option value="choir">🎵 Choir</option>
+                <option value="kitchen">🍽️ Kitchen</option>
+                <option value="workers">⚙️ Workers</option>
+              </select>
+            </div>
+          </div>
+          <div class="a-form-group">
+            <label>Body *</label>
+            <textarea class="a-input" id="annBody" rows="4" placeholder="Write the announcement…"></textarea>
+          </div>
+          <button class="btn-gold" id="annPostBtn">📢 Post Announcement</button>
+        </div>
+
+        <div class="a-card">
+          <div class="a-card-title">Posted Announcements</div>
+          <div id="annList"><div class="loading">Loading…</div></div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════
+           ── SCHEDULE EDITOR ──
+      ════════════════════════════════════════════ -->
+      <div class="atab" id="atab-schedule">
+
+        <!-- Add New Item -->
+        <div class="a-card">
+          <div class="a-card-title">Add Schedule Item</div>
+          <div class="form-row-3">
+            <div class="a-form-group">
+              <label>Day *</label>
+              <select class="a-select a-input" id="schedDay" style="width:100%">
+                <option value="">— Select Day —</option>
+                <option>Saturday</option>
+                <option>Sunday</option>
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday (Closing)</option>
+                <option>Sunday (Closing)</option>
+              </select>
+            </div>
+            <div class="a-form-group">
+              <label>Time * (e.g. 10:00)</label>
+              <input class="a-input" id="schedTime" placeholder="10:00" type="time">
+            </div>
+            <div class="a-form-group">
+              <label>Type *</label>
+              <select class="a-select a-input" id="schedType" style="width:100%">
+                <option value="service">Service</option>
+                <option value="prayer">Prayer</option>
+                <option value="teaching">Teaching</option>
+                <option value="meeting">Meeting</option>
+                <option value="discussion">Discussion</option>
+                <option value="free">Free</option>
+              </select>
+            </div>
+          </div>
+          <div class="a-form-group">
+            <label>Activity Name *</label>
+            <input class="a-input" id="schedActivity" placeholder="e.g. Evening Service, Bible Teaching, Workers' Meeting…" style="width:100%">
+          </div>
+          <button class="btn-gold" id="schedAddBtn">➕ Add to Schedule</button>
+        </div>
+
+        <!-- Schedule Table -->
+        <div class="a-card">
+          <div class="a-card-title">
+            <span>Current Schedule <span id="schedCount" class="sched-count-chip">0 items</span></span>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <input class="a-input" id="schedSearch" placeholder="🔍 Search…" style="min-width:160px;">
+              <select class="a-select" id="schedDayFilter">
+                <option value="all">All Days</option>
+              </select>
+              <button class="btn-outline-sm" id="schedResetBtn" title="Load fallback schedule into Firebase">⟳ Load Default Schedule</button>
+            </div>
+          </div>
+
+          <div class="a-table-wrap">
+            <table id="schedTable">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Time</th>
+                  <th>Activity</th>
+                  <th>Type</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="schedTableBody">
+                <tr><td colspan="5" class="loading">Loading schedule…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div><!-- /atab-schedule -->
+
+      <!-- ── ATTENDANCE ── -->
+      <div class="atab" id="atab-attendance">
+
+        <!-- Summary stat boxes -->
+        <div class="stat-grid" id="attStatGrid" style="margin-bottom:20px;">
+          <div class="stat-box"><div class="stat-num" id="att-sessions">—</div><div class="stat-lbl">Sessions Captured</div></div>
+          <div class="stat-box"><div class="stat-num" id="att-total">—</div><div class="stat-lbl">Total Attendees</div></div>
+          <div class="stat-box"><div class="stat-num" id="att-avg">—</div><div class="stat-lbl">Avg per Session</div></div>
+          <div class="stat-box"><div class="stat-num" id="att-visitors">—</div><div class="stat-lbl">Total Visitors</div></div>
+        </div>
+
+        <div class="a-card">
+          <div class="a-card-title">
+            <span>Usher Attendance Records</span>
+            <span id="attRecordCount" style="font-size:.75rem;font-weight:400;color:var(--c-muted);"></span>
+          </div>
+
+          <div class="search-row" style="margin-bottom:14px;">
+            <select class="a-select" id="attFilterService">
+              <option value="">All Services</option>
+              <option>Morning Service</option>
+              <option>Afternoon Service</option>
+              <option>Evening Service</option>
+            </select>
+            <select class="a-select" id="attFilterDate">
+              <option value="">All Dates</option>
+            </select>
+          </div>
+
+          <div class="a-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Service</th>
+                  <th>🧒 Children</th>
+                  <th>👦 Youth</th>
+                  <th>🙋 Adults</th>
+                  <th>🎵 Choir</th>
+                  <th>🍽️ Kitchen</th>
+                  <th>🌍 Visitors</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="attTableBody">
+                <tr><td colspan="9" class="loading">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="a-card">
+          <div class="a-card-title">Group Totals (All Sessions Combined)</div>
+          <div id="attGroupBars" style="display:flex;flex-direction:column;gap:10px;">
+            <div class="loading">Loading…</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── ATTENDANCE REPORT ── -->
+      <div class="atab" id="atab-attreport">
+
+        <div class="a-card">
+          <div class="a-card-title">Attendance by Date</div>
+          <div id="reportDateBars" style="display:flex;flex-direction:column;gap:10px;">
+            <div class="loading">Loading…</div>
+          </div>
+        </div>
+
+        <div class="a-card">
+          <div class="a-card-title">Average per Service Type</div>
+          <div id="reportServiceBars" style="display:flex;flex-direction:column;gap:10px;">
+            <div class="loading">Loading…</div>
+          </div>
+        </div>
+
+        <div class="a-card">
+          <div class="a-card-title">Session Records — Highest &amp; Lowest</div>
+          <div id="reportPeakInfo" class="loading">Loading…</div>
+        </div>
+
+        <div class="a-card">
+          <div class="a-card-title">Full Session Log</div>
+          <div class="a-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th><th>Service</th>
+                  <th>Children</th><th>Youth</th><th>Adults</th>
+                  <th>Choir</th><th>Kitchen</th><th>Visitors</th><th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="reportLogBody">
+                <tr><td colspan="9" class="loading">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── ORDERS ── -->
+      <div class="atab" id="atab-orders">
+        <div class="a-card">
+          <div class="a-card-title">
+            <span>Merch Orders</span>
+          </div>
+          <div class="search-row">
+            <input class="a-input" id="ordSearch" placeholder="🔍  Search name, item…" style="flex:1;">
+            <select class="a-select" id="ordFilter">
+              <option value="">All Statuses</option>
+              <option value="pending">Pending</option>
+              <option value="collected">Collected</option>
+            </select>
+          </div>
+          <div class="a-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th><th>Name</th><th>Phone</th><th>Item</th>
+                  <th>Size</th><th>Qty</th><th>Total</th><th>Pay</th><th>Status</th><th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="ordTableBody">
+                <tr><td colspan="10" class="loading">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="ordSummary" style="font-size:.78rem;color:var(--c-muted);margin-top:10px;"></div>
+        </div>
+      </div>
+
+      <!-- ── PRAYERS ── -->
+      <div class="atab" id="atab-prayers">
+        <div class="a-card">
+          <div class="a-card-title">Prayer Requests</div>
+          <div id="prayerList"><div class="loading">Loading…</div></div>
+        </div>
+      </div>
+
+      <!-- ── TESTIMONIES ── -->
+      <div class="atab" id="atab-testimonies">
+        <div class="a-card">
+          <div class="a-card-title">
+            <span>Testimonies — Pending Review</span>
+            <span id="testimPendingCount" class="badge badge-red" style="display:none;"></span>
+          </div>
+          <div id="testimList"><div class="loading">Loading…</div></div>
+        </div>
+        <div class="a-card">
+          <div class="a-card-title">Published Testimonies</div>
+          <div id="testimPublishedList"><div class="loading">Loading…</div></div>
+        </div>
+      </div>
+
+    </div><!-- /tab-content -->
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<!-- ══════════════ EDIT SCHEDULE MODAL ══════════════ -->
+<div class="sched-modal-overlay" id="schedEditModal">
+  <div class="sched-modal">
+    <h3>✏️ Edit Schedule Item</h3>
+    <input type="hidden" id="editSchedId">
+
+    <div class="form-row">
+      <div class="a-form-group">
+        <label>Day *</label>
+        <select class="a-select a-input" id="editSchedDay" style="width:100%">
+          <option>Saturday</option>
+          <option>Sunday</option>
+          <option>Monday</option>
+          <option>Tuesday</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+          <option>Saturday (Closing)</option>
+          <option>Sunday (Closing)</option>
+        </select>
+      </div>
+      <div class="a-form-group">
+        <label>Time *</label>
+        <input class="a-input" id="editSchedTime" type="time">
+      </div>
+    </div>
+
+    <div class="a-form-group">
+      <label>Activity Name *</label>
+      <input class="a-input" id="editSchedActivity" style="width:100%" placeholder="Activity name">
+    </div>
+
+    <div class="a-form-group">
+      <label>Type *</label>
+      <select class="a-select a-input" id="editSchedType" style="width:100%">
+        <option value="service">Service</option>
+        <option value="prayer">Prayer</option>
+        <option value="teaching">Teaching</option>
+        <option value="meeting">Meeting</option>
+        <option value="discussion">Discussion</option>
+        <option value="free">Free</option>
+      </select>
+    </div>
+
+    <div class="sched-modal-actions">
+      <button class="btn-cancel" id="schedEditCancelBtn">Cancel</button>
+      <button class="btn-gold" id="schedEditSaveBtn">💾 Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SCRIPT ══════════════════════ -->
+<script type="module">
+
+import {
+  auth, db,
+  signOut, onAuthStateChanged,
+  collection, addDoc, getDocs, doc, updateDoc, deleteDoc,
+  query, orderBy, onSnapshot, where, serverTimestamp,
+  CAMP_REGS, CAMP_ORDERS, CAMP_ANN, CAMP_ATT,
+  CAMP_PRAYERS, CAMP_JOURNAL, CAMP_TESTIM, CAMP_SERVICE_ATT
+} from '../camp-firebase.js';
+
+// ── Collection name for schedule ──
+const CAMP_SCHEDULE = 'camp_schedule';
+
+// ── Fallback / default schedule ──
+const DEFAULT_SCHEDULE = [
+  {day:"Saturday",   time:"10:00", activity:"Workers' Meeting",   type:"meeting"},
+  {day:"Saturday",   time:"15:00", activity:"Round Table",         type:"discussion"},
+  {day:"Saturday",   time:"19:00", activity:"Prayer Meeting",      type:"prayer"},
+
+  {day:"Sunday",     time:"08:45", activity:"Sunday School",       type:"service"},
+  {day:"Sunday",     time:"10:30", activity:"Devotional Service",  type:"service"},
+  {day:"Sunday",     time:"14:00", activity:"Youth Service",       type:"service"},
+  {day:"Sunday",     time:"19:00", activity:"Evening Service",     type:"service"},
+
+  {day:"Monday",     time:"10:00", activity:"Bible Teaching",      type:"teaching"},
+  {day:"Monday",     time:"14:00", activity:"Afternoon Service",   type:"service"},
+  {day:"Monday",     time:"19:00", activity:"Evening Service",     type:"service"},
+
+  {day:"Tuesday",    time:"10:00", activity:"Bible Teaching",      type:"teaching"},
+  {day:"Tuesday",    time:"14:00", activity:"Afternoon Service",   type:"service"},
+  {day:"Tuesday",    time:"19:00", activity:"Evening Service",     type:"service"},
+
+  {day:"Wednesday",  time:"10:00", activity:"Bible Teaching",      type:"teaching"},
+  {day:"Wednesday",  time:"14:00", activity:"Afternoon Service",   type:"service"},
+  {day:"Wednesday",  time:"19:00", activity:"Evening Service",     type:"service"},
+
+  {day:"Thursday",   time:"10:00", activity:"Bible Teaching",      type:"teaching"},
+  {day:"Thursday",   time:"14:00", activity:"Afternoon Service",   type:"service"},
+  {day:"Thursday",   time:"19:00", activity:"Evening Service",     type:"service"},
+
+  {day:"Friday",     time:"10:00", activity:"Bible Teaching",      type:"teaching"},
+  {day:"Friday",     time:"14:00", activity:"Afternoon Service",   type:"service"},
+  {day:"Friday",     time:"19:00", activity:"Evening Service",     type:"service"},
+
+  {day:"Saturday (Closing)", time:"10:00", activity:"Ordinances Service", type:"service"},
+  {day:"Saturday (Closing)", time:"14:00", activity:"Free",               type:"free"},
+  {day:"Saturday (Closing)", time:"19:00", activity:"Evening Service",    type:"service"},
+
+  {day:"Sunday (Closing)",   time:"08:45", activity:"Sunday School",      type:"service"},
+  {day:"Sunday (Closing)",   time:"10:30", activity:"Devotional Service", type:"service"},
+];
+
+// ─── DAY ORDER ───────────────────────────────────────
+const DAY_ORDER = [
+  "Saturday","Sunday","Monday","Tuesday","Wednesday",
+  "Thursday","Friday","Saturday (Closing)","Sunday (Closing)"
+];
+
+// ─── SESSIONS CONFIG ────────────────────────────────
+const SESSIONS = [
+  'Sun Morning','Sun Afternoon','Sun Evening',
+  'Mon Morning','Mon Afternoon','Mon Evening',
+  'Tue Morning','Tue Afternoon','Tue Evening',
+  'Wed Morning','Wed Afternoon','Wed Evening',
+  'Thu Morning','Thu Afternoon','Thu Evening',
+  'Fri Morning','Fri Afternoon','Fri Evening',
+  'Sat Morning','Sat Afternoon','Sat Evening',
+];
+
+// ─── HELPERS ────────────────────────────────────────
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function toast(msg, ok=true){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = ok ? 'rgba(13,27,62,.97)' : 'rgba(100,20,20,.97)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+function fmtDate(ts){
+  if(!ts) return '—';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleDateString('en-BW',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+function fmtTime(ts){
+  if(!ts) return '—';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleString('en-BW',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+}
+
+function schedTypeBadge(type){
+  const labels = {
+    service:'Service', prayer:'Prayer', teaching:'Teaching',
+    meeting:'Meeting', discussion:'Discussion', free:'Free Time'
+  };
+  return `<span class="sched-type-badge sched-type-${esc(type)}">${esc(labels[type]||type)}</span>`;
+}
+
+// ─── AUTH GUARD ──────────────────────────────────────
+onAuthStateChanged(auth, user => {
+  if(!user){ window.location.href = 'adminlogin.html'; return; }
+  document.getElementById('managerEmail').textContent = user.email;
+  initAll();
+});
+
+document.getElementById('logoutBtn').onclick = async () => {
+  await signOut(auth);
+  window.location.href = 'adminlogin.html';
+};
+
+// ─── TAB SWITCHING ───────────────────────────────────
+const TAB_LABELS = {
+  dashboard:'Dashboard', registrations:'Registrations',
+  announcements:'Announcements', schedule:'Schedule Editor',
+  attendance:'Attendance', attreport:'Attendance Report',
+  orders:'Orders', prayers:'Prayer Requests', testimonies:'Testimonies'
+};
+
+document.querySelectorAll('.sidebar-btn[data-tab]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.atab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('atab-'+tab).classList.add('active');
+    btn.classList.add('active');
+    document.getElementById('pageTitle').textContent = TAB_LABELS[tab];
+    if (tab === 'dashboard') loadDashboard();
+    if (tab === 'attendance') loadAttendance();
+    if (tab === 'attreport') loadAttendanceReport();
+  });
+});
+
+// ════════════════════════════════════════════════════
+//  INIT ALL
+// ════════════════════════════════════════════════════
+let allRegs   = [];
+let allOrders = [];
+let allAtt    = {};
+
+async function initAll(){
+  loadDashboard();
+  loadRegistrations();
+  loadAnnouncements();
+  loadSchedule();       // ← new
+  loadAttendance();
+  loadOrders();
+  loadPrayers();
+  loadTestimonies();
+  buildSessionPills();
+}
+
+// ════════════════════════════════════════════════════
+//  DASHBOARD
+// ════════════════════════════════════════════════════
+async function loadDashboard(){
+  try {
+    const [regsSnap, ordSnap, attSnap, testimSnap] = await Promise.all([
+      getDocs(collection(db, CAMP_REGS)),
+      getDocs(collection(db, CAMP_ORDERS)),
+      getDocs(collection(db, CAMP_SERVICE_ATT)),
+      getDocs(query(collection(db, CAMP_TESTIM), where('published','==',false))),
+    ]);
+
+    document.getElementById('ds-regs').textContent   = regsSnap.size;
+    document.getElementById('ds-orders').textContent = ordSnap.size;
+    document.getElementById('ds-att').textContent    = attSnap.size;
+    document.getElementById('ds-testim').textContent = testimSnap.size;
+
+    const regs = [];
+    regsSnap.forEach(d => regs.push({id:d.id,...d.data()}));
+    regs.sort((a,b)=> (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    const recent = regs.slice(0,10);
+
+    document.getElementById('dashRecentBody').innerHTML = recent.length
+      ? recent.map(r => `
+          <tr>
+            <td>${esc(r.firstName)} ${esc(r.surname)}</td>
+            <td>${esc(r.branch||'—')}</td>
+            <td>${esc(r.phone||'—')}</td>
+            <td>${r.accom==='Yes'
+              ? '<span class="badge badge-gold">Yes</span>'
+              : '<span class="badge badge-gray">No</span>'}</td>
+            <td>${fmtDate(r.createdAt)}</td>
+          </tr>`).join('')
+      : '<tr><td colspan="5" class="empty-state"><p>No registrations yet.</p></td></tr>';
+
+  } catch(e){ console.error(e); toast('Dashboard load error','err'); }
+}
+
+// ════════════════════════════════════════════════════
+//  REGISTRATIONS
+// ════════════════════════════════════════════════════
+async function loadRegistrations(){
+  try {
+    const snap = await getDocs(query(collection(db, CAMP_REGS), orderBy('createdAt','desc')));
+    allRegs = [];
+    snap.forEach(d => allRegs.push({id:d.id,...d.data()}));
+    renderRegTable(allRegs);
+  } catch(e){ console.error(e); }
+}
+
+function renderRegTable(data){
+  const tbody = document.getElementById('regTableBody');
+  document.getElementById('regCount').textContent = `Showing ${data.length} record${data.length!==1?'s':''}`;
+
+  if(!data.length){
+    tbody.innerHTML = `<tr><td colspan="13"><div class="empty-state"><div class="empty-icon">📋</div><p>No registrations found.</p></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map((r,i) => `
+    <tr>
+      <td style="color:var(--c-muted)">${i+1}</td>
+      <td><strong>${esc(r.firstName)} ${esc(r.surname)}</strong></td>
+      <td>${esc(r.gender||'—')}</td>
+      <td>${esc(r.age||'—')}</td>
+      <td>${esc(r.phone||'—')}</td>
+      <td>${esc(r.branch||'—')}</td>
+      <td>${esc(r.country||'—')}</td>
+      <td>${r.accom==='Yes'
+        ? '<span class="badge badge-gold">Yes</span>'
+        : '<span class="badge badge-gray">No</span>'}</td>
+      <td>${r.transport==='Yes'
+        ? '<span class="badge badge-blue">Yes</span>'
+        : '<span class="badge badge-gray">No</span>'}</td>
+      <td>${r.worker==='Yes'
+        ? '<span class="badge badge-green">Worker</span>'
+        : '<span class="badge badge-gray">No</span>'}</td>
+      <td>${esc(r.children||'0')}</td>
+      <td>${esc(r.arrival||'—')}</td>
+      <td>${esc(r.departure||'—')}</td>
+    </tr>`).join('');
+}
+
+function filterRegs(){
+  const q   = document.getElementById('regSearch').value.toLowerCase();
+  const acc = document.getElementById('regFilterAccom').value;
+  const wkr = document.getElementById('regFilterWorker').value;
+  const filtered = allRegs.filter(r => {
+    const name = `${r.firstName||''} ${r.surname||''} ${r.phone||''} ${r.branch||''}`.toLowerCase();
+    return (!q || name.includes(q))
+      && (!acc || r.accom === acc)
+      && (!wkr || r.worker === wkr);
+  });
+  renderRegTable(filtered);
+}
+document.getElementById('regSearch').addEventListener('input', filterRegs);
+document.getElementById('regFilterAccom').addEventListener('change', filterRegs);
+document.getElementById('regFilterWorker').addEventListener('change', filterRegs);
+
+document.getElementById('exportCsvBtn').addEventListener('click', () => {
+  const headers = ['First Name','Surname','Gender','Age','Phone','Email','Branch','Country',
+    'Accommodation','Transport','Worker','Volunteer','Children','Guest','Arrival','Departure',
+    'Dietary','Emergency','Notes'];
+  const fields  = ['firstName','surname','gender','age','phone','email','branch','country',
+    'accom','transport','worker','volunteer','children','guest','arrival','departure',
+    'dietary','emergency','notes'];
+
+  const rows = [headers, ...allRegs.map(r => fields.map(f => `"${String(r[f]||'').replace(/"/g,'""')}"`) )];
+  const csv = rows.map(r=>r.join(',')).join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const url  = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='camp_registrations.csv'; a.click();
+  URL.revokeObjectURL(url);
+  toast('CSV exported ✓');
+});
+
+// ════════════════════════════════════════════════════
+//  ANNOUNCEMENTS
+// ════════════════════════════════════════════════════
+async function loadAnnouncements(){
+  onSnapshot(
+    query(collection(db, CAMP_ANN), orderBy('timestamp','desc')),
+    snap => {
+      const el = document.getElementById('annList');
+      if(snap.empty){
+        el.innerHTML = `<div class="empty-state"><div class="empty-icon">📢</div><p>No announcements yet.</p></div>`;
+        return;
+      }
+      const colors = {high:'#e05252', medium:'#f2d06b', normal:'#2ecc71'};
+      el.innerHTML = snap.docs.map(d => {
+        const a = d.data();
+        const col = colors[a.priority||'normal'];
+        return `
+          <div class="ann-card">
+            <div class="ann-priority-bar" style="background:${col}"></div>
+            <div class="ann-body">
+              <div class="ann-title">${esc(a.title)}</div>
+              <div class="ann-text">${esc(a.body)}</div>
+              <div class="ann-meta">${fmtTime(a.createdAt)} · ${a.priority||'normal'} priority</div>
+            </div>
+            <button class="btn-delete btn-action" data-id="${d.id}">Delete</button>
+          </div>`;
+      }).join('');
+
+      el.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.onclick = () => deleteAnnouncement(btn.dataset.id);
+      });
+    }
+  );
+}
+
+document.getElementById('annPostBtn').addEventListener('click', async () => {
+  const title    = document.getElementById('annTitle').value.trim();
+  const body     = document.getElementById('annBody').value.trim();
+  const priority = document.getElementById('annPriority').value;
+  if(!title || !body){ toast('Title and body are required.', false); return; }
+
+  const btn = document.getElementById('annPostBtn');
+  btn.disabled = true; btn.textContent = 'Posting…';
+  try {
+    await addDoc(collection(db, CAMP_ANN), {
+      title, body, priority,
+      timestamp: serverTimestamp(),
+      createdAt: new Date().toLocaleString('en-BW')
+    });
+    document.getElementById('annTitle').value = '';
+    document.getElementById('annBody').value  = '';
+    toast('Announcement posted ✓');
+  } catch(e){ toast('Error: '+e.message, false); }
+  btn.disabled = false; btn.textContent = '📢 Post Announcement';
+});
+
+async function deleteAnnouncement(id){
+  if(!confirm('Delete this announcement?')) return;
+  try { await deleteDoc(doc(db, CAMP_ANN, id)); toast('Deleted ✓'); }
+  catch(e){ toast('Error: '+e.message, false); }
+}
+
+// ════════════════════════════════════════════════════
+//  SCHEDULE EDITOR
+// ════════════════════════════════════════════════════
+let allScheduleItems = [];   // { id, day, time, activity, type }
+let schedUnsubscribe = null;
+
+function loadSchedule(){
+  // Live listener — updates instantly when public site reads changes
+  if(schedUnsubscribe) schedUnsubscribe();
+  schedUnsubscribe = onSnapshot(
+    collection(db, CAMP_SCHEDULE),
+    snap => {
+      if(snap.empty){
+        allScheduleItems = [];
+      } else {
+        allScheduleItems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      }
+      populateSchedDayFilter();
+      renderSchedTable();
+    },
+    err => { console.error('Schedule error:', err); toast('Schedule load error', false); }
+  );
+}
+
+function sortScheduleItems(items){
+  return [...items].sort((a, b) => {
+    const di = DAY_ORDER.indexOf(a.day) - DAY_ORDER.indexOf(b.day);
+    if(di !== 0) return di;
+    return (a.time||'').localeCompare(b.time||'');
+  });
+}
+
+function populateSchedDayFilter(){
+  const sel = document.getElementById('schedDayFilter');
+  const current = sel.value;
+  // Rebuild options
+  sel.innerHTML = '<option value="all">All Days</option>';
+  const days = [...new Set(allScheduleItems.map(x => x.day))];
+  days.sort((a,b) => DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b));
+  days.forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d; opt.textContent = d;
+    sel.appendChild(opt);
+  });
+  if(current) sel.value = current;
+}
+
+function getFilteredSchedItems(){
+  const q   = document.getElementById('schedSearch').value.toLowerCase();
+  const day = document.getElementById('schedDayFilter').value;
+  return sortScheduleItems(
+    allScheduleItems.filter(item =>
+      (day === 'all' || item.day === day) &&
+      (!q || item.activity.toLowerCase().includes(q) || item.type.toLowerCase().includes(q) || item.day.toLowerCase().includes(q))
+    )
+  );
+}
+
+function renderSchedTable(){
+  const items  = getFilteredSchedItems();
+  const tbody  = document.getElementById('schedTableBody');
+  const countEl = document.getElementById('schedCount');
+  countEl.textContent = `${allScheduleItems.length} item${allScheduleItems.length!==1?'s':''}`;
+
+  if(!items.length){
+    tbody.innerHTML = `
+      <tr><td colspan="5">
+        <div class="empty-state">
+          <div class="empty-icon">🗓️</div>
+          <p>${allScheduleItems.length === 0
+            ? 'No schedule in Firebase yet. Click "Load Default Schedule" to populate it.'
+            : 'No items match this filter.'}</p>
+        </div>
+      </td></tr>`;
+    return;
+  }
+
+  // Group by day for visual separation
+  let currentDay = null;
+  let html = '';
+  items.forEach(item => {
+    if(item.day !== currentDay){
+      currentDay = item.day;
+      html += `<tr class="sched-day-row"><td colspan="5">📅 ${esc(item.day)}</td></tr>`;
+    }
+    html += `
+      <tr data-sched-id="${esc(item.id)}">
+        <td style="color:var(--c-muted);font-size:.75rem;">${esc(item.day)}</td>
+        <td><strong style="color:var(--c-gold);letter-spacing:.03em;">${esc(item.time)}</strong></td>
+        <td>${esc(item.activity)}</td>
+        <td>${schedTypeBadge(item.type)}</td>
+        <td style="text-align:right;white-space:nowrap;">
+          <button class="btn-edit btn-action sched-edit-btn" data-id="${esc(item.id)}" style="margin-right:6px;">✏️ Edit</button>
+          <button class="btn-delete btn-action sched-del-btn" data-id="${esc(item.id)}">🗑 Delete</button>
+        </td>
+      </tr>`;
+  });
+  tbody.innerHTML = html;
+
+  // Wire edit buttons
+  tbody.querySelectorAll('.sched-edit-btn').forEach(btn => {
+    btn.onclick = () => openEditModal(btn.dataset.id);
+  });
+  // Wire delete buttons
+  tbody.querySelectorAll('.sched-del-btn').forEach(btn => {
+    btn.onclick = () => deleteSchedItem(btn.dataset.id);
+  });
+}
+
+// ── SEARCH / FILTER wiring ──
+document.getElementById('schedSearch').addEventListener('input',    renderSchedTable);
+document.getElementById('schedDayFilter').addEventListener('change', renderSchedTable);
+
+// ── ADD NEW ITEM ──
+document.getElementById('schedAddBtn').addEventListener('click', async () => {
+  const day      = document.getElementById('schedDay').value;
+  const time     = document.getElementById('schedTime').value.trim();
+  const activity = document.getElementById('schedActivity').value.trim();
+  const type     = document.getElementById('schedType').value;
+
+  if(!day || !time || !activity){
+    toast('Day, time, and activity name are required.', false);
+    return;
+  }
+
+  const btn = document.getElementById('schedAddBtn');
+  btn.disabled = true; btn.textContent = 'Adding…';
+
+  try {
+    await addDoc(
+  collection(db, CAMP_SCHEDULE),
+  {
+    day,
+    time,
+    activity,
+    type,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp()
+  }
+);
+    // Reset form
+    document.getElementById('schedDay').value      = '';
+    document.getElementById('schedTime').value     = '';
+    document.getElementById('schedActivity').value = '';
+    document.getElementById('schedType').value     = 'service';
+    toast('Schedule item added ✓');
+  } catch(e){ toast('Error: '+e.message, false); }
+
+  btn.disabled = false; btn.textContent = '➕ Add to Schedule';
+});
+
+// ── DELETE ──
+async function deleteSchedItem(id){
+  if(!confirm('Remove this item from the schedule?')) return;
+  try {
+    await deleteDoc(doc(db, CAMP_SCHEDULE, id));
+    toast('Removed ✓');
+  } catch(e){ toast('Error: '+e.message, false); }
+}
+
+// ── EDIT MODAL ──
+function openEditModal(id){
+  const item = allScheduleItems.find(x => x.id === id);
+  if(!item) return;
+
+  document.getElementById('editSchedId').value       = id;
+  document.getElementById('editSchedDay').value      = item.day;
+  document.getElementById('editSchedTime').value     = item.time;
+  document.getElementById('editSchedActivity').value = item.activity;
+  document.getElementById('editSchedType').value     = item.type;
+
+  document.getElementById('schedEditModal').classList.add('open');
+}
+
+document.getElementById('schedEditCancelBtn').onclick = () => {
+  document.getElementById('schedEditModal').classList.remove('open');
+};
+
+// Close on backdrop click
+document.getElementById('schedEditModal').addEventListener('click', e => {
+  if(e.target === document.getElementById('schedEditModal'))
+    document.getElementById('schedEditModal').classList.remove('open');
+});
+
+document.getElementById('schedEditSaveBtn').addEventListener('click', async () => {
+  const id       = document.getElementById('editSchedId').value;
+  const day      = document.getElementById('editSchedDay').value;
+  const time     = document.getElementById('editSchedTime').value.trim();
+  const activity = document.getElementById('editSchedActivity').value.trim();
+  const type     = document.getElementById('editSchedType').value;
+
+  if(!day || !time || !activity){
+    toast('All fields are required.', false); return;
+  }
+
+  const btn = document.getElementById('schedEditSaveBtn');
+  btn.disabled = true; btn.textContent = 'Saving…';
+
+  try {
+    await updateDoc(doc(db, CAMP_SCHEDULE, id), { day, time, activity, type });
+    document.getElementById('schedEditModal').classList.remove('open');
+    toast('Schedule updated ✓');
+  } catch(e){ toast('Error: '+e.message, false); }
+
+  btn.disabled = false; btn.textContent = '💾 Save Changes';
+});
+
+// ── LOAD DEFAULT SCHEDULE ──
+document.getElementById('schedResetBtn').addEventListener('click', async () => {
+  if(!confirm(
+    `This will add all ${DEFAULT_SCHEDULE.length} default items to Firebase.\n\n` +
+    `Existing items will NOT be deleted — only new ones are added.\n\nContinue?`
+  )) return;
+
+  const btn = document.getElementById('schedResetBtn');
+  btn.disabled = true; btn.textContent = 'Loading…';
+
+  try {
+    let added = 0;
+    for(const item of DEFAULT_SCHEDULE){
+      await addDoc(collection(db, CAMP_SCHEDULE), item);
+      added++;
+    }
+    toast(`✓ ${added} default items added to schedule`);
+  } catch(e){ toast('Error: '+e.message, false); }
+
+  btn.disabled = false; btn.textContent = '⟳ Load Default Schedule';
+});
+
+// ════════════════════════════════════════════════════
+//  ATTENDANCE
+// ════════════════════════════════════════════════════
+let currentSession = null;
+let attDataForSession = {};
+
+function buildSessionPills(){
+  const container = document.getElementById('sessionPills');
+  if(!container) return;
+  container.innerHTML = SESSIONS.map(s =>
+    `<button class="session-pill" data-session="${esc(s)}">${esc(s)}</button>`
+  ).join('');
+  container.querySelectorAll('.session-pill').forEach(p => {
+    p.onclick = () => selectSession(p.dataset.session, p);
+  });
+}
+
+async function selectSession(session, pillEl){
+  currentSession = session;
+  document.querySelectorAll('.session-pill').forEach(p=>p.classList.remove('active'));
+  pillEl.classList.add('active');
+  await loadAttList(session);
+}
+
+async function loadAttList(session){
+  const listEl = document.getElementById('attList');
+  if(!listEl) return;
+  listEl.innerHTML = '<div class="loading">Loading registrants…</div>';
+
+  const attSnap = await getDocs(query(collection(db, CAMP_ATT), where('session','==',session)));
+  attDataForSession = {};
+  attSnap.forEach(d => { attDataForSession[d.data().registrantId] = d.id; });
+
+  renderAttList(allRegs, '');
+}
+
+function renderAttList(regs, searchQ){
+  const listEl = document.getElementById('attList');
+  if(!listEl) return;
+  const filtered = regs.filter(r => {
+    if(!searchQ) return true;
+    return `${r.firstName} ${r.surname} ${r.branch||''}`.toLowerCase().includes(searchQ);
+  });
+
+  const presentCount = filtered.filter(r => attDataForSession[r.id]).length;
+  const countLabel = document.getElementById('attCountLabel');
+  if(countLabel) countLabel.textContent = currentSession ? `${presentCount} / ${filtered.length} present` : '';
+
+  if(!filtered.length){
+    listEl.innerHTML = '<div class="empty-state"><p>No registrants found.</p></div>';
+    return;
+  }
+  listEl.innerHTML = filtered.map(r => {
+    const present = !!attDataForSession[r.id];
+    return `
+      <div class="att-person ${present?'present':''}" data-rid="${r.id}">
+        <div>
+          <div class="att-name">${esc(r.firstName)} ${esc(r.surname)}</div>
+          <div class="att-branch">${esc(r.branch||'')}</div>
+        </div>
+        <span class="att-check">${present?'✅':'⬜'}</span>
+      </div>`;
+  }).join('');
+
+  listEl.querySelectorAll('.att-person').forEach(card => {
+    card.onclick = () => toggleAttendance(card.dataset.rid, card);
+  });
+}
+
+async function toggleAttendance(registrantId, cardEl){
+  if(!currentSession){ toast('Select a session first.', false); return; }
+  const isPresent = !!attDataForSession[registrantId];
+  try {
+    if(isPresent){
+      await deleteDoc(doc(db, CAMP_ATT, attDataForSession[registrantId]));
+      delete attDataForSession[registrantId];
+      cardEl.classList.remove('present');
+      cardEl.querySelector('.att-check').textContent = '⬜';
+    } else {
+      const reg = allRegs.find(r=>r.id===registrantId);
+      const newDoc = await addDoc(collection(db, CAMP_ATT),{
+        registrantId,
+        session: currentSession,
+        name: `${reg.firstName} ${reg.surname}`,
+        branch: reg.branch||'',
+        markedAt: serverTimestamp()
+      });
+      attDataForSession[registrantId] = newDoc.id;
+      cardEl.classList.add('present');
+      cardEl.querySelector('.att-check').textContent = '✅';
+    }
+    const searchEl = document.getElementById('attSearch');
+    const searchQ = searchEl ? searchEl.value.toLowerCase() : '';
+    const filtered = allRegs.filter(r =>
+      `${r.firstName} ${r.surname} ${r.branch||''}`.toLowerCase().includes(searchQ));
+    const presentCount = filtered.filter(r => attDataForSession[r.id]).length;
+    const countLabel = document.getElementById('attCountLabel');
+    if(countLabel) countLabel.textContent = `${presentCount} / ${filtered.length} present`;
+  } catch(e){ toast('Error: '+e.message, false); }
+}
+
+const attSearchEl = document.getElementById('attSearch');
+if(attSearchEl) attSearchEl.addEventListener('input', function(){
+  if(!currentSession) return;
+  renderAttList(allRegs, this.value.toLowerCase());
+});
+
+// ════════════════════════════════════════════════════
+//  ATTENDANCE — Usher service records
+// ════════════════════════════════════════════════════
+let allServiceAtt = [];
+
+async function loadAttendance(){
+  try {
+    const snap = await getDocs(collection(db, CAMP_SERVICE_ATT));
+    allServiceAtt = snap.docs
+      .map(d => ({ id:d.id, ...d.data() }))
+      .sort((a,b) => {
+        if(b.date !== a.date) return b.date.localeCompare(a.date);
+        const order = {'Morning Service':0,'Afternoon Service':1,'Evening Service':2};
+        return (order[a.service]??9) - (order[b.service]??9);
+      });
+
+    populateAttDateFilter();
+    renderAttTable();
+    renderAttStats();
+    renderAttGroupBars(allServiceAtt);
+  } catch(e){ console.error('Attendance load error:', e); }
+}
+
+function populateAttDateFilter(){
+  const sel = document.getElementById('attFilterDate');
+  const existing = new Set(Array.from(sel.options).map(o=>o.value));
+  const dates = [...new Set(allServiceAtt.map(r=>r.date))].sort().reverse();
+  dates.forEach(d=>{
+    if(!existing.has(d)){
+      const opt = document.createElement('option');
+      opt.value=d; opt.textContent=d; sel.appendChild(opt);
+    }
+  });
+}
+
+function getFilteredAtt(){
+  const svc  = document.getElementById('attFilterService').value;
+  const date = document.getElementById('attFilterDate').value;
+  return allServiceAtt.filter(r =>
+    (!svc  || r.service === svc) &&
+    (!date || r.date    === date)
+  );
+}
+
+function renderAttStats(){
+  const data = allServiceAtt;
+  const total    = data.reduce((s,r)=>s+(r.total||0),0);
+  const avg      = data.length ? Math.round(total/data.length) : 0;
+  const visitors = data.reduce((s,r)=>s+(r.visitors||0),0);
+  document.getElementById('att-sessions').textContent = data.length;
+  document.getElementById('att-total').textContent    = total.toLocaleString();
+  document.getElementById('att-avg').textContent      = avg;
+  document.getElementById('att-visitors').textContent = visitors;
+}
+
+function renderAttTable(){
+  const filtered = getFilteredAtt();
+  document.getElementById('attRecordCount').textContent =
+    `${filtered.length} record${filtered.length!==1?'s':''}`;
+
+  const tbody = document.getElementById('attTableBody');
+  if(!filtered.length){
+    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state"><p>No records match this filter.</p></div></td></tr>`;
+    return;
+  }
+
+  const svcBadge = s =>
+    s==='Morning Service'   ? 'badge-gold'
+  : s==='Afternoon Service' ? 'badge-blue'
+  : 'badge-green';
+
+  tbody.innerHTML = filtered.map(r=>`
+    <tr>
+      <td>${r.date||'—'}</td>
+      <td><span class="badge ${svcBadge(r.service)}">${r.service||'—'}</span></td>
+      <td>${r.children ||0}</td>
+      <td>${r.youth    ||0}</td>
+      <td>${r.adults   ||0}</td>
+      <td>${r.choir    ||0}</td>
+      <td>${r.kitchen  ||0}</td>
+      <td>${r.visitors ||0}</td>
+      <td><strong style="color:var(--c-gold)">${r.total||0}</strong></td>
+    </tr>`).join('');
+}
+
+function renderAttGroupBars(data){
+  const groups = [
+    { key:'children', label:'🧒 Children', cls:'att-bar-gold'   },
+    { key:'youth',    label:'👦 Youth',    cls:'att-bar-blue'   },
+    { key:'adults',   label:'🙋 Adults',   cls:'att-bar-green'  },
+    { key:'choir',    label:'🎵 Choir',    cls:'att-bar-purple' },
+    { key:'kitchen',  label:'🍽️ Kitchen',  cls:'att-bar-orange' },
+    { key:'visitors', label:'🌍 Visitors', cls:'att-bar-teal'   },
+  ];
+  const totals = groups.map(g=>({ ...g, total: data.reduce((s,r)=>s+(r[g.key]||0),0) }));
+  const max = Math.max(...totals.map(g=>g.total), 1);
+
+  const el = document.getElementById('attGroupBars');
+  if(!data.length){
+    el.innerHTML='<div class="empty-state"><p>No data yet.</p></div>'; return;
+  }
+  el.innerHTML = totals.map(g=>`
+    <div class="att-bar-row">
+      <div class="att-bar-label">${g.label}</div>
+      <div class="att-bar-track">
+        <div class="att-bar-fill ${g.cls}" style="width:${Math.round((g.total/max)*100)}%">${g.total}</div>
+      </div>
+    </div>`).join('');
+}
+
+document.getElementById('attFilterService').addEventListener('change', renderAttTable);
+document.getElementById('attFilterDate').addEventListener('change', renderAttTable);
+
+// ════════════════════════════════════════════════════
+//  ATTENDANCE REPORT
+// ════════════════════════════════════════════════════
+async function loadAttendanceReport(){
+  try {
+    const snap = await getDocs(collection(db, CAMP_SERVICE_ATT));
+    allServiceAtt = snap.docs.map(d=>({id:d.id,...d.data()}));
+  } catch(e){ console.error(e); return; }
+
+  const data = allServiceAtt;
+
+  if(!data.length){
+    ['reportDateBars','reportServiceBars','reportPeakInfo','reportLogBody'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.innerHTML='<div class="empty-state"><div class="empty-icon">📈</div><p>No data yet — the usher needs to capture some sessions first.</p></div>';
+    });
+    return;
+  }
+
+  const byDate = {};
+  data.forEach(r=>{ byDate[r.date]=(byDate[r.date]||0)+(r.total||0); });
+  const dates  = Object.keys(byDate).sort();
+  const dVals  = dates.map(d=>byDate[d]);
+  const dMax   = Math.max(...dVals,1);
+  document.getElementById('reportDateBars').innerHTML = dates.map((d,i)=>`
+    <div class="att-bar-row">
+      <div class="att-bar-label">${d}</div>
+      <div class="att-bar-track">
+        <div class="att-bar-fill att-bar-gold" style="width:${Math.round((dVals[i]/dMax)*100)}%">${dVals[i]}</div>
+      </div>
+    </div>`).join('');
+
+  const SVCS = ['Morning Service','Afternoon Service','Evening Service'];
+  const SCLS = ['att-bar-gold','att-bar-blue','att-bar-green'];
+  const svcData = SVCS.map((svc,i)=>{
+    const recs = data.filter(r=>r.service===svc);
+    const avg  = recs.length ? Math.round(recs.reduce((s,r)=>s+(r.total||0),0)/recs.length) : 0;
+    return { label:svc.replace(' Service',''), avg, count:recs.length, cls:SCLS[i] };
+  }).filter(d=>d.count>0);
+  const sMax = Math.max(...svcData.map(d=>d.avg),1);
+  document.getElementById('reportServiceBars').innerHTML = svcData.length
+    ? svcData.map(d=>`
+        <div class="att-bar-row">
+          <div class="att-bar-label">${d.label}</div>
+          <div class="att-bar-track">
+            <div class="att-bar-fill ${d.cls}" style="width:${Math.round((d.avg/sMax)*100)}%">
+              avg ${d.avg} · ${d.count} session${d.count!==1?'s':''}
+            </div>
+          </div>
+        </div>`).join('')
+    : '<div class="empty-state"><p>No data.</p></div>';
+
+  const sorted = [...data].sort((a,b)=>(b.total||0)-(a.total||0));
+  const peak   = sorted[0];
+  const lowest = sorted[sorted.length-1];
+  document.getElementById('reportPeakInfo').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:center;padding:10px 0;">
+      <div>
+        <div style="font-size:.7rem;color:var(--c-muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">🏆 Highest</div>
+        <div style="font-size:1.8rem;font-weight:900;color:var(--c-gold);">${peak.total||0}</div>
+        <div style="font-size:.76rem;color:rgba(255,255,255,.7);margin-top:4px;">${peak.date} · ${peak.service}</div>
+      </div>
+      <div>
+        <div style="font-size:.7rem;color:var(--c-muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">📉 Lowest</div>
+        <div style="font-size:1.8rem;font-weight:900;color:#63b3ed;">${lowest.total||0}</div>
+        <div style="font-size:.76rem;color:rgba(255,255,255,.7);margin-top:4px;">${lowest.date} · ${lowest.service}</div>
+      </div>
+    </div>`;
+
+  const svcBadge = s =>
+    s==='Morning Service'   ? 'badge-gold'
+  : s==='Afternoon Service' ? 'badge-blue'
+  : 'badge-green';
+  document.getElementById('reportLogBody').innerHTML = [...data]
+    .sort((a,b)=>a.date.localeCompare(b.date))
+    .map(r=>`
+      <tr>
+        <td>${r.date||'—'}</td>
+        <td><span class="badge ${svcBadge(r.service)}">${r.service||'—'}</span></td>
+        <td>${r.children ||0}</td>
+        <td>${r.youth    ||0}</td>
+        <td>${r.adults   ||0}</td>
+        <td>${r.choir    ||0}</td>
+        <td>${r.kitchen  ||0}</td>
+        <td>${r.visitors ||0}</td>
+        <td><strong style="color:var(--c-gold)">${r.total||0}</strong></td>
+      </tr>`).join('');
+}
+
+// ════════════════════════════════════════════════════
+//  ORDERS
+// ════════════════════════════════════════════════════
+async function loadOrders(){
+  try {
+    const snap = await getDocs(query(collection(db, CAMP_ORDERS), orderBy('createdAt','desc')));
+    allOrders = [];
+    snap.forEach(d => allOrders.push({id:d.id,...d.data()}));
+    renderOrders(allOrders);
+  } catch(e){
+    try {
+      const snap = await getDocs(collection(db, CAMP_ORDERS));
+      allOrders = [];
+      snap.forEach(d => allOrders.push({id:d.id,...d.data()}));
+      renderOrders(allOrders);
+    } catch(e2){ console.error(e2); }
+  }
+}
+
+function renderOrders(data){
+  const tbody = document.getElementById('ordTableBody');
+  const search = document.getElementById('ordSearch').value.toLowerCase();
+  const statusFilter = document.getElementById('ordFilter').value;
+  const filtered = data.filter(o => {
+    const text = `${o.name||''} ${o.item||''} ${o.phone||''}`.toLowerCase();
+    return (!search || text.includes(search)) && (!statusFilter || (o.status||'pending')===statusFilter);
+  });
+
+  const pending   = filtered.filter(o => (o.status||'pending')==='pending').length;
+  const collected = filtered.filter(o => o.status==='collected').length;
+  document.getElementById('ordSummary').textContent =
+    `${filtered.length} orders — ${pending} pending · ${collected} collected`;
+
+  if(!filtered.length){
+    tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state"><div class="empty-icon">👕</div><p>No orders found.</p></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = filtered.map((o,i) => {
+    const status = o.status||'pending';
+    return `
+      <tr>
+        <td style="color:var(--c-muted)">${i+1}</td>
+        <td><strong>${esc(o.name||'—')}</strong></td>
+        <td>${esc(o.phone||'—')}</td>
+        <td>${esc(o.item||'—')}</td>
+        <td>${esc(o.size||'—')}</td>
+        <td>${esc(o.qty||'—')}</td>
+        <td>P${esc(o.total||'0')}</td>
+        <td>${esc(o.payMethod||'—')}</td>
+        <td>${status==='collected'
+          ? '<span class="badge badge-green">Collected</span>'
+          : '<span class="badge badge-gold">Pending</span>'}</td>
+        <td>
+          ${status!=='collected'
+            ? `<button class="btn-approve btn-action" data-id="${o.id}">✓ Collected</button>`
+            : `<button class="btn-delete btn-action" data-id="${o.id}" data-action="uncollect">↩ Undo</button>`}
+        </td>
+      </tr>`;
+  }).join('');
+
+  tbody.querySelectorAll('.btn-approve').forEach(b => {
+    b.onclick = () => setOrderStatus(b.dataset.id, 'collected');
+  });
+  tbody.querySelectorAll('[data-action="uncollect"]').forEach(b => {
+    b.onclick = () => setOrderStatus(b.dataset.id, 'pending');
+  });
+}
+
+async function setOrderStatus(id, status){
+  try {
+    await updateDoc(doc(db, CAMP_ORDERS, id), {status});
+    const o = allOrders.find(o=>o.id===id);
+    if(o) o.status = status;
+    renderOrders(allOrders);
+    toast(`Order marked as ${status} ✓`);
+  } catch(e){ toast('Error: '+e.message, false); }
+}
+
+document.getElementById('ordSearch').addEventListener('input',  () => renderOrders(allOrders));
+document.getElementById('ordFilter').addEventListener('change', () => renderOrders(allOrders));
+
+// ════════════════════════════════════════════════════
+//  PRAYERS
+// ════════════════════════════════════════════════════
+async function loadPrayers(){
+  try {
+    const snap = await getDocs(query(collection(db, CAMP_PRAYERS), orderBy('createdAt','desc')));
+    const el = document.getElementById('prayerList');
+    if(snap.empty){
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🙏</div><p>No prayer requests yet.</p></div>`;
+      return;
+    }
+    el.innerHTML = snap.docs.map(d => {
+      const p = d.data();
+      return `
+        <div class="review-card">
+          <div class="review-card-header">
+            <div>
+              <div class="review-card-name">${esc(p.name||'Anonymous')}</div>
+              <div class="review-card-meta">${fmtDate(p.createdAt)} · ${esc(p.branch||'')}</div>
+            </div>
+            <button class="btn-delete btn-action" data-id="${d.id}">Delete</button>
+          </div>
+          <div class="review-card-body">${esc(p.request||p.body||'').replace(/\n/g,'<br>')}</div>
+        </div>`;
+    }).join('');
+
+    el.querySelectorAll('.btn-delete').forEach(btn => {
+      btn.onclick = async () => {
+        if(!confirm('Delete this prayer request?')) return;
+        try { await deleteDoc(doc(db, CAMP_PRAYERS, btn.dataset.id)); loadPrayers(); toast('Deleted ✓'); }
+        catch(e){ toast('Error: '+e.message, false); }
+      };
+    });
+  } catch(e){ console.error(e); }
+}
+
+// ════════════════════════════════════════════════════
+//  TESTIMONIES
+// ════════════════════════════════════════════════════
+function loadTestimonies(){
+  onSnapshot(
+    query(collection(db, CAMP_TESTIM), orderBy('timestamp','desc')),
+    snap => {
+      const pending   = snap.docs.filter(d => !d.data().published);
+      const published = snap.docs.filter(d =>  d.data().published);
+
+      const badge = document.getElementById('testimPendingCount');
+      if(pending.length){
+        badge.textContent    = pending.length + ' pending';
+        badge.style.display  = 'inline-block';
+      } else {
+        badge.style.display  = 'none';
+      }
+
+      const pendingEl = document.getElementById('testimList');
+      if(pending.length){
+        pendingEl.innerHTML = pending.map(d => testimCard(d, false)).join('');
+        pendingEl.querySelectorAll('.btn-approve').forEach(b => {
+          b.onclick = () => approveTestimony(b.dataset.id);
+        });
+        pendingEl.querySelectorAll('.btn-delete').forEach(b => {
+          b.onclick = () => deleteTestimony(b.dataset.id);
+        });
+      } else {
+        pendingEl.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">✨</div>
+            <p>No pending testimonies — all caught up!</p>
+          </div>`;
+      }
+
+      const publishedEl = document.getElementById('testimPublishedList');
+      if(published.length){
+        publishedEl.innerHTML = published.map(d => testimCard(d, true)).join('');
+        publishedEl.querySelectorAll('.btn-delete').forEach(b => {
+          b.onclick = () => deleteTestimony(b.dataset.id);
+        });
+        publishedEl.querySelectorAll('[data-action="unpublish"]').forEach(b => {
+          b.onclick = () => unpublishTestimony(b.dataset.id);
+        });
+      } else {
+        publishedEl.innerHTML = `<div class="empty-state"><p>No published testimonies yet.</p></div>`;
+      }
+    },
+    err => { console.error('Testimonies error:', err); toast('Could not load testimonies: ' + err.message, false); }
+  );
+}
+
+function testimCard(d, isPublished){
+  const t = d.data();
+  return `
+    <div class="review-card">
+      <div class="review-card-header">
+        <div>
+          <div class="review-card-name">
+            ${esc(t.displayName || t.name || 'Anonymous')}
+            ${t.anonymous ? '<span class="badge badge-gray" style="margin-left:6px;font-size:.62rem;">Anonymous</span>' : ''}
+          </div>
+          <div class="review-card-meta">
+            ${esc(t.branch || '—')} · ${fmtDate(t.timestamp)}
+            ${t.submittedAt ? `<span style="margin-left:6px;color:var(--c-muted);">(submitted ${esc(t.submittedAt)})</span>` : ''}
+          </div>
+          ${t.title ? `<div style="font-size:.8rem;color:var(--c-gold);margin-top:4px;font-weight:700;">${esc(t.title)}</div>` : ''}
+        </div>
+        <span class="badge ${isPublished ? 'badge-green' : 'badge-gray'}">
+          ${isPublished ? '✅ Published' : '⏳ Pending'}
+        </span>
+      </div>
+      <div class="review-card-body" style="margin:10px 0;">
+        ${esc(t.body || '').replace(/\n/g,'<br>')}
+      </div>
+      <div class="review-card-actions">
+        ${!isPublished
+          ? `<button class="btn-approve btn-action" data-id="${d.id}">✓ Approve &amp; Publish</button>`
+          : `<button class="btn-outline-sm" data-action="unpublish" data-id="${d.id}">↩ Unpublish</button>`
+        }
+        <button class="btn-delete btn-action" data-id="${d.id}">🗑 Delete</button>
+      </div>
+    </div>`;
+}
+
+async function approveTestimony(id){
+  try { await updateDoc(doc(db, CAMP_TESTIM, id), { published: true }); toast('✅ Testimony published'); }
+  catch(e){ toast('Error: ' + e.message, false); }
+}
+
+async function unpublishTestimony(id){
+  try { await updateDoc(doc(db, CAMP_TESTIM, id), { published: false }); toast('↩ Testimony unpublished'); }
+  catch(e){ toast('Error: ' + e.message, false); }
+}
+
+async function deleteTestimony(id){
+  if(!confirm('Permanently delete this testimony? This cannot be undone.')) return;
+  try { await deleteDoc(doc(db, CAMP_TESTIM, id)); toast('🗑 Testimony deleted'); }
+  catch(e){ toast('Error: ' + e.message, false); }
+}
+
+</script>
+</body>
+</html>

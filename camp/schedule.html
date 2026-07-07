@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Camp Schedule 2026 | AFC Botswana</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="camp-shared.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Lato',sans-serif;
+background:#0b1220;
+color:#fff;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding:70px 20px 50px;
+background:linear-gradient(135deg,#081225,#13213d);
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.hero-eyebrow{
+color:#d4af37;
+font-size:.8rem;
+letter-spacing:2px;
+text-transform:uppercase;
+margin-bottom:10px;
+}
+
+.hero h1{
+font-family:'Playfair Display',serif;
+font-size:2.7rem;
+margin-bottom:10px;
+}
+
+.hero-meta{
+opacity:.75;
+margin-bottom:8px;
+}
+
+.hero-theme{
+display:inline-block;
+margin-top:15px;
+padding:8px 22px;
+border-radius:30px;
+border:1px solid rgba(212,175,55,.4);
+color:#d4af37;
+}
+
+/* TOOLS */
+
+.schedule-tools{
+max-width:1200px;
+margin:auto;
+padding:25px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+align-items:center;
+justify-content:center;
+}
+
+.schedule-tools input,
+.schedule-tools select{
+padding:12px 14px;
+border:none;
+border-radius:10px;
+background:#172339;
+color:white;
+min-width:220px;
+}
+
+.schedule-tools button{
+padding:12px 18px;
+border:none;
+cursor:pointer;
+border-radius:10px;
+font-weight:700;
+background:#d4af37;
+color:#081225;
+}
+
+.schedule-tools button:hover{
+opacity:.9;
+}
+
+/* SCHEDULE */
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:20px;
+}
+
+.day-card{
+background:rgba(255,255,255,.03);
+border:1px solid rgba(255,255,255,.08);
+border-radius:16px;
+overflow:hidden;
+margin-bottom:24px;
+backdrop-filter:blur(10px);
+}
+
+.day-header{
+padding:18px;
+background:rgba(212,175,55,.08);
+}
+
+.day-header h2{
+color:#d4af37;
+font-size:1rem;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+padding:12px 15px;
+text-align:left;
+font-size:.75rem;
+letter-spacing:1px;
+text-transform:uppercase;
+color:#d4af37;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+td{
+padding:14px 15px;
+border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.time{
+font-weight:800;
+width:130px;
+}
+
+.badge{
+padding:4px 10px;
+border-radius:20px;
+font-size:.7rem;
+font-weight:700;
+margin-left:10px;
+}
+
+.service{
+background:rgba(212,175,55,.15);
+color:#d4af37;
+}
+
+.prayer{
+background:rgba(46,204,113,.15);
+color:#2ecc71;
+}
+
+.teaching{
+background:rgba(52,152,219,.15);
+color:#5dade2;
+}
+
+.meeting{
+background:rgba(255,255,255,.12);
+color:#ddd;
+}
+
+.discussion{
+background:rgba(155,89,182,.15);
+color:#c39bd3;
+}
+
+.free{
+background:rgba(231,76,60,.15);
+color:#ff8a80;
+}
+
+.loading{
+text-align:center;
+padding:50px;
+opacity:.8;
+}
+
+.empty{
+text-align:center;
+padding:50px;
+opacity:.7;
+}
+
+@media(max-width:600px){
+
+.hero h1{
+font-size:2rem;
+}
+
+.schedule-tools{
+flex-direction:column;
+}
+
+.schedule-tools input,
+.schedule-tools select,
+.schedule-tools button{
+width:100%;
+}
+
+table,
+thead,
+tbody,
+tr,
+td,
+th{
+display:block;
+width:100%;
+}
+
+thead{
+display:none;
+}
+
+tr{
+padding:12px 0;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+td{
+border:none;
+}
+
+.time{
+width:auto;
+color:#d4af37;
+}
+
+}
+
+@media print{
+
+header,
+footer,
+.schedule-tools,
+.wa-float{
+display:none !important;
+}
+
+body{
+background:white;
+color:black;
+}
+
+.day-card{
+border:1px solid #ccc;
+break-inside:avoid;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<header class="camp-nav">
+<div class="camp-nav-inner">
+
+<a href="index.html" class="camp-nav-brand">
+<img src="../css/images/logo1.png"
+class="camp-nav-logo"
+alt="logo">
+
+<div>
+<span class="camp-nav-title">Camp Meeting 2026</span>
+<span class="camp-nav-sub">AFC Botswana</span>
+</div>
+</a>
+
+<nav class="camp-nav-links">
+<a href="index.html">Home</a>
+<a href="registration.html">Register</a>
+<a href="schedule.html" class="active">Schedule</a>
+<a href="store.html">Store</a>
+<a href="announcements.html">Announcements</a>
+<a href="testimonies.html">Testimonies</a>
+
+</nav>
+
+<button class="camp-hamburger" id="hamburger">
+<span></span><span></span><span></span>
+</button>
+
+</div>
+</header>
+
+<div class="camp-mobile-nav" id="mobileNav">
+<a href="index.html">Home</a>
+<a href="registration.html">Register</a>
+<a href="schedule.html">Schedule</a>
+<a href="store.html">Store</a>
+<a href="announcements.html">Announcements</a>
+<a href="testimonies.html">Testimonies</a>
+
+</div>
+
+<!-- HERO -->
+
+<div class="hero">
+
+<div class="hero-eyebrow">
+Camp Meeting Programme
+</div>
+
+<h1>Camp Meeting 2026 Schedule</h1>
+
+<p class="hero-meta">
+Apostolic Faith Church Botswana
+</p>
+
+<div class="hero-theme">
+View • Search • Print • Download
+</div>
+
+</div>
+
+<!-- TOOLS -->
+
+<div class="schedule-tools">
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search activities..."
+>
+
+<select id="dayFilter">
+<option value="all">All Days</option>
+</select>
+
+<button onclick="printSchedule()">
+Print Schedule
+</button>
+
+<button onclick="downloadPDF()">
+Download PDF
+</button>
+
+</div>
+
+<div class="container">
+
+<div id="scheduleContainer" class="loading">
+Loading schedule...
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer class="camp-footer">
+<div class="camp-container camp-footer-inner">
+
+<div class="camp-footer-brand">
+<img src="../css/images/logo1.png"
+style="height:32px">
+
+<div>
+<p>Camp Meeting 2026</p>
+<span>Apostolic Faith Church Botswana</span>
+</div>
+
+</div>
+
+<p class="camp-footer-verse">
+"The just shall live by faith." — Romans 1:17
+</p>
+
+</div>
+</footer>
+
+<script type="module">
+
+import {
+db,
+collection,
+query,
+orderBy,
+onSnapshot
+} from "./camp-firebase.js";
+
+const fallbackSchedule = [
+
+{day:"Saturday",time:"10:00",activity:"Workers' Meeting",type:"meeting"},
+{day:"Saturday",time:"15:00",activity:"Round Table",type:"discussion"},
+{day:"Saturday",time:"19:00",activity:"Prayer Meeting",type:"prayer"},
+
+{day:"Sunday",time:"08:45",activity:"Sunday School",type:"service"},
+{day:"Sunday",time:"10:30",activity:"Devotional Service",type:"service"},
+{day:"Sunday",time:"14:00",activity:"Youth Service",type:"service"},
+{day:"Sunday",time:"19:00",activity:"Evening Service",type:"service"},
+
+{day:"Monday",time:"10:00",activity:"Bible Teaching",type:"teaching"},
+{day:"Monday",time:"14:00",activity:"Afternoon Service",type:"service"},
+{day:"Monday",time:"19:00",activity:"Evening Service",type:"service"},
+
+{day:"Tuesday",time:"10:00",activity:"Bible Teaching",type:"teaching"},
+{day:"Tuesday",time:"14:00",activity:"Afternoon Service",type:"service"},
+{day:"Tuesday",time:"19:00",activity:"Evening Service",type:"service"},
+
+{day:"Wednesday",time:"10:00",activity:"Bible Teaching",type:"teaching"},
+{day:"Wednesday",time:"14:00",activity:"Afternoon Service",type:"service"},
+{day:"Wednesday",time:"19:00",activity:"Evening Service",type:"service"},
+
+{day:"Thursday",time:"10:00",activity:"Bible Teaching",type:"teaching"},
+{day:"Thursday",time:"14:00",activity:"Afternoon Service",type:"service"},
+{day:"Thursday",time:"19:00",activity:"Evening Service",type:"service"},
+
+{day:"Friday",time:"10:00",activity:"Bible Teaching",type:"teaching"},
+{day:"Friday",time:"14:00",activity:"Afternoon Service",type:"service"},
+{day:"Friday",time:"19:00",activity:"Evening Service",type:"service"},
+
+{day:"Saturday (Closing)",time:"10:00",activity:"Ordinances Service",type:"service"},
+{day:"Saturday (Closing)",time:"14:00",activity:"Free",type:"free"},
+{day:"Saturday (Closing)",time:"19:00",activity:"Evening Service",type:"service"},
+
+{day:"Sunday (Closing)",time:"08:45",activity:"Sunday School",type:"service"},
+{day:"Sunday (Closing)",time:"10:30",activity:"Devotional Service",type:"service"}
+
+];
+
+let masterData=[];
+
+const container=document.getElementById("scheduleContainer");
+const dayFilter=document.getElementById("dayFilter");
+const searchInput=document.getElementById("searchInput");
+
+function renderSchedule(data){
+
+if(!data.length){
+
+container.innerHTML=`
+<div class="empty">
+No schedule found.
+</div>
+`;
+
+return;
+}
+
+const grouped={};
+
+data.forEach(item=>{
+
+if(!grouped[item.day]){
+grouped[item.day]=[];
+}
+
+grouped[item.day].push(item);
+
+});
+
+container.innerHTML="";
+
+Object.keys(grouped).forEach(day=>{
+
+let html=`
+<div class="day-card">
+
+<div class="day-header">
+<h2>${day}</h2>
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Time</th>
+<th>Activity</th>
+</tr>
+</thead>
+<tbody>
+`;
+
+grouped[day].forEach(item=>{
+
+html+=`
+<tr>
+<td class="time">${item.time}</td>
+<td>
+${item.activity}
+<span class="badge ${item.type}">
+${item.type}
+</span>
+</td>
+</tr>
+`;
+
+});
+
+html+=`
+</tbody>
+</table>
+</div>
+`;
+
+container.innerHTML+=html;
+
+});
+
+}
+
+function populateDays(data){
+
+const days=[...new Set(data.map(x=>x.day))];
+
+days.forEach(day=>{
+
+const opt=document.createElement("option");
+opt.value=day;
+opt.textContent=day;
+
+dayFilter.appendChild(opt);
+
+});
+
+}
+
+function applyFilters(){
+
+const term=
+searchInput.value.toLowerCase();
+
+const day=
+dayFilter.value;
+
+let filtered=
+masterData.filter(item=>{
+
+const matchesSearch=
+item.activity.toLowerCase()
+.includes(term);
+
+const matchesDay=
+day==="all" ||
+item.day===day;
+
+return matchesSearch && matchesDay;
+
+});
+
+renderSchedule(filtered);
+
+}
+
+searchInput.addEventListener(
+"input",
+applyFilters
+);
+
+dayFilter.addEventListener(
+"change",
+applyFilters
+);
+
+function loadSchedule(){
+
+const q=query(
+collection(db,"camp_schedule")
+);
+
+onSnapshot(q,snapshot=>{
+
+if(snapshot.empty){
+
+masterData=fallbackSchedule;
+
+populateDays(masterData);
+
+renderSchedule(masterData);
+
+return;
+}
+
+masterData=
+snapshot.docs.map(doc=>doc.data());
+
+populateDays(masterData);
+
+renderSchedule(masterData);
+
+});
+
+}
+
+loadSchedule();
+
+window.printSchedule=function(){
+window.print();
+};
+
+window.downloadPDF=function(){
+
+html2pdf().set({
+
+margin:10,
+filename:"Camp-Meeting-2026-Schedule.pdf",
+
+image:{
+type:"jpeg",
+quality:0.98
+},
+
+html2canvas:{
+scale:2
+},
+
+jsPDF:{
+unit:"mm",
+format:"a4",
+orientation:"portrait"
+}
+
+})
+.from(container)
+.save();
+
+};
+
+document
+.getElementById("hamburger")
+.addEventListener("click",()=>{
+
+document
+.getElementById("mobileNav")
+.classList.toggle("open");
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Register — Camp Meeting 2026 · AFC Botswana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="camp-shared.css"/>
+<style>
+/* STEP PROGRESS */
+.steps-bar { display: flex; gap: 0; margin-bottom: 2.5rem; position: relative; }
+.steps-bar::before {
+  content: ''; position: absolute; top: 18px; left: 0; right: 0;
+  height: 2px; background: rgba(255,255,255,0.08); z-index: 0;
+}
+.step-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  gap: .4rem; position: relative; z-index: 1;
+}
+.step-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: .85rem; transition: all .3s;
+}
+.step-item.active .step-circle { background: var(--c-gold); border-color: var(--c-gold); color: #081225; }
+.step-item.done .step-circle   { background: var(--c-success); border-color: var(--c-success); color: white; }
+.step-lbl { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--c-muted); }
+.step-item.active .step-lbl { color: var(--c-gold); }
+.step-item.done .step-lbl   { color: var(--c-success); }
+
+/* FORM STEP */
+.form-step { display: none; }
+.form-step.active { display: block; animation: fadeUp .3s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; color: var(--c-gold); margin-bottom: 1.5rem;
+  padding-bottom: .75rem; border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+/* BUTTON ROW */
+.btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; gap: 1rem; }
+.btn-prev {
+  background: rgba(255,255,255,0.08); color: white; border: none;
+  padding: .8rem 1.75rem; border-radius: 50px; cursor: pointer;
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: .85rem;
+  transition: all .2s;
+}
+.btn-prev:hover { background: rgba(255,255,255,0.14); }
+.btn-next {
+  background: linear-gradient(135deg, var(--c-gold), var(--c-gold2));
+  color: #081225; border: none; padding: .8rem 2rem; border-radius: 50px;
+  cursor: pointer; font-family: 'Lato', sans-serif;
+  font-weight: 900; font-size: .88rem; transition: all .2s;
+}
+.btn-next:hover { transform: translateY(-2px); }
+
+/* REVIEW BLOCK */
+.review-group { margin-bottom: 1.25rem; }
+.review-group h4 { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--c-gold); margin-bottom: .6rem; }
+.review-item { display: flex; justify-content: space-between; padding: .5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: .88rem; }
+.review-item span:first-child { color: var(--c-muted); }
+.review-item span:last-child  { color: white; font-weight: 700; text-align: right; max-width: 60%; }
+
+/* CHRISTIAN EXP PILLS */
+.exp-pills { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .4rem; }
+.exp-pill {
+  padding: .45rem 1rem; border-radius: 20px; cursor: pointer;
+  border: 1.5px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.6);
+  font-size: .8rem; font-weight: 700; transition: all .2s; background: none;
+  font-family: 'Lato', sans-serif;
+}
+.exp-pill.selected { background: rgba(212,175,55,0.15); border-color: var(--c-gold); color: var(--c-gold); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="camp-nav">
+  <div class="camp-nav-inner">
+    <a href="index.html" class="camp-nav-brand">
+      <img src="../css/images/logo1.png" class="camp-nav-logo" alt="AFC"/>
+      <div><span class="camp-nav-title">Camp Meeting 2026</span><span class="camp-nav-sub">AFC Botswana</span></div>
+    </a>
+    <nav class="camp-nav-links">
+      <a href="index.html">Home</a>
+      <a href="registration.html" class="active">Register</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="store.html">Store</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="testimonies.html">Testimonies</a>
+      <a href="admin/adminlogin.html">Admin</a>
+      
+    </nav>
+    <button class="camp-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="camp-mobile-nav" id="mobileNav">
+  <a href="index.html"> Home</a>
+  <a href="registration.html" class="active">Register</a>
+  <a href="schedule.html"> Schedule</a>
+  <a href="store.html"> Store</a>
+  <a href="announcements.html">Announcements</a>
+  <a href="testimonies.html"> Testimonies</a>
+  
+
+</div>
+
+<!-- HERO -->
+<div class="camp-page-hero">
+  <p class="camp-eyebrow">Camp Meeting 2026</p>
+  <h1 class="camp-page-title">Camp <em>Registration</em></h1>
+  <p class="camp-page-sub">19-26 July 2026 · Plot 54201, Phase 4, Gaborone · Free to attend</p>
+</div>
+
+<section class="camp-section">
+  <div class="camp-container" style="max-width:720px;">
+
+    <!-- SUCCESS -->
+    <div id="regSuccess" style="display:none;" class="camp-success-card">
+      <div class="camp-success-icon">✅</div>
+      <h2>You're Registered!</h2>
+      <p>Thank you, <strong id="successName"></strong>. We look forward to seeing you on <strong>19 July</strong> at Phase 4, Gaborone.</p>
+      <p style="margin-top:.75rem;color:var(--c-gold);font-style:italic;">"The just shall live by faith." — Romans 1:17</p>
+      <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem;flex-wrap:wrap;">
+        <a href="index.html" class="camp-btn-gold">Back to Camp Portal</a>
+        <a href="store.html" class="camp-btn-outline">Order Merch →</a>
+      </div>
+    </div>
+
+    <!-- FORM CARD -->
+    <div id="regFormCard" class="camp-card">
+
+      <!-- PROGRESS -->
+      <div class="steps-bar" id="stepsBar">
+        <div class="step-item active" id="si-0"><div class="step-circle">1</div><div class="step-lbl">Personal</div></div>
+        <div class="step-item"        id="si-1"><div class="step-circle">2</div><div class="step-lbl">Spiritual</div></div>
+        <div class="step-item"        id="si-2"><div class="step-circle">3</div><div class="step-lbl">Logistics</div></div>
+        <div class="step-item"        id="si-3"><div class="step-circle">4</div><div class="step-lbl">Family</div></div>
+        <div class="step-item"        id="si-4"><div class="step-circle">5</div><div class="step-lbl">Review</div></div>
+      </div>
+
+      <!-- STEP 1: PERSONAL -->
+      <div class="form-step active" id="step-0">
+        <div class="step-title">1. Personal Information</div>
+        <div class="camp-form-row">
+          <div class="camp-form-group"><label>First Name *</label><input type="text" id="regFirstName" placeholder="Your first name"/></div>
+          <div class="camp-form-group"><label>Surname *</label><input type="text" id="regSurname" placeholder="Your surname"/></div>
+        </div>
+        <div class="camp-form-row">
+          <div class="camp-form-group">
+            <label>Gender *</label>
+            <select id="regGender"><option value="">Select</option><option>Male</option><option>Female</option></select>
+          </div>
+          <div class="camp-form-group">
+            <label>Age Range *</label>
+            <select id="regAge"><option value="">Select</option><option>Under 18</option><option>18–25</option><option>26–35</option><option>36–50</option><option>50+</option></select>
+          </div>
+        </div>
+        <div class="camp-form-row">
+          <div class="camp-form-group"><label>Phone Number *</label><input type="tel" id="regPhone" placeholder="+267 7X XXX XXX"/></div>
+          <div class="camp-form-group"><label>Email Address</label><input type="email" id="regEmail" placeholder="your@email.com"/></div>
+        </div>
+        <div class="camp-form-row">
+          <div class="camp-form-group">
+            <label>Country</label>
+            <select id="regCountry">
+              <option>Botswana</option><option>South Africa</option><option>Zimbabwe</option>
+              <option>Namibia</option><option>Zambia</option><option>Other</option>
+            </select>
+          </div>
+          <div class="camp-form-group">
+            <label>Home Branch *</label>
+            <select id="regBranch">
+              <option value="">Select branch</option>
+              <optgroup label="Greater Gaborone"><option>Gaborone</option><option>Mmopane</option><option>Lobatse</option><option>Molepolole</option><option>Moshupa</option><option>Sese</option></optgroup>
+              <optgroup label="Francistown"><option>Francistown</option><option>Tsamaya</option><option>Selebi Phikwe</option><option>Matsitama</option></optgroup>
+              <optgroup label="Mahalapye"><option>Mahalapye</option><option>Mmutlane</option><option>Serowe</option><option>Palapye</option><option>Serowe</option><option>Mmutlane</option></optgroup>
+              <optgroup label="Letlhakane"><option>Letlhakane</option><option>Mopipi</option><option>Rakops</option><option>Maun</option><option>Nata</option></optgroup>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div id="err-0" class="camp-error" style="display:none;">Please fill in all required fields (*).</div>
+        <div class="btn-row"><div></div><button class="btn-next" onclick="nextStep()">Next →</button></div>
+      </div>
+
+      <!-- STEP 2: SPIRITUAL -->
+      <div class="form-step" id="step-1">
+        <div class="step-title">2. Spiritual Background</div>
+        <div class="camp-form-group">
+          <label>Christian Experiences</label>
+          <div class="exp-pills">
+            <button type="button" class="exp-pill" onclick="togglePill(this,'Saved')">Saved</button>
+            <button type="button" class="exp-pill" onclick="togglePill(this,'Sanctified')">Sanctified</button>
+            <button type="button" class="exp-pill" onclick="togglePill(this,'Baptized with Holy Ghost')">Baptized with Holy Ghost</button>
+            <button type="button" class="exp-pill" onclick="togglePill(this,'None yet')"> None yet — seeking</button>
+          </div>
+        </div>
+        <div class="camp-form-group">
+          <label>Are you a worker / minister in your branch?</label>
+          <select id="regWorker"><option value="No">No</option><option value="Yes">Yes</option></select>
+        </div>
+        <div class="camp-form-group">
+          <label>Volunteer Interest at Camp</label>
+          <select id="regVolunteer">
+            <option value="">Not interested</option>
+            <option>Ushering</option><option>Security</option><option>Kitchen</option>
+            <option>Children's Ministry</option><option>Cleaning</option><option>First Aid</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <button class="btn-prev" onclick="prevStep()">← Back</button>
+          <button class="btn-next" onclick="nextStep()">Next →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: LOGISTICS -->
+      <div class="form-step" id="step-2">
+        <div class="step-title">3. Camp Logistics</div>
+        <div class="camp-form-row">
+          <div class="camp-form-group">
+            <label>Accommodation Needed?</label>
+            <select id="regAccom"><option value="No">No</option><option value="Yes">Yes — I need camp accommodation</option></select>
+          </div>
+          <div class="camp-form-group">
+            <label>Transport Needed?</label>
+            <select id="regTransport"><option value="No">No</option><option value="Yes">Yes — I need transport assistance</option></select>
+          </div>
+        </div>
+        <div class="camp-form-row">
+          <div class="camp-form-group"><label>Arrival Date</label><input type="date" id="regArrival"/></div>
+          <div class="camp-form-group"><label>Departure Date</label><input type="date" id="regDeparture"/></div>
+        </div>
+        <div class="camp-form-group">
+          <label>Dietary Requirements / Medical Notes</label>
+          <textarea id="regDietary" rows="3" placeholder="Any allergies, medical conditions or special dietary needs..."></textarea>
+        </div>
+        <div class="camp-form-group">
+          <label>Emergency Contact (Name & Phone)</label>
+          <input type="text" id="regEmergency" placeholder="e.g. Jane Doe · +267 71 000 000"/>
+        </div>
+        <div class="btn-row">
+          <button class="btn-prev" onclick="prevStep()">← Back</button>
+          <button class="btn-next" onclick="nextStep()">Next →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: FAMILY -->
+      <div class="form-step" id="step-3">
+        <div class="step-title">4. Family & Guests</div>
+        <div class="camp-form-row">
+          <div class="camp-form-group">
+            <label>Number of Children Attending</label>
+            <input type="number" id="regChildren" min="0" value="0" placeholder="0"/>
+          </div>
+          <div class="camp-form-group">
+            <label>Bringing a Guest?</label>
+            <select id="regGuest"><option value="No">No</option><option value="Yes">Yes</option></select>
+          </div>
+        </div>
+        <div class="camp-form-group">
+          <label>Additional Notes or Prayer Requests</label>
+          <textarea id="regNotes" rows="3" placeholder="Anything else you'd like the camp team to know..."></textarea>
+        </div>
+        <div class="btn-row">
+          <button class="btn-prev" onclick="prevStep()">← Back</button>
+          <button class="btn-next" onclick="nextStep()">Review →</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: REVIEW -->
+      <div class="form-step" id="step-4">
+        <div class="step-title">5. Review & Submit</div>
+        <div id="reviewContent"></div>
+        <div id="err-4" class="camp-error" style="display:none;"></div>
+        <div class="btn-row">
+          <button class="btn-prev" onclick="prevStep()">← Edit</button>
+          <button class="btn-next" id="submitBtn" onclick="submitRegistration()"> Submit Registration</button>
+        </div>
+      </div>
+
+    </div><!-- /regFormCard -->
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="camp-footer">
+  <div class="camp-container camp-footer-inner">
+    <div class="camp-footer-brand">
+      <img src="../css/images/logo1.png" style="height:32px;" alt="AFC"/>
+      <div><p>Camp Meeting 2026</p><span>Apostolic Faith Church · Botswana</span></div>
+    </div>
+    <div class="camp-footer-links">
+      <a href="index.html">Home</a><a href="schedule.html">Schedule</a>
+      <a href="store.html">Store</a><a href="announcements.html">Announcements</a>
+      <a href="../index.html">← Main Site</a>
+    </div>
+    <p class="camp-footer-verse">"The just shall live by faith." — Romans 1:17 ✦</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/26776159933" class="wa-float" target="_blank">💬</a>
+<div id="toast" class="camp-toast"></div>
+
+<script type="module">
+import { db, collection, addDoc, serverTimestamp, CAMP_REGS, CAMP_PRAYERS } from './camp-firebase.js';
+
+// ── NAV ──
+document.getElementById('hamburger').onclick = () => document.getElementById('mobileNav').classList.toggle('open');
+
+// ── STEPS ──
+let currentStep = 0;
+const TOTAL = 5;
+let selectedExps = [];
+
+function updateStepUI() {
+  document.querySelectorAll('.form-step').forEach((s,i) => s.classList.toggle('active', i===currentStep));
+  document.querySelectorAll('.step-item').forEach((s,i) => {
+    s.classList.remove('active','done');
+    if (i === currentStep) s.classList.add('active');
+    if (i < currentStep)  s.classList.add('done');
+    if (i < currentStep)  s.querySelector('.step-circle').textContent = '✓';
+    else s.querySelector('.step-circle').textContent = i+1;
+  });
+  if (currentStep === 4) buildReview();
+}
+
+window.nextStep = function() {
+  if (currentStep === 0) {
+    const fn = v('regFirstName'), sn = v('regSurname'), ph = v('regPhone'), br = v('regBranch');
+    if (!fn || !sn || !ph || !br) {
+      document.getElementById('err-0').style.display = 'block'; return;
+    }
+    document.getElementById('err-0').style.display = 'none';
+  }
+  if (currentStep < TOTAL-1) { currentStep++; updateStepUI(); window.scrollTo(0,0); }
+};
+window.prevStep = function() {
+  if (currentStep > 0) { currentStep--; updateStepUI(); window.scrollTo(0,0); }
+};
+
+window.togglePill = function(el, val) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) selectedExps.push(val);
+  else selectedExps = selectedExps.filter(e=>e!==val);
+};
+
+function v(id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
+
+function buildReview() {
+  const html = `
+    <div class="review-group">
+      <h4>Personal</h4>
+      <div class="review-item"><span>Name</span><span>${v('regFirstName')} ${v('regSurname')}</span></div>
+      <div class="review-item"><span>Phone</span><span>${v('regPhone')}</span></div>
+      <div class="review-item"><span>Email</span><span>${v('regEmail')||'—'}</span></div>
+      <div class="review-item"><span>Branch</span><span>${v('regBranch')}</span></div>
+      <div class="review-item"><span>Gender / Age</span><span>${v('regGender')} · ${v('regAge')}</span></div>
+    </div>
+    <div class="review-group">
+      <h4>Spiritual</h4>
+      <div class="review-item"><span>Experiences</span><span>${selectedExps.join(', ')||'—'}</span></div>
+      <div class="review-item"><span>Worker</span><span>${v('regWorker')}</span></div>
+      <div class="review-item"><span>Volunteer</span><span>${v('regVolunteer')||'—'}</span></div>
+    </div>
+    <div class="review-group">
+      <h4>Logistics</h4>
+      <div class="review-item"><span>Accommodation</span><span>${v('regAccom')}</span></div>
+      <div class="review-item"><span>Transport</span><span>${v('regTransport')}</span></div>
+      <div class="review-item"><span>Emergency Contact</span><span>${v('regEmergency')||'—'}</span></div>
+    </div>
+    <div class="review-group">
+      <h4>Family & Notes</h4>
+      <div class="review-item"><span>Children attending</span><span>${v('regChildren')||'0'}</span></div>
+      <div class="review-item"><span>Bringing a guest</span><span>${v('regGuest')}</span></div>
+      ${v('regNotes') ? `<div class="review-item"><span>Prayer / Notes</span><span>${v('regNotes')}</span></div>` : ''}
+    </div>
+  `;
+  document.getElementById('reviewContent').innerHTML = html;
+}
+
+// ── SUBMIT ──
+window.submitRegistration = async function() {
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+
+  const firstName = v('regFirstName');
+  const surname   = v('regSurname');
+  const notes     = v('regNotes');
+
+  const data = {
+    firstName,
+    surname,
+    name:       firstName + ' ' + surname,
+    phone:      v('regPhone'),
+    email:      v('regEmail'),
+    gender:     v('regGender'),
+    age:        v('regAge'),
+    country:    v('regCountry'),
+    branch:     v('regBranch'),
+    experiences: selectedExps,
+    worker:     v('regWorker'),
+    volunteer:  v('regVolunteer'),
+    accom:      v('regAccom'),
+    transport:  v('regTransport'),
+    arrival:    v('regArrival'),
+    departure:  v('regDeparture'),
+    dietary:    v('regDietary'),
+    emergency:  v('regEmergency'),
+    children:   v('regChildren'),
+    guest:      v('regGuest'),
+    notes,
+    timestamp:  serverTimestamp(),
+    createdAt:  serverTimestamp(),
+  };
+
+  try {
+    const regRef = await addDoc(collection(db, CAMP_REGS), data);
+
+    // ── PRAYER REQUEST: if notes field has content, also save to camp_prayers ──
+    if (notes && notes.trim().length > 5) {
+      await addDoc(collection(db, CAMP_PRAYERS), {
+        name:      firstName + ' ' + surname,
+        phone:     v('regPhone'),
+        branch:    v('regBranch'),
+        request:   notes,
+        source:    'registration',       // so manager knows it came from reg form
+        regId:     regRef.id,
+        read:      false,
+        createdAt: serverTimestamp(),
+        timestamp: serverTimestamp(),
+      });
+    }
+
+    document.getElementById('successName').textContent = firstName;
+    document.getElementById('regFormCard').style.display = 'none';
+    document.getElementById('regSuccess').style.display = 'block';
+    window.scrollTo(0,0);
+  } catch(e) {
+    console.error(e);
+    document.getElementById('err-4').textContent = 'Save failed: ' + e.message + '. Please try again.';
+    document.getElementById('err-4').style.display = 'block';
+    btn.disabled = false; btn.textContent = '🙏 Submit Registration';
+  }
+};
+</script>
+</body>
+</html>

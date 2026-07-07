@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Store Manager — Camp 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#081225; --navy2:#0d1b3e; --navy3:#0a1630;
+  --gold:#d4af37; --gold2:#f2d06b;
+  --red:#e05c5c; --green:#4caf81;
+  --muted:rgba(255,255,255,0.5);
+  --card-bg:rgba(255,255,255,0.04);
+  --border:rgba(255,255,255,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Lato',sans-serif;background:var(--navy);color:white;min-height:100vh;}
+.layout{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{
+  width:220px;background:var(--navy3);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;position:fixed;height:100vh;z-index:100;transition:transform .3s;
+}
+.sidebar-logo{padding:26px 22px 18px;border-bottom:1px solid var(--border);}
+.sidebar-logo .wordmark{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold);line-height:1.3;}
+.sidebar-logo .sub{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-top:4px;}
+.nav-links{padding:14px 10px;flex:1;}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:10px;
+  cursor:pointer;font-weight:700;font-size:.85rem;color:var(--muted);transition:all .2s;margin-bottom:3px;
+}
+.nav-item:hover{background:rgba(255,255,255,.05);color:white;}
+.nav-item.active{background:rgba(212,175,55,.12);color:var(--gold);}
+.sidebar-footer{padding:16px 22px;border-top:1px solid var(--border);font-size:.7rem;color:var(--muted);}
+.sidebar-footer button{
+  width:100%;padding:8px;border:1px solid rgba(224,92,92,.3);background:rgba(224,92,92,.1);
+  color:var(--red);border-radius:7px;font-family:'Lato',sans-serif;font-weight:700;
+  font-size:.75rem;cursor:pointer;margin-top:8px;transition:all .2s;
+}
+.sidebar-footer button:hover{background:rgba(224,92,92,.22);}
+
+/* HAMBURGER */
+.hamburger{
+  display:none;position:fixed;top:14px;left:16px;z-index:200;
+  background:rgba(255,255,255,.08);border:1px solid var(--border);
+  border-radius:8px;padding:8px;cursor:pointer;flex-direction:column;gap:4px;
+}
+.hamburger span{display:block;width:20px;height:2px;background:white;border-radius:2px;transition:.25s;}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99;}
+.sidebar-overlay.show{display:block;}
+
+/* MAIN */
+.main{margin-left:220px;flex:1;display:flex;flex-direction:column;min-width:0;}
+.topbar{
+  position:sticky;top:0;background:rgba(8,18,37,.96);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);padding:14px 28px;
+  display:flex;align-items:center;justify-content:space-between;z-index:50;gap:10px;
+}
+.topbar h1{font-family:'Playfair Display',serif;font-size:1.2rem;white-space:nowrap;}
+.badge{
+  background:rgba(212,175,55,.15);border:1px solid rgba(212,175,55,.3);
+  color:var(--gold2);padding:4px 12px;border-radius:20px;font-size:.73rem;font-weight:700;white-space:nowrap;
+}
+
+.page{display:none;padding:24px;}
+.page.active{display:block;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;}
+.stat-card{background:var(--card-bg);border:1px solid var(--border);border-top:3px solid var(--gold);border-radius:14px;padding:16px;}
+.stat-card .lbl{font-size:.66rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:6px;}
+.stat-card .val{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);}
+.stat-card .sub{font-size:.72rem;color:var(--muted);margin-top:3px;}
+
+/* FILTERS */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.section-header h2{font-family:'Playfair Display',serif;font-size:1.1rem;}
+.filter-row{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
+.filter-btn{
+  padding:6px 13px;border-radius:20px;border:1px solid var(--border);
+  background:transparent;color:var(--muted);font-size:.76rem;font-weight:700;
+  cursor:pointer;transition:all .2s;font-family:'Lato',sans-serif;white-space:nowrap;
+}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold);}
+.filter-btn.active{background:rgba(212,175,55,.15);border-color:var(--gold);color:var(--gold2);}
+.search-input{
+  padding:6px 13px;border-radius:20px;border:1px solid var(--border);
+  background:rgba(255,255,255,.05);color:white;font-size:.78rem;
+  font-family:'Lato',sans-serif;outline:none;width:180px;transition:border-color .2s;
+}
+.search-input:focus{border-color:var(--gold);}
+.search-input::placeholder{color:var(--muted);}
+
+/* TABLE */
+.table-wrap{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;overflow:auto;}
+table{width:100%;border-collapse:collapse;min-width:780px;}
+thead{background:rgba(255,255,255,.04);border-bottom:1px solid var(--border);}
+th{padding:11px 13px;text-align:left;font-size:.66rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);white-space:nowrap;}
+td{padding:11px 13px;font-size:.83rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.02);}
+.order-total{color:var(--gold);font-weight:900;}
+
+.del-btn{
+  background:rgba(224,92,92,.12);border:1px solid rgba(224,92,92,.25);
+  color:var(--red);padding:4px 9px;border-radius:6px;cursor:pointer;
+  font-size:.7rem;font-weight:700;font-family:'Lato',sans-serif;transition:all .2s;white-space:nowrap;
+}
+.del-btn:hover{background:rgba(224,92,92,.28);}
+
+/* PILLS */
+.pill{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.67rem;font-weight:700;}
+.pill-deposit{background:rgba(212,175,55,.15);color:var(--gold2);}
+.pill-camp{background:rgba(100,160,255,.12);color:#7ab4ff;}
+.pill-collected{background:rgba(76,175,129,.2);color:var(--green);}
+.pill-avail{background:rgba(76,175,129,.15);color:var(--green);}
+.pill-limited{background:rgba(212,175,55,.15);color:var(--gold2);}
+.pill-out{background:rgba(224,92,92,.15);color:var(--red);}
+
+input[type="checkbox"]{width:16px;height:16px;cursor:pointer;accent-color:var(--gold);}
+
+/* PRODUCTS */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+.prod-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:.3s;}
+.prod-card:hover{transform:translateY(-3px);border-color:rgba(212,175,55,.2);}
+.prod-card img{width:100%;height:165px;object-fit:cover;}
+.prod-img-ph{width:100%;height:165px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);font-size:3rem;}
+.prod-body{padding:15px;}
+.prod-name{font-weight:900;font-size:.98rem;margin-bottom:6px;}
+
+.field-label{font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:5px;margin-top:12px;}
+
+.price-input-wrap{display:flex;align-items:center;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color .2s;}
+.price-input-wrap:focus-within{border-color:var(--gold);}
+.price-prefix{padding:8px 10px;color:var(--gold);font-weight:900;font-size:.9rem;background:rgba(212,175,55,.08);border-right:1px solid var(--border);}
+.price-input{flex:1;padding:8px 10px;background:transparent;border:none;color:white;font-family:'Lato',sans-serif;font-size:.88rem;outline:none;width:100%;}
+.price-input::placeholder{color:var(--muted);}
+
+.custom-select{
+  width:100%;padding:8px 32px 8px 12px;background:rgba(255,255,255,.06);border:1px solid var(--border);
+  border-radius:8px;color:white;font-size:.82rem;font-family:'Lato',sans-serif;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23d4af37' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;transition:border-color .2s;
+}
+.custom-select:focus{outline:none;border-color:var(--gold);}
+.custom-select option{background:var(--navy2);}
+
+.size-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px;}
+.size-chip{
+  padding:5px 10px;border-radius:6px;border:1px solid var(--border);
+  font-size:.74rem;font-weight:700;cursor:pointer;transition:all .18s;user-select:none;color:var(--muted);background:none;
+}
+.size-chip.on{border-color:var(--gold);color:var(--gold2);background:rgba(212,175,55,.12);}
+
+.save-btn{
+  margin-top:13px;width:100%;padding:10px;border:none;border-radius:30px;
+  font-weight:900;cursor:pointer;font-family:'Lato',sans-serif;font-size:.82rem;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);transition:opacity .2s;
+}
+.save-btn:hover{opacity:.85;}
+.save-btn:disabled{opacity:.4;cursor:default;}
+
+/* LOADING */
+.spinner{width:18px;height:18px;border:2px solid rgba(212,175,55,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;margin-right:7px;vertical-align:middle;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty-cell{text-align:center;color:var(--muted);padding:36px !important;font-size:.86rem;}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;right:24px;background:var(--navy2);border:1px solid var(--gold);
+  color:var(--gold2);padding:11px 18px;border-radius:12px;font-weight:700;font-size:.82rem;
+  z-index:9999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* CONFIRM MODAL */
+.confirm-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);
+  z-index:3000;align-items:center;justify-content:center;padding:20px;
+}
+.confirm-overlay.show{display:flex;}
+.confirm-box{
+  background:var(--navy2);border:1px solid rgba(224,92,92,.3);border-radius:16px;
+  padding:28px;max-width:360px;width:100%;text-align:center;
+}
+.confirm-box h3{font-family:'Playfair Display',serif;color:var(--red);margin-bottom:10px;}
+.confirm-box p{color:var(--muted);font-size:.88rem;line-height:1.6;margin-bottom:22px;}
+.confirm-actions{display:flex;gap:10px;justify-content:center;}
+.confirm-actions button{
+  padding:10px 22px;border-radius:8px;font-weight:900;font-family:'Lato',sans-serif;
+  font-size:.85rem;cursor:pointer;transition:all .2s;border:none;
+}
+.btn-cancel{background:rgba(255,255,255,.08);color:white;}
+.btn-cancel:hover{background:rgba(255,255,255,.14);}
+.btn-delete{background:var(--red);color:white;}
+.btn-delete:hover{opacity:.85;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hamburger{display:flex;}
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .topbar{padding:14px 16px 14px 60px;}
+  .page{padding:16px;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:480px){
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .search-input{width:100%;}
+  .prod-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" id="hamburger" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="wordmark">Camp Meeting<br/>2026</div>
+      <div class="sub">Store Manager</div>
+    </div>
+    <nav class="nav-links">
+      <div class="nav-item active" onclick="showPage('orders',this)">📋 Orders</div>
+      <div class="nav-item" onclick="showPage('products',this)">🛍️ Products</div>
+    </nav>
+    <div class="sidebar-footer">
+      AFC Botswana · 2026
+      <button onclick="window.location.href='adminlogin.html'">→ Logout</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1 id="page-title">Orders</h1>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <span id="admin-email" style="font-size:.75rem;color:var(--muted)"></span>
+        <span class="badge">🔐 Store Admin</span>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="page active" id="page-orders">
+      <div class="stats-row">
+        <div class="stat-card"><div class="lbl">Total Orders</div><div class="val" id="stat-total">—</div><div class="sub">all time</div></div>
+        <div class="stat-card"><div class="lbl">Deposits</div><div class="val" id="stat-revenue">—</div><div class="sub">collected</div></div>
+        <div class="stat-card"><div class="lbl">Pay at Camp</div><div class="val" id="stat-camp">—</div><div class="sub">on arrival</div></div>
+        <div class="stat-card"><div class="lbl">Collected</div><div class="val" id="stat-collected">—</div><div class="sub">handed over</div></div>
+        <div class="stat-card"><div class="lbl">Items Sold</div><div class="val" id="stat-items">—</div><div class="sub">total qty</div></div>
+      </div>
+
+      <div class="section-header"><h2>All Orders</h2></div>
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" onclick="setFilter('deposit',this)">💳 Deposit</button>
+        <button class="filter-btn" onclick="setFilter('pay-at-camp',this)">🏕️ At Camp</button>
+        <button class="filter-btn" onclick="setFilter('collected',this)">✅ Collected</button>
+        <button class="filter-btn" onclick="setFilter('pending-collection',this)">⏳ Pending</button>
+        <input class="search-input" id="ordSearch" placeholder="🔍 Name, item…" oninput="applyFilter()"/>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>Name</th><th>Phone</th><th>Item</th>
+              <th>Size</th><th>Qty</th><th>Total</th><th>Deposit</th>
+              <th>Payment</th><th>Dep ✓</th><th>Collected</th><th>Date</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="orders-tbody">
+            <tr><td colspan="13" class="empty-cell"><span class="spinner"></span> Loading orders…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="page" id="page-products">
+      <div class="section-header">
+        <h2>Products — Price, Status &amp; Sizes</h2>
+        <span style="color:var(--muted);font-size:.76rem;">Saves to Firebase → public store updates live</span>
+      </div>
+      <div class="prod-grid" id="prod-grid">
+        <div style="color:var(--muted);padding:20px;grid-column:1/-1"><span class="spinner"></span> Loading…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h3>Delete Order?</h3>
+    <p id="confirmMsg">This cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn-delete" id="confirmDeleteBtn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import {
+  db, auth,
+  CAMP_ORDERS, STORE_PRODUCTS,
+  collection, getDocs, addDoc, doc, updateDoc, deleteDoc,
+  onSnapshot, onAuthStateChanged, serverTimestamp
+} from '../camp-firebase.js';
+
+// ── CATALOGUE — images hardcoded, price lives in Firestore ──
+const CATALOGUE = [
+  { key:'sweater', name:'Church Sweater',     img:'../css/images/sweater.jpeg', allSizes:['XS','S','M','L','XL','XXL'] },
+  { key:'tshirt',  name:'Church T-Shirt',     img:'../css/images/tshirt.jpeg',  allSizes:['XS','S','M','L','XL','XXL'] },
+  { key:'cap',     name:'Church Cap',         img:'../css/images/cap.png',      allSizes:['One Size'] },
+  { key:'tea',     name:'Christian Tee',      img:'../css/images/assort.jpeg',  allSizes:['XS','S','M','L','XL','XXL'] },
+  { key:'totebag', name:'Tote Bag',           img:'../css/images/totebag.jpeg', allSizes:['One Size'] },
+  { key:'mug',     name:'Camp Mug',           img:'../css/images/mug.jpeg',     allSizes:[] },
+  { key:'beanie',  name:'Camp Beanie',        img:'../css/images/beanie.jpeg',  allSizes:['S/M','L/XL','One Size'] },
+  { key:'journal', name:'Devotional Journal', img:'../css/images/journal.jpeg', allSizes:[] },
+];
+
+function esc(s){ return String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── TOAST ──
+function toast(msg, ok=true){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = ok ? 'var(--gold)' : 'var(--red)';
+  t.style.color       = ok ? 'var(--gold2)' : 'var(--red)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+// ── AUTH ──
+onAuthStateChanged(auth, u=>{ if(u) document.getElementById('admin-email').textContent = u.email; });
+
+// ── NAV ──
+window.showPage = function(page, el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  el.classList.add('active');
+  document.getElementById('page-title').textContent = page==='orders' ? 'Orders' : 'Products';
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+};
+
+// ── ORDERS ──
+let allOrders = [];
+let activeFilter = 'all';
+
+function initOrders(){
+  onSnapshot(
+    collection(db, CAMP_ORDERS),
+    snap => {
+      allOrders = snap.docs
+        .map(d=>({ _id:d.id, ...d.data() }))
+        .sort((a,b)=>(b.createdAt?.toMillis?.()??0)-(a.createdAt?.toMillis?.()??0));
+      renderStats();
+      applyFilter();
+    },
+    err => {
+      document.getElementById('orders-tbody').innerHTML =
+        `<tr><td colspan="13" class="empty-cell">Error: ${err.code} — ${err.message}</td></tr>`;
+    }
+  );
+}
+
+function renderStats(){
+  document.getElementById('stat-total').textContent     = allOrders.length;
+  document.getElementById('stat-revenue').textContent   = 'P'+allOrders.reduce((s,o)=>s+(o.deposit||0),0).toLocaleString();
+  document.getElementById('stat-camp').textContent      = allOrders.filter(o=>o.payment==='pay-at-camp').length;
+  document.getElementById('stat-collected').textContent = allOrders.filter(o=>o.collected===true).length;
+  document.getElementById('stat-items').textContent     = allOrders.reduce((s,o)=>s+(Number(o.qty)||0),0);
+}
+
+window.setFilter = function(f, el){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = f;
+  applyFilter();
+};
+
+window.applyFilter = function(){
+  const q = (document.getElementById('ordSearch')?.value||'').toLowerCase();
+  let list = allOrders;
+  if(activeFilter==='deposit')            list=list.filter(o=>o.payment==='deposit');
+  if(activeFilter==='pay-at-camp')        list=list.filter(o=>o.payment==='pay-at-camp');
+  if(activeFilter==='collected')          list=list.filter(o=>o.collected===true);
+  if(activeFilter==='pending-collection') list=list.filter(o=>!o.collected);
+  if(q) list=list.filter(o=>`${o.name||''} ${o.item||''} ${o.phone||''}`.toLowerCase().includes(q));
+  renderOrders(list);
+};
+
+function renderOrders(orders){
+  const tbody = document.getElementById('orders-tbody');
+  if(!orders.length){
+    tbody.innerHTML=`<tr><td colspan="13" class="empty-cell">No orders match.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = orders.map((o,i)=>{
+    const date = o.createdAt?.toDate
+      ? o.createdAt.toDate().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})
+      : '—';
+    const payPill = o.payment==='deposit'
+      ? `<span class="pill pill-deposit">💳 Deposit</span>`
+      : `<span class="pill pill-camp">🏕️ At Camp</span>`;
+    const depCell = o.payment==='deposit'
+      ? `<input type="checkbox" ${o.depositApproved?'checked':''} onchange="toggleDeposit('${o._id}',this.checked)"/>`
+      : `<span style="color:var(--muted)">—</span>`;
+    const collBadge = o.collected ? `<span class="pill pill-collected" style="margin-left:4px;font-size:.6rem">✓</span>` : '';
+    return `<tr>
+      <td style="color:var(--muted);font-size:.72rem">${i+1}</td>
+      <td><b>${esc(o.name||'—')}</b></td>
+      <td style="color:var(--muted)">${esc(o.phone||'—')}</td>
+      <td>${esc(o.item||'—')}</td>
+      <td>${esc(o.size||'—')}</td>
+      <td>${o.qty||1}</td>
+      <td class="order-total">P${(o.total||0).toLocaleString()}</td>
+      <td style="color:var(--green)">${o.deposit?'P'+o.deposit.toLocaleString():'—'}</td>
+      <td>${payPill}</td>
+      <td>${depCell}</td>
+      <td><input type="checkbox" ${o.collected?'checked':''} onchange="toggleCollected('${o._id}',this.checked)"/>${collBadge}</td>
+      <td style="color:var(--muted);font-size:.74rem">${date}</td>
+      <td><button class="del-btn" onclick="confirmDelete('${o._id}','${esc(o.name||'')}','${esc(o.item||'')}')">🗑 Delete</button></td>
+    </tr>`;
+  }).join('');
+}
+
+window.toggleDeposit = async function(id,val){
+  try{ await updateDoc(doc(db,CAMP_ORDERS,id),{depositApproved:val,depositApprovedAt:val?serverTimestamp():null}); toast(val?'✅ Deposit approved':'↩ Removed'); }
+  catch(e){ toast('Error: '+e.message,false); }
+};
+
+window.toggleCollected = async function(id,val){
+  try{ await updateDoc(doc(db,CAMP_ORDERS,id),{collected:val,collectedAt:val?serverTimestamp():null}); toast(val?'✅ Marked collected':'↩ Removed'); }
+  catch(e){ toast('Error: '+e.message,false); }
+};
+
+// ── DELETE ──
+let pendingDeleteId = null;
+
+window.confirmDelete = function(id, name, item){
+  pendingDeleteId = id;
+  document.getElementById('confirmMsg').textContent =
+    `Delete the order from "${name}" for "${item}"? This cannot be undone.`;
+  document.getElementById('confirmOverlay').classList.add('show');
+};
+window.closeConfirm = function(){
+  pendingDeleteId = null;
+  document.getElementById('confirmOverlay').classList.remove('show');
+};
+document.getElementById('confirmDeleteBtn').onclick = async function(){
+  if(!pendingDeleteId) return;
+  try{ await deleteDoc(doc(db,CAMP_ORDERS,pendingDeleteId)); toast('🗑 Order deleted'); }
+  catch(e){ toast('Error: '+e.message,false); }
+  closeConfirm();
+};
+
+// ── PRODUCTS ──
+let fsProducts = {};
+
+async function initProducts(){
+  const grid = document.getElementById('prod-grid');
+  try{
+    const snap = await getDocs(collection(db, STORE_PRODUCTS));
+    snap.docs.forEach(d=>{ const data=d.data(); if(data.key) fsProducts[data.key]={docId:d.id,...data}; });
+
+    for(const cat of CATALOGUE){
+      if(!fsProducts[cat.key]){
+        const defSizes = {};
+        cat.allSizes.forEach(sz=>{ defSizes[sz]=true; });
+        const ref = await addDoc(collection(db, STORE_PRODUCTS),{
+          key:cat.key,status:'available',price:0,sizeAvail:defSizes,createdAt:serverTimestamp()
+        });
+        fsProducts[cat.key]={docId:ref.id,key:cat.key,status:'available',price:0,sizeAvail:defSizes};
+      }
+    }
+    renderProducts();
+  }catch(e){
+    grid.innerHTML=`<div style="color:var(--red);padding:20px;grid-column:1/-1">Error: ${e.message}</div>`;
+  }
+}
+
+function renderProducts(){
+  const grid = document.getElementById('prod-grid');
+  grid.innerHTML = CATALOGUE.map(cat=>{
+    const fs        = fsProducts[cat.key] || {};
+    const status    = fs.status    || 'available';
+    const sizeAvail = fs.sizeAvail || {};
+    const price     = fs.price     ?? '';
+    const docId     = fs.docId     || '';
+    const sc = status==='available'?'pill-avail':status==='limited'?'pill-limited':'pill-out';
+    const sl = status==='available'?'Available':status==='limited'?'Limited':'Out of Stock';
+
+    const sizesHtml = cat.allSizes.length===0
+      ? `<span style="color:var(--muted);font-size:.78rem">No size applicable</span>`
+      : `<div class="size-grid">${cat.allSizes.map(sz=>`
+          <div class="size-chip ${sizeAvail[sz]!==false?'on':''}" data-size="${sz}"
+            onclick="this.classList.toggle('on')">${sz}</div>`).join('')}</div>`;
+
+    return `<div class="prod-card" id="prodcard-${cat.key}">
+      <img src="${cat.img}" alt="${esc(cat.name)}"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="prod-img-ph" style="display:none">🛍️</div>
+      <div class="prod-body">
+        <div class="prod-name">${esc(cat.name)}</div>
+        <span class="pill ${sc}" style="font-size:.62rem">${sl}</span>
+
+        <div class="field-label">Price (Pula)</div>
+        <div class="price-input-wrap">
+          <span class="price-prefix">P</span>
+          <input class="price-input" type="number" min="0" step="5"
+            id="price-${cat.key}" value="${price}" placeholder="e.g. 170"/>
+        </div>
+
+        <div class="field-label">Status</div>
+        <select class="custom-select" id="status-${cat.key}">
+          <option value="available"    ${status==='available'   ?'selected':''}>✅ Available</option>
+          <option value="limited"      ${status==='limited'     ?'selected':''}>⚠️ Limited Stock</option>
+          <option value="out-of-stock" ${status==='out-of-stock'?'selected':''}>❌ Out of Stock</option>
+        </select>
+
+        <div class="field-label">Available Sizes</div>
+        ${sizesHtml}
+
+        <button class="save-btn" data-key="${cat.key}" data-docid="${docId}"
+          onclick="saveProduct(this)">💾 Save Changes</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.saveProduct = async function(btn){
+  const key   = btn.dataset.key;
+  const docId = btn.dataset.docid;
+  btn.disabled=true; btn.textContent='Saving…';
+
+  const status  = document.getElementById(`status-${key}`).value;
+  const price   = parseFloat(document.getElementById(`price-${key}`).value) || 0;
+  const chips   = document.querySelectorAll(`#prodcard-${key} .size-chip`);
+  const sizeAvail = {};
+  chips.forEach(c=>{ sizeAvail[c.dataset.size]=c.classList.contains('on'); });
+
+  const payload = { status, price, sizeAvail, updatedAt:serverTimestamp() };
+
+  try{
+    if(docId){
+      await updateDoc(doc(db,STORE_PRODUCTS,docId), payload);
+    } else {
+      const ref = await addDoc(collection(db,STORE_PRODUCTS),{key,...payload,createdAt:serverTimestamp()});
+      btn.dataset.docid = ref.id;
+    }
+    if(fsProducts[key]) Object.assign(fsProducts[key], payload);
+    toast(`✅ ${CATALOGUE.find(c=>c.key===key)?.name} saved`);
+  }catch(e){ toast('Error: '+e.message,false); }
+
+  btn.disabled=false; btn.textContent='💾 Save Changes';
+};
+
+// ── HAMBURGER ──
+document.getElementById('hamburger').addEventListener('click', function(){
+  this.classList.toggle('open');
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('show');
+});
+document.getElementById('sidebarOverlay').addEventListener('click', function(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('sidebar').classList.remove('open');
+  this.classList.remove('show');
+});
+
+// ── INIT ──
+initOrders();
+initProducts();
+</script>
+</body>
+</html>

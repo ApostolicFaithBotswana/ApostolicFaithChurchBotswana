@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apostolic Faith Church – Botswana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    /* ── MOBILE LATEST PANEL ── */
+    @media (max-width: 768px) {
+  .hero {
+    height: auto ;
+    min-height: 0 ;
+    overflow: visible ;
+  }
+  .hero-event-panel {
+    position: static ;
+    inset: auto ;
+    transform: none ;
+    width: 100% ;
+    max-width: 100% ;
+    margin: 2rem 0 0 ;
+    z-index: 2;
+  }
+}
+
+    /* ── SHORTER OUTLINE BUTTON ── */
+    .btn-outline {
+      padding: 10px 20px;
+      font-size: .82rem ;
+      letter-spacing: .04em;
+    }
+
+    /* ── FOOTER SOCIALS ── */
+    .footer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 1.25rem;
+    }
+    .footer-socials a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.55);
+      border: 1px solid rgba(255,255,255,0.1);
+      text-decoration: none;
+      transition: all .22s;
+    }
+    .footer-socials a:hover {
+      background: var(--gold, #d4af37);
+      color: var(--navy, #0b2341);
+      border-color: var(--gold, #d4af37);
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<header id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="logo-icon">
+        <img src="css/images/logo1.png" alt="Apostolic Faith Church Botswana" />
+      </div>
+      <div class="nav-brand-text">
+        <span class="brand-name">Apostolic Faith Church</span>
+        <span class="brand-sub">Portland, Oregon · Botswana</span>
+      </div>
+    </a>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="about.html">About</a>
+      <a href="locations.html">Locations</a>
+      <a href="#events">Events</a>
+      <a href="#resources">Resources</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section id="home" class="hero">
+  <div class="hero-bg-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Welcome to</p>
+    <h1 class="hero-title">Apostolic Faith<br><em>Mission</em></h1>
+
+    <!-- Verse loaded from Firebase — fallback text shown while loading -->
+    <p class="hero-verse" id="weeklyVerse">"For where two or three gather in my name, there am I with them." — Matthew 18:20</p>
+
+    <div class="hero-cta-group">
+      <a href="about.html" class="btn-primary">Discover More</a>
+      <a href="camp/index.html" class="btn-outline">Camp 2026</a>
+    </div>
+  </div>
+
+  <!-- Latest panel — visible on desktop (right side) AND mobile (below hero content) -->
+  <aside class="hero-event-panel" id="heroEventPanel">
+    <div class="event-panel-header">
+      <span class="event-panel-tag">LATEST</span>
+    </div>
+    <div id="heroPanelContent">
+
+      <div class="social-item">
+        <div class="social-info">
+          <span class="social-label">SUNDAY SCHOOL</span>
+          <span class="social-detail">EVERY SUNDAY 0900 – 1000 AM</span>
+          <a href="https://www.apostolicfaith.org/library/this-weeks-lessons" target="_blank" class="social-join-btn">VIEW LESSON</a>
+        </div>
+      </div>
+
+      <div class="social-divider"></div>
+
+      <div class="social-item">
+        <div class="social-info">
+          <span class="social-label">BIBLE STUDY </span>
+          <span class="social-detail">EVERY WEDNESDAY 1800 – 1900 PM</span>
+          <a href="https://facebook.com/people/Apostolic-Faith-Church-of-Portland-Oregon-Botswana/100064412953117" target="_blank" class="social-join-btn">VIEW BIBLE STUDY</a>
+        </div>
+      </div>
+
+      <div class="social-divider"></div>
+
+      <div class="social-item">
+        <div class="social-info">
+          <span class="social-label">NEWSLETTER </span>
+          <span class="social-detail">Latest Reports and Updates</span>
+          <a href="newsletter.html" target="_blank" class="social-join-btn">Read Newsletter</a>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+</section>
+
+<!-- ===== TICKER ===== -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="tickerTrack">
+    <span>✦ Sunday Worship 09:00 AM </span>
+    <span>✦ Wednesday Bible Study 18:00 PM</span>
+    <span>✦ Annual CAMPMEETING – 19-26 July</span>
+    <span>✦ Friday Evening Service 18:00 PM</span>
+    <span>✦ Youth Forum Sunday 18:00 PM</span>
+    <span>✦ Annual CAMPMEETING – 19th July</span>
+  </div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about" class="section section-light">
+  <div class="container">
+    <div class="about-grid">
+
+      <div class="about-text">
+        <span class="section-label">Who We Are</span>
+        <h2 class="section-title">Sharing the Gospel of Jesus Christ</h2>
+
+        <p id="aboutText">
+          Welcome to the Apostolic Faith Church Botswana, where we are committed to
+          spreading the Gospel of Jesus Christ and helping people develop a personal
+          relationship with God. As part of the worldwide Apostolic Faith Church
+          headquartered in Portland, Oregon, we uphold the fundamental teachings of
+          New Testament faith and believe the Bible is the inspired and infallible
+          Word of God.
+        </p>
+
+        <p style="margin-top:1rem;color:#555;">
+          Across Botswana, our churches provide a place of worship, prayer,
+          biblical teaching, Christian fellowship, and spiritual growth.
+          Whether you are seeking God for the first time or looking for a church
+          family, you are warmly welcome to worship with us.
+        </p>
+
+        <div class="about-links">
+          <a href="about.html" class="btn-primary">Learn More</a>
+          <a href="locations.html" class="btn-outline" style="border-color:var(--navy-700);color:var(--navy-700);">Find a Branch</a>
+        </div>
+      </div>
+
+      <div class="about-pillars">
+        <div class="pillar-card">
+          <h3>Our Mission</h3>
+          <p>To spread the Gospel of Jesus Christ through prayer, preaching, and sharing His message with our communities.</p>
+        </div>
+        <div class="pillar-card">
+          <h3>Our Beliefs</h3>
+          <p>We believe the Bible is God's infallible Word and uphold the fundamental teachings of New Testament faith, including salvation, sanctification, and the baptism of the Holy Spirit.</p>
+        </div>
+        <div class="pillar-card">
+          <h3>Our Community</h3>
+          <p>We are a welcoming family of believers across Botswana, committed to worship, prayer, Christian fellowship, and living holy lives that glorify God.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== EVENTS ===== -->
+<section id="events" class="section section-dark">
+  <div class="container">
+    <div class="section-label light">Events</div>
+    <h2 class="section-title light">Upcoming Events</h2>
+    <div class="events-grid" id="eventsGrid">
+      <!-- populated by JS -->
+    </div>
+    <div id="noEventsMsg" class="no-events-msg" style="display:none;">
+      <p>No events currently scheduled. Please check back soon or <a href="#contact">contact us</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESOURCES ===== -->
+<section id="resources" class="section section-light">
+  <div class="container">
+    <div class="section-label">Resources</div>
+    <h2 class="section-title">Church Resources</h2>
+    <div class="resources-grid">
+      <div class="resource-card">
+        <h3>Hymn Book</h3>
+        <p>Access our collection of traditional and contemporary hymns used in worship services.</p>
+        <a href="https://play.google.com/store/apps/details?id=com.afcsear.afc_hymns_collection&pli=1" class="resource-link">Download App →</a>
+      </div>
+      <div class="resource-card">
+        <h3>Church Doctrines</h3>
+        <p>Read our core beliefs, theological teachings, and the foundational doctrines of the Apostolic Faith Church.</p>
+        <a href="https://www.apostolicfaith.org/library/doctrinal-resources" class="resource-link">Read Doctrines →</a>
+      </div>
+      <div class="resource-card">
+        <h3>Curriculum</h3>
+        <p>View our comprehensive curriculum for Sunday school and Bible study.</p>
+        <a href="https://www.apostolicfaith.org/library/curriculum" target="_blank" class="resource-link">View Curriculum →</a>
+      </div>
+      <div class="resource-card">
+        <h3>Annual Calendar</h3>
+        <p>Full schedule of services, conventions, camp meetings, and special events for the year.</p>
+        <a href="calendar.html" class="resource-link">View Calendar →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section id="gallery" class="section section-mid">
+  <div class="container">
+    <div class="section-label">Gallery</div>
+    <h2 class="section-title">Moments of Faith, Love, and Fellowship</h2>
+    <div class="gallery-grid" id="galleryGrid">
+
+      <div class="gallery-tile" style="--delay:0s">
+        <img src="css/images/fathers1.jpg" alt="Father's Day Service" loading="lazy" />
+      </div>
+      <div class="gallery-tile" style="--delay:0.1s">
+        <img src="css/images/mothers1.jpg" alt="Mother's Day — Ladies Conference" loading="lazy" />
+      </div>
+      <div class="gallery-tile" style="--delay:0.3s">
+        <img src="css/images/outreach.jpg" alt="Outreach" loading="lazy" />
+      </div>
+      <div class="gallery-tile" style="--delay:0.4s">
+        <img src="css/images/chrildren2.jpg" alt="Children's Service" loading="lazy" />
+      </div>
+      <div class="gallery-tile" style="--delay:0.4s">
+        <img src="css/images/youth2.jpg" alt="Youth Service" loading="lazy" />
+      </div>
+      <div class="gallery-tile" style="--delay:0.5s">
+        <img src="css/images/choir2.jpg" alt="Choir Performance" loading="lazy" />
+      </div>
+      <div class="gallery-tile" style="--delay:0.5s">
+        <img src="css/images/l2026.jpg" alt="2026 Ladies Conference" loading="lazy" />
+      </div>
+      <div class="gallery-tile" style="--delay:0.5s">
+        <img src="css/images/y2026.jpg" alt="Youth Camp 2026" loading="lazy" />
+      </div>
+      <div class="gallery-tile" style="--delay:0.5s">
+        <img src="css/images/motlane.jpg" alt="Motlane" loading="lazy" />
+      </div>
+      <div class="gallery-tile" style="--delay:0.5s">
+        <img src="css/images/letlhakane.jpg" alt="Letlhakane" loading="lazy" />
+      </div>
+      <div class="gallery-tile" style="--delay:0.5s">
+        <img src="css/images/kids202.jpg" alt="Children" loading="lazy" />
+      </div>
+      <div class="gallery-tile" style="--delay:0.5s">
+        <img src="css/images/mother2026.jpg" alt="Mother's Day 2026" loading="lazy" />
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<div class="contact-section" id="contact">
+
+  <!-- COLUMN 1 -->
+  <div class="contact-info">
+    <h3>Reach Out</h3>
+    <div class="contact-item">
+      <div class="contact-icon">📧</div>
+      <div>
+        <strong>Email</strong>
+        <p id="contactEmail">apostolicfaithchurchbotswana@gmail.com</p>
+      </div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">📱</div>
+      <div>
+        <strong>Phone</strong>
+        <p id="contactPhone">+267 74171287</p>
+      </div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">🏢</div>
+      <div>
+        <strong>Head Office</strong>
+        <p>Plot 54201, Phase 4, Gaborone</p>
+      </div>
+    </div>
+    <a href="locations.html" class="btn-primary">View All Branches</a>
+  </div>
+
+  <!-- COLUMN 2 -->
+  <form class="contact-form" id="contactForm" onsubmit="handleContactForm(event)">
+    <h3>Send a Message</h3>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="cName" required>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="cEmail" required>
+    </div>
+    <div class="form-group">
+      <label>Subject</label>
+      <input type="text" id="cSubject">
+    </div>
+    <div class="form-group">
+      <label>Message</label>
+      <textarea id="cMsg" rows="6" required></textarea>
+    </div>
+    <button class="btn-primary" type="submit">Send Message</button>
+  </form>
+
+  <!-- COLUMN 3 -->
+  <form class="prayer-form" id="prayerForm" onsubmit="handlePrayerForm(event)">
+    <h3>Prayer Request</h3>
+    <p class="small-text">Your request will be handled with care and confidentiality.</p>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" id="prName">
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <select id="prCategory">
+        <option>General</option>
+        <option>Healing</option>
+        <option>Family</option>
+        <option>Salvation</option>
+        <option>Financial</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Prayer Request</label>
+      <textarea id="prRequest" rows="5" required></textarea>
+    </div>
+    <div class="form-group">
+      <label>Visibility</label>
+      <select id="prAnon">
+        <option value="no">Show my name to ministers</option>
+        <option value="yes">Keep me anonymous</option>
+      </select>
+    </div>
+    <button class="btn-primary prayer-btn" type="submit">Submit Prayer Request</button>
+  </form>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container footer-inner">
+
+    <div class="footer-brand">
+      <div class="logo-icon logo-icon-sm">
+        <img src="css/images/logo1.png" alt="AFC Botswana" />
+      </div>
+      <div>
+        <p class="footer-church-name">Apostolic Faith Church</p>
+        <p class="footer-sub">Portland, Oregon · Botswana Branch</p>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="locations.html">Locations</a>
+      <a href="#events">Events</a>
+      <a href="#resources">Resources</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <!-- SOCIAL LINKS — update hrefs to your real URLs -->
+    <div class="footer-socials">
+
+      <!-- Facebook -->
+      <a href="https://facebook.com/people/Apostolic-Faith-Church-of-Portland-Oregon-Botswana/100064412953117"
+         target="_blank" rel="noopener" aria-label="Facebook">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
+      </a>
+
+      <!-- Zoom -->
+      <a href="https://zoom.us/j/84874457626"
+         target="_blank" rel="noopener" aria-label="Zoom">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+      </a>
+
+      <!-- YouTube — update to your real channel URL -->
+      <a href="https://www.youtube.com/@apostolicfaithbotswanahead3540"
+         target="_blank" rel="noopener" aria-label="YouTube">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+          <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/>
+        </svg>
+      </a>
+
+      <!-- Email -->
+      <a href="mailto:apostolicfaithchurchbotswana@gmail.com"
+         aria-label="Email us">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </a>
+
+    </div>
+
+    <p class="footer-copy">© 2026 Apostolic Faith Church – Botswana. All rights reserved.</p>
+    <p class="footer-motto">✦ "Faith, Fellowship, Service" ✦</p>
+
+  </div>
+</footer>
+
+<!-- ===== EVENT REGISTRATION MODAL ===== -->
+<div id="regModal" class="modal-overlay" style="display:none;">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeRegModal()">×</button>
+    <h2>Register for Event</h2>
+    <div class="modal-event-info" id="modalEventInfo"></div>
+    <form id="regForm" onsubmit="handleRegistration(event)">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" id="regName" required placeholder="Your full name"/>
+      </div>
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" id="regEmail" required placeholder="your@email.com"/>
+      </div>
+      <div class="form-group">
+        <label>Phone Number *</label>
+        <input type="tel" id="regPhone" required placeholder="+267 71 000 000"/>
+      </div>
+      <div class="form-group">
+        <label>Branch / City</label>
+        <select id="regBranch">
+          <option value="">Select your branch</option>
+          <option>Greater Gaborone </option>
+          <option>Greater Palapye</option>
+          <option>Selebi Phikwe</option>
+          <option>Boteti Region</option>
+          <option>Ngami Region</option>
+          <option>Chobe Region</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;margin-top:.5rem;">Confirm Registration</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div id="toast" class="toast"></div>
+
+<!-- ===== SCRIPTS ===== -->
+<script type="module" src="js/main.js"></script>
+
+<!--
+  Hero verse loaded from Supabase site_config / hero_verse
+-->
+<script type="module">
+  import { DB } from './js/data.js';
+
+  try {
+    const cfg = await DB.getConfig();
+    const el = document.getElementById('weeklyVerse');
+    if (el && cfg.verse_text) {
+      el.textContent = `"${cfg.verse_text}" — ${cfg.verse_reference || ''}`;
+    }
+  } catch (e) {
+    console.warn('Could not load verse from Supabase:', e.message);
+  }
+</script>
+
+</body>
+</html>

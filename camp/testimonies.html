@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Testimonies — Camp Meeting 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="camp-shared.css"/>
+<style>
+.testimony-card {
+  background: var(--c-panel);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 1.5rem;
+  margin-bottom: 1.1rem; transition: all .25s;
+  position: relative;
+}
+.testimony-card:hover { transform: translateY(-3px); border-color: rgba(212,175,55,0.25); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+.testimony-card::before {
+  content: '"';
+  position: absolute; top: 1rem; right: 1.25rem;
+  font-family: 'Playfair Display', serif; font-size: 4rem;
+  color: rgba(212,175,55,0.12); line-height: 1;
+}
+.t-name    { font-weight: 800; font-size: .95rem; color: white; margin-bottom: .2rem; }
+.t-branch  { font-size: .75rem; color: var(--c-gold); margin-bottom: .75rem; }
+.t-body    { font-size: .9rem; color: rgba(255,255,255,0.78); line-height: 1.7; }
+.t-date    { font-size: .72rem; color: var(--c-muted); margin-top: .75rem; }
+.t-pending {
+  background: rgba(212,175,55,0.08); border: 1px solid var(--c-border);
+  border-radius: 10px; padding: 1.25rem; margin-bottom: .85rem; font-size: .88rem; color: var(--c-muted);
+}
+.pending-badge {
+  display: inline-block; background: rgba(212,175,55,0.15); color: var(--c-gold);
+  font-size: .68rem; font-weight: 700; padding: .25rem .6rem;
+  border-radius: 20px; margin-bottom: .5rem; text-transform: uppercase; letter-spacing: .08em;
+}
+.tabs { display: flex; gap: .5rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.tab-btn {
+  background: none; border: none; cursor: pointer; color: var(--c-muted);
+  font-family: 'Lato', sans-serif; font-size: .85rem; font-weight: 700;
+  padding: .75rem 1.25rem; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .2s;
+}
+.tab-btn:hover { color: white; }
+.tab-btn.active { color: var(--c-gold); border-bottom-color: var(--c-gold); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+</style>
+</head>
+<body>
+
+<header class="camp-nav">
+  <div class="camp-nav-inner">
+    <a href="index.html" class="camp-nav-brand">
+      <img src="../css/images/logo1.png" class="camp-nav-logo" alt="AFC"/>
+      <div><span class="camp-nav-title">Camp Meeting 2026</span><span class="camp-nav-sub">AFC Botswana</span></div>
+    </a>
+    <nav class="camp-nav-links">
+      <a href="index.html">Home</a>
+      <a href="registration.html">Register</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="store.html">Store</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="testimonies.html" class="active">Testimonies</a>
+   </nav>
+    <button class="camp-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="camp-mobile-nav" id="mobileNav">
+  <a href="index.html">🏠 Home</a>
+  <a href="registration.html">📋 Register</a>
+  <a href="schedule.html">📅 Schedule</a>
+  <a href="store.html">👕 Store</a>
+  <a href="announcements.html">📢 Announcements</a>
+  <a href="testimonies.html" class="active">✨ Testimonies</a>
+
+</div>
+
+<div class="camp-page-hero">
+  <p class="camp-eyebrow">⛺ Camp Meeting 2026</p>
+  <h1 class="camp-page-title"><em>Testimonies</em></h1>
+  <p class="camp-page-sub">Share what God has done — encourage your brothers and sisters in faith</p>
+</div>
+
+<section class="camp-section">
+  <div class="camp-container" style="max-width:760px;">
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('published')">Testimonies</button>
+      <button class="tab-btn" onclick="switchTab('submit')">Share Testimony</button>
+      <button class="tab-btn" onclick="switchTab('prayer')"> Prayer Request</button>
+    </div>
+
+    <!-- PUBLISHED TESTIMONIES -->
+    <div class="tab-panel active" id="panel-published">
+      <div id="testimoniesList">
+        <div class="camp-empty"><div class="camp-empty-icon">✨</div><p>No testimonies published yet. Be the first to share!</p></div>
+      </div>
+    </div>
+
+    <!-- SUBMIT FORM -->
+    <div class="tab-panel" id="panel-submit">
+      <div id="submitSuccess" style="display:none;" class="camp-success-card">
+        <div class="camp-success-icon">🙌</div>
+        <h2>Thank You!</h2>
+        <p>Your testimony has been submitted and will be published by the admin team once reviewed.</p>
+        <p style="margin-top:.75rem;color:var(--c-gold);font-size:.88rem;">God bless you for sharing your story.</p>
+        <button class="camp-btn-gold" style="margin-top:2rem;" onclick="resetForm()">Share Another →</button>
+      </div>
+      <div id="submitForm" class="camp-card">
+        <div class="camp-card-title">Share Your Testimony</div>
+        <div class="camp-form-group">
+          <label>Your Name *</label>
+          <input type="text" id="tName" placeholder="How should we display your name?"/>
+        </div>
+        <div class="camp-form-group">
+          <label>Branch / City</label>
+          <input type="text" id="tBranch" placeholder="e.g. Francistown Branch"/>
+        </div>
+        <div class="camp-form-group">
+          <label>Title / Heading</label>
+          <input type="text" id="tTitle" placeholder="e.g. God healed me at camp"/>
+        </div>
+        <div class="camp-form-group">
+          <label>Your Testimony *</label>
+          <textarea id="tBody" rows="6" placeholder="Share what God has done in your life. Your testimony encourages others in their walk of faith..."></textarea>
+        </div>
+        <div class="camp-form-group">
+          <label>Visibility Preference</label>
+          <select id="tAnon">
+            <option value="named">Show my name publicly</option>
+            <option value="anon">Keep me anonymous (show "Anonymous")</option>
+          </select>
+        </div>
+        <div id="tError" class="camp-error" style="display:none;">Please fill in your name and testimony.</div>
+        <p style="font-size:.78rem;color:var(--c-muted);margin-bottom:.75rem;">📋 Testimonies are reviewed by the admin team before being published.</p>
+        <button class="camp-btn-submit" onclick="submitTestimony()">✨ Submit Testimony</button>
+      </div>
+    </div>
+    <!-- PRAYER REQUEST FORM -->
+    <div class="tab-panel" id="panel-prayer">
+
+      <div id="prayerSuccess" style="display:none;" class="camp-success-card">
+        <div class="camp-success-icon">🙏</div>
+        <h2>Prayer Received</h2>
+        <p>Your prayer request has been received by our admin team. We will be praying for you.</p>
+        <p style="margin-top:.75rem;color:var(--c-gold);font-size:.88rem;">"The effective, fervent prayer of a righteous man avails much." — James 5:16</p>
+        <button class="camp-btn-gold" style="margin-top:2rem;" onclick="resetPrayer()">Submit Another →</button>
+      </div>
+
+      <div id="prayerForm" class="camp-card">
+        <div class="camp-card-title">🙏 Submit a Prayer Request</div>
+        <p style="font-size:.82rem;color:var(--c-muted);margin-bottom:1.25rem;line-height:1.6;">
+          Your request will be received privately by our admin team. It will not be published publicly.
+        </p>
+
+        <div class="camp-form-group">
+          <label>Your Name *</label>
+          <input type="text" id="prName" placeholder="Your full name"/>
+        </div>
+
+        <div class="camp-form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="prPhone" placeholder="e.g. 76 123 456"/>
+        </div>
+
+        <div class="camp-form-group">
+          <label>Branch / City</label>
+          <input type="text" id="prBranch" placeholder="e.g. Gaborone Central"/>
+        </div>
+
+        <div class="camp-form-group">
+          <label>Your Prayer Request *</label>
+          <textarea id="prBody" rows="5" placeholder="Share your prayer request. This is private and will only be seen by the admin team…"></textarea>
+        </div>
+
+        <div class="camp-form-group">
+          <label>Urgency</label>
+          <select id="prUrgency">
+            <option value="normal">🟢 General — please pray for me</option>
+            <option value="urgent">🔴 Urgent — I need prayer soon</option>
+          </select>
+        </div>
+
+        <div id="prError" class="camp-error" style="display:none;">Please fill in your name and prayer request.</div>
+
+        <p style="font-size:.75rem;color:var(--c-muted);margin-bottom:.75rem;">
+          🔒 Prayer requests are private — only the camp admin team will see them.
+        </p>
+        <button class="camp-btn-submit" onclick="submitPrayer()">🙏 Submit Prayer Request</button>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<footer class="camp-footer">
+  <div class="camp-container camp-footer-inner">
+    <p class="camp-footer-verse">✦ "The just shall live by faith." — Romans 1:17 ✦</p>
+    <p class="camp-footer-copy">© 2026 Apostolic Faith Church – Botswana</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/26776159933" class="wa-float" target="_blank">💬</a>
+<div id="toast" class="camp-toast"></div>
+
+<script type="module">
+import {
+  db,
+  collection, addDoc,
+  query, where,
+  onSnapshot,
+  serverTimestamp,
+  CAMP_TESTIM, CAMP_PRAYERS
+} from './camp-firebase.js';
+
+// ── NAV ──
+document.getElementById('hamburger').onclick = () =>
+  document.getElementById('mobileNav').classList.toggle('open');
+
+// ── HELPERS ──
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function fmtDate(ts){
+  if(!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleDateString('en-BW',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+// ── TABS — fixed to work with any number of tabs ──
+window.switchTab = function(name) {
+  document.querySelectorAll('.tab-btn').forEach(b =>
+    b.classList.toggle('active', b.getAttribute('onclick') === `switchTab('${name}')`)
+  );
+  document.querySelectorAll('.tab-panel').forEach(p =>
+    p.classList.toggle('active', p.id === 'panel-' + name)
+  );
+};
+
+// ════════════════════════════════════════════════════
+//  TESTIMONIES — live, published only
+// ════════════════════════════════════════════════════
+onSnapshot(
+  query(collection(db, CAMP_TESTIM), where('published','==',true)),
+  snap => {
+    const el = document.getElementById('testimoniesList');
+    if(snap.empty){
+      el.innerHTML = `
+        <div class="camp-empty">
+          <div class="camp-empty-icon">✨</div>
+          <p>No testimonies published yet. Be the first to share!</p>
+        </div>`;
+      return;
+    }
+
+    const docs = snap.docs
+      .map(d => ({ id:d.id, ...d.data() }))
+      .sort((a,b) => (b.timestamp?.toMillis?.()??0) - (a.timestamp?.toMillis?.()??0));
+
+    el.innerHTML = docs.map(t => `
+      <div class="testimony-card">
+        <div class="t-name">${esc(t.displayName || t.name || 'Anonymous')}</div>
+        ${t.branch ? `<div class="t-branch">📍 ${esc(t.branch)}</div>` : ''}
+        ${t.title  ? `<p style="font-weight:700;font-size:.88rem;color:white;margin-bottom:.5rem;">${esc(t.title)}</p>` : ''}
+        <div class="t-body">${esc(t.body||'').replace(/\n/g,'<br>')}</div>
+        <div class="t-date">✨ ${fmtDate(t.timestamp) || 'Camp Meeting 2026'}</div>
+      </div>`).join('');
+  },
+  err => {
+    console.error(err);
+    document.getElementById('testimoniesList').innerHTML =
+      `<div class="camp-empty"><p>Could not load testimonies. Please try again.</p></div>`;
+  }
+);
+
+// ════════════════════════════════════════════════════
+//  SUBMIT TESTIMONY
+// ════════════════════════════════════════════════════
+window.submitTestimony = async function(){
+  const name  = document.getElementById('tName').value.trim();
+  const body  = document.getElementById('tBody').value.trim();
+  const errEl = document.getElementById('tError');
+
+  if(!name || !body){
+    errEl.textContent   = 'Please fill in your name and testimony.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const btn = document.querySelector('#prayerForm ~ * .camp-btn-submit, #submitForm .camp-btn-submit');
+  const submitBtn = document.querySelector('#submitForm .camp-btn-submit');
+  submitBtn.disabled    = true;
+  submitBtn.textContent = 'Submitting…';
+
+  const anon = document.getElementById('tAnon').value === 'anon';
+
+  try {
+    await addDoc(collection(db, CAMP_TESTIM), {
+      name,
+      body,
+      branch:      document.getElementById('tBranch').value.trim(),
+      title:       document.getElementById('tTitle').value.trim(),
+      displayName: anon ? 'Anonymous' : name,
+      anonymous:   anon,
+      published:   false,
+      timestamp:   serverTimestamp(),
+      submittedAt: new Date().toLocaleString('en-BW'),
+    });
+    document.getElementById('submitForm').style.display    = 'none';
+    document.getElementById('submitSuccess').style.display = 'block';
+  } catch(e){
+    errEl.textContent   = 'Submission failed: ' + e.message;
+    errEl.style.display = 'block';
+  }
+
+  submitBtn.disabled    = false;
+  submitBtn.textContent = '✨ Submit Testimony';
+};
+
+window.resetForm = function(){
+  ['tName','tBranch','tTitle','tBody'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('tAnon').value                 = 'named';
+  document.getElementById('tError').style.display        = 'none';
+  document.getElementById('submitSuccess').style.display = 'none';
+  document.getElementById('submitForm').style.display    = 'block';
+};
+
+// ════════════════════════════════════════════════════
+//  SUBMIT PRAYER REQUEST
+//  Saves to camp_prayers — private, never shown publicly
+//  Appears in manager.html → Prayers tab
+// ════════════════════════════════════════════════════
+window.submitPrayer = async function(){
+  const name  = document.getElementById('prName').value.trim();
+  const body  = document.getElementById('prBody').value.trim();
+  const errEl = document.getElementById('prError');
+
+  if(!name || !body){
+    errEl.textContent   = 'Please fill in your name and prayer request.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const btn = document.querySelector('#prayerForm .camp-btn-submit');
+  btn.disabled    = true;
+  btn.textContent = 'Submitting…';
+
+  try {
+    await addDoc(collection(db, CAMP_PRAYERS), {
+      name,
+      phone:      document.getElementById('prPhone').value.trim(),
+      branch:     document.getElementById('prBranch').value.trim(),
+      request:    body,
+      urgency:    document.getElementById('prUrgency').value,
+      source:     'public-form',       // distinguishes from registration prayers
+      read:       false,
+      createdAt:  serverTimestamp(),
+      timestamp:  serverTimestamp(),
+    });
+
+    document.getElementById('prayerForm').style.display    = 'none';
+    document.getElementById('prayerSuccess').style.display = 'block';
+  } catch(e){
+    errEl.textContent   = 'Submission failed: ' + e.message;
+    errEl.style.display = 'block';
+  }
+
+  btn.disabled    = false;
+  btn.textContent = '🙏 Submit Prayer Request';
+};
+
+window.resetPrayer = function(){
+  ['prName','prPhone','prBranch','prBody'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('prUrgency').value              = 'normal';
+  document.getElementById('prError').style.display        = 'none';
+  document.getElementById('prayerSuccess').style.display  = 'none';
+  document.getElementById('prayerForm').style.display     = 'block';
+};
+</script>
+</body>
+</html>

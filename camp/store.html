@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Merch Store — Camp Meeting 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+img { max-width:100%; display:block; }
+
+:root {
+  --navy:   #081225;
+  --navy2:  #0d1b3e;
+  --gold:   #d4af37;
+  --gold2:  #f2d06b;
+  --green:  #4caf81;
+  --red:    #e05c5c;
+  --shadow: 0 20px 50px rgba(0,0,0,.35);
+  --nav-h:  64px;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: var(--navy);
+  color: white;
+  min-height: 100vh;
+}
+
+/* ══ NAV ══ */
+.camp-nav {
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  height: var(--nav-h);
+  background: rgba(8,18,37,.97);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  z-index: 1000;
+}
+.camp-nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 28px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.camp-nav-brand {
+  display: flex; align-items: center; gap: 11px;
+  text-decoration: none; flex-shrink: 0;
+}
+.camp-nav-logo { height: 36px; width: auto; object-fit: contain; }
+.camp-nav-title {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; color: white; line-height: 1.2;
+}
+.camp-nav-sub {
+  display: block;
+  font-size: .68rem; color: var(--gold);
+  letter-spacing: .05em; text-transform: uppercase;
+}
+.camp-nav-links {
+  display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
+}
+.camp-nav-links a {
+  color: rgba(255,255,255,.75); text-decoration: none;
+  font-weight: 700; font-size: .85rem;
+  padding: 6px 10px; border-radius: 6px;
+  transition: color .2s, background .2s; white-space: nowrap;
+}
+.camp-nav-links a:hover { color: white; background: rgba(255,255,255,.07); }
+.camp-nav-links a.active { color: var(--gold2); background: rgba(212,175,55,.12); }
+.camp-nav-links .nav-wa {
+  background: rgba(37,211,102,.15); color: #4edd8a;
+  border: 1px solid rgba(37,211,102,.25);
+  padding: 6px 12px; border-radius: 20px; margin-left: 4px;
+}
+.camp-nav-links .nav-wa:hover { background: rgba(37,211,102,.25); color: #5ef59a; }
+
+.camp-hamburger {
+  display: none; flex-direction: column; justify-content: center;
+  gap: 5px; width: 40px; height: 40px;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px; cursor: pointer; padding: 8px; flex-shrink: 0;
+}
+.camp-hamburger span {
+  display: block; width: 100%; height: 2px;
+  background: white; border-radius: 2px; transition: all .25s;
+}
+.camp-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.camp-hamburger.open span:nth-child(2) { opacity: 0; }
+.camp-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.camp-mobile-nav {
+  display: none; position: fixed;
+  top: var(--nav-h); left: 0; width: 100%;
+  background: rgba(8,18,37,.98);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  z-index: 999; flex-direction: column;
+  padding: 12px 20px 20px; gap: 4px;
+  max-height: calc(100vh - var(--nav-h)); overflow-y: auto;
+}
+.camp-mobile-nav.open { display: flex; }
+.camp-mobile-nav a {
+  color: rgba(255,255,255,.8); text-decoration: none;
+  font-weight: 700; font-size: 1rem;
+  padding: 12px 14px; border-radius: 10px; transition: all .2s;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.camp-mobile-nav a:last-child { border-bottom: none; }
+.camp-mobile-nav a:hover,
+.camp-mobile-nav a.active { background: rgba(212,175,55,.12); color: var(--gold2); }
+
+/* ══ HERO ══ */
+.hero {
+  margin-top: var(--nav-h);
+  min-height: 40vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 60px 20px;
+  background:
+    linear-gradient(rgba(8,18,37,.6), rgba(8,18,37,.8)),
+    url('../css/images/camptheme.png') center/cover no-repeat;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  margin-bottom: 10px; line-height: 1.2;
+}
+.hero p { opacity: .7; font-size: 1rem; }
+
+/* ══ GRID ══ */
+.container { max-width: 1200px; margin: 0 auto; padding: 48px 20px 60px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+/* ══ CARD ══ */
+.card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px; overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform .3s, box-shadow .3s;
+  display: flex; flex-direction: column;
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 28px 60px rgba(0,0,0,.45); }
+.card img { width: 100%; height: 220px; object-fit: cover; }
+.card-body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+.prod-name { font-weight: 900; font-size: 1.1rem; margin-bottom: 8px; }
+
+.status-badge {
+  display: inline-block; padding: 4px 12px;
+  font-size: .73rem; border-radius: 20px; font-weight: 700;
+  margin-bottom: 10px; width: fit-content;
+}
+.status-available { background: rgba(76,175,129,.2);  color: var(--green); }
+.status-limited   { background: rgba(212,175,55,.2);  color: var(--gold2); }
+.status-out       { background: rgba(224,92,92,.2);   color: var(--red); }
+
+.price { color: var(--gold); font-weight: 900; font-size: 1.15rem; margin-bottom: 14px; }
+
+.btn {
+  margin-top: auto; width: 100%; padding: 12px;
+  border: none; border-radius: 30px;
+  font-weight: 900; cursor: pointer;
+  font-family: 'Lato', sans-serif; font-size: .92rem;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #081225; transition: transform .2s, box-shadow .2s;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,.35); }
+.btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ══ MODAL ══ */
+.modal {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.78);
+  justify-content: center; align-items: center;
+  z-index: 2000; padding: 16px;
+}
+.modal.open { display: flex; }
+.modal-content {
+  background: var(--navy2); padding: 28px;
+  width: 100%; max-width: 440px;
+  border-radius: 18px; border: 1px solid rgba(212,175,55,.2);
+  position: relative; max-height: 90vh; overflow-y: auto;
+}
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; color: var(--gold); margin-bottom: 4px;
+}
+.close-btn {
+  position: absolute; top: 16px; right: 16px;
+  background: rgba(255,255,255,.08); border: none;
+  color: var(--gold); font-size: 1.1rem;
+  width: 32px; height: 32px; border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background .2s;
+}
+.close-btn:hover { background: rgba(212,175,55,.2); }
+.order-summary {
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px; padding: 12px 14px; margin: 14px 0;
+  font-size: .9rem; line-height: 1.7;
+}
+.field-label {
+  font-size: .72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: rgba(255,255,255,.5);
+  margin-bottom: 5px; margin-top: 14px;
+}
+.field {
+  width: 100%; padding: 10px 13px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.07); color: white;
+  font-family: 'Lato', sans-serif; font-size: .9rem;
+  outline: none; transition: border-color .2s;
+}
+.field:focus { border-color: var(--gold); }
+.field option { background: #0d1b3e; color: white; }
+.note {
+  font-size: .78rem; color: rgba(255,255,255,.55);
+  margin-top: 14px; line-height: 1.6; padding: 10px 12px;
+  background: rgba(212,175,55,.06); border-radius: 8px;
+  border-left: 3px solid rgba(212,175,55,.35);
+}
+
+/* ══ FOOTER ══ */
+.camp-footer { background: #040914; padding: 52px 20px; border-top: 1px solid rgba(255,255,255,.06); }
+.camp-footer-inner { text-align: center; }
+.camp-footer-brand { display: flex; justify-content: center; align-items: center; gap: 14px; margin-bottom: 28px; }
+.camp-footer-brand img { height: 34px; width: auto; }
+.camp-footer-brand p { font-weight: 700; font-size: 1rem; }
+.camp-footer-brand span { font-size: .8rem; opacity: .6; }
+.camp-footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 24px; }
+.camp-footer-links a { color: rgba(255,255,255,.7); text-decoration: none; font-size: .9rem; transition: color .2s; }
+.camp-footer-links a:hover { color: var(--gold); }
+.camp-footer-copy { opacity: .5; font-size: .85rem; margin-bottom: 8px; }
+.camp-footer-verse { color: var(--gold); font-size: .85rem; opacity: .8; }
+
+.wa-float {
+  position: fixed; bottom: 24px; right: 24px;
+  background: #25d366; color: white; border-radius: 50%;
+  width: 54px; height: 54px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; text-decoration: none;
+  box-shadow: 0 4px 18px rgba(0,0,0,.35); z-index: 999; transition: transform .2s;
+}
+.wa-float:hover { transform: scale(1.08); }
+
+/* ══ LOADING SKELETON ══ */
+.skeleton-card {
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px; overflow: hidden; height: 360px;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0%,100% { opacity: .5; }
+  50%      { opacity: 1; }
+}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:960px) {
+  .camp-nav-links a:not(.nav-wa):not(.active) { font-size: .8rem; padding: 6px 7px; }
+}
+@media(max-width:768px) {
+  .camp-nav-links { display: none; }
+  .camp-hamburger { display: flex; }
+  .hero { min-height: unset; padding: 80px 20px 52px; }
+  .container { padding: 36px 16px 52px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 18px; }
+  .card img { height: 190px; }
+  .modal-content { padding: 22px 18px; max-height: 88vh; }
+  .wa-float { bottom: 16px; right: 16px; width: 48px; height: 48px; font-size: 1.4rem; }
+}
+@media(max-width:480px) {
+  .grid { grid-template-columns: 1fr; gap: 16px; }
+  .camp-nav-inner { padding: 0 16px; }
+  .hero h1 { font-size: 1.65rem; }
+  .hero p  { font-size: .9rem; }
+  .card img { height: 200px; }
+  .camp-footer-brand { flex-direction: column; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<header class="camp-nav">
+  <div class="camp-nav-inner">
+    <a href="index.html" class="camp-nav-brand">
+      <img src="../css/images/logo1.png" class="camp-nav-logo" alt="AFC"/>
+      <div>
+        <span class="camp-nav-title">Camp Meeting 2026</span>
+        <span class="camp-nav-sub">AFC Botswana</span>
+      </div>
+    </a>
+    <nav class="camp-nav-links">
+      <a href="index.html">Home</a>
+      <a href="registration.html">Register</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="store.html" class="active">Store</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="testimonies.html">Testimonies</a>
+      <a href="https://wa.me/26773837664" class="nav-wa" target="_blank">💬 WhatsApp</a>
+    </nav>
+    <button class="camp-hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ══ MOBILE NAV ══ -->
+<div class="camp-mobile-nav" id="mobileNav">
+  <a href="index.html">🏠 Home</a>
+  <a href="registration.html">📋 Register</a>
+  <a href="schedule.html">📅 Schedule</a>
+  <a href="store.html" class="active">👕 Store</a>
+  <a href="announcements.html">📢 Announcements</a>
+  <a href="testimonies.html">✨ Testimonies</a>
+  <a href="https://wa.me/26773837664" target="_blank">💬 WhatsApp</a>
+  <a href="../index.html">← Main Site</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div>
+    <h1>Official Camp Merchandise</h1>
+    <p>Order online · Pay deposit or at camp · Collect on arrival</p>
+  </div>
+</div>
+
+<!-- ══ PRODUCTS ══ -->
+<div class="container">
+  <div class="grid" id="productGrid">
+    <!-- skeleton placeholders while loading -->
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+  </div>
+</div>
+
+<!-- ══ ORDER MODAL ══ -->
+<div class="modal" id="orderModal">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="modal-title">Place Order</div>
+    <div class="order-summary" id="orderSummary"></div>
+
+    <div class="field-label">Full Name</div>
+    <input class="field" id="customerName" placeholder="Your full name"/>
+
+    <div class="field-label">Phone Number</div>
+    <input class="field" id="customerPhone" placeholder="e.g. 76 123 456" type="tel"/>
+
+    <div class="field-label">Size</div>
+    <select class="field" id="productSize"></select>
+
+    <div class="field-label">Quantity</div>
+    <select class="field" id="productQty">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
+
+    <div class="field-label">Payment Method</div>
+    <select class="field" id="paymentMethod">
+      <option value="deposit">60% Deposit (pay remainder at camp)</option>
+      <option value="pay-at-camp">Full payment at camp</option>
+    </select>
+
+    <div class="note">
+      📱 After submitting, WhatsApp will open with your order details for confirmation.
+    </div>
+
+    <button class="btn" id="submitOrderBtn" style="margin-top:18px;">Submit Order</button>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer class="camp-footer">
+  <div class="camp-footer-inner">
+    <div class="camp-footer-brand">
+      <img src="../css/images/logo1.png" alt="AFC"/>
+      <div>
+        <p>Camp Meeting 2026</p>
+        <span>Apostolic Faith Church · Botswana</span>
+      </div>
+    </div>
+    <div class="camp-footer-links">
+      <a href="index.html">Home</a>
+      <a href="registration.html">Register</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="store.html">Store</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="testimonies.html">Testimonies</a>
+      <a href="../index.html">← Main Site</a>
+    </div>
+    <p class="camp-footer-copy">© 2026 Apostolic Faith Church – Botswana. All rights reserved.</p>
+    <p class="camp-footer-verse">✦ "The just shall live by faith." — Romans 1:17 ✦</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/26773837664" class="wa-float" target="_blank" aria-label="WhatsApp">💬</a>
+
+<!-- ══ FIREBASE + LOGIC ══ -->
+<script type="module">
+import {
+  db,
+  collection, getDocs, addDoc,
+  serverTimestamp,
+  CAMP_ORDERS, STORE_PRODUCTS
+} from './camp-firebase.js';
+
+// ═══════════════════════════════════════════════════════
+//  CATALOGUE — names, images, sizes hardcoded here.
+//  PRICE and STATUS come from Firestore (set by store manager).
+//  Keys MUST match store-manager.html CATALOGUE exactly.
+// ═══════════════════════════════════════════════════════
+const CATALOGUE = [
+  { key:'sweater', name:'Church Sweater',      img:'../css/images/sweater.jpeg', allSizes:['XS','S','M','L','XL','XXL'] },
+  { key:'tshirt',  name:'Church T-Shirt',      img:'../css/images/tshirt.jpeg',  allSizes:['XS','S','M','L','XL','XXL'] },
+  { key:'cap',     name:'Church Cap',          img:'../css/images/cap.png',      allSizes:['One Size'] },
+  { key:'tea',     name:'Christian Tee',       img:'../css/images/assort.jpeg',  allSizes:['XS','S','M','L','XL','XXL'] },
+  { key:'totebag', name:'Tote Bag',            img:'../css/images/totebag.png', allSizes:['One Size'] },
+  { key:'mug',     name:'Camp Mug',            img:'../css/images/mug.png',     allSizes:[] },
+  { key:'beanie',  name:'Camp Beanie',         img:'../css/images/beanie.png',  allSizes:['S/M','L/XL','One Size'] },
+  { key:'journal', name:'Devotional Journal',  img:'../css/images/journal.png', allSizes:[] },
+];
+
+// Firestore data keyed by product key
+let fsData = {};
+let selectedProduct = null;
+
+// ── LOAD PRODUCTS FROM FIRESTORE ──
+async function loadProducts() {
+  try {
+    const snap = await getDocs(collection(db, STORE_PRODUCTS));
+    snap.docs.forEach(d => {
+      const data = d.data();
+      if(data.key) fsData[data.key] = data;
+    });
+  } catch(e) {
+    console.warn('Could not load product data:', e.message);
+    // Renders with defaults — not fatal
+  }
+  renderProducts();
+}
+
+// ── RENDER ──
+function renderProducts() {
+  const grid = document.getElementById('productGrid');
+
+  // Filter out products with no Firestore price set and no default
+  const visible = CATALOGUE.filter(cat => {
+    const fs = fsData[cat.key] || {};
+    // Hide if explicitly out-of-stock with price 0 (not yet set up)
+    return true; // show all — store manager controls visibility via status
+  });
+
+  if(!visible.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,.4);">
+      No products available yet. Check back soon.
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = visible.map(cat => {
+    const fs     = fsData[cat.key] || {};
+    const status = fs.status || 'available';
+    const price  = fs.price  || 0;   // ← price from Firestore
+    const isOut  = status === 'out-of-stock';
+    const noPrice = price === 0;
+
+    const badgeClass = status === 'available' ? 'status-available'
+                     : status === 'limited'   ? 'status-limited'
+                     : 'status-out';
+    const badgeLabel = status === 'available' ? '✅ Available'
+                     : status === 'limited'   ? '⚠️ Limited Stock'
+                     : '❌ Out of Stock';
+
+    return `
+      <div class="card">
+        <img src="${cat.img}" alt="${cat.name}" loading="lazy"
+          onerror="this.style.display='none'"/>
+        <div class="card-body">
+          <div class="prod-name">${cat.name}</div>
+          <span class="status-badge ${badgeClass}">${badgeLabel}</span>
+          <div class="price">${price > 0 ? `P${price}` : 'Price TBC'}</div>
+          <button class="btn"
+            onclick="openOrder('${cat.key}')"
+            ${isOut || noPrice ? 'disabled' : ''}>
+            ${isOut ? 'Out of Stock' : noPrice ? 'Coming Soon' : 'Order Now'}
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── OPEN ORDER MODAL ──
+window.openOrder = function(key) {
+  const cat       = CATALOGUE.find(c => c.key === key);
+  const fs        = fsData[key] || {};
+  const sizeAvail = fs.sizeAvail || {};
+  const status    = fs.status || 'available';
+  const price     = fs.price  || 0;
+
+  if(status === 'out-of-stock' || price === 0) return;
+
+  selectedProduct = { ...cat, price, sizeAvail };
+
+  // Build size dropdown — only available sizes
+  const sizeEl = document.getElementById('productSize');
+  sizeEl.innerHTML = '';
+
+  if(cat.allSizes.length === 0) {
+    sizeEl.innerHTML = '<option value="One Size">One Size</option>';
+  } else {
+    const available = cat.allSizes.filter(sz => sizeAvail[sz] !== false);
+    if(!available.length) {
+      sizeEl.innerHTML = '<option value="">No sizes currently available</option>';
+    } else {
+      available.forEach(sz => {
+        const o = document.createElement('option');
+        o.value = sz; o.textContent = sz;
+        sizeEl.appendChild(o);
+      });
+    }
+  }
+
+  document.getElementById('orderSummary').innerHTML =
+    `<strong>${cat.name}</strong><br/>
+     Price: <span style="color:var(--gold);font-weight:900;">P${price}</span>`;
+
+  document.getElementById('orderModal').classList.add('open');
+};
+
+window.closeModal = function() {
+  document.getElementById('orderModal').classList.remove('open');
+};
+
+// Close on backdrop click
+document.getElementById('orderModal').addEventListener('click', function(e) {
+  if(e.target === this) closeModal();
+});
+
+// ── SUBMIT ORDER ──
+document.getElementById('submitOrderBtn').addEventListener('click', async function() {
+  const btn     = this;
+  const name    = document.getElementById('customerName').value.trim();
+  const phone   = document.getElementById('customerPhone').value.trim();
+  const size    = document.getElementById('productSize').value;
+  const qty     = parseInt(document.getElementById('productQty').value) || 1;
+  const payment = document.getElementById('paymentMethod').value;
+
+  if(!name || !phone) {
+    alert('Please enter your name and phone number.');
+    return;
+  }
+  if(!selectedProduct) return;
+
+  const total   = selectedProduct.price * qty;
+  const deposit = payment === 'deposit' ? Math.round(total * 0.6) : 0;
+
+  btn.disabled    = true;
+  btn.textContent = 'Placing order…';
+
+  try {
+    await addDoc(collection(db, CAMP_ORDERS), {
+      name,
+      phone,
+      item:            selectedProduct.name,
+      productKey:      selectedProduct.key,
+      size,
+      qty,
+      total,
+      deposit,
+      payment,
+      status:          'pending',
+      collected:       false,
+      depositApproved: false,
+      createdAt:       serverTimestamp(),
+    });
+
+    const msg =
+`Hello AFC Store 👋
+
+Item: ${selectedProduct.name}
+Name: ${name}
+Phone: ${phone}
+Size: ${size}
+Qty: ${qty}
+Total: P${total}${payment === 'deposit' ? `\nDeposit (60%): P${deposit}` : ''}
+Payment: ${payment === 'deposit' ? '60% Deposit' : 'Full payment at camp'}
+
+Please confirm my order. 🙏`;
+
+    window.open(`https://wa.me/26773837664?text=${encodeURIComponent(msg)}`);
+    closeModal();
+    document.getElementById('customerName').value  = '';
+    document.getElementById('customerPhone').value = '';
+    alert('Order placed successfully! 🎉');
+
+  } catch(e) {
+    alert('Error placing order: ' + e.message);
+  }
+
+  btn.disabled    = false;
+  btn.textContent = 'Submit Order';
+});
+
+// ── INIT ──
+loadProducts();
+</script>
+
+<!-- ══ HAMBURGER ══ -->
+<script>
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileNav.classList.toggle('open');
+});
+
+mobileNav.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileNav.classList.remove('open');
+  });
+});
+</script>
+
+</body>
+</html>

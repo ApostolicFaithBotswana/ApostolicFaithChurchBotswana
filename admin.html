@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – AFC Botswana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+  <style>
+    .login-card { max-width: 420px; }
+
+    .login-field { margin-bottom: .9rem; }
+    .login-field label {
+      display: block;
+      font-size: .73rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: #8899aa;
+      margin-bottom: .35rem;
+    }
+    .login-field input {
+      width: 100%;
+      padding: .72rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: white;
+      font-family: 'Lato', sans-serif;
+      font-size: .92rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .login-field input:focus { border-color: #d4af37; }
+    .login-field input::placeholder { color: rgba(255,255,255,.22); }
+
+    .forgot-link {
+      display: block;
+      text-align: right;
+      font-size: .76rem;
+      color: #8899aa;
+      cursor: pointer;
+      margin-top: -.2rem;
+      margin-bottom: .9rem;
+      background: none;
+      border: none;
+      font-family: 'Lato', sans-serif;
+      padding: 0;
+      transition: color .2s;
+    }
+    .forgot-link:hover { color: #d4af37; }
+
+    .login-msg {
+      display: none;
+      margin-bottom: .9rem;
+      padding: .75rem 1rem;
+      border-radius: 8px;
+      font-size: .83rem;
+      line-height: 1.5;
+    }
+    .login-msg.error   { background: rgba(220,50,50,.15);  color: #ff8080; border: 1px solid rgba(220,50,50,.2); }
+    .login-msg.success { background: rgba(46,204,113,.12); color: #2ecc71; border: 1px solid rgba(46,204,113,.2); }
+
+    /* Verse ref field helper text */
+    .field-hint {
+      font-size: .72rem;
+      color: #8899aa;
+      margin-top: .3rem;
+    }
+
+    @media(max-width:480px){
+      .login-card { padding: 1.75rem 1.25rem; }
+    }
+  </style>
+</head>
+<body class="admin-body">
+
+<!-- ══ LOGIN SCREEN ══ -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+
+    <!-- FIX 1: was logo.png (missing file) — corrected to logo1.png -->
+    <div class="logo-icon logo-icon-sm">
+      <img src="css/images/logo1.png" alt="AFC Botswana"/>
+    </div>
+
+    <h1>Admin Panel</h1>
+    <p>AFC Botswana Website</p>
+
+    <div id="loginMsg" class="login-msg"></div>
+
+    <div class="login-field">
+      <label>Email Address</label>
+      <input type="email" id="loginEmail" placeholder="admin@afcbotswana.org"
+        onkeydown="if(event.key==='Enter') doLogin()"/>
+    </div>
+
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter your password"
+        onkeydown="if(event.key==='Enter') doLogin()"/>
+    </div>
+
+    <button class="forgot-link" id="forgotBtn" onclick="doForgotPassword()">
+      Forgot password?
+    </button>
+
+    <button class="admin-btn-primary" id="loginBtn" onclick="doLogin()">
+      Login →
+    </button>
+
+    <a href="index.html" class="login-back">← Back to website</a>
+  </div>
+</div>
+
+<!-- ══ ADMIN PANEL ══ -->
+<div id="adminApp" class="admin-app" style="display:none;">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-icon logo-icon-sm">
+        <img src="css/images/logo1.png" alt="AFC Botswana"/>
+      </div>
+      <div>
+        <p style="font-weight:700;font-size:.9rem;color:#fff;margin:0;">AFC Main Admin</p>
+        <p id="adminEmailDisplay" style="font-size:.72rem;color:#8899aa;margin:0;"></p>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="sidebar-link active" data-tab="dashboard">📊 Dashboard</a>
+      <a href="#" class="sidebar-link" data-tab="events">📅 Events</a>
+      <a href="#" class="sidebar-link" data-tab="content">✏️ Site Content</a>
+      <a href="#" class="sidebar-link" data-tab="registrations">👥 Registrations</a>
+      <a href="#" class="sidebar-link" data-tab="gallery">🖼️ Gallery</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="index.html" target="_blank" class="sidebar-link" style="color:#8899aa;">🌐 View Site</a>
+      <a href="#" onclick="doLogout()" class="sidebar-link" style="color:#e05252;">🚪 Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main Area -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h2 id="adminPageTitle">Dashboard</h2>
+      <span id="adminDateTime" class="admin-datetime"></span>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="admin-tab-content active" id="tab-dashboard">
+      <div class="dash-stats">
+        <div class="stat-card">
+          <div class="stat-num" id="statEvents">0</div>
+          <div class="stat-label">Events</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statRegistrations">0</div>
+          <div class="stat-label">Registrations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Active Branches</div>
+        </div>
+      </div>
+      <div class="dash-info">
+        <h3>Quick Actions</h3>
+        <div class="quick-actions">
+          <button class="quick-btn" onclick="switchTab('events')">+ Add Event</button>
+          <button class="quick-btn" onclick="switchTab('content')">Edit Content</button>
+          <button class="quick-btn" onclick="switchTab('registrations')">View RSVPs</button>
+        </div>
+        <h3 style="margin-top:2rem;">Recent Events</h3>
+        <div id="dashRecentEvents"></div>
+      </div>
+    </div>
+
+    <!-- EVENTS -->
+    <div class="admin-tab-content" id="tab-events">
+      <div class="admin-two-col">
+        <div class="admin-card">
+          <h3 id="eventFormTitle">Add New Event</h3>
+          <input type="hidden" id="editingEventId" value=""/>
+          <div class="aform-group">
+            <label>Event Name *</label>
+            <input type="text" id="evtName" placeholder="e.g. Annual Convention 2026"/>
+          </div>
+          <div class="aform-row">
+  <div class="aform-group">
+    <label>Start Date *</label>
+    <input type="date" id="evtStartDate"/>
+  </div>
+  <div class="aform-group">
+    <label>End Date *</label>
+    <input type="date" id="evtEndDate"/>
+  </div>
+</div>
+          <div class="aform-group">
+            <label>Location *</label>
+            <input type="text" id="evtLocation" placeholder="e.g. Gaborone Central Branch"/>
+          </div>
+          <div class="aform-group">
+            <label>Description</label>
+            <textarea id="evtDesc" rows="3" placeholder="Describe the event…"></textarea>
+          </div>
+          <div class="aform-group">
+            <label>Event Poster URL <span style="color:#8899aa;font-weight:400;">(optional)</span></label>
+            <input type="url" id="evtPoster" placeholder="https://…"/>
+          </div>
+          <div class="aform-group">
+  <label>External Registration URL <span style="color:#8899aa;font-weight:400;">(optional — e.g. Camp Portal)</span></label>
+  <input type="url" id="evtExternalUrl" placeholder="https://camp.yoursite.com/register"/>
+</div>
+          <div style="display:flex;gap:.75rem;">
+            <button class="admin-btn-primary" onclick="saveEvent()">Save Event</button>
+            <button class="admin-btn-secondary" onclick="clearEventForm()">Clear</button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;">
+            <h3 style="margin:0;">All Events</h3>
+            <button class="admin-btn-secondary" onclick="migrateLegacyEvents()">Import Old Browser Events</button>
+          </div>
+          <p style="color:#8899aa;font-size:.82rem;margin:.75rem 0 1rem;">
+            Events are stored in Firebase: <strong>site_events</strong>
+          </p>
+          <div id="adminEventsList">
+            <p class="empty-state">No events yet. Add your first event.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SITE CONTENT -->
+    <div class="admin-tab-content" id="tab-content">
+      <div class="admin-card" style="max-width:680px;">
+        <h3>Edit Site Content</h3>
+
+        <div class="aform-group">
+          <label>Hero Title</label>
+          <input type="text" id="cfgHeroTitle"/>
+        </div>
+
+        <!-- FIX 2: Split verse into two fields to match Firebase structure -->
+        <!-- index.html reads site_config/hero_verse as { text, reference } -->
+        <!-- admin.js saveContent() must write those same two fields -->
+        <div class="aform-group">
+          <label>Weekly Verse — Text</label>
+          <textarea id="cfgVerseText" rows="2"
+            placeholder="For where two or three gather in my name, there am I with them."></textarea>
+          <p class="field-hint">The verse only — no quotation marks, no reference.</p>
+        </div>
+        <div class="aform-group">
+          <label>Weekly Verse — Reference</label>
+          <input type="text" id="cfgVerseRef" placeholder="Matthew 18:20"/>
+          <p class="field-hint">Saved to Firestore → site_config/hero_verse. Updates the homepage hero automatically.</p>
+        </div>
+
+        <div class="aform-group">
+          <label>About Us Text</label>
+          <textarea id="cfgAboutText" rows="5"></textarea>
+        </div>
+        <div class="aform-row">
+          <div class="aform-group">
+            <label>Contact Email</label>
+            <input type="email" id="cfgEmail"/>
+          </div>
+          <div class="aform-group">
+            <label>Contact Phone</label>
+            <input type="tel" id="cfgPhone"/>
+          </div>
+        </div>
+
+        <button class="admin-btn-primary" onclick="saveContent()">Save All Changes</button>
+      </div>
+    </div>
+
+    <!-- REGISTRATIONS -->
+    <div class="admin-tab-content" id="tab-registrations">
+      <div class="admin-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <h3 style="margin:0;">Event Registrations</h3>
+          <button class="admin-btn-secondary" onclick="exportRegistrations()">⬇ Export CSV</button>
+        </div>
+        <div id="registrationsTable">
+          <p class="empty-state">No registrations yet.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIX 3: Gallery tab panel was missing — sidebar link existed but no content panel -->
+    <div class="admin-tab-content" id="tab-gallery">
+      <div class="admin-card">
+        <h3>Gallery</h3>
+        <p style="color:#8899aa;font-size:.88rem;line-height:1.7;margin-bottom:1.25rem;">
+          Gallery images are loaded directly from your <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">css/images/</code> folder
+          and referenced in <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">index.html</code>.
+          To add or change photos, upload the image file to that folder and update the filename in the gallery section of <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">index.html</code>.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:1.25rem;font-size:.82rem;color:#8899aa;">
+            <strong style="color:white;display:block;margin-bottom:.3rem;">Current images</strong>
+            fathers1.jpg · mothers1.jpg · outreach.jpg · chrildren2.jpg · youth2.jpg · choir2.jpg · l2026.jpg · y2026.jpg · motlane.jpg · letlhakane.jpg · kids202.jpg · mother2026.jpg
+          </div>
+          <div style="background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.15);border-radius:10px;padding:1.25rem;font-size:.82rem;color:#d4af37;">
+            <strong style="display:block;margin-bottom:.3rem;">To add a new photo</strong>
+            1. Upload image to <code>css/images/</code><br>
+            2. Add a new <code>.gallery-tile</code> block in <code>index.html</code> pointing to the filename.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<script type="module" src="js/admin.js"></script>
+
+<!--
+  ═══════════════════════════════════════════════════
+  REMINDER FOR js/admin.js — saveContent() function
+  ───────────────────────────────────────────────────
+  Make sure saveContent() writes the verse like this:
+
+    import { doc, setDoc, updateDoc } from '...firebase-firestore.js';
+
+    // Save hero verse (two fields — matches what index.html reads)
+    await setDoc(doc(db, 'site_config', 'hero_verse'), {
+      text:      document.getElementById('cfgVerseText').value.trim(),
+      reference: document.getElementById('cfgVerseRef').value.trim()
+    });
+
+    // Save other content (site_config/main or wherever you store it)
+    await setDoc(doc(db, 'site_config', 'main'), {
+      heroTitle: document.getElementById('cfgHeroTitle').value.trim(),
+      aboutText: document.getElementById('cfgAboutText').value.trim(),
+      email:     document.getElementById('cfgEmail').value.trim(),
+      phone:     document.getElementById('cfgPhone').value.trim()
+    });
+
+  And loadContent() should populate both verse fields:
+    const verseSnap = await getDoc(doc(db, 'site_config', 'hero_verse'));
+    if (verseSnap.exists()) {
+      document.getElementById('cfgVerseText').value = verseSnap.data().text || '';
+      document.getElementById('cfgVerseRef').value  = verseSnap.data().reference || '';
+    }
+  ═══════════════════════════════════════════════════
+-->
+</script>
+</body>
+</html>
