@@ -419,3 +419,175 @@ body.modal-open {
   border: 1px dashed rgba(212, 175, 55, 0.45);
   border-radius: 10px;
 }
+
+/* ── Section list admin toolbars (live editor) ── */
+[data-edit-list] {
+  position: relative;
+}
+
+.list-admin-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding: 0.65rem 1rem;
+  background: rgba(10, 22, 40, 0.92);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 10px;
+}
+
+.list-admin-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold, #d4af37);
+}
+
+.list-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  border: 1px solid var(--gold, #d4af37);
+  background: transparent;
+  color: var(--gold, #d4af37);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.list-add-btn:hover {
+  background: var(--gold, #d4af37);
+  color: var(--navy-900, #0a1628);
+}
+
+.list-delete-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 6px;
+  border: 1px solid #e05252;
+  background: rgba(10, 22, 40, 0.92);
+  color: #e05252;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.live-editable:hover .list-delete-btn,
+.is-live-admin .list-delete-btn {
+  opacity: 1;
+}
+
+.list-delete-btn:hover {
+  background: #e05252;
+  color: #fff;
+}
+
+.list-empty-hint {
+  text-align: center;
+  color: #8899aa;
+  font-size: 0.9rem;
+  padding: 2rem;
+  font-style: italic;
+}
+
+/* ── Section list admin toolbars (live editor) ── */
+[data-edit-list] {
+  position: relative;
+}
+
+.list-admin-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding: 0.65rem 1rem;
+  background: rgba(10, 22, 40, 0.92);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 10px;
+}
+
+.list-admin-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold, #d4af37);
+}
+
+.list-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  border: 1px solid var(--gold, #d4af37);
+  background: transparent;
+  color: var(--gold, #d4af37);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.list-add-btn:hover {
+  background: var(--gold, #d4af37);
+  color: var(--navy-900, #0a1628);
+}
+
+.list-delete-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 6px;
+  border: 1px solid #e05252;
+  background: rgba(10, 22, 40, 0.92);
+  color: #e05252;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.live-editable:hover .list-delete-btn,
+.is-live-admin .list-delete-btn {
+  opacity: 1;
+}
+
+.list-delete-btn:hover {
+  background: #e05252;
+  color: #fff;
+}
+
+.list-empty-hint {
+  text-align: center;
+  color: #8899aa;
+  font-size: 0.9rem;
+  padding: 2rem;
+  font-style: italic;
+}

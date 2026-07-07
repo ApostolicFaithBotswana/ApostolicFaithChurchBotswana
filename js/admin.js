@@ -5,6 +5,7 @@
 
 import { DB } from './data.js';
 import { icon } from './icons.js';
+import { initSectionsAdmin } from './section-lists-admin.js';
 import {
   auth,
   signInWithEmailAndPassword,
@@ -26,8 +27,8 @@ function initAdminIcons() {
     dashboard: 'dashboard',
     events: 'calendar',
     content: 'edit',
+    sections: 'edit',
     registrations: 'users',
-    gallery: 'image',
   };
 
   document.querySelectorAll('.sidebar-link[data-tab]').forEach((link) => {
@@ -258,6 +259,8 @@ async function initAdminApp() {
     renderAdminEventsList(),
   ]);
 
+  initSectionsAdmin();
+
   realtimeUnsubs.forEach((u) => u?.());
   realtimeUnsubs = [];
 
@@ -334,7 +337,8 @@ async function switchTab(tabName) {
 
   const titles = {
     dashboard: 'Dashboard', events: 'Events',
-    content: 'Site Content', registrations: 'Registrations', gallery: 'Gallery'
+    content: 'Site Content', sections: 'Page Sections',
+    registrations: 'Registrations',
   };
   setEl('adminPageTitle', titles[tabName] || tabName);
 
@@ -647,16 +651,8 @@ window.exportRegistrations = async function() {
 };
 
 /* ══════════════════════════════════════════════════════════
-   GALLERY
-   FIX: gallery tab is now static/informational (no DOM
-   elements to populate). loadGallery() removed from initAdminApp.
-   renderGalleryAdmin / addGalleryPhoto / removeGalleryPhoto
-   removed — no matching HTML elements exist.
+   GALLERY — managed via Page Sections tab (list.gallery)
 ══════════════════════════════════════════════════════════ */
-
-// Nothing to load — gallery tab is informational only.
-// To make it dynamic later, add galleryUrl/galleryCaption
-// inputs and a galleryAdminList div to admin.html first.
 
 /* ══════════════════════════════════════════════════════════
    UTILS

@@ -223,6 +223,17 @@ const DB = {
     }
   },
 
+  /** Real-time listener for all site_blocks (admin sections tab) */
+  subscribeAllBlocks(callback) {
+    const refresh = () => callback();
+    refresh();
+    return onSnapshot(
+      collection(null, SITE_BLOCKS),
+      refresh,
+      (err) => console.warn('All blocks subscription error:', err)
+    );
+  },
+
   async saveBlock(page, blockKey, blockType, data) {
     const snap = await getDocs(query(
       collection(null, SITE_BLOCKS),

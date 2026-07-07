@@ -126,8 +126,8 @@
       <a href="#" class="sidebar-link active" data-tab="dashboard"><span class="nav-label">Dashboard</span></a>
       <a href="#" class="sidebar-link" data-tab="events"><span class="nav-label">Events</span></a>
       <a href="#" class="sidebar-link" data-tab="content"><span class="nav-label">Site Content</span></a>
+      <a href="#" class="sidebar-link" data-tab="sections"><span class="nav-label">Page Sections</span></a>
       <a href="#" class="sidebar-link" data-tab="registrations"><span class="nav-label">Registrations</span></a>
-      <a href="#" class="sidebar-link" data-tab="gallery"><span class="nav-label">Gallery</span></a>
     </nav>
 
     <div class="sidebar-footer">
@@ -168,6 +168,7 @@
         <div class="quick-actions">
           <button class="quick-btn" onclick="switchTab('events')">+ Add Event</button>
           <button class="quick-btn" onclick="switchTab('content')">Edit Content</button>
+          <button class="quick-btn" onclick="switchTab('sections')">Manage Sections</button>
           <button class="quick-btn" onclick="switchTab('registrations')">View RSVPs</button>
         </div>
         <h3 style="margin-top:2rem;">Recent Events</h3>
@@ -281,6 +282,16 @@
       </div>
     </div>
 
+    <!-- PAGE SECTIONS -->
+    <div class="admin-tab-content" id="tab-sections">
+      <div class="admin-card sections-admin-card">
+        <h3>Page Sections</h3>
+        <div id="sectionsAdminRoot">
+          <p class="empty-state">Loading sections…</p>
+        </div>
+      </div>
+    </div>
+
     <!-- REGISTRATIONS -->
     <div class="admin-tab-content" id="tab-registrations">
       <div class="admin-card">
@@ -294,30 +305,21 @@
       </div>
     </div>
 
-    <!-- FIX 3: Gallery tab panel was missing — sidebar link existed but no content panel -->
-    <div class="admin-tab-content" id="tab-gallery">
-      <div class="admin-card">
-        <h3>Gallery</h3>
-        <p style="color:#8899aa;font-size:.88rem;line-height:1.7;margin-bottom:1.25rem;">
-          Gallery images are loaded directly from your <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">css/images/</code> folder
-          and referenced in <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">index.html</code>.
-          To add or change photos, upload the image file to that folder and update the filename in the gallery section of <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">index.html</code>.
-        </p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
-          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:1.25rem;font-size:.82rem;color:#8899aa;">
-            <strong style="color:white;display:block;margin-bottom:.3rem;">Current images</strong>
-            fathers1.jpg · mothers1.jpg · outreach.jpg · chrildren2.jpg · youth2.jpg · choir2.jpg · l2026.jpg · y2026.jpg · motlane.jpg · letlhakane.jpg · kids202.jpg · mother2026.jpg
-          </div>
-          <div style="background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.15);border-radius:10px;padding:1.25rem;font-size:.82rem;color:#d4af37;">
-            <strong style="display:block;margin-bottom:.3rem;">To add a new photo</strong>
-            1. Upload image to <code>css/images/</code><br>
-            2. Add a new <code>.gallery-tile</code> block in <code>index.html</code> pointing to the filename.
-          </div>
-        </div>
-      </div>
-    </div>
-
   </main>
+</div>
+
+<!-- Section card editor modal -->
+<div id="sectionEditModal" class="live-edit-modal admin-section-modal">
+  <div class="live-edit-dialog">
+    <button type="button" class="live-edit-close" onclick="closeSectionModal()" aria-label="Close">×</button>
+    <h3 id="sectionEditTitle">Edit section card</h3>
+    <p class="live-edit-hint">Upload images from your device. Changes sync to the live site instantly.</p>
+    <form id="sectionEditForm" onsubmit="event.preventDefault();saveSectionModal();"></form>
+    <div class="live-edit-actions">
+      <button type="button" class="admin-btn-primary" onclick="saveSectionModal()">Save card</button>
+      <button type="button" class="admin-btn-secondary" onclick="closeSectionModal()">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <!-- TOAST -->

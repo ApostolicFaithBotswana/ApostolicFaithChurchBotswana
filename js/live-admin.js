@@ -17,6 +17,18 @@ import {
 import { DB } from './data.js';
 import { icon } from './icons.js';
 import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js';
+import {
+  initSectionLists,
+  applyListBlocksFromCache,
+  getListItemContext,
+  getListItems,
+  buildListItemForm,
+  saveListItemFromForm,
+  attachListToolbars,
+  deleteListItem,
+  setListsUpdateCallback,
+} from './section-lists.js';
+import { getListConfig } from './section-lists-config.js';
 
 const SITE_BLOCKS = 'site_blocks';
 const FIELD_TYPES = new Set(['card', 'district', 'profile', 'timeline', 'panel', 'section', 'event-card', 'fields']);
@@ -41,17 +53,38 @@ export function initLiveAdmin(pageId = 'index') {
   ensureEditorShell();
 
   window.addEventListener('afc:edit-event', (e) => openEventEditor(e.detail));
+  window.addEventListener('afc:add-list-item', (e) => {
+    const { page, listId } = e.detail || {};
+    if (page && listId) openNewListItemEditor(page, listId);
+  });
 
-  // Published content loads for ALL visitors (not only when admin is logged in)
+  setListsUpdateCallback(() => {
+    if (isAdmin) {
+      attachEditButtons();
+      attachListToolbars(true);
+    }
+  });
+
   loadAndApplyBlocks();
   subscribeBlocks();
+  initSectionLists(pageId).then(() => {
+    if (isAdmin) {
+      attachEditButtons();
+      attachListToolbars(true);
+    }
+  });
 
   onAuthStateChanged(auth, (user) => {
     isAdmin = !!user && user.email?.toLowerCase() === ROLE_EMAILS.mainsite;
     document.body.classList.toggle('is-live-admin', isAdmin);
     updateAdminBar(user);
-    if (isAdmin) attachEditButtons();
-    else detachEditButtons();
+    if (isAdmin) {
+      attachEditButtons();
+      attachListToolbars(true);
+    } else {
+      detachEditButtons();
+      attachListToolbars(false);
+    }
     window.dispatchEvent(new CustomEvent('afc:admin-changed', { detail: isAdmin }));
   });
 }
@@ -166,7 +199,11 @@ function subscribeBlocks() {
         blocksCache[key] = { id: d.id, data: row.data || {} };
       });
       applyAllBlocks();
-      if (isAdmin) attachEditButtons();
+      applyListBlocksFromCache(currentPage, blocksCache);
+      if (isAdmin) {
+        attachEditButtons();
+        attachListToolbars(true);
+      }
       window.dispatchEvent(new CustomEvent('afc:blocks-changed', { detail: blocksCache }));
     },
     (err) => console.warn('Blocks realtime error:', err)
@@ -177,6 +214,8 @@ function applyAllBlocks() {
   document.querySelectorAll('[data-edit]').forEach((el) => {
     const key = el.dataset.edit;
     if (key?.startsWith('event.')) return;
+    const listParent = el.closest('[data-edit-list]');
+    if (listParent?.dataset.editList && el.dataset.listItemId) return;
     const block = blocksCache[key];
     if (!block?.data) return;
     applyBlockToElement(el, block.data);
@@ -276,6 +315,7 @@ function applyFieldValue(child, field, value) {
 let editingEl = null;
 let editingEventId = null;
 let editingMode = null;
+let editingListCtx = null;
 
 function imagePreviewHtml(url, label = 'Current image') {
   if (!url || url.startsWith('data:')) return '';
@@ -287,9 +327,16 @@ function uploadImageField(name = 'file', label = 'Upload image') {
 }
 
 function openBlockEditor(el) {
+  const listCtx = getListItemContext(el);
+  if (listCtx) {
+    openListItemEditor(listCtx);
+    return;
+  }
+
   editingMode = 'block';
   editingEl = el;
   editingEventId = null;
+  editingListCtx = null;
   const type = el.dataset.editType || 'text';
   const label = el.dataset.editLabel || el.dataset.edit || 'Content';
   document.getElementById('liveEditTitle').textContent = `Edit: ${label}`;
@@ -304,6 +351,50 @@ function openBlockEditor(el) {
   form.innerHTML = buildFormFields(type, existing);
   document.getElementById('liveEditModal').classList.add('open');
   lockScroll();
+}
+
+function openListItemEditor(ctx, isNew = false) {
+  editingMode = isNew ? 'list-item-new' : 'list-item';
+  editingListCtx = ctx;
+  editingEl = ctx.card || null;
+  editingEventId = null;
+
+  const item = isNew ? {} : getListItems(ctx.page, ctx.listId).find((i) => i.id === ctx.itemId) || {};
+  document.getElementById('liveEditTitle').textContent = isNew
+    ? `Add: ${ctx.config.label}`
+    : `Edit: ${ctx.config.label}`;
+  document.getElementById('liveEditHint').textContent =
+    'Upload images from your device. Changes sync in real time for all visitors.';
+
+  const form = document.getElementById('liveEditForm');
+  form.innerHTML = buildListItemForm(ctx.config, item, { isNew })
+    + (isNew ? '' : `<button type="button" class="btn-outline-dark" id="liveDeleteListItem" style="margin-top:.5rem;color:#c0392b;border-color:#c0392b;">Remove card</button>`);
+
+  document.getElementById('liveDeleteListItem')?.addEventListener('click', async () => {
+    if (!confirm('Remove this card from the section?')) return;
+    await deleteListItem(ctx.page, ctx.listId, ctx.itemId);
+    closeEditModal();
+    attachEditButtons();
+    attachListToolbars(true);
+    window.dispatchEvent(new CustomEvent('afc:lists-changed'));
+  });
+
+  document.getElementById('liveEditModal').classList.add('open');
+  lockScroll();
+}
+
+function openNewListItemEditor(page, listId) {
+  const config = getListConfig(page, listId);
+  if (!config) return;
+  const container = document.querySelector(config.selector);
+  openListItemEditor({
+    page,
+    listId,
+    itemId: null,
+    config,
+    container,
+    card: null,
+  }, true);
 }
 
 function gatherDataFromElement(el, type) {
@@ -456,6 +547,7 @@ function closeEditModal() {
   editingEl = null;
   editingEventId = null;
   editingMode = null;
+  editingListCtx = null;
   unlockScroll();
 }
 
@@ -464,7 +556,12 @@ async function saveEditModal() {
   const fd = new FormData(form);
   try {
     if (editingMode === 'event') await saveEventFromForm(fd);
-    else if (editingMode === 'block') await saveBlockFromForm(fd);
+    else if (editingMode === 'list-item' || editingMode === 'list-item-new') {
+      await saveListItemFromForm(editingListCtx, fd, editingListCtx?.itemId);
+      attachEditButtons();
+      attachListToolbars(true);
+      window.dispatchEvent(new CustomEvent('afc:lists-changed'));
+    } else if (editingMode === 'block') await saveBlockFromForm(fd);
     closeEditModal();
   } catch (err) {
     alert('Save failed: ' + err.message);
