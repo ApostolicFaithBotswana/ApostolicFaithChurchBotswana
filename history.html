@@ -6,354 +6,347 @@
   <title>Our History – AFC Botswana</title>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
-    /* ── HISTORY PAGE SPECIFIC ── */
     :root {
       --font-heading: 'Times New Roman', Times, Georgia, serif;
       --font-body:    Calibri, 'Segoe UI', Candara, Arial, sans-serif;
+      --gold:    #D4AF37;
+      --gold2:   #f0d060;
+      --gold-dim:rgba(212,175,55,0.12);
+      --border:  rgba(212,175,55,0.2);
+      --navy:    #0a1628;
+      --navy2:   #0f2040;
+      --navy3:   #152c55;
+      --muted:   #8899bb;
+      --white:   #ffffff;
+      --off:     #f4f6fb;
     }
 
-    /* HERO */
-    .hist-hero{
-    min-height: 80vh;
+    /* ─── BASE ─── */
+    body { font-family: var(--font-body); background: var(--navy); color: var(--white); }
+    h1,h2,h3,h4 { font-family: var(--font-heading); line-height: 1.2; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
 
-    background:
-        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
-        url("css/images/history.jpg");
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    display: flex;
-    align-items: center;
-}
-    .hist-hero::after {
-      content: '1968';
-      position: absolute; right: -2rem; bottom: -3rem;
-      font-family: var(--font-heading);
-      font-size: 16rem; font-weight: 900;
-      color: rgba(212,175,55,0.04); line-height: 1;
-      pointer-events: none; user-select: none;
+    /* ─── HERO ─── */
+    .hist-hero {
+      padding: 130px 1.25rem 70px;
+      background:
+        radial-gradient(ellipse at 25% 60%, rgba(212,175,55,0.1), transparent 55%),
+        linear-gradient(160deg, #050d1e 0%, #0f2040 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .hist-hero-inner {
-      max-width: 900px; margin: 0 auto; position: relative; z-index: 2;
+    .hist-hero-inner { max-width: 820px; margin: 0 auto; }
+    .breadcrumb {
+      font-size: .75rem; color: rgba(255,255,255,.4);
+      display: flex; gap: .4rem; align-items: center; margin-bottom: 1.5rem;
+      flex-wrap: wrap;
     }
+    .breadcrumb a { color: var(--gold); }
     .hist-hero h1 {
-      font-family: var(--font-heading);
-      font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900;
-      line-height: 1.1; margin-bottom: 1rem;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 900; margin-bottom: 1rem;
     }
     .hist-hero h1 em { color: var(--gold); font-style: italic; }
     .hist-hero p {
-      font-family: var(--font-body);
-      font-size: 1.05rem; color: rgba(255,255,255,0.72);
-      max-width: 640px; line-height: 1.8; margin-bottom: 2rem;
+      font-size: .98rem; color: rgba(255,255,255,.68);
+      line-height: 1.8; max-width: 640px; margin-bottom: 2rem;
     }
-    .hist-breadcrumb {
-      display: flex; align-items: center; gap: 0.5rem;
-      font-family: var(--font-body); font-size: 0.78rem;
-      color: rgba(255,255,255,0.45); margin-bottom: 2rem;
-    }
-    .hist-breadcrumb a { color: var(--gold); text-decoration: none; }
-    .hist-breadcrumb a:hover { text-decoration: underline; }
+    .hero-btns { display: flex; gap: .85rem; flex-wrap: wrap; }
 
-    /* NAV TABS */
-    .hist-nav-tabs {
+    /* ─── SECTION NAV TABS ─── */
+    .s-tabs {
       position: sticky; top: 68px; z-index: 800;
-      background: rgba(8,18,37,0.97); backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,0.07);
+      background: rgba(5,13,30,.97);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,.07);
       overflow-x: auto; white-space: nowrap;
     }
-    .hist-nav-tabs-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; gap: 0; padding: 0 1.5rem;
+    .s-tabs::-webkit-scrollbar { display: none; }
+    .s-tabs-inner {
+      display: inline-flex; min-width: 100%;
+      padding: 0 1.25rem;
     }
-    .hist-tab-link {
-      display: inline-block; padding: 1rem 1.1rem;
-      font-family: var(--font-body); font-size: 0.78rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.07em;
-      color: rgba(255,255,255,0.5); text-decoration: none;
-      border-bottom: 2px solid transparent; transition: all 0.2s;
-      white-space: nowrap;
+    .s-tab {
+      display: inline-block; padding: .9rem 1rem;
+      font-family: var(--font-body); font-size: .75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .07em;
+      color: rgba(255,255,255,.45);
+      border-bottom: 2px solid transparent; transition: all .2s;
+      white-space: nowrap; cursor: pointer; text-decoration: none;
     }
-    .hist-tab-link:hover { color: var(--white); border-bottom-color: rgba(255,255,255,0.2); }
-    .hist-tab-link.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .s-tab:hover  { color: var(--white); }
+    .s-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 
-    /* PAGE SECTIONS */
-    .hist-section { padding: 80px 1.5rem; max-width: 1200px; margin: 0 auto; }
-    .hist-section-full { padding: 80px 0; }
-    .hist-section-full .hist-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-    .bg-dark-navy { background: var(--navy-800); }
-    .bg-navy      { background: var(--navy-900); }
-    .bg-light     { background: var(--off-white); }
+    /* ─── SECTION WRAPPERS ─── */
+    .s-block        { padding: 70px 1.25rem; }
+    .s-block-light  { background: var(--off); }
+    .s-block-navy2  { background: var(--navy2); }
+    .s-block-navy3  { background: var(--navy3); }
+    .s-inner        { max-width: 900px; margin: 0 auto; }
+    .s-inner-wide   { max-width: 1100px; margin: 0 auto; }
 
-    .hist-section-label {
-      font-family: var(--font-body);
-      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.18em; color: var(--gold); margin-bottom: 0.75rem; display: block;
+    .s-label {
+      font-family: var(--font-body); font-size: .66rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .16em; color: var(--gold);
+      display: block; margin-bottom: .65rem;
     }
-    .hist-section-title {
+    .s-label.dk { color: var(--navy3); }
+
+    .s-title {
       font-family: var(--font-heading);
-      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900;
+      font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 900;
       margin-bottom: 1rem; line-height: 1.15;
     }
-    .hist-section-title em { color: var(--gold); font-style: italic; }
-    .hist-section-title.dark { color: var(--navy-900); }
-    .hist-section-desc {
-      font-family: var(--font-body);
-      font-size: 0.95rem; line-height: 1.85; color: rgba(255,255,255,0.72);
-      max-width: 720px; margin-bottom: 3rem;
-    }
-    .hist-section-desc.dark { color: #555; }
+    .s-title em  { color: var(--gold); font-style: italic; }
+    .s-title.dk  { color: var(--navy); }
 
-    /* TIMELINE */
-    .timeline-wrap { position: relative; padding-left: 2.5rem; max-width: 820px; }
-    .timeline-wrap::before {
-      content: ''; position: absolute; left: 0.9rem; top: 0; bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--gold) 0%, rgba(212,175,55,0.1) 100%);
+    .s-lead {
+      font-size: .92rem; color: rgba(255,255,255,.68);
+      line-height: 1.85; max-width: 720px; margin-bottom: 2.5rem;
     }
-    .tl-item { position: relative; margin-bottom: 2.5rem; }
+    .s-lead.dk { color: #555; }
+
+    /* ─── TIMELINE ─── */
+    .tl { position: relative; padding-left: 2rem; }
+    .tl::before {
+      content: ''; position: absolute;
+      left: .7rem; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--gold), rgba(212,175,55,.08));
+    }
+    .tl-item { position: relative; margin-bottom: 2.25rem; }
     .tl-dot {
-      position: absolute; left: -2.6rem; top: 0.35rem;
-      width: 18px; height: 18px; border-radius: 50%;
-      background: var(--gold); border: 3px solid var(--navy-800);
-      box-shadow: 0 0 0 3px rgba(212,175,55,0.25);
+      position: absolute; left: -2.05rem; top: .3rem;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--gold); border: 3px solid var(--navy2);
+      box-shadow: 0 0 0 3px rgba(212,175,55,.22);
     }
     .tl-year {
-      font-family: var(--font-body);
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.12em; color: var(--gold); margin-bottom: 0.35rem; display: block;
+      font-family: var(--font-body); font-size: .68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .12em;
+      color: var(--gold); margin-bottom: .3rem; display: block;
     }
-    .tl-title {
+    .tl-ttl {
       font-family: var(--font-heading);
-      font-size: 1.1rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem;
+      font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: .4rem;
     }
     .tl-body {
-      font-family: var(--font-body);
-      font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.8;
+      font-size: .88rem; color: rgba(255,255,255,.68); line-height: 1.8;
     }
 
-    /* LEADER CARDS */
-    .leaders-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
-      gap: 1.5rem;
+    /* ─── PULL QUOTE / CARD ─── */
+    .pull-quote {
+      background: rgba(212,175,55,.06); border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 12px 12px 0; padding: 1.35rem 1.5rem;
+      margin: 1.5rem 0;
     }
-    .leader-card {
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px; overflow: hidden; transition: all 0.3s;
+    .pull-quote p {
+      font-style: italic; font-size: .88rem;
+      color: rgba(255,255,255,.75); line-height: 1.75; margin-bottom: .6rem;
     }
-    .leader-card:hover { transform: translateY(-4px); border-color: var(--border); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
-    .leader-card-img {
-      width: 100%; aspect-ratio: 3/2; overflow: hidden;
-      background: rgba(255,255,255,0.06);
-      display: flex; align-items: center; justify-content: center;
+    .pull-quote .attr {
+      font-size: .72rem; font-weight: 700; color: var(--gold);
+      text-transform: uppercase; letter-spacing: .08em;
     }
-    .leader-card-img img { width: 100%; height: 100%; object-fit: cover; }
-    .leader-card-img-placeholder {
-      width: 80px; height: 80px; border-radius: 50%;
-      background: rgba(212,175,55,0.15); border: 2px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
+
+    .info-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px; padding: 1.5rem; margin-bottom: 1.25rem;
     }
-    .leader-card-img-placeholder svg { color: var(--gold); }
-    .leader-card-body { padding: 1.25rem; }
-    .leader-name {
+    .info-card h4 {
       font-family: var(--font-heading);
-      font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 0.25rem;
+      font-size: 1rem; color: var(--white); margin-bottom: .3rem;
     }
-    .leader-role {
-      font-family: var(--font-body);
-      font-size: 0.75rem; font-weight: 700; color: var(--gold);
-      text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.6rem;
+    .info-card .sub {
+      font-size: .72rem; font-weight: 700; color: var(--gold);
+      text-transform: uppercase; letter-spacing: .07em; margin-bottom: .7rem;
     }
-    .leader-desc {
-      font-family: var(--font-body);
-      font-size: 0.83rem; color: rgba(255,255,255,0.65); line-height: 1.65;
+    .info-card p {
+      font-size: .85rem; color: rgba(255,255,255,.65); line-height: 1.7;
     }
 
-    /* GOVERNING BODY — TABLE STYLE */
-    .gov-table { width: 100%; border-collapse: collapse; }
+    /* ─── GOVERNING BODY TABLE ─── */
+    .gov-wrap { overflow-x: auto; }
+    .gov-table { width: 100%; border-collapse: collapse; min-width: 480px; }
     .gov-table th {
-      text-align: left; padding: 0.75rem 1rem;
-      font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      text-align: left; padding: .65rem 1rem;
+      font-family: var(--font-body); font-size: .68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .07em;
+      color: var(--navy); background: var(--gold); border: none;
     }
     .gov-table td {
-      padding: 0.85rem 1rem;
-      font-family: var(--font-body); font-size: 0.88rem;
-      border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.85);
+      padding: .75rem 1rem; font-size: .86rem; color: var(--navy);
+      border-bottom: 1px solid #e5e8f0;
     }
-    .gov-table tr:last-child td { border-bottom: none; }
-    .gov-table tr:hover td { background: rgba(255,255,255,0.02); }
-
-    /* CAMP MEETINGS */
-    .camp-themes-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1rem;
-    }
-    .camp-theme-row {
-      display: flex; gap: 1rem; align-items: center;
-      padding: 0.85rem 1.1rem;
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
-      border-left: 3px solid var(--gold); border-radius: 8px; transition: all 0.2s;
-    }
-    .camp-theme-row:hover { background: rgba(212,175,55,0.06); border-color: var(--border); }
-    .camp-year {
-      font-family: var(--font-heading);
-      font-size: 1.1rem; font-weight: 900; color: var(--gold); min-width: 48px;
-    }
-    .camp-theme-text {
-      font-family: var(--font-body); font-size: 0.85rem; color: rgba(255,255,255,0.8); line-height: 1.4;
-    }
-    .camp-minister {
-      font-family: var(--font-body); font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem;
+    .gov-table tr:nth-child(even) td { background: #f6f8fc; }
+    .gov-table tr:hover td { background: #fff8e5; }
+    .gov-note {
+      font-size: .78rem; color: var(--muted);
+      margin-top: .75rem; font-style: italic;
     }
 
-    /* TESTIMONIES */
-    .testimonies-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 1.5rem;
+    /* ─── MISSION PILLS ─── */
+    .mission-cycle {
+      display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+      margin: 1.75rem 0;
     }
-    .testimony-card {
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px; padding: 1.5rem; position: relative; overflow: hidden;
-      transition: all 0.3s;
+    .cycle-pill {
+      background: var(--gold-dim); border: 1px solid var(--border);
+      border-radius: 10px; padding: .9rem 1.5rem; text-align: center;
+      min-width: 110px; flex: 1;
     }
-    .testimony-card::before {
-      content: '"';
-      position: absolute; top: 0.5rem; right: 1rem;
-      font-family: var(--font-heading); font-size: 5rem; color: rgba(212,175,55,0.08);
-      line-height: 1; pointer-events: none;
+    .cycle-pill strong {
+      display: block; font-family: var(--font-heading);
+      font-size: 1.05rem; color: var(--gold); margin-bottom: .25rem;
     }
-    .testimony-card:hover { transform: translateY(-3px); border-color: var(--border); }
-    .testimony-text {
-      font-family: var(--font-body); font-size: 0.88rem;
-      color: rgba(255,255,255,0.75); line-height: 1.75;
-      font-style: italic; margin-bottom: 1rem;
+    .cycle-pill span { font-size: .75rem; color: rgba(255,255,255,.55); }
+    .cycle-arrow { color: rgba(212,175,55,.4); font-size: 1.3rem; flex-shrink: 0; }
+
+    .motto-box {
+      background: rgba(212,175,55,.06); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem; margin-top: 1.75rem;
     }
-    .testimony-person {
-      display: flex; align-items: center; gap: 0.75rem;
+    .motto-box h4 { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .5rem; }
+    .motto-box blockquote {
+      font-family: var(--font-heading); font-size: 1.1rem;
+      font-style: italic; color: var(--gold); line-height: 1.55; margin: 0 0 .4rem;
     }
-    .testimony-avatar {
-      width: 38px; height: 38px; border-radius: 50%;
-      background: rgba(212,175,55,0.15); border: 1.5px solid var(--border);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    .motto-box cite { font-size: .75rem; color: var(--muted); font-style: normal; }
+
+    /* ─── CAMP ─── */
+    .camp-stat-row {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr));
+      gap: 1rem; margin: 1.75rem 0;
     }
-    .testimony-name {
-      font-family: var(--font-body); font-size: 0.82rem; font-weight: 700; color: var(--white);
+    .camp-stat {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      border-top: 3px solid var(--gold); border-radius: 10px;
+      padding: 1.1rem; text-align: center;
     }
-    .testimony-branch {
-      font-family: var(--font-body); font-size: 0.72rem; color: var(--gold);
+    .camp-stat-num {
+      font-family: var(--font-heading); font-size: 2rem;
+      font-weight: 900; color: var(--gold); line-height: 1;
+    }
+    .camp-stat-lbl {
+      font-size: .68rem; color: var(--muted); text-transform: uppercase;
+      letter-spacing: .08em; margin-top: .3rem;
     }
 
-    /* BRANCHES TABLE */
-    .branches-table-wrap { overflow-x: auto; }
-    .branches-table { width: 100%; border-collapse: collapse; min-width: 560px; }
-    .branches-table th {
-      text-align: left; padding: 0.75rem 1rem;
-      font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--navy-900); background: var(--gold);
-      border: none;
+    /* ─── TESTIMONIES ─── */
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+      gap: 1.25rem;
     }
-    .branches-table td {
-      padding: 0.8rem 1rem;
-      font-family: var(--font-body); font-size: 0.88rem; color: var(--navy-900);
-      border-bottom: 1px solid #e8edf5;
+    .testi-card {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px; padding: 1.35rem; position: relative; overflow: hidden;
+      transition: transform .25s, border-color .25s;
     }
-    .branches-table tr:nth-child(even) td { background: #f8f9fc; }
-    .branches-table tr:hover td { background: #fff8e6; }
+    .testi-card::before {
+      content: '\201C';
+      position: absolute; top: .2rem; right: 1rem;
+      font-family: var(--font-heading); font-size: 5rem;
+      color: rgba(212,175,55,.07); line-height: 1; pointer-events: none;
+    }
+    .testi-card:hover { transform: translateY(-3px); border-color: var(--border); }
+    .testi-txt {
+      font-size: .87rem; color: rgba(255,255,255,.72);
+      line-height: 1.75; font-style: italic; margin-bottom: 1rem;
+    }
+    .testi-person { display: flex; align-items: center; gap: .65rem; }
+    .testi-avatar {
+      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+      background: var(--gold-dim); border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center; color: var(--gold);
+    }
+    .testi-name  { font-size: .82rem; font-weight: 700; color: var(--white); }
+    .testi-branch{ font-size: .7rem; color: var(--gold); }
 
-    /* BELIEFS — light section */
+    /* ─── PHOTO GRID ─── */
+    .photo-grid {
+      display: grid; gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+      margin-top: 1.5rem;
+    }
+    .photo-cell { border-radius: 12px; overflow: hidden; }
+    .photo-cell-inner {
+      aspect-ratio: 4/3; overflow: hidden;
+      background: rgba(255,255,255,.06);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .photo-cell-inner img { width:100%; height:100%; object-fit:cover; transition:transform .4s; }
+    .photo-cell:hover img { transform: scale(1.05); }
+    .photo-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      padding: 1.5rem; color: rgba(255,255,255,.3);
+    }
+    .photo-placeholder span { font-size: .72rem; text-align: center; }
+    .photo-caption {
+      font-size: .72rem; color: var(--muted);
+      text-align: center; padding: .4rem .5rem; font-style: italic;
+    }
+
+    /* ─── BELIEFS ─── */
     .beliefs-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1.25rem;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+      gap: 1.1rem;
     }
     .belief-card {
-      background: var(--white); border-radius: 12px; padding: 1.5rem;
-      border-top: 4px solid var(--gold); box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-      transition: all 0.3s;
+      background: var(--white); border-radius: 12px; padding: 1.35rem;
+      border-top: 4px solid var(--gold);
+      box-shadow: 0 2px 10px rgba(0,0,0,.06); transition: all .25s;
     }
-    .belief-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+    .belief-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,.1); }
     .belief-card h3 {
-      font-family: var(--font-heading); font-size: 1rem; color: var(--navy-900); margin-bottom: 0.5rem;
+      font-family: var(--font-heading);
+      font-size: .98rem; color: var(--navy); margin-bottom: .4rem;
     }
-    .belief-card p {
-      font-family: var(--font-body); font-size: 0.85rem; color: #555; line-height: 1.65;
-    }
+    .belief-card p  { font-size: .83rem; color: #555; line-height: 1.65; }
     .belief-ref {
-      font-family: var(--font-body); font-size: 0.72rem; color: var(--gold);
-      font-style: italic; margin-top: 0.5rem; display: block;
+      font-size: .7rem; color: var(--navy3); font-style: italic;
+      margin-top: .4rem; display: block;
     }
 
-    /* MISSION BOX */
-    .mission-box {
-      background: rgba(212,175,55,0.06); border: 1px solid var(--border);
-      border-radius: 16px; padding: 2.5rem; text-align: center; max-width: 640px; margin: 0 auto;
-    }
-    .mission-cycle {
-      display: flex; justify-content: center; align-items: center;
-      gap: 1.25rem; margin: 2rem 0; flex-wrap: wrap;
-    }
-    .cycle-step {
-      background: var(--gold-dim); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.25rem 2rem; text-align: center; min-width: 120px;
-    }
-    .cycle-step-icon { margin-bottom: 0.5rem; color: var(--gold); }
-    .cycle-step-label { font-family: var(--font-body); font-weight: 700; font-size: 0.9rem; }
-    .cycle-arrow { font-size: 1.5rem; color: rgba(212,175,55,0.5); }
-
-    /* PHOTO GRID */
-    .photo-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 1rem;
-    }
-    .photo-cell {
-      aspect-ratio: 4/3; overflow: hidden; border-radius: 10px;
-      background: rgba(255,255,255,0.06);
-    }
-    .photo-cell img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
-    .photo-cell:hover img { transform: scale(1.06); }
-    .photo-caption {
-      font-family: var(--font-body); font-size: 0.75rem; color: var(--muted);
-      text-align: center; margin-top: 0.4rem; font-style: italic;
-    }
-
-    /* SCHEDULE TABLE */
-    .schedule-table { width: 100%; border-collapse: collapse; max-width: 540px; }
-    .schedule-table th {
-      text-align: left; padding: 0.6rem 1rem;
-      font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.07em; color: var(--gold);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .schedule-table td {
-      padding: 0.7rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);
-      font-family: var(--font-body); font-size: 0.88rem; color: rgba(255,255,255,0.8);
-    }
-    .schedule-day { font-weight: 700; color: var(--gold); }
-
-    /* CALL TO ACTION */
+    /* ─── CTA ─── */
     .hist-cta {
-      text-align: center; padding: 80px 1.5rem;
-      background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 100%);
-      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 70px 1.25rem; text-align: center;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+      border-top: 1px solid rgba(255,255,255,.05);
     }
-    .hist-cta h2 { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 1rem; }
-    .hist-cta p { font-family: var(--font-body); color: var(--muted); margin-bottom: 2rem; }
+    .hist-cta h2 { font-size: clamp(1.6rem,4vw,2.2rem); margin-bottom: .75rem; }
+    .hist-cta p  { font-size: .9rem; color: var(--muted); margin-bottom: 2rem; }
+    .cta-btns { display: flex; gap: .85rem; flex-wrap: wrap; justify-content: center; }
 
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .hist-section { padding: 60px 1rem; }
-      .hist-nav-tabs { top: 0; }
-      .camp-themes-grid { grid-template-columns: 1fr; }
-      .testimonies-grid { grid-template-columns: 1fr; }
+    /* ─── FOOTER SOCIALS ─── */
+    .footer-socials a {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s; text-decoration: none; color: var(--white);
     }
-    @media (max-width: 480px) {
-      .hist-hero { padding: 110px 1rem 60px; }
-      .leaders-grid { grid-template-columns: 1fr 1fr; }
+    .footer-socials a:hover {
+      background: var(--gold-dim); border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .s-block { padding: 52px 1rem; }
+      .hist-hero { padding: 110px 1rem 56px; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .beliefs-grid { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: 1fr 1fr; }
+      .camp-stat-row { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 380px) {
+      .photo-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
-<body data-page="about">
+<body>
 
 <!-- NAV -->
 <header id="navbar">
@@ -370,9 +363,7 @@
       <a href="index.html">Home</a>
       <a href="about.html" class="active">About</a>
       <a href="locations.html">Locations</a>
-      <a href="live.html">Live</a>
       <a href="index.html#events">Events</a>
-      <a href="index.html#resources">Resources</a>
       <a href="calendar.html">Calendar</a>
       <a href="index.html#contact">Contact</a>
     </nav>
@@ -382,651 +373,434 @@
 <!-- HERO -->
 <section class="hist-hero">
   <div class="hist-hero-inner">
-    <div class="hist-breadcrumb">
-      <a href="index.html">Home</a>
-      <span>/</span>
-      <a href="about.html">About Us</a>
-      <span>/</span>
-      <span style="color:rgba(255,255,255,0.55);">Full History</span>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span>/</span>
+      <a href="about.html">About Us</a><span>/</span>
+      <span style="color:rgba(255,255,255,.35);">Full History</span>
     </div>
-    <span class="section-label">1968 – Present</span>
+    <span class="s-label">1968 – Present</span>
     <h1>The Apostolic Faith Work<br><em>In Botswana</em></h1>
-    <p>A documented account of how the Gospel of Jesus Christ came to Botswana, grew across the nation, and continues to transform lives — from one man's healing in Zimbabwe to a nationwide fellowship of believers.</p>
-    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+    <p>A documented account of how the Gospel of Jesus Christ came to Botswana — from one man's healing in Zimbabwe in 1968 to a nationwide fellowship of believers that continues to grow today.</p>
+    <div class="hero-btns">
       <a href="#gospel-came" class="btn-primary">Read the Story</a>
       <a href="about.html" class="btn-outline">Back to About Us</a>
     </div>
   </div>
 </section>
 
-<!-- STICKY SECTION NAV -->
-<div class="hist-nav-tabs">
-  <div class="hist-nav-tabs-inner">
-    <a href="#gospel-came"   class="hist-tab-link active">The Gospel Came</a>
-    <a href="#leadership"    class="hist-tab-link">Leadership</a>
-    <a href="#governing"     class="hist-tab-link">Governing Body</a>
-    <a href="#mission"       class="hist-tab-link">Mission</a>
-    <a href="#camp-meetings" class="hist-tab-link">Camp Meetings</a>
-    <a href="#veterans"      class="hist-tab-link">Veterans</a>
-    <a href="#youth"         class="hist-tab-link">Youth</a>
-    <a href="#music"         class="hist-tab-link">Ministry of Music</a>
-    <a href="#branches"      class="hist-tab-link">Branches</a>
-    <a href="#doctrine"      class="hist-tab-link">Doctrine</a>
+<!-- STICKY TABS -->
+<div class="s-tabs" id="sTabs">
+  <div class="s-tabs-inner">
+    <a href="#gospel-came"   class="s-tab active">How It Began</a>
+    <a href="#mission"       class="s-tab">Mission</a>
+    <a href="#governing"     class="s-tab">Governing Body</a>
+    <a href="#camp-meetings" class="s-tab">Camp Meetings</a>
+    <a href="#veterans"      class="s-tab">Veterans</a>
+    <a href="#youth"         class="s-tab">Youth</a>
+    <a href="#music"         class="s-tab">Ministry of Music</a>
+    <a href="#doctrine"      class="s-tab">Doctrine</a>
   </div>
 </div>
 
-<!-- ══════════════════════════════════
-  1. THE GOSPEL CAME TO BOTSWANA
-══════════════════════════════════ -->
-<div class="bg-dark-navy" id="gospel-came">
-<div class="hist-section">
-  <span class="hist-section-label">How It Began</span>
-  <h2 class="hist-section-title">The Gospel Came <em>to Botswana</em></h2>
-  <p class="hist-section-desc">
-    One man's desperate search for healing became the spark that lit an entire nation's Gospel fire.
-    The story of the Apostolic Faith Church in Botswana begins in 1968 with Rev. Alfred Maseko.
+
+<!-- ════════════════════════════
+     1. HOW IT BEGAN
+════════════════════════════ -->
+<section id="gospel-came" class="s-block s-block-navy2">
+<div class="s-inner">
+
+  <span class="s-label">The Beginning</span>
+  <h2 class="s-title">How the Gospel Came<br><em>to Botswana</em></h2>
+  <p class="s-lead">One man's desperate search for healing became the spark that lit an entire nation's Gospel fire.</p>
+
+  <!-- TIMELINE — single column, works on all screens -->
+  <div class="tl">
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <span class="tl-year">1968 — Lobatse</span>
+      <div class="tl-ttl">Rev. Alfred Maseko — Pioneer &amp; Overseer</div>
+      <div class="tl-body">The Gospel in Botswana began through Rev. Alfred Maseko. He fell seriously ill while residing in Lobatse and, when all local help failed, travelled to Johannesburg seeking treatment. There he met someone whose testimony directed him to Bulawayo, Zimbabwe — where a church would pray for him. He went immediately and was healed, saved, sanctified, and baptized with the Holy Ghost and Fire. The call of God was now clear.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <span class="tl-year">1968 — Mopipi &amp; Orapa</span>
+      <div class="tl-ttl">The Gospel Spreads — First Preaching</div>
+      <div class="tl-body">On returning to Botswana, Rev. Maseko got a job with a construction company which took him to Mopipi and Orapa in the north west. There he began to preach the Gospel. God blessed his ministry such that in 1970, the very first Apostolic Faith Church building in Botswana was dedicated in Mopipi by Rev. Morgan Sengwayo of Zimbabwe.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <span class="tl-year">1973 — Lobatse</span>
+      <div class="tl-ttl">Services in Rev. Maseko's Home</div>
+      <div class="tl-body">Rev. Maseko was transferred back to Lobatse where the Gospel work began in earnest. Services were initially held in his home in Peleng East. As the congregation grew, a small hall was built adjacent to the main house. Church branches began to open across the nation. Rev. Maseko served faithfully as Pioneer and Overseer until 1999.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <span class="tl-year">1990 — Official HQ</span>
+      <div class="tl-ttl">Plot 3354, Woodhall 2, Lobatse</div>
+      <div class="tl-body">A plot was secured and a tabernacle built — becoming the official Headquarters of the Apostolic Faith Work in Botswana. Rev. Maseko was assisted by, among others, brothers Doctor Robalang, Edward Nyati, Fistos Matsake, Shadrach Monyatsi, Robert Mokgatlhwane, Mothusi Mongwaketse and Solomon Bafana.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <span class="tl-year">1999 — New Leadership</span>
+      <div class="tl-ttl">Rev. Lordick K. Motshidisi Receives the Torch</div>
+      <div class="tl-body">Rev. Maseko faithfully passed on the torch to Rev. Lordick K. Motshidisi, who has led the Apostolic Faith Work in Botswana ever since. Rev. Maseko went to be with his Saviour on 26 February 2003. His wife, Sister Amelia M. Maseko — who laboured faithfully alongside him from the very beginning — followed on 9 August 2014.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <span class="tl-year">2004 — First National Camp</span>
+      <div class="tl-ttl">Botswana Camp Meeting Begins, Lobatse</div>
+      <div class="tl-body">The national camp meeting in Botswana started in July 2004 in Lobatse and was officially opened by the then Southern Africa Overseer, Rev. Richard Sibanda. Attendance was large from the onset, and growing every year. Before this, the only annual camp meeting Botswana brethren attended was the Bulawayo, Zimbabwe meeting.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <span class="tl-year">2011 — Gaborone</span>
+      <div class="tl-ttl">Camp Ground Relocated to Gaborone</div>
+      <div class="tl-body">Following completion of the tabernacle in Gaborone, the camp ground relocated to Gaborone in 2011 — dedicated by Rev. Timothy Kaibula, District Superintendent of Eastern Africa. Camp Meeting has been held in Gaborone ever since.</div>
+    </div>
+
+  </div><!-- /tl -->
+
+  <!-- Testimonial tributes -->
+  <div class="pull-quote" style="margin-top:2.5rem;">
+    <p>"Our mother's life, Sister Amelia M. Maseko, was truly a proof that God saves and keeps. Her victorious life was a testimony of the power of God. Her words were: 'I can't leave the Gospel because of the power of God I have seen in my life. I desire and endeavour to make it through to eternal life in Christ Jesus.'"</p>
+    <div class="attr">In memory of Sister Amelia M. Maseko &mdash; 9 August 2014</div>
+  </div>
+
+  <div class="pull-quote">
+    <p>"Having come to the Gospel as a child, I saw the beginning and the growing of the Gospel work in Lobatse and Botswana as a whole. I was privileged to take part in the outreach that led to the establishment of several branches in the country. I faced really tough opposition at home, but even as a child God gave me the grace to hold on."</p>
+    <div class="attr">Maggie Seja</div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ════════════════════════════
+     2. MISSION
+════════════════════════════ -->
+<section id="mission" class="s-block">
+<div class="s-inner">
+
+  <span class="s-label">Purpose</span>
+  <h2 class="s-title">The Mission of<br><em>the Apostolic Faith</em></h2>
+  <p class="s-lead">The mission has always been Evangelism — preaching the Word of God in its entirety and reaching areas where the Word had never been heard, to win souls for Christ.</p>
+
+  <div class="mission-cycle">
+    <div class="cycle-pill">
+      <strong>Pray</strong>
+      <span>Foundation of all work</span>
+    </div>
+    <div class="cycle-arrow">→</div>
+    <div class="cycle-pill">
+      <strong>Preach</strong>
+      <span>Proclaim the full Gospel</span>
+    </div>
+    <div class="cycle-arrow">→</div>
+    <div class="cycle-pill">
+      <strong>Publish</strong>
+      <span>Distribute literature freely</span>
+    </div>
+  </div>
+
+  <p style="font-size:.9rem;color:rgba(255,255,255,.68);line-height:1.8;margin-bottom:1rem;">
+    This regional outreach programme is in place in Botswana and led by Pastor Ben Bhuka. Through this programme, revivals are held nationally — taking the Gospel to places and opening new branches across the country.
+  </p>
+  <p style="font-size:.9rem;color:rgba(255,255,255,.68);line-height:1.8;margin-bottom:1rem;">
+    A unique feature of this ministry is that there is no selling of publications and no collection plates in church services. Literature is mailed throughout the world free of charge. For over 100 years God has provided financially for the outreach through tithes and free-will offerings.
   </p>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;">
-    <div>
-      <div class="timeline-wrap">
-
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <span class="tl-year">1968 — The Beginning</span>
-          <div class="tl-title">Rev. Alfred Maseko — Pioneer & Overseer</div>
-          <div class="tl-body">
-            The Gospel in Botswana had its beginning in 1968 through Rev. Alfred Maseko. He fell seriously ill while residing in Lobatse and, when all help could not be found locally, travelled to Johannesburg, South Africa seeking treatment. There he met someone whose testimony directed him to Bulawayo, Zimbabwe, where a certain church could pray for him. He went immediately — and was healed, saved, sanctified, and baptized with the Holy Ghost and Fire.
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <span class="tl-year">1968 — First Preaching</span>
-          <div class="tl-title">Mopipi & Orapa — The Gospel Spreads</div>
-          <div class="tl-body">
-            To Rev. Maseko, the call of God became clear through the Word. When he returned to Botswana he got a job with a construction company which took him to work in Mopipi and Orapa, in the north western part of Botswana. There in 1968, he began to preach the Gospel. God blessed his ministry such that in 1970, the very first Apostolic Faith Church building in Botswana was dedicated in Mopipi by Rev. Morgan Sengwayo.
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <span class="tl-year">1973 — Lobatse</span>
-          <div class="tl-title">National Headquarters Takes Root</div>
-          <div class="tl-body">
-            Rev. Maseko was transferred back to Lobatse where the Gospel work began in earnest. Services were initially held in his home in Peleng East. As the congregation grew, a small hall was built adjacent to the main house, serving as a regular place of worship and foundational headquarters for nearly two decades. Church branches began opening across the country.
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <span class="tl-year">1990 — National HQ Established</span>
-          <div class="tl-title">Plot 3354, Woodhall 2, Lobatse</div>
-          <div class="tl-body">
-            In 1990 a plot was secured and a tabernacle built to which all services were then transferred. The new location — Plot 3354, Woodhall 2, P.O. Box 664, Lobatse — became the official Headquarters of the Apostolic Faith Work in Botswana. Rev. Maseko served faithfully as Pioneer and Overseer until 1999.
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <span class="tl-year">1999 — New Leadership</span>
-          <div class="tl-title">Rev. Lordick K. Motshidisi Takes the Torch</div>
-          <div class="tl-body">
-            Rev. Maseko served faithfully and in 1999 he passed on the torch to Rev. Lordick K. Motshidisi, who has since continued to lead the Apostolic Faith Work in Botswana with diligence and spiritual vision. Rev. Maseko went to be with his Saviour on 26th February 2003. His wife, Sister Amelia M. Maseko, who laboured faithfully alongside him from the very beginning, followed on 9th August 2014.
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <span class="tl-year">2004 — National Camp Begins</span>
-          <div class="tl-title">First Botswana Camp Meeting, Lobatse</div>
-          <div class="tl-body">
-            The national camp meeting in Botswana started in July 2004 in Lobatse and was officially opened by the then Southern Africa Overseer, Rev. Richard Sibanda. Before then, the only annual camp meeting Botswana brethren attended was the Bulawayo, Zimbabwe camp.
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <span class="tl-year">2011 — Gaborone</span>
-          <div class="tl-title">Camp Ground Relocated to Gaborone</div>
-          <div class="tl-body">
-            Following the completion of the tabernacle in Gaborone, the camp ground was relocated to Gaborone in 2011. This was preceded by the dedication of the tabernacle by Rev. Timothy Kaibula, District Superintendent of Eastern Africa.
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- FOUNDER QUOTE PANEL -->
-    <div>
-      <div style="background:rgba(212,175,55,0.06);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:1.5rem;">
-        <div style="font-family:var(--font-heading);font-size:1.05rem;font-style:italic;color:rgba(255,255,255,0.85);line-height:1.75;margin-bottom:1.25rem;">
-          "God is faithful, by whom ye were called unto the fellowship of his Son Jesus Christ our Lord."
-        </div>
-        <div style="font-family:var(--font-body);font-size:0.75rem;color:var(--gold);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">
-          1 Corinthians 1:9 — Motto of the Botswana Work
-        </div>
-      </div>
-
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:2rem;margin-bottom:1.5rem;">
-        <div style="font-family:var(--font-heading);font-size:1.1rem;color:white;margin-bottom:0.5rem;">
-          Rev. Alfred Maseko
-        </div>
-        <div style="font-family:var(--font-body);font-size:0.75rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:1rem;">
-          Pioneer & Overseer of the Apostolic Faith Work in Botswana<br>1968 – 1999
-        </div>
-        <div style="font-family:var(--font-body);font-size:0.85rem;color:rgba(255,255,255,0.65);line-height:1.7;">
-          Assisted by, among others, brothers Doctor Robalang, Edward Nyati, Fistos Matsake, Shadrach Monyatsi, Robert Mokgatlhwane, Mothusi Mongwaketse and Solomon Bafana — the Gospel work grew and many souls were saved. Church branches began to be opened across Botswana.
-        </div>
-      </div>
-
-      <!-- Amelia Maseko tribute -->
-      <div style="background:rgba(212,175,55,0.05);border:1px solid var(--border);border-radius:16px;padding:1.5rem;">
-        <div style="font-family:var(--font-heading);font-size:1rem;color:var(--gold);margin-bottom:0.5rem;">Sister Amelia M. Maseko</div>
-        <div style="font-family:var(--font-body);font-size:0.82rem;color:rgba(255,255,255,0.65);line-height:1.7;font-style:italic;">
-          "I can't leave the Gospel because of the power of God I have seen in my life. I desire and endeavour to make it through to eternal life in Christ Jesus."
-        </div>
-        <div style="font-family:var(--font-body);font-size:0.72rem;color:var(--muted);margin-top:0.75rem;">
-          Sister Amelia laboured faithfully together with her husband from the very beginning until they were called home — Rev. A Maseko on 26th February 2003 and Sister Amelia Maseko on 9th August 2014.
-        </div>
-      </div>
-
-      <!-- Maggie Seja testimony -->
-      <div style="margin-top:1.5rem;background:rgba(255,255,255,0.03);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:1.25rem 1.5rem;">
-        <p style="font-family:var(--font-body);font-size:0.85rem;color:rgba(255,255,255,0.72);line-height:1.75;font-style:italic;">
-          "Having come to the Gospel as a child, I saw the beginning and the growing of the Gospel work in Lobatse and Botswana as a whole. I was privileged to take part in the outreach that led to the establishment of several branches in the country..."
-        </p>
-        <div style="font-family:var(--font-body);font-size:0.75rem;color:var(--gold);font-weight:700;margin-top:0.75rem;">
-          Maggie Seja
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- ══════════════════════════════════
-  2. GLOBAL LEADERSHIP LINEAGE
-══════════════════════════════════ -->
-<div class="bg-navy" id="leadership">
-<div class="hist-section">
-  <span class="hist-section-label">Global Lineage</span>
-  <h2 class="hist-section-title">The Leaders Who <em>Brought the Gospel</em></h2>
-  <p class="hist-section-desc">From Portland, Oregon to Africa — a chain of faithful servants who carried the torch.</p>
-
-  <div class="leaders-grid">
-
-    <div class="leader-card">
-      <div class="leader-card-img">
-        <div class="leader-card-img-placeholder">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-      </div>
-      <div class="leader-card-body">
-        <div class="leader-name">Rev. Florence L. Crawford</div>
-        <div class="leader-role">Founder & General Overseer · 1906–1936</div>
-        <div class="leader-desc">On Christmas Day 1906, after the Azusa Street revival in Los Angeles, Rev. Crawford moved to Portland, Oregon and officially established the International Headquarters of the Apostolic Faith Church. The Gospel Work has grown worldwide since.</div>
-      </div>
-    </div>
-
-    <div class="leader-card">
-      <div class="leader-card-img">
-        <div class="leader-card-img-placeholder">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-      </div>
-      <div class="leader-card-body">
-        <div class="leader-name">Rev. Timothy G. Oshokoya</div>
-        <div class="leader-role">First Africa Overseer · Nigeria, 1944–1983</div>
-        <div class="leader-desc">Called by God through an Apostolic Faith tract, Rev. Oshokoya established the church in Africa. In October 1944 the Apostolic Faith Church was officially established in Africa through Nigeria. He faithfully led the Africa Work until 1999.</div>
-      </div>
-    </div>
-
-    <div class="leader-card">
-      <div class="leader-card-img">
-        <div class="leader-card-img-placeholder">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-      </div>
-      <div class="leader-card-body">
-        <div class="leader-name">Rev. Morgan Sengwayo</div>
-        <div class="leader-role">Overseer for Southern Africa · 1955–1983</div>
-        <div class="leader-desc">After a powerful conversion and healing, Rev. Sengwayo met Rev. Oshokoya in Bulawayo, Zimbabwe and the work expanded to Zimbabwe and Southern Africa — including Botswana. He dedicated the first Apostolic Faith Church in Botswana in Mopipi in 1970.</div>
-      </div>
-    </div>
-
-    <div class="leader-card">
-      <div class="leader-card-img">
-        <div class="leader-card-img-placeholder">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-      </div>
-      <div class="leader-card-body">
-        <div class="leader-name">Rev. Alfred Maseko</div>
-        <div class="leader-role">Pioneer & Overseer · Botswana, 1968–1999</div>
-        <div class="leader-desc">The father of the Gospel work in Botswana. Healed, saved and baptized with the Holy Ghost in Bulawayo, Zimbabwe, he brought the full Gospel to Botswana in 1968 and faithfully established branches across the nation.</div>
-      </div>
-    </div>
-
-    <div class="leader-card">
-      <div class="leader-card-img">
-        <div class="leader-card-img-placeholder">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-      </div>
-      <div class="leader-card-body">
-        <div class="leader-name">Rev. Lordick K. Motshidisi</div>
-        <div class="leader-role">Country Overseer · Botswana, 1999–Present</div>
-        <div class="leader-desc">Received the torch from Rev. Maseko in 1999 and has since led the Botswana work with faithfulness and vision. Board Chairman, he reports directly to the District Superintendent of Southern Africa and presides over all national workers and ministers meetings.</div>
-      </div>
-    </div>
-
-    <div class="leader-card">
-      <div class="leader-card-img">
-        <div class="leader-card-img-placeholder">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-      </div>
-      <div class="leader-card-body">
-        <div class="leader-name">Rev. Darrel D. Lee</div>
-        <div class="leader-role">Superintendent General · Portland, Oregon</div>
-        <div class="leader-desc">The General Overseer of the Apostolic Faith Church worldwide, redesignated Superintendent General. Rev. Lee has personally visited Botswana, including officiating at the 2015 Botswana Camp Meeting, reinforcing the bond between Portland HQ and Botswana.</div>
-      </div>
-    </div>
-
+  <div class="motto-box">
+    <h4>The Motto</h4>
+    <blockquote>"Earnestly contend for the faith which was once delivered unto the saints."</blockquote>
+    <cite>Jude 1:3</cite>
   </div>
 
-  <!-- Church Structure -->
-  <div style="margin-top:3.5rem;">
-    <h3 style="font-family:var(--font-heading);font-size:1.3rem;color:var(--gold);margin-bottom:1.25rem;">International Church Structure</h3>
-    <div style="overflow-x:auto;">
-      <table class="gov-table" style="max-width:640px;">
-        <thead>
-          <tr><th>District</th><th>Headquarters</th><th>District Superintendent</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>West &amp; Central Africa</td><td>Lagos, Nigeria</td><td>Rev. Emmanuel A. Adeniran</td></tr>
-          <tr><td>East Africa</td><td>Lusaka, Zambia</td><td>Rev. Timothy Kaibula</td></tr>
-          <tr><td>Southern Africa</td><td>Harare, Zimbabwe</td><td>Rev. Oniyas Z. Gumbo</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
-</div>
+</section>
 
-<!-- ══════════════════════════════════
-  3. GOVERNING BODY
-══════════════════════════════════ -->
-<div style="background:var(--off-white);" id="governing">
-<div class="hist-section">
-  <span class="hist-section-label" style="color:var(--navy-700);">Board of Trustees</span>
-  <h2 class="hist-section-title dark">The Governing <em>Body</em></h2>
-  <p style="font-family:var(--font-body);font-size:0.92rem;color:#555;line-height:1.8;max-width:720px;margin-bottom:2.5rem;">
-    The governing body of the Apostolic Faith work in Botswana is the Board of Trustees. The Country Overseer reports directly to the District Superintendent of Southern Africa. He presides over all Board meetings, national workers meetings, and the national annual camp meeting. He is assisted by senior ministers who are Board members and in charge of five regions across the country.
+
+<!-- ════════════════════════════
+     3. GOVERNING BODY
+════════════════════════════ -->
+<section id="governing" class="s-block s-block-light">
+<div class="s-inner">
+
+  <span class="s-label dk">Board of Trustees</span>
+  <h2 class="s-title dk">The Governing<em> Body</em></h2>
+  <p class="s-lead dk">
+    The governing body of the Apostolic Faith work in Botswana is the Board of Trustees. The Country Overseer reports directly to the District Superintendent of Southern Africa and presides over all Board meetings, national workers meetings, and the national annual camp meeting.
   </p>
 
-  <div class="branches-table-wrap">
-    <table class="branches-table">
+  <div class="gov-wrap">
+    <table class="gov-table">
       <thead>
-        <tr><th>Name</th><th>Role</th><th>Region / Base</th></tr>
+        <tr><th>Name</th><th>Role</th><th>Base</th></tr>
       </thead>
       <tbody>
-        <tr><td><strong>Rev. Lordick K. Motshidisi</strong></td><td>Board Chairman · Country Overseer</td><td>Gaborone (National)</td></tr>
-        <tr><td>Rev. Phineas Nkobi</td><td>Board Member · Provincial Overseer</td><td>Southern Region — Lobatse</td></tr>
-        <tr><td>Rev. Ben Bhuka</td><td>Board Member · Provincial Overseer</td><td>Boteti Region — Letlhakane</td></tr>
-        <tr><td>Rev. Isaac Mabelebele</td><td>Board Member · Provincial Overseer</td><td>North East Region — Francistown</td></tr>
-        <tr><td>Rev. Loomatsoga D. Gaogane</td><td>Board Member · Provincial Overseer</td><td>Central Region — Mmutlane</td></tr>
-        <tr><td>Rev. Edward Nakasala</td><td>Board Advisor · Provincial Overseer</td><td>South East Region — Gaborone</td></tr>
+        <tr><td><strong>Rev. Lordick K. Motshidisi</strong></td><td>Board Chairman · Country Overseer</td><td>Gaborone</td></tr>
+        <tr><td>Rev. Phineas Nkobi</td><td>Board Member · Provincial Overseer</td><td>Southern — Lobatse</td></tr>
+        <tr><td>Rev. Ben Bhuka</td><td>Board Member · Provincial Overseer</td><td>Boteti — Letlhakane</td></tr>
+        <tr><td>Rev. Isaac Mabelebele</td><td>Board Member · Provincial Overseer</td><td>North East — Francistown</td></tr>
+        <tr><td>Rev. Loomatsoga D. Gaogane</td><td>Board Member · Provincial Overseer</td><td>Central — Mmutlane</td></tr>
+        <tr><td>Rev. Edward Nakasala</td><td>Board Advisor · Provincial Overseer</td><td>South East — Gaborone</td></tr>
         <tr><td>Rev. Gotulweng K. Katholo</td><td>Board Secretary / Treasurer</td><td>Orapa</td></tr>
       </tbody>
     </table>
   </div>
-  <p style="font-family:var(--font-body);font-size:0.82rem;color:#888;margin-top:1rem;">
-    A committee of Elders, chaired by Rev. P. Nkobi with Brother Isaac P. Nthaba as Secretary, serves as a spiritual advisory body.
-  </p>
-</div>
-</div>
-
-<!-- ══════════════════════════════════
-  4. MISSION OF THE APOSTOLIC FAITH
-══════════════════════════════════ -->
-<div class="bg-dark-navy" id="mission">
-<div class="hist-section">
-  <span class="hist-section-label">Purpose</span>
-  <h2 class="hist-section-title">The Mission of <em>the Apostolic Faith</em></h2>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;">
-    <div>
-      <p style="font-family:var(--font-body);font-size:0.92rem;color:rgba(255,255,255,0.72);line-height:1.85;margin-bottom:1.25rem;">
-        The mission of the Apostolic Faith church has always been Evangelism — preaching the Word of God in its entirety and reaching out to areas where the Word had never been heard before, to win souls for Christ. This is accomplished as led by the Spirit of God through a simple programme:
-      </p>
-
-      <div class="mission-box" style="text-align:left;padding:1.75rem;">
-        <div class="mission-cycle" style="justify-content:flex-start;">
-          <div class="cycle-step">
-            <div class="cycle-step-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-            </div>
-            <div class="cycle-step-label">Pray</div>
-          </div>
-          <div class="cycle-arrow">→</div>
-          <div class="cycle-step">
-            <div class="cycle-step-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            </div>
-            <div class="cycle-step-label">Preach</div>
-          </div>
-          <div class="cycle-arrow">→</div>
-          <div class="cycle-step">
-            <div class="cycle-step-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            </div>
-            <div class="cycle-step-label">Publish</div>
-          </div>
-        </div>
-      </div>
-
-      <div style="margin-top:2rem;background:rgba(212,175,55,0.07);border:1px solid var(--border);border-radius:12px;padding:1.5rem;">
-        <div style="font-family:var(--font-heading);font-size:0.95rem;color:var(--white);margin-bottom:0.4rem;">The Motto</div>
-        <div style="font-family:var(--font-heading);font-size:1.05rem;color:var(--gold);font-style:italic;line-height:1.6;margin-bottom:0.5rem;">
-          "Earnestly contend for the faith which was once delivered unto the saints."
-        </div>
-        <div style="font-family:var(--font-body);font-size:0.75rem;color:var(--muted);">Jude 1:3</div>
-      </div>
-    </div>
-
-    <div>
-      <h3 style="font-family:var(--font-heading);font-size:1.2rem;color:white;margin-bottom:1.25rem;">Schedule of Regular Services</h3>
-      <table class="schedule-table">
-        <thead><tr><th>Day</th><th>Service</th><th>Time</th></tr></thead>
-        <tbody>
-          <tr><td class="schedule-day">Tuesday</td><td>Bible Study / Evangelistic Service</td><td>6:00 PM</td></tr>
-          <tr><td class="schedule-day">Friday</td><td>Evangelistic Service</td><td>6:00 PM</td></tr>
-          <tr><td class="schedule-day">Sunday</td><td>Sunday School</td><td>8:45 AM</td></tr>
-          <tr><td></td><td>Devotional Service</td><td>10:00 AM</td></tr>
-          <tr><td></td><td>Youth Service</td><td>2:30 PM</td></tr>
-        </tbody>
-      </table>
-
-      <div style="margin-top:2rem;">
-        <h3 style="font-family:var(--font-heading);font-size:1.1rem;color:white;margin-bottom:1rem;">Sunday School</h3>
-        <p style="font-family:var(--font-body);font-size:0.88rem;color:rgba(255,255,255,0.68);line-height:1.75;margin-bottom:0.85rem;">
-          "Study to show thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the words of truth." — 2 Timothy 2:15
-        </p>
-        <p style="font-family:var(--font-body);font-size:0.88rem;color:rgba(255,255,255,0.68);line-height:1.75;">
-          For a church concerned with the truth in God's Word, Sunday School has always been one of the most important parts of the Gospel work. A series of Bible Study books from International Headquarters are used worldwide, ensuring all branches learn the same lesson at the same time. Botswana established a national Sunday School office, the incumbent being Brother Motlhabani Kemorwale.
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- ══════════════════════════════════
-  5. CAMP MEETINGS
-══════════════════════════════════ -->
-<div class="bg-navy" id="camp-meetings">
-<div class="hist-section">
-  <span class="hist-section-label">Annual Events</span>
-  <h2 class="hist-section-title">Camp Meetings — <em>A Spiritual Pillar</em></h2>
-  <p class="hist-section-desc">
-    One of the most outstanding spiritual events in the Apostolic Faith is the annual camp meeting. The first was held in Portland, Oregon in 1907. Since then not a year has passed without one at the International Headquarters. Today many countries hold their own — and Botswana is no different.
+  <p class="gov-note">
+    Board composition as documented in the 2015 church history publication. Current board membership may have changed. Contact the National Office for up-to-date leadership details.
   </p>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;margin-bottom:3rem;">
-    <div>
-      <p style="font-family:var(--font-body);font-size:0.9rem;color:rgba(255,255,255,0.7);line-height:1.8;margin-bottom:1rem;">
-        The national camp meeting in Botswana started in July 2004 in Lobatse and was officially opened by the then Southern Africa Overseer, Rev. Richard Sibanda. Attendance was large from the onset and increasing every year. The camp meeting motivated brethren within Botswana and abroad to attend — some regularly, others occasionally — experiencing a wonderful time of spiritual refreshment.
-      </p>
-      <p style="font-family:var(--font-body);font-size:0.9rem;color:rgba(255,255,255,0.7);line-height:1.8;">
-        Following the completion of the tabernacle in Gaborone, the camp ground relocated to Gaborone in 2011. These camp meetings have been held under a different theme each year. Believers from neighbouring countries and beyond attend, sharing the same Spirit of camp meeting and blessings of God as manifested in Portland, Oregon.
-      </p>
-    </div>
-    <div style="background:rgba(212,175,55,0.07);border:1px solid var(--border);border-radius:14px;padding:1.75rem;">
-      <div style="font-family:var(--font-heading);font-size:1rem;color:var(--gold);margin-bottom:1rem;">A Word from the Camp Committee</div>
-      <p style="font-family:var(--font-body);font-size:0.85rem;color:rgba(255,255,255,0.7);line-height:1.75;font-style:italic;margin-bottom:1rem;">
-        "It has been so good to work for God. Eleven years as Chairman of the Camp Meeting Committee has been nothing but joy — full of blessings. Through prayers and God's Word, you do not see the challenges that are there BUT see the Hand of God guiding into purposing to do more and more."
-      </p>
-      <div style="font-family:var(--font-body);font-size:0.75rem;color:var(--gold);font-weight:700;">Major Mabayani — Camp Meeting Committee Chairman</div>
-    </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════
+     4. CAMP MEETINGS
+════════════════════════════ -->
+<section id="camp-meetings" class="s-block s-block-navy2">
+<div class="s-inner">
+
+  <span class="s-label">Annual Events</span>
+  <h2 class="s-title">Camp Meetings —<br><em>A Spiritual Pillar</em></h2>
+  <p class="s-lead">One of the most outstanding spiritual events in the Apostolic Faith is the annual camp meeting. The first was held in Portland, Oregon in 1907 and has not missed a year since. Botswana's own camp meeting tradition began in 2004.</p>
+
+  <div class="camp-stat-row">
+    <div class="camp-stat"><div class="camp-stat-num">2004</div><div class="camp-stat-lbl">First Botswana Camp</div></div>
+    <div class="camp-stat"><div class="camp-stat-num">2011</div><div class="camp-stat-lbl">Moved to Gaborone</div></div>
+    <div class="camp-stat"><div class="camp-stat-num">July</div><div class="camp-stat-lbl">Held Every Year</div></div>
   </div>
 
-  <h3 style="font-family:var(--font-heading);font-size:1.2rem;color:white;margin-bottom:1.5rem;">Annual Camp Meeting Themes — 2004 to 2015</h3>
-  <div class="camp-themes-grid">
-    <div class="camp-theme-row"><div class="camp-year">2004</div><div><div class="camp-theme-text">The Temple of God</div><div class="camp-minister">Rev. Richard Sibanda</div></div></div>
-    <div class="camp-theme-row"><div class="camp-year">2005</div><div><div class="camp-theme-text">Seek God While He May Be Found</div><div class="camp-minister">Rev. L.K. Motshidisi</div></div></div>
-    <div class="camp-theme-row"><div class="camp-year">2006</div><div><div class="camp-theme-text">Heroes of Faith</div><div class="camp-minister">Rev. L.K. Motshidisi</div></div></div>
-    <div class="camp-theme-row"><div class="camp-year">2007</div><div><div class="camp-theme-text">God Is Our Refuge and Strength</div><div class="camp-minister">Rev. Paul O. Akazue</div></div></div>
-    <div class="camp-theme-row"><div class="camp-year">2008</div><div><div class="camp-theme-text">Our Eternal Home</div><div class="camp-minister">Rev. Dwight Baltzell</div></div></div>
-    <div class="camp-theme-row"><div class="camp-year">2009</div><div><div class="camp-theme-text">Obedience and the Value of Faith</div><div class="camp-minister">Rev. L.K. Motshidisi</div></div></div>
-    <div class="camp-theme-row"><div class="camp-year">2010</div><div><div class="camp-theme-text">Consecration</div><div class="camp-minister">Rev. L.K. Motshidisi</div></div></div>
-    <div class="camp-theme-row"><div class="camp-year">2011</div><div><div class="camp-theme-text">Confidence in God</div><div class="camp-minister">Rev. L.K. Motshidisi</div></div></div>
-    <div class="camp-theme-row"><div class="camp-year">2012</div><div><div class="camp-theme-text">Victory Over Sin; The Evidence of Salvation</div><div class="camp-minister">Rev. L.K. Motshidisi</div></div></div>
-    <div class="camp-theme-row"><div class="camp-year">2013</div><div><div class="camp-theme-text">Have Faith in God</div><div class="camp-minister">Rev. L.K. Motshidisi</div></div></div>
-    <div class="camp-theme-row"><div class="camp-year">2014</div><div><div class="camp-theme-text">The Testimony of God</div><div class="camp-minister">Rev. L.K. Motshidisi</div></div></div>
-    <div class="camp-theme-row"><div class="camp-year">2015</div><div><div class="camp-theme-text">Come My People…</div><div class="camp-minister">Rev. O.Z. Gumbo</div></div></div>
-  </div>
-</div>
-</div>
-
-<!-- ══════════════════════════════════
-  6. VETERANS TELL THE STORY
-══════════════════════════════════ -->
-<div class="bg-dark-navy" id="veterans">
-<div class="hist-section">
-  <span class="hist-section-label">Testimonies</span>
-  <h2 class="hist-section-title">Veterans <em>Tell the Story</em></h2>
-  <p class="hist-section-desc">
-    "But sanctify the Lord God in your hearts: and be ready always to give an answer to every man that asketh you a reason of the hope that is in you with meekness and fear." — 1 Peter 3:15
+  <p style="font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.82;margin-bottom:1rem;">
+    Believers from neighbouring countries and beyond attend, sharing the same Spirit of camp meeting and blessings of God as manifested in Portland, Oregon. From the onset, attendance was in large numbers and increasing every year — motivating brethren within Botswana and abroad to attend and experience a wonderful time of spiritual refreshment.
+  </p>
+  <p style="font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.82;margin-bottom:1.75rem;">
+    Camp meetings have been held under a different theme each year. The national camp meeting is also a platform for international and regional delegations — strengthening the bond between Botswana and the worldwide Apostolic Faith fellowship.
   </p>
 
-  <div class="testimonies-grid">
-    <div class="testimony-card">
-      <div class="testimony-text">"The life I saw in the Gospel and the truth in God's Word made me give my life to the Lord. You see what it says and see no contradiction. Even your children just grow without you doing anything. There is no turning back. My prayer is that God help me to hold on to the end."</div>
-      <div class="testimony-person">
-        <div class="testimony-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div><div class="testimony-name">Brother Solomon Bafana</div><div class="testimony-branch">Lobatse</div></div>
-      </div>
-    </div>
-
-    <div class="testimony-card">
-      <div class="testimony-text">"One thing that has kept me in the Gospel even in my old age is that since the Lord forgave me of my sins, my life has never been the same. The transforming power of Jesus Christ our Lord and Saviour has kept and is still keeping me victorious. Every day that rises marks a new life in me and that is why I am still holding on. I thank God for His grace."</div>
-      <div class="testimony-person">
-        <div class="testimony-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div><div class="testimony-name">Sister Boitshwenyo Mpho</div><div class="testimony-branch">Letlhakane</div></div>
-      </div>
-    </div>
-
-    <div class="testimony-card">
-      <div class="testimony-text">"In the Gospel I found liberty in Christ, and the Truth that is eternal. Through the Gospel God delivered me from a terrible sinful life. Since then I live victoriously through the Word of God and prayer looking forward that when He comes I will be counted worthy."</div>
-      <div class="testimony-person">
-        <div class="testimony-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div><div class="testimony-name">Sister Elizabeth Macala</div><div class="testimony-branch">Francistown</div></div>
-      </div>
-    </div>
-
-    <div class="testimony-card">
-      <div class="testimony-text">"I like the Gospel because it delivered me from a world of darkness and gave me a vision of Heaven. I had my own church before but lacked this vision. My heart is open to the doctrines of the Gospel of Jesus Christ. I have no desires for worldly things; my prayer is that I will not fall but make Heaven my home."</div>
-      <div class="testimony-person">
-        <div class="testimony-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div><div class="testimony-name">Sister Gladys Maifala</div><div class="testimony-branch">Selebi Phikwe</div></div>
-      </div>
-    </div>
-
-    <div class="testimony-card">
-      <div class="testimony-text">"What has really kept me in the Gospel for so many years are the doctrines preached. I always feel the presence of God in our services and His transforming power. God keeps me and my family and His healing power is upon us. My hope is eternal life in His Kingdom."</div>
-      <div class="testimony-person">
-        <div class="testimony-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div><div class="testimony-name">Sister Alebeng Mongwaketse</div><div class="testimony-branch">Gaborone</div></div>
-      </div>
-    </div>
-
-    <div class="testimony-card">
-      <div class="testimony-text">"I have been brought to the Gospel by the preaching of the Word of God. The preaching clearly shows one where they are spiritually and where they are going, and what rewards await them according to their works. As a pilgrim my main purpose is to follow the Gospel and the promise of the reward."</div>
-      <div class="testimony-person">
-        <div class="testimony-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div><div class="testimony-name">Brother Baetsi Tshekiso</div><div class="testimony-branch">Rakops</div></div>
-      </div>
-    </div>
+  <div class="pull-quote">
+    <p>"It has been so good to work for God. Eleven years as Chairman of the Camp Meeting Committee has been nothing but joy — full of blessings. Through prayers and God's Word, you do not see the challenges that are there BUT see the Hand of God guiding and purposing to do more and more."</p>
+    <div class="attr">Major Mabayani — Camp Meeting Committee Chairman</div>
   </div>
-</div>
-</div>
 
-<!-- ══════════════════════════════════
-  7. YOUTH IN THE GOSPEL
-══════════════════════════════════ -->
-<div class="bg-navy" id="youth">
-<div class="hist-section">
-  <span class="hist-section-label">Young People</span>
-  <h2 class="hist-section-title">Youth <em>in the Gospel</em></h2>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;">
-    <div>
-      <p style="font-family:var(--font-body);font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.8;margin-bottom:1rem;">
-        God loves the youths — this fact reflects powerfully in the Holy Bible where through generations God mightily used young people to the glory of His name. God does not change and His love is unto eternity.
-      </p>
-      <p style="font-family:var(--font-body);font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.8;margin-bottom:1rem;">
-        In Botswana, youths were rarely functioning and youth programmes were not effective and close to non-existence for many years. This was a growing concern to the church. God in His own good time brought in Sister Mavis Mateyu as youth conductor and Sister Lillian Thanke as youth leader in Southern Botswana. Together they took all the young people into a singing programme which triggered so much interest.
-      </p>
-      <p style="font-family:var(--font-body);font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.8;margin-bottom:1rem;">
-        The coming in of Brother Moses Zulu as the Youth Pastor enhanced the whole youth programmes nationally. He took them through teachings and made them understand what it means to work for God. Today many youths are diligent workers.
-      </p>
-      <p style="font-family:var(--font-body);font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.8;">
-        Under the new church structure, Brother Motlhabani Kemorwale was appointed the chairman of the Youth Committee. The Fire of God was burning among the youths, and God, in a wonderful way, used them to revive the whole congregation nationally.
-      </p>
-    </div>
-    <div>
-      <!-- Youth testimony -->
-      <div style="background:rgba(212,175,55,0.07);border:1px solid var(--border);border-radius:14px;padding:1.75rem;margin-bottom:1.25rem;">
-        <p style="font-family:var(--font-body);font-size:0.88rem;color:rgba(255,255,255,0.75);line-height:1.75;font-style:italic;margin-bottom:1rem;">
-          "I started with the Gospel straight where it began in Botswana. I grew up in the Gospel and 'CYC No1 is our Motto' was our song. The Gospel was our life and everything. Challenges and circumstances were there but by God's power and grace we were walking over them. We would travel around even as far as Zerust (RSA) in a spirit of revival; every day was a revival. We would go to the Bulawayo, Zimbabwe camp meeting every year, without fail."
-        </p>
-        <div style="font-family:var(--font-body);font-size:0.75rem;color:var(--gold);font-weight:700;">Thandiwe Maseko — Youth Testimony</div>
-      </div>
+</div>
+</section>
 
-      <!-- Agape Juma -->
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:1.5rem;">
-        <p style="font-family:var(--font-body);font-size:0.85rem;color:rgba(255,255,255,0.72);line-height:1.75;font-style:italic;margin-bottom:0.75rem;">
-          "Having grown up in a Christian home I heard the Word. I realized the privilege that I have; which many do not have. I was challenged to show others what it means to work for God and singing is one of them — because not everyone is there to serve the Lord. This helps me grow spiritually and I pray that God will make people to see Him in me."
-        </p>
-        <div style="font-family:var(--font-body);font-size:0.75rem;color:var(--gold);font-weight:700;">Agape Juma — Youngest in the Botswana Gospel Choir</div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
 
-<!-- ══════════════════════════════════
-  8. MINISTRY OF MUSIC
-══════════════════════════════════ -->
-<div class="bg-dark-navy" id="music">
-<div class="hist-section">
-  <span class="hist-section-label">Worship</span>
-  <h2 class="hist-section-title">Ministry <em>of Music</em></h2>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;">
-    <div>
-      <p style="font-family:var(--font-body);font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.8;margin-bottom:1rem;">
-        Right from the beginning, music has always been a vitally important part of the Gospel work in the Apostolic Faith Church. The belief that music touches the heart and brings everyone closer to God means all church services feature the piano/organ in the forefront.
-      </p>
-      <p style="font-family:var(--font-body);font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.8;margin-bottom:1rem;">
-        In the early days of the Gospel work in Botswana, Rev. Loomatsoga Gaogane learnt Gospel music in Zimbabwe without formal training. His passion for singing for the Lord led him to become the first Conductor and then Director of music in Botswana. Behind him was unprecedented support by brethren including Brother Freedom Sengwayo from Zimbabwe.
-      </p>
-      <p style="font-family:var(--font-body);font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.8;margin-bottom:1rem;">
-        In 1999 Brother Lawrence Mwape came to Botswana from Zambia and introduced formal music training. A mini-orchestra of five members started performing in November 2006. Today we have flutes, clarinets, violins, trumpets, trombones, tuba and double bass.
-      </p>
-      <p style="font-family:var(--font-body);font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.8;">
-        In Botswana, two national concerts are held annually — at Easter and Camp meetings. These inspirational musical concerts have always been crowd-pullers for young and old. Many people have been converted upon listening to the sacred singing by the Gospel choir and orchestra.
-      </p>
-    </div>
-    <div>
-      <div style="background:rgba(212,175,55,0.07);border:1px solid var(--border);border-radius:14px;padding:1.75rem;margin-bottom:1.25rem;">
-        <div style="font-family:var(--font-heading);font-size:1.05rem;color:white;margin-bottom:0.5rem;">Musical Concerts — Theme</div>
-        <div style="font-family:var(--font-heading);font-size:1.1rem;color:var(--gold);font-style:italic;margin-bottom:0.75rem;">"How Big Is God?"</div>
-        <p style="font-family:var(--font-body);font-size:0.85rem;color:rgba(255,255,255,0.65);line-height:1.7;">
-          "I think we as human being when we think about God we cannot comprehend how big our God is. This evening we simply want to go through our concert thinking about the Greatness of God only. Throughout our music, all the songs are just talking about the Greatness of God. May God help us recognize His Greatness."
-        </p>
-        <div style="font-family:var(--font-body);font-size:0.75rem;color:var(--gold);font-weight:700;margin-top:.75rem;">Brother Lawrence Mwape — Music Director, July 2012</div>
-      </div>
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.25rem;">
-        <div style="font-family:var(--font-body);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.5rem;">First Botswana Instrumentalists</div>
-        <div style="font-family:var(--font-body);font-size:0.88rem;color:rgba(255,255,255,0.8);">Bridget Mwape · Knowledge Mazama<br>Lawrence Mwape · Cobert Habusiwa · Isaac Nyatsanang</div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
+<!-- ════════════════════════════
+     5. VETERANS
+════════════════════════════ -->
+<section id="veterans" class="s-block">
+<div class="s-inner-wide">
 
-<!-- ══════════════════════════════════
-  9. BRANCHES BY REGION
-══════════════════════════════════ -->
-<div style="background:var(--off-white);" id="branches">
-<div class="hist-section">
-  <span class="hist-section-label" style="color:var(--navy-700);">Network</span>
-  <h2 class="hist-section-title dark">Country Branches <em>By Region</em></h2>
-  <p style="font-family:var(--font-body);font-size:0.92rem;color:#555;line-height:1.8;max-width:720px;margin-bottom:2.5rem;">
-    From one humble branch in Mopipi in 1968, the Gospel work has grown to span the entire nation — with branches from Lobatse in the south to Kazungula and Nata in the north.
+  <span class="s-label">Testimonies</span>
+  <h2 class="s-title">Veterans<em> Tell the Story</em></h2>
+  <p class="s-lead" style="max-width:700px;">
+    "But sanctify the Lord God in your hearts: and be ready always to give an answer to every man that asketh you a reason of the hope that is in you with meekness and fear." &mdash; 1 Peter 3:15
   </p>
-  <div class="branches-table-wrap">
-    <table class="branches-table">
-      <thead>
-        <tr><th>Provincial Overseer</th><th>Region / HQ</th><th>Contact</th><th>Main Branches</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Rev. Phineas Nkobi</strong></td>
-          <td>Southern — Lobatse</td>
-          <td>+267 74 451 754</td>
-          <td>Lobatse, Jwaneng, Pitsane</td>
-        </tr>
-        <tr>
-          <td><strong>Rev. Edward Nakasala</strong></td>
-          <td>South East — Gaborone</td>
-          <td>+267 75 281 695</td>
-          <td>Gaborone, Molepolole</td>
-        </tr>
-        <tr>
-          <td><strong>Rev. Loomatsoga Gaogane</strong></td>
-          <td>Central — Mmutlane</td>
-          <td>+267 73 127 479</td>
-          <td>Mmutlane, Mahalapye, Serowe, Selebi Phikwe</td>
-        </tr>
-        <tr>
-          <td><strong>Rev. Ben Bhuka</strong></td>
-          <td>Boteti/Chobe — Letlhakane</td>
-          <td>+267 72 409 926</td>
-          <td>Letlhakane, Mopipi, Rakops, Orapa, Kazungula, Maun</td>
-        </tr>
-        <tr>
-          <td><strong>Rev. Isaac Mabelebele</strong></td>
-          <td>North East — Francistown</td>
-          <td>+267 71 400 809</td>
-          <td>Francistown, Tsamaya, Matsitama, Butale</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <p style="font-family:var(--font-body);font-size:0.82rem;color:#999;margin-top:1rem;">Contact details current as of 2015 publication. Visit the Locations page for updated branch information.</p>
-  <div style="margin-top:1.5rem;">
-    <a href="locations.html" class="btn-primary">View Current Branch Locations</a>
-  </div>
-</div>
-</div>
 
-<!-- ══════════════════════════════════
-  10. STATEMENT OF BIBLE DOCTRINE
-══════════════════════════════════ -->
-<div class="bg-dark-navy" id="doctrine">
-<div class="hist-section">
-  <span class="hist-section-label">What We Believe</span>
-  <h2 class="hist-section-title">A Statement of <em>Bible Doctrine</em></h2>
-  <p style="font-family:var(--font-body);font-size:0.88rem;color:rgba(255,255,255,0.65);max-width:640px;margin-bottom:2.5rem;line-height:1.8;font-style:italic;">
+  <div class="testi-grid">
+
+    <div class="testi-card">
+      <div class="testi-txt">"The life I saw in the Gospel and the truth in God's Word made me give my life to the Lord. You see what it says and see no contradiction. Even your children just grow without you doing anything. There is no turning back. My prayer is that God help me to hold on to the end."</div>
+      <div class="testi-person">
+        <div class="testi-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div><div class="testi-name">Brother Solomon Bafana</div><div class="testi-branch">Lobatse</div></div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-txt">"One thing that has kept me in the Gospel even in my old age is that since the Lord forgave me of my sins, my life has never been the same. The transforming power of Jesus Christ our Lord and Saviour has kept and is still keeping me victorious. Every day that rises marks a new life in me — that is why I am still holding on."</div>
+      <div class="testi-person">
+        <div class="testi-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div><div class="testi-name">Sister Boitshwenyo Mpho</div><div class="testi-branch">Letlhakane</div></div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-txt">"In the Gospel I found liberty in Christ and the Truth that is eternal. Through the Gospel God delivered me from a terrible sinful life. Since then I live victoriously through the Word of God and prayer looking forward that when He comes I will be counted worthy."</div>
+      <div class="testi-person">
+        <div class="testi-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div><div class="testi-name">Sister Elizabeth Macala</div><div class="testi-branch">Francistown</div></div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-txt">"What has really kept me in the Gospel for so many years are the doctrines preached. I always feel the presence of God in our services and His transforming power. God keeps me and my family and His healing power is upon us. My hope is eternal life in His Kingdom."</div>
+      <div class="testi-person">
+        <div class="testi-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div><div class="testi-name">Sister Alebeng Mongwaketse</div><div class="testi-branch">Gaborone</div></div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-txt">"I like the Gospel because it delivered me from a world of darkness and gave me a vision of Heaven. My heart is open to the doctrines of the Gospel of Jesus Christ. I have no desires for worldly things; my prayer is that I will not fall but make Heaven my home."</div>
+      <div class="testi-person">
+        <div class="testi-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div><div class="testi-name">Sister Gladys Maifala</div><div class="testi-branch">Selebi Phikwe</div></div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-txt">"God has done great many things for me. He delivered me from the life of this world so that I live for Him. I was involved in two serious road accidents and only God in the multitude of His mercy prevented the worse. A prayer to God brings peace of mind and helps to continue in His way of righteousness."</div>
+      <div class="testi-person">
+        <div class="testi-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div><div class="testi-name">Sister Molly Toitoi</div><div class="testi-branch">Tsamaya</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════
+     6. YOUTH
+════════════════════════════ -->
+<section id="youth" class="s-block s-block-navy2">
+<div class="s-inner-wide">
+
+  <span class="s-label">Young People</span>
+  <h2 class="s-title">Youth<em> in the Gospel</em></h2>
+  <p class="s-lead">God loves the youths. Through generations, He has mightily used young people to the glory of His name — and Botswana is no exception.</p>
+
+  <p style="font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.82;margin-bottom:1rem;">
+    In Botswana, youth programmes were close to non-existence for many years. God in His own good time brought in Sister Mavis Mateyu as youth conductor and Sister Lillian Thanke as youth leader in Southern Botswana. They took all the young people into a singing programme which triggered so much interest and response.
+  </p>
+  <p style="font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.82;margin-bottom:1rem;">
+    The coming in of Brother Moses Zulu as Youth Pastor enhanced the whole youth programme nationally. Today many youths are diligent workers — wherever there is work to be done, youths are found there performing. Under the new church structure, Brother Motlhabani Kemorwale was appointed Chairman of the Youth Committee.
+  </p>
+
+  <div class="pull-quote">
+    <p>"I started with the Gospel straight where it began in Botswana. I grew up in the Gospel and 'CYC No1 is our Motto' was our song. The Gospel was our life and everything. By God's power and grace we were walking over every challenge. We would travel as far as Zerust (RSA) in a spirit of revival — every day was a revival."</p>
+    <div class="attr">Thandiwe Maseko</div>
+  </div>
+
+  <div class="pull-quote">
+    <p>"Having grown up in a Christian home I heard the Word. I realized the privilege that I have which many do not have. I was challenged to show others what it means to work for God — and singing is one of them, because not everyone is there to serve the Lord. This helps me grow spiritually."</p>
+    <div class="attr">Agape Juma — Youngest in the Botswana Gospel Choir</div>
+  </div>
+
+  <!-- PHOTO GRID — add your photos to css/images/ and update src below -->
+  <h3 style="font-family:var(--font-heading);font-size:1.1rem;color:var(--gold);margin:2rem 0 .75rem;">Youth in Pictures</h3>
+  <div class="photo-grid">
+    <div class="photo-cell">
+      <div class="photo-cell-inner">
+        <img src="css/images/youth1.jpg" alt="Youth Service" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'><svg width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Youth Service</span></div>'"/>
+      </div>
+      <div class="photo-caption">Youth Service</div>
+    </div>
+    <div class="photo-cell">
+      <div class="photo-cell-inner">
+        <img src="css/images/youth2.jpg" alt="Youth Fellowship" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'><svg width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Youth Fellowship</span></div>'"/>
+      </div>
+      <div class="photo-caption">Youth Fellowship</div>
+    </div>
+    <div class="photo-cell">
+      <div class="photo-cell-inner">
+        <img src="css/images/chrildren2.jpg" alt="Children's Ministry" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'><svg width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Children\'s Ministry</span></div>'"/>
+      </div>
+      <div class="photo-caption">Children's Ministry</div>
+    </div>
+    <div class="photo-cell">
+      <div class="photo-cell-inner">
+        <img src="css/images/choir1.jpg" alt="Gospel Choir" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'><svg width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Gospel Choir</span></div>'"/>
+      </div>
+      <div class="photo-caption">Botswana Gospel Choir</div>
+    </div>
+  </div>
+  <p style="font-size:.72rem;color:var(--muted);margin-top:.75rem;">
+    To add more photos, place images in <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">css/images/</code> and update the file names above.
+  </p>
+
+</div>
+</section>
+
+
+<!-- ════════════════════════════
+     7. MINISTRY OF MUSIC
+════════════════════════════ -->
+<section id="music" class="s-block">
+<div class="s-inner-wide">
+
+  <span class="s-label">Worship</span>
+  <h2 class="s-title">Ministry<em> of Music</em></h2>
+  <p class="s-lead">Right from the beginning, music has always been a vitally important part of the Gospel work in the Apostolic Faith Church — bringing everyone closer to God.</p>
+
+  <p style="font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.82;margin-bottom:1rem;">
+    In the early days of the Gospel work in Botswana, Rev. Loomatsoga Gaogane learnt Gospel music in Zimbabwe without any formal training. His passion for singing for the Lord led him to become the first Conductor and then Director of Music in Botswana — with great support from brethren including Brother Freedom Sengwayo from Zimbabwe.
+  </p>
+  <p style="font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.82;margin-bottom:1rem;">
+    Formal music training was later introduced to Botswana and a mini-orchestra of five members began performing. Today the ensemble includes flutes, clarinets, violins, trumpets, trombones, tuba and double bass. Common Hymn books are used in services, with some songs being translated into local languages.
+  </p>
+  <p style="font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.82;margin-bottom:1.75rem;">
+    In Botswana, two national concerts are held annually — at Easter and Camp Meeting. These inspirational concerts have always been crowd-pullers, with many people coming to know Christ through the sacred singing of the Gospel choir and orchestra.
+  </p>
+
+  <div class="pull-quote">
+    <p>"I think we as human beings when we think about God we cannot comprehend how big our God is. Throughout our music, all the songs are just talking about the Greatness of God. May God help us recognize His Greatness."</p>
+    <div class="attr">Concert Theme — "How Big Is God?"</div>
+  </div>
+
+  <!-- PHOTO GRID -->
+  <h3 style="font-family:var(--font-heading);font-size:1.1rem;color:var(--gold);margin:2rem 0 .75rem;">Music Ministry in Pictures</h3>
+  <div class="photo-grid">
+    <div class="photo-cell">
+      <div class="photo-cell-inner">
+        <img src="css/images/choir2.jpg" alt="Gospel Choir" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'><svg width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Gospel Choir</span></div>'"/>
+      </div>
+      <div class="photo-caption">Botswana Gospel Choir</div>
+    </div>
+    <div class="photo-cell">
+      <div class="photo-cell-inner">
+        <img src="css/images/choir1.jpg" alt="Camp Concert" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'><svg width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Camp Concert</span></div>'"/>
+      </div>
+      <div class="photo-caption">Musical Concert at Camp Meeting</div>
+    </div>
+    <div class="photo-cell">
+      <div class="photo-cell-inner">
+        <img src="css/images/choir2.jpg" alt="Orchestra" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'><svg width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Orchestra — Add photo: css/images/music1.jpg</span></div>'"/>
+      </div>
+      <div class="photo-caption">Instrumentalists</div>
+    </div>
+    <div class="photo-cell">
+      <div class="photo-cell-inner">
+        <img src="css/images/choir1.jpg" alt="Worship" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'><svg width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Worship — Add photo: css/images/music2.jpg</span></div>'"/>
+      </div>
+      <div class="photo-caption">Worship in Service</div>
+    </div>
+  </div>
+  <p style="font-size:.72rem;color:var(--muted);margin-top:.75rem;">
+    Add music photos by placing images in <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">css/images/</code> and naming them <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">music1.jpg</code>, <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">music2.jpg</code>, etc.
+  </p>
+
+</div>
+</section>
+
+
+<!-- ════════════════════════════
+     8. DOCTRINE
+════════════════════════════ -->
+<section id="doctrine" class="s-block s-block-light">
+<div class="s-inner-wide">
+
+  <span class="s-label dk">What We Believe</span>
+  <h2 class="s-title dk">A Statement of<em> Bible Doctrine</em></h2>
+  <p class="s-lead dk" style="font-style:italic;">
     "We believe in the divine inspiration of the Bible, and endorse all the teachings contained in it. Following is a summary of our basic doctrines."
   </p>
 
   <div class="beliefs-grid">
     <div class="belief-card">
       <h3>The Divine Trinity</h3>
-      <p>The Trinity consists of three Persons: God the Father, Jesus Christ the Son, and the Holy Ghost — perfectly united as one.</p>
+      <p>Three Persons: God the Father, Jesus Christ the Son, and the Holy Ghost — perfectly united as one.</p>
       <span class="belief-ref">Matthew 3:16–17 · 1 John 5:7</span>
     </div>
     <div class="belief-card">
@@ -1036,7 +810,7 @@
     </div>
     <div class="belief-card">
       <h3>Entire Sanctification</h3>
-      <p>The second definite work of grace whereby we are made holy, subsequent to justification — enabling victorious Christian living.</p>
+      <p>The second definite work of grace whereby we are made holy — subsequent to justification, enabling victorious Christian living.</p>
       <span class="belief-ref">John 17:15–21 · Hebrews 13:12</span>
     </div>
     <div class="belief-card">
@@ -1046,7 +820,7 @@
     </div>
     <div class="belief-card">
       <h3>Water Baptism</h3>
-      <p>By one immersion "in the name of the Father, and of the Son, and of the Holy Ghost" — an outward sign of an inward work of grace.</p>
+      <p>By one immersion in the name of the Father, the Son, and the Holy Ghost — an outward sign of an inward work of grace.</p>
       <span class="belief-ref">Matthew 3:16 · 28:19</span>
     </div>
     <div class="belief-card">
@@ -1056,42 +830,41 @@
     </div>
     <div class="belief-card">
       <h3>The Second Coming of Christ</h3>
-      <p>The literal, bodily return of our Lord Jesus Christ — first to catch away His waiting Bride, then to execute judgment upon the ungodly.</p>
+      <p>The literal, bodily return of our Lord Jesus Christ — first to receive His Bride, then to execute judgment upon the ungodly.</p>
       <span class="belief-ref">Matthew 24:40–44 · 1 Thessalonians 4:15–17</span>
     </div>
     <div class="belief-card">
       <h3>The Lord's Supper</h3>
-      <p>An institution ordained by Jesus so that we might remember His death until He returns.</p>
+      <p>Ordained by Jesus so that we remember His death until He returns.</p>
       <span class="belief-ref">Matthew 26:26–29 · 1 Corinthians 11:23–26</span>
     </div>
     <div class="belief-card">
       <h3>Marriage</h3>
-      <p>A covenant between one man and one woman that is binding before God for life.</p>
+      <p>A covenant between one man and one woman, binding before God for life.</p>
       <span class="belief-ref">Mark 10:6–12 · Romans 7:1–3</span>
     </div>
   </div>
 
-  <div style="text-align:center;margin-top:3rem;">
-    <p style="font-family:var(--font-body);font-size:0.85rem;color:rgba(255,255,255,0.5);margin-bottom:1.25rem;">
-      For a full Statement of Bible Doctrine and additional publications:
-    </p>
-    <a href="https://www.apostolicfaith.org" target="_blank" rel="noopener" class="btn-outline">
-      Visit apostolicfaith.org
-    </a>
+  <div style="text-align:center;margin-top:2.5rem;">
+    <p style="font-size:.85rem;color:#888;margin-bottom:1.25rem;">For a complete Statement of Bible Doctrine and further resources:</p>
+    <a href="https://www.apostolicfaith.org" target="_blank" rel="noopener" class="btn-primary" style="background:var(--navy);color:white;border:2px solid var(--navy);">Visit apostolicfaith.org</a>
   </div>
+
 </div>
-</div>
+</section>
+
 
 <!-- CTA -->
 <div class="hist-cta">
   <h2>Come and <em style="color:var(--gold);">Worship With Us</em></h2>
   <p>Find a branch near you and experience the Apostolic Faith community firsthand.</p>
-  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+  <div class="cta-btns">
     <a href="locations.html" class="btn-primary">Find a Branch</a>
-    <a href="about.html" class="btn-outline">Back to About Us</a>
+    <a href="about.html"     class="btn-outline">Back to About Us</a>
     <a href="index.html#contact" class="btn-outline">Contact Us</a>
   </div>
 </div>
+
 
 <!-- FOOTER -->
 <footer class="footer">
@@ -1099,7 +872,10 @@
     <div class="footer-top">
       <div class="footer-brand">
         <div class="logo-icon logo-icon-sm"><img src="css/images/logo1.png" alt="AFC Botswana"/></div>
-        <div><p class="footer-church-name">Apostolic Faith Church</p><p class="footer-sub">Portland, Oregon · Botswana Branch</p></div>
+        <div>
+          <p class="footer-church-name">Apostolic Faith Church</p>
+          <p class="footer-sub">Portland, Oregon · Botswana Branch</p>
+        </div>
       </div>
       <nav class="footer-links">
         <a href="index.html">Home</a>
@@ -1109,14 +885,14 @@
         <a href="index.html#contact">Contact</a>
       </nav>
       <div class="footer-socials">
-        <a href="https://facebook.com/people/Apostolic-Faith-Church-of-Portland-Oregon-Botswana/100064412953117" target="_blank" class="footer-social-icon" title="Facebook">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="color:#1877F2;"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        <a href="https://facebook.com/people/Apostolic-Faith-Church-of-Portland-Oregon-Botswana/100064412953117" target="_blank" title="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="color:#1877F2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
         </a>
-        <a href="https://zoom.us/j/84874457626" target="_blank" class="footer-social-icon" title="Zoom Morning Prayer">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="color:#2D8CFF;"><path d="M4.5 4A2.5 2.5 0 0 0 2 6.5v11A2.5 2.5 0 0 0 4.5 20h11a2.5 2.5 0 0 0 2.5-2.5V15l4 3V6l-4 3V6.5A2.5 2.5 0 0 0 15.5 4Z"/></svg>
+        <a href="https://zoom.us/j/84874457626" target="_blank" title="Zoom Morning Prayer">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="color:#2D8CFF"><path d="M4.5 4A2.5 2.5 0 0 0 2 6.5v11A2.5 2.5 0 0 0 4.5 20h11a2.5 2.5 0 0 0 2.5-2.5V15l4 3V6l-4 3V6.5A2.5 2.5 0 0 0 15.5 4Z"/></svg>
         </a>
-        <a href="https://youtube.com/@apostolicfaithbotswanahead3540" target="_blank" class="footer-social-icon" title="YouTube">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="color:#FF0000;"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+        <a href="https://youtube.com/@apostolicfaithbotswanahead3540" target="_blank" title="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="color:#FF0000"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
         </a>
       </div>
     </div>
@@ -1129,25 +905,21 @@
 
 <script>
 // NAV
-document.getElementById('hamburger').addEventListener('click', () => {
-  document.getElementById('navLinks').classList.toggle('open');
-});
+document.getElementById('hamburger').addEventListener('click', () =>
+  document.getElementById('navLinks').classList.toggle('open'));
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
-  // Highlight active section tab
-  const sections = ['gospel-came','leadership','governing','mission','camp-meetings','veterans','youth','music','branches','doctrine'];
-  let current = sections[0];
-  for (const id of sections) {
+  // Active tab highlighting
+  const ids = ['gospel-came','mission','governing','camp-meetings','veterans','youth','music','doctrine'];
+  let cur = ids[0];
+  ids.forEach(id => {
     const el = document.getElementById(id);
-    if (el && el.getBoundingClientRect().top < 140) current = id;
-  }
-  document.querySelectorAll('.hist-tab-link').forEach(l => {
-    l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    if (el && el.getBoundingClientRect().top < 150) cur = id;
   });
+  document.querySelectorAll('.s-tab').forEach(t =>
+    t.classList.toggle('active', t.getAttribute('href') === '#' + cur)
+  );
 }, { passive: true });
-</script>
-<script type="module">
-  import './js/site-core.js';
 </script>
 </body>
 </html>
