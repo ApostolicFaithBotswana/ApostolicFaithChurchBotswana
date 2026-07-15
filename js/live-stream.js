@@ -149,8 +149,13 @@ function showLiveUI(live, details, remountPlayer) {
   if (els.title) els.title.textContent = details?.snippet?.title || live.title;
   if (els.desc) {
     const desc = details?.snippet?.description || live.description || '';
-    els.desc.textContent = desc.length > 600 ? `${desc.slice(0, 600)}…` : desc;
-    els.desc.hidden = !desc;
+    const cleaned = desc
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+    // Keep the page clean — long YouTube descriptions pollute the cinema layout
+    const short = cleaned.length > 220 ? `${cleaned.slice(0, 220).trim()}…` : cleaned;
+    els.desc.textContent = short;
+    els.desc.hidden = !short;
   }
 
   const viewers = details?.liveStreamingDetails?.concurrentViewers;
