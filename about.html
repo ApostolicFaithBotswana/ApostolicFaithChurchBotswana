@@ -161,18 +161,32 @@
   .supt-story-text p{ margin-bottom:1rem; }
 
   /* STRUCTURE SECTION */
-  .structure-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1rem; }
+  .structure-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.25rem; }
   .structure-card{
-    background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
-    border-radius:12px; padding:1.5rem; text-align:center; transition:all .3s;
+    background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1);
+    border-radius:14px; padding:1.85rem 1.5rem 1.7rem; text-align:center; transition:all .3s;
   }
-  .structure-card:hover{ border-color:var(--border); background:var(--gold-dim); }
-  .structure-icon{ font-size:2rem; margin-bottom:.75rem; }
-  .structure-card h3{ font-size:.95rem; color:var(--white); margin-bottom:.4rem; }
+  .structure-card:hover{ border-color:rgba(212,175,55,.35); background:rgba(212,175,55,.06); }
+  .structure-icon{
+    width:56px; height:56px; margin:0 auto 1.05rem;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%;
+    background:rgba(212,175,55,.12);
+    border:1px solid rgba(212,175,55,.3);
+    color:var(--gold);
+  }
+  .structure-icon svg{ width:26px; height:26px; display:block; }
+  .structure-card h3{
+    font-family:'Lato', sans-serif; font-size:1.08rem; font-weight:700;
+    color:#fff; margin:0 0 .7rem; line-height:1.35; letter-spacing:.01em;
+  }
   .structure-card h3 a{ color:inherit; text-decoration:none; }
   .structure-card h3 a:hover{ color:var(--gold); }
-  .structure-card p{ font-size:.8rem; color:var(--muted); line-height:1.6; }
-  .structure-card p a{ color:var(--gold); text-decoration:none; }
+  .structure-card p{
+    font-size:.95rem; font-weight:400; color:rgba(255,255,255,.74);
+    line-height:1.7; margin:0; max-width:28ch; margin-inline:auto;
+  }
+  .structure-card p a{ color:var(--gold); font-weight:600; text-decoration:none; }
   .structure-card p a:hover{ text-decoration:underline; }
 
   /* CYCLE SECTION */
@@ -521,16 +535,20 @@
       <h2 class="section-title light" data-edit-field="title">How We're <em>Connected</em></h2>
     </div>
     <div class="structure-grid" data-edit-list="structure">
-      <div class="structure-card" data-edit="about.structure.hq" data-edit-type="card" data-edit-label="International HQ card">
-        <div class="structure-icon">🌍</div>
+      <div class="structure-card" data-edit="about.structure.hq" data-edit-type="card" data-edit-label="International HQ card" data-icon="globe">
+        <div class="structure-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
         <h3><a href="https://www.apostolicfaith.org/" target="_blank" data-edit-field="link">International HQ</a></h3>
         <p data-edit-field="body">
           <a href="https://www.apostolicfaith.org/" target="_blank">Portland, Oregon, USA</a>
           — the global centre of the Apostolic Faith Church worldwide fellowship.
         </p>
       </div>
-      <div class="structure-card" data-edit="about.structure.africa-district" data-edit-type="card" data-edit-label="Africa district card">
-        <div class="structure-icon">🌐</div>
+      <div class="structure-card" data-edit="about.structure.africa-district" data-edit-type="card" data-edit-label="Africa district card" data-icon="users">
+        <div class="structure-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
         <h3 data-edit-field="title">Southern & Eastern Africa District</h3>
         <p data-edit-field="body">
           Headquartered in
@@ -538,8 +556,10 @@
           — overseeing all Southern African nations including Botswana.
         </p>
       </div>
-      <div class="structure-card" data-edit="about.structure.south-africa" data-edit-type="card" data-edit-label="South Africa card">
-        <div class="structure-icon">🇿🇦</div>
+      <div class="structure-card" data-edit="about.structure.south-africa" data-edit-type="card" data-edit-label="South Africa card" data-icon="building">
+        <div class="structure-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>
+        </div>
         <h3 data-edit-field="title">South Africa</h3>
         <p data-edit-field="body">
           Headquartered in

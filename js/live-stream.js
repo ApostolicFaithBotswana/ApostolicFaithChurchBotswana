@@ -1,4 +1,4 @@
-/* YouTube live stream page — polls for live broadcasts and embeds player + chat */
+/* YouTube live stream page — polls for live broadcasts and embeds the player */
 
 import { DB } from './data.js';
 
@@ -29,8 +29,6 @@ function cacheElements() {
   els.desc = document.getElementById('liveStreamDesc');
   els.meta = document.getElementById('liveMeta');
   els.toolbar = document.getElementById('liveToolbar');
-  els.chatFrame = document.getElementById('liveChatFrame');
-  els.chatToggle = document.getElementById('liveChatToggle');
   els.offlineCard = document.getElementById('liveOfflineCard');
   els.offlineMsg = document.getElementById('liveOfflineMsg');
   els.latestWrap = document.getElementById('liveLatestWrap');
@@ -168,7 +166,6 @@ function showLiveUI(live, details, remountPlayer) {
   }
 
   if (remountPlayer) mountVideoPlayer(live.id);
-  mountLiveChat(live.id);
   renderToolbar(live.id, true);
 }
 
@@ -186,9 +183,9 @@ function showOfflineUI(latest, message) {
     els.meta.innerHTML = '';
     els.meta.hidden = true;
   }
+  if (els.offlineMsg && message) els.offlineMsg.textContent = message;
 
   unmountPlayer();
-  if (els.chatFrame) els.chatFrame.src = 'about:blank';
   renderToolbar(null, false);
 
   if (els.latestWrap && latest) {
@@ -198,7 +195,7 @@ function showOfflineUI(latest, message) {
       <div class="live-latest-thumb">
         ${thumb ? `<img src="${esc(thumb)}" alt="">` : ''}
         <div>
-          <div style="font-size:.78rem;color:#8899aa;margin-bottom:.25rem;">Latest upload</div>
+          <div class="live-latest-label">Latest upload</div>
           <a href="${url}" target="_blank" rel="noopener">${esc(latest.title)}</a>
         </div>
       </div>`;
@@ -253,14 +250,16 @@ function mountChannelLiveFallback() {
 }
 
 function unmountPlayer() {
-  if (els.playerWrap) els.playerWrap.innerHTML = '';
+  if (els.playerWrap) {
+    els.playerWrap.innerHTML = `
+      <div class="live-player-placeholder">
+        <span class="live-player-placeholder-icon" aria-hidden="true">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span>Waiting for the next live stream…</span>
+      </div>`;
+  }
   playerIframe = null;
-}
-
-function mountLiveChat(videoId) {
-  if (!els.chatFrame) return;
-  const domain = window.location.hostname;
-  els.chatFrame.src = `https://www.youtube.com/live_chat?v=${encodeURIComponent(videoId)}&embed_domain=${encodeURIComponent(domain)}`;
 }
 
 function renderToolbar(videoId, isLive) {
@@ -269,10 +268,10 @@ function renderToolbar(videoId, isLive) {
   const watchUrl = videoId ? `https://www.youtube.com/watch?v=${videoId}` : channelUrl;
 
   els.toolbar.innerHTML = `
-    <a class="live-tool-btn primary" href="${watchUrl}" target="_blank" rel="noopener">Open on YouTube</a>
-    <a class="live-tool-btn" href="${channelUrl}" target="_blank" rel="noopener">Subscribe</a>
+    <a class="live-tool-btn primary" href="${watchUrl}" target="_blank" rel="noopener">${isLive ? 'Open on YouTube' : 'Visit channel'}</a>
+    <a class="live-tool-btn" href="${channelUrl}?sub_confirmation=1" target="_blank" rel="noopener">Subscribe</a>
     <button type="button" class="live-tool-btn" id="liveShareBtn">Share</button>
-    ${isLive ? '<button type="button" class="live-tool-btn" id="liveTheaterBtn">Theater mode</button>' : ''}`;
+    <a class="live-tool-btn" href="index.html">Homepage</a>`;
 
   document.getElementById('liveShareBtn')?.addEventListener('click', () => {
     const url = isLive ? watchUrl : window.location.href;
@@ -282,12 +281,6 @@ function renderToolbar(videoId, isLive) {
       navigator.clipboard?.writeText(url);
       alert('Link copied to clipboard.');
     }
-  });
-
-  document.getElementById('liveTheaterBtn')?.addEventListener('click', () => {
-    document.body.classList.toggle('live-theater');
-    const btn = document.getElementById('liveTheaterBtn');
-    if (btn) btn.textContent = document.body.classList.contains('live-theater') ? 'Exit theater' : 'Theater mode';
   });
 }
 
