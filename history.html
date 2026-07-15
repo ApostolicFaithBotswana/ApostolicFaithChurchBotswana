@@ -10,8 +10,8 @@
   <link rel="stylesheet" href="css/site-enhancements.css"/>
   <style>
     :root {
-      --font-heading: 'Times New Roman', Times, Georgia, serif;
-      --font-body: Calibri, 'Segoe UI', Candara, Arial, sans-serif;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Lato', 'Segoe UI', sans-serif;
       --gold: #D4AF37;
       --gold2: #f0d060;
       --gold-dim:rgba(212,175,55,0.12);
@@ -30,18 +30,42 @@
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
 
+    /* ─── SCROLL PROGRESS ─── */
+    .hist-progress {
+      position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 1200;
+      background: transparent; pointer-events: none;
+    }
+    .hist-progress-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+      box-shadow: 0 0 12px rgba(212,175,55,.45);
+      transform-origin: left center;
+    }
+
     /* ─── HERO ─── */
     .hist-hero {
-      padding: 130px 1.25rem 70px;
-      min-height: 70vh;
+      position: relative;
+      padding: 140px 1.25rem 90px;
+      min-height: 78vh;
       display: flex;
       align-items: center;
-      background:
-        linear-gradient(rgba(5,13,30,.72), rgba(10,22,40,.82)),
-        url("css/images/history.jpg") center / cover no-repeat;
+      overflow: hidden;
+      isolation: isolate;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .hist-hero-inner { max-width: 820px; margin: 0 auto; width: 100%; }
+    .hist-hero-bg {
+      position: absolute; inset: -12% 0;
+      background: url("css/images/history.jpg") center / cover no-repeat;
+      z-index: -2;
+      will-change: transform;
+    }
+    .hist-hero-overlay {
+      position: absolute; inset: 0; z-index: -1;
+      background:
+        linear-gradient(105deg, rgba(5,13,30,.88) 0%, rgba(10,22,40,.62) 55%, rgba(5,13,30,.75) 100%),
+        radial-gradient(ellipse at 70% 40%, rgba(212,175,55,.14), transparent 55%);
+    }
+    .hist-hero-inner { max-width: 820px; margin: 0 auto; width: 100%; position: relative; }
     .breadcrumb {
       font-size: .75rem; color: rgba(255,255,255,.4);
       display: flex; gap: .4rem; align-items: center; margin-bottom: 1.5rem;
@@ -59,11 +83,42 @@
     }
     .hero-btns { display: flex; gap: .85rem; flex-wrap: wrap; }
 
+    .hist-doctrine-cta {
+      text-align: center; margin-top: 2.5rem;
+    }
+    .hist-doctrine-cta p {
+      font-size: .85rem; color: #666; margin-bottom: 1.25rem;
+    }
+    .hist-ext-btn {
+      background: var(--gold) !important;
+      color: var(--navy) !important;
+      border: 2px solid var(--gold) !important;
+      width: auto !important;
+      display: inline-block !important;
+    }
+    .hist-ext-btn:hover {
+      background: var(--gold2) !important;
+      border-color: var(--gold2) !important;
+      color: var(--navy) !important;
+    }
+
+    /* Reveal / motion base */
+    .hist-reveal { opacity: 0; will-change: transform, opacity; }
+    .tl-item, .testi-card, .belief-card, .camp-stat, .photo-cell,
+    .info-card, .cycle-pill, .pull-quote, .motto-box {
+      will-change: transform, opacity;
+    }
+    .belief-card, .testi-card, .photo-cell {
+      transform-style: preserve-3d;
+      transition: border-color .3s, box-shadow .3s;
+    }
+
     /* ─── SECTION NAV TABS ─── */
     .s-tabs {
       position: sticky; top: 72px; z-index: 800;
-      background: rgba(5,13,30,.97);
-      backdrop-filter: blur(14px);
+      background: rgba(5,13,30,.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       border-bottom: 1px solid rgba(255,255,255,.07);
       overflow-x: auto; white-space: nowrap;
     }
@@ -283,8 +338,8 @@
       background: rgba(255,255,255,.06);
       display: flex; align-items: center; justify-content: center;
     }
-    .photo-cell-inner img { width:100%; height:100%; object-fit:cover; transition:transform .4s; }
-    .photo-cell:hover img { transform: scale(1.05); }
+    .photo-cell-inner img { width:100%; height:100%; object-fit:cover; transition:transform .65s cubic-bezier(.2,.7,.2,1); }
+    .photo-cell:hover img { transform: scale(1.08); }
     .photo-placeholder {
       display: flex; flex-direction: column; align-items: center; gap: .5rem;
       padding: 1.5rem; color: rgba(255,255,255,.3);
@@ -329,7 +384,7 @@
     /* ─── RESPONSIVE ─── */
     @media (max-width: 640px) {
       .s-block { padding: 52px 1rem; }
-      .hist-hero { padding: 110px 1rem 56px; }
+      .hist-hero { padding: 120px 1rem 64px; min-height: 64vh; }
       .testi-grid { grid-template-columns: 1fr; }
       .beliefs-grid { grid-template-columns: 1fr; }
       .photo-grid { grid-template-columns: 1fr 1fr; }
@@ -341,6 +396,8 @@
   </style>
 </head>
 <body data-page="about">
+
+<div class="hist-progress" aria-hidden="true"><div class="hist-progress-bar" id="histProgress"></div></div>
 
 <!-- NAV -->
 <header id="navbar">
@@ -366,6 +423,8 @@
 
 <!-- HERO -->
 <section class="hist-hero">
+  <div class="hist-hero-bg" aria-hidden="true"></div>
+  <div class="hist-hero-overlay" aria-hidden="true"></div>
   <div class="hist-hero-inner">
     <div class="breadcrumb">
       <a href="index.html">Home</a><span>/</span>
@@ -693,7 +752,7 @@
     </div>
     <div class="photo-cell">
       <div class="photo-cell-inner">
-        <img src="css/images/chrildren1.jpg" alt="Children's Ministry" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'><svg width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Children\'s Ministry</span></div>'"/>
+        <img src="css/images/kids202.jpg" alt="Children's Ministry" loading="lazy"/>
       </div>
       <div class="photo-caption">Children's Ministry</div>
     </div>
@@ -751,20 +810,17 @@
     </div>
     <div class="photo-cell">
       <div class="photo-cell-inner">
-        <img src="css/images/choir2.jpg" alt="Orchestra" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'><svg width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Orchestra — Add photo: css/images/music1.jpg</span></div>'"/>
+        <img src="css/images/youthConcert.jpg" alt="Orchestra" loading="lazy"/>
       </div>
       <div class="photo-caption">Instrumentalists</div>
     </div>
     <div class="photo-cell">
       <div class="photo-cell-inner">
-        <img src="css/images/choir1.jpg" alt="Worship" onerror="this.parentNode.innerHTML='<div class=\'photo-placeholder\'><svg width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Worship — Add photo: css/images/music2.jpg</span></div>'"/>
+        <img src="css/images/youth1.jpg" alt="Worship" loading="lazy"/>
       </div>
       <div class="photo-caption">Worship in Service</div>
     </div>
   </div>
-  <p style="font-size:.72rem;color:var(--muted);margin-top:.75rem;">
-    Add music photos by placing images in <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">css/images/</code> and naming them <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">music1.jpg</code>, <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;">music2.jpg</code>, etc.
-  </p>
 
 </div>
 </section>
@@ -829,9 +885,9 @@
     </div>
   </div>
 
-  <div style="text-align:center;margin-top:2.5rem;">
-    <p style="font-size:.85rem;color:#888;margin-bottom:1.25rem;">For a complete Statement of Bible Doctrine and further resources:</p>
-    <a href="https://www.apostolicfaith.org" target="_blank" rel="noopener" class="btn-primary" style="background:var(--navy);color:white;border:2px solid var(--navy);">Visit apostolicfaith.org</a>
+  <div class="hist-doctrine-cta" data-reveal>
+    <p>For a complete Statement of Bible Doctrine and further resources:</p>
+    <a href="https://www.apostolicfaith.org" target="_blank" rel="noopener" class="btn-primary hist-ext-btn">Visit apostolicfaith.org</a>
   </div>
 
 </div>
@@ -894,21 +950,9 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script type="module" src="js/site-core.js"></script>
-<script>
-window.addEventListener('scroll', () => {
-  const navbar = document.getElementById('navbar');
-  if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 40);
-  const ids = ['gospel-came','mission','governing','camp-meetings','veterans','youth','music','doctrine'];
-  let cur = ids[0];
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (el && el.getBoundingClientRect().top < 150) cur = id;
-  });
-  document.querySelectorAll('.s-tab').forEach(t =>
-    t.classList.toggle('active', t.getAttribute('href') === '#' + cur)
-  );
-}, { passive: true });
-</script>
+<script type="module" src="js/history-page.js"></script>
 </body>
 </html>
