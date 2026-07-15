@@ -200,10 +200,14 @@
   position: sticky;
   top: 72px;
   z-index: 40;
-  background: rgba(245, 247, 251, 0.92);
+  background: rgba(245, 247, 251, 0.96);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(13, 31, 60, 0.08);
   padding: 0.9rem 1.25rem;
+  /* Keep sticky containing block = viewport (not a transformed ancestor). */
+  transform: none;
+  will-change: auto;
 }
 
 body.has-live-admin-bar .locations-toolbar {

@@ -21,6 +21,9 @@ export function initSiteMotion() {
     requestAnimationFrame(() => {
       document.body.classList.add('page-enter');
       document.documentElement.classList.add('page-ready');
+      document.body.addEventListener('animationend', (e) => {
+        if (e.animationName === 'pageEnter') document.body.classList.remove('page-enter');
+      }, { once: true });
     });
   } else {
     document.documentElement.classList.add('page-ready');

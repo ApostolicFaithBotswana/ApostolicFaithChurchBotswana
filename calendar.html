@@ -1,256 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>2026 Calendar — AFC Botswana</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="css/style.css"/>
-  <link rel="stylesheet" href="css/site-enhancements.css"/>
-  <style>
-  /* ── CALENDAR PAGE SPECIFIC ── */
-  :root{
-    --tag-camp:     #b8935c;
-    --tag-revival:  #b9683f;
-    --tag-youth:    #c99a3a;
-    --tag-board:    #7d6a52;
-    --tag-special:  var(--gold);
-    --tag-national: var(--gold);
-    --tag-regional: #8f8579;
-  }
-
-  .cal-page-hero {
-    padding: 120px 1.5rem 60px;
-    background:
-      radial-gradient(ellipse at 60% 0%, rgba(212,175,55,0.1), transparent 55%),
-      linear-gradient(180deg, var(--navy-800) 0%, var(--navy-900) 100%);
-    text-align: center;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-
-  /* ── FILTER BAR ── */
-  .cal-filter-bar {
-    display: flex; gap: .5rem; flex-wrap: wrap;
-    margin-bottom: 2rem; align-items: center;
-  }
-  .cal-filter-btn {
-    padding: .45rem 1.1rem; border-radius: 20px;
-    border: 1.5px solid rgba(255,255,255,.12);
-    background: transparent; color: rgba(255,255,255,.6);
-    font-family: 'Lato', sans-serif; font-size: .78rem; font-weight: 700;
-    cursor: pointer; transition: all .2s;
-    letter-spacing: .02em;
-  }
-  .cal-filter-btn:hover { border-color: var(--border); color: white; }
-  .cal-filter-btn.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
-  .cal-search {
-    margin-left: auto;
-    padding: .45rem 1rem;
-    background: rgba(255,255,255,.06);
-    border: 1.5px solid rgba(255,255,255,.1);
-    border-radius: 20px; color: white;
-    font-family: 'Lato', sans-serif; font-size: .82rem;
-    outline: none; width: 200px; transition: border-color .2s;
-  }
-  .cal-search::placeholder { color: rgba(255,255,255,.3); }
-  .cal-search:focus { border-color: var(--gold); }
-
-  /* ── VIEW TOGGLE ── */
-  .view-toggle {
-    display: flex; gap: .25rem;
-    background: rgba(255,255,255,.06);
-    border-radius: 8px; padding: 3px;
-  }
-  .view-btn {
-    padding: .4rem .95rem; border-radius: 6px; border: none;
-    background: transparent; color: rgba(255,255,255,.5);
-    font-family: 'Lato', sans-serif; font-size: .78rem; font-weight: 700;
-    cursor: pointer; transition: all .2s;
-  }
-  .view-btn.active { background: var(--navy-700); color: white; }
-
-  /* ── LIST VIEW ── */
-  .cal-month-group { margin-bottom: 2.5rem; }
-  .cal-month-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem; color: var(--gold);
-    margin-bottom: 1rem; padding-bottom: .6rem;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: .75rem;
-  }
-  .cal-month-count {
-    font-family: 'Lato', sans-serif; font-size: .72rem; font-weight: 700;
-    background: var(--gold-dim); border: 1px solid var(--border);
-    color: var(--gold); padding: .2rem .6rem; border-radius: 20px;
-  }
-
-  .cal-event-row {
-    display: grid;
-    grid-template-columns: 90px 1fr auto auto;
-    gap: 1rem; align-items: center;
-    padding: 1rem 1.25rem;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.07);
-    border-left: 4px solid var(--tag-regional);
-    border-radius: 10px; margin-bottom: .6rem;
-    transition: all .2s; cursor: default;
-  }
-  .cal-event-row:hover { background: rgba(212,175,55,.06); border-color: rgba(212,175,55,.2); transform: translateX(3px); }
-  .cal-event-row.scope-national { border-left-color: var(--tag-national); }
-  .cal-event-row.scope-regional { border-left-color: var(--tag-regional); }
-
-  .cal-date-badge {
-    text-align: center;
-    background: rgba(255,255,255,.06);
-    border-radius: 8px; padding: .5rem .4rem;
-  }
-  .cal-date-day   { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
-  .cal-date-num   { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); line-height: 1; }
-  .cal-date-month { font-size: .68rem; color: var(--muted); margin-top: .1rem; }
-
-  .cal-event-name { font-weight: 700; font-size: .95rem; color: white; margin-bottom: .25rem; }
-  .cal-event-meta { font-size: .78rem; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; }
-  .cal-event-meta span { display: flex; align-items: center; gap: .3rem; }
-  .cal-event-meta .meta-label{ color: rgba(255,255,255,.32); }
-
-  .cal-type-pill, .cal-scope-pill {
-    font-size: .65rem; font-weight: 700; padding: .25rem .65rem;
-    border-radius: 20px; text-transform: uppercase; letter-spacing: .06em;
-    white-space: nowrap; border: 1px solid transparent;
-  }
-  .pill-camp    { background: rgba(184,147,92,.14);  color: var(--tag-camp); }
-  .pill-revival { background: rgba(185,104,63,.14);  color: var(--tag-revival); }
-  .pill-youth   { background: rgba(201,154,58,.14);  color: var(--tag-youth); }
-  .pill-board   { background: rgba(125,106,82,.16);  color: var(--tag-board); }
-  .pill-special { background: var(--gold-dim);       color: var(--gold); }
-  .pill-national{ background: var(--gold-dim); color: var(--gold); border-color: var(--border); }
-  .pill-regional{ background: rgba(143,133,121,.14); color: var(--tag-regional); border-color: rgba(143,133,121,.3); }
-
-  /* ── GRID CALENDAR VIEW ── */
-  .cal-grid-wrap { overflow-x: auto; }
-  .cal-grid-header {
-    display: grid; grid-template-columns: repeat(7,1fr);
-    background: var(--navy-900);
-    border-radius: 10px 10px 0 0; overflow: hidden;
-  }
-  .cal-grid-dayname {
-    text-align: center; padding: .75rem .25rem;
-    font-size: .68rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: .08em; color: var(--gold);
-  }
-  .cal-grid-body {
-    display: grid; grid-template-columns: repeat(7,1fr);
-    border: 1px solid rgba(255,255,255,.08);
-    border-top: none; border-radius: 0 0 10px 10px; overflow: hidden;
-  }
-  .cal-grid-cell {
-    min-height: 100px; border-right: 1px solid rgba(255,255,255,.05);
-    border-bottom: 1px solid rgba(255,255,255,.05);
-    padding: .5rem .4rem;
-    background: rgba(255,255,255,.02);
-  }
-  .cal-grid-cell.empty { background: rgba(0,0,0,.15); }
-  .cal-grid-cell.today { background: rgba(212,175,55,.07); }
-  .cal-grid-num {
-    font-size: .78rem; font-weight: 700; color: var(--navy-200);
-    margin-bottom: .3rem;
-  }
-  .cal-grid-cell.today .cal-grid-num {
-    background: var(--gold); color: var(--navy-900);
-    width: 22px; height: 22px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: .7rem;
-  }
-  .cal-grid-dot {
-    font-size: .6rem; padding: .15rem .4rem; border-radius: 3px;
-    margin-bottom: 2px; overflow: hidden; white-space: nowrap;
-    text-overflow: ellipsis; cursor: pointer; transition: opacity .2s;
-  }
-  .cal-grid-dot:hover { opacity: .8; }
-
-  .cal-month-nav {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
-  }
-  .cal-month-nav h2 {
-    font-family: 'Playfair Display', serif; font-size: 1.5rem;
-  }
-  .cal-nav-arrow {
-    background: rgba(255,255,255,.08); border: none; border-radius: 8px;
-    padding: .55rem 1.1rem; cursor: pointer; color: white;
-    font-family: 'Lato', sans-serif; font-weight: 700; font-size: .88rem;
-    transition: all .2s;
-  }
-  .cal-nav-arrow:hover { background: var(--gold-dim); color: var(--gold); }
-
-  /* ── STATS BAR ── */
-  .cal-stats {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
-    gap: 1rem; margin-bottom: 2.5rem;
-  }
-  .cal-stat {
-    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
-    border-top: 3px solid var(--gold); border-radius: 10px;
-    padding: 1.1rem; text-align: center;
-  }
-  .cal-stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--gold); }
-  .cal-stat-lbl { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-top: .25rem; }
-
-  /* ── BOARD MEETINGS TABLE ── */
-  .board-table { width: 100%; border-collapse: collapse; }
-  .board-table th {
-    text-align: left; font-size: .72rem; text-transform: uppercase;
-    letter-spacing: .08em; color: var(--gold); padding: .7rem 1rem;
-    border-bottom: 1px solid rgba(255,255,255,.1);
-  }
-  .board-table td { padding: .65rem 1rem; border-bottom: 1px solid rgba(255,255,255,.05); font-size: .88rem; }
-  .board-table tr:hover td { background: rgba(255,255,255,.02); }
-
-  /* ── UPCOMING HIGHLIGHT ── */
-  .upcoming-banner {
-    background: var(--gold-dim); border: 1px solid var(--border);
-    border-radius: 12px; padding: 1.1rem 1.5rem;
-    display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
-    flex-wrap: wrap;
-  }
-  .upcoming-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--gold); }
-  .upcoming-name  { font-weight: 700; font-size: 1rem; }
-  .upcoming-meta  { font-size: .82rem; color: var(--muted); }
-
-  @media(max-width:768px){
-    .cal-event-row { grid-template-columns: 70px 1fr; }
-    .cal-type-pill, .cal-scope-pill { display: none; }
-    .cal-grid-cell { min-height: 60px; }
-    .cal-search { width: 140px; }
-    .cal-filter-bar { gap: .35rem; }
-  }
-  @media(max-width:480px){
-    .cal-event-row { grid-template-columns: 1fr; }
-    .cal-date-badge { display: none; }
-  }
-  
-.calendar-search{width:100%;max-width:420px;padding:14px 18px;border-radius:30px;margin:20px 0;border:1px solid #ccc}
-.calendar-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}
-.calendar-table th{background:#12284c;color:#fff;padding:14px;text-align:left}
-.calendar-table td{padding:14px;border-bottom:1px solid #e5e5e5;color:#333}
-.calendar-table tr:hover{background:#f7f7f7}
-
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendar ? AFC Botswana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/site-enhancements.css" />
+  <link rel="stylesheet" href="css/calendar.css" />
 </head>
-<body data-page="calendar">
+<body data-page="calendar" class="calendar-page">
 
-<!-- NAV -->
 <header id="navbar">
   <div class="nav-inner">
     <a href="index.html" class="nav-brand">
-      <div class="logo-icon"><img src="css/images/logo1.png" alt="AFC Botswana"/></div>
+      <div class="logo-icon logo-icon-sm">
+        <img src="css/images/logo1.png" alt="AFC Botswana" />
+      </div>
       <div class="nav-brand-text">
         <span class="brand-name">Apostolic Faith Church</span>
-        <span class="brand-sub">Portland, Oregon · Botswana</span>
+        <span class="brand-sub">Portland, Oregon � Botswana</span>
       </div>
     </a>
-    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
     <nav class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
@@ -264,46 +40,84 @@
   </div>
 </header>
 
-<!-- HERO -->
-<div class="cal-page-hero">
-  <span class="section-label" data-edit="calendar.hero.label" data-edit-type="text" data-edit-field="body" data-edit-label="Calendar hero label">AFC Botswana</span>
-  <h1 class="page-hero-title" data-edit="calendar.hero.title" data-edit-type="html" data-edit-field="body" data-edit-label="Calendar hero title">2026 <em>Calendar</em></h1>
-  <p style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);" data-edit="calendar.hero.subtitle" data-edit-type="text" data-edit-field="body" data-edit-label="Calendar hero subtitle">Full schedule of services, camps, revivals, and events</p>
-</div>
+<section class="cal-hero">
+  <div class="cal-hero-inner">
+    <span class="cal-eyebrow" data-edit="calendar.hero.label" data-edit-type="text" data-edit-field="body" data-edit-label="Calendar hero label">
+      <i data-lucide="calendar-clock"></i> Live schedule
+    </span>
+    <h1 data-edit="calendar.hero.title" data-edit-type="html" data-edit-field="body" data-edit-label="Calendar hero title">
+      2026 <em>Calendar</em>
+    </h1>
+    <p class="cal-hero-lead" data-edit="calendar.hero.subtitle" data-edit-type="text" data-edit-field="body" data-edit-label="Calendar hero subtitle">
+      Real-time countdowns for camps, revivals, and gatherings ? happening now, up next, and everything still to come.
+    </p>
+  </div>
+</section>
 
 <div class="cal-admin-json" data-edit="calendar.events.data" data-edit-type="json" data-edit-label="Edit all 2026 calendar events (JSON)" hidden aria-hidden="true">Annual calendar events</div>
 
-<!-- MAIN -->
-<section class="section section-list" style="padding-top:2rem;padding-bottom:3rem;">
-  <div class="container">
-
-    <!-- UPCOMING NEXT EVENT -->
-    <div class="upcoming-banner" id="upcomingBanner" style="display:none;">
-      <div>
-        <div class="upcoming-label">Next Upcoming Event</div>
-        <div class="upcoming-name" id="upcomingName"></div>
-        <div class="upcoming-meta" id="upcomingMeta"></div>
-      </div>
-      <div style="margin-left:auto;">
-        <span id="upcomingCountdown" style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);"></span>
-      </div>
+<div class="cal-spotlight-wrap">
+  <div class="cal-spotlight" id="calSpotlight" aria-live="polite">
+    <div class="cal-spot-left">
+      <div class="cal-spot-status">Loading?</div>
+      <h2 class="cal-spot-title">Checking schedule</h2>
+      <div class="cal-spot-meta"><span>Updating in real time</span></div>
     </div>
-
-    <!-- STATS -->
-    <div class="cal-stats">
-      <div class="cal-stat"><div class="cal-stat-num" id="statTotal">0</div><div class="cal-stat-lbl">Total Events</div></div>
-      <div class="cal-stat"><div class="cal-stat-num" id="statNational">0</div><div class="cal-stat-lbl">National</div></div>
-      <div class="cal-stat"><div class="cal-stat-num" id="statRegional">0</div><div class="cal-stat-lbl">Regional</div></div>
-      <div class="cal-stat"><div class="cal-stat-num" id="statUpcoming">—</div><div class="cal-stat-lbl">Events Remaining</div></div>
+    <div class="cal-spot-right">
+      <div class="cal-countdown-label">Please wait</div>
+      <div id="calCountdownMount"></div>
     </div>
+  </div>
+</div>
 
-    <input class="calendar-search" id="calendarSearch" placeholder="Search events..." oninput="renderTable()"/>
-<div style="overflow-x:auto">
-<table class="calendar-table" id="calendarTable">
-<thead><tr><th>Date</th><th>Event</th><th>Location</th><th>Category</th><th>Scope</th></tr></thead>
-<tbody id="calendarBody"></tbody>
-</table></div>
-<!-- FOOTER -->
+<section class="cal-section" aria-labelledby="upcomingHeading">
+  <div class="cal-section-head">
+    <h2 id="upcomingHeading">Upcoming</h2>
+    <p>Live &amp; coming next ? including featured events from the homepage</p>
+  </div>
+  <div class="cal-upcoming-grid" id="calUpcomingGrid"></div>
+</section>
+
+<div class="cal-toolbar">
+  <div class="cal-stats">
+    <div class="cal-stat">
+      <div class="cal-stat-num" id="statTotal">0</div>
+      <div class="cal-stat-lbl">Calendar events</div>
+    </div>
+    <div class="cal-stat">
+      <div class="cal-stat-num" id="statLive">0</div>
+      <div class="cal-stat-lbl">Happening now</div>
+    </div>
+    <div class="cal-stat">
+      <div class="cal-stat-num" id="statUpcoming">0</div>
+      <div class="cal-stat-lbl">Still ahead</div>
+    </div>
+    <div class="cal-stat">
+      <div class="cal-stat-num" id="statNational">0</div>
+      <div class="cal-stat-lbl">National</div>
+    </div>
+  </div>
+
+  <div class="cal-filter-bar">
+    <button type="button" class="cal-filter-btn active" onclick="setCalFilter('all', this)">All</button>
+    <button type="button" class="cal-filter-btn" onclick="setCalFilter('camp', this)">Camps</button>
+    <button type="button" class="cal-filter-btn" onclick="setCalFilter('revival', this)">Revivals</button>
+    <button type="button" class="cal-filter-btn" onclick="setCalFilter('youth', this)">Youth</button>
+    <button type="button" class="cal-filter-btn" onclick="setCalFilter('special', this)">Special</button>
+    <button type="button" class="cal-filter-btn" onclick="setCalFilter('national', this)">National</button>
+    <button type="button" class="cal-filter-btn" onclick="setCalFilter('regional', this)">Regional</button>
+    <input class="cal-search" id="calSearch" type="search" placeholder="Search events?" autocomplete="off" />
+  </div>
+</div>
+
+<section class="cal-list" aria-labelledby="fullScheduleHeading">
+  <div class="cal-section-head">
+    <h2 id="fullScheduleHeading">Full schedule</h2>
+    <p>Browse the year by month</p>
+  </div>
+  <div id="calListContent"></div>
+</section>
+
 <footer class="footer">
   <div class="container footer-inner">
     <div class="footer-main">
@@ -313,7 +127,7 @@
         </div>
         <div>
           <p class="footer-church-name">Apostolic Faith Church</p>
-          <p class="footer-sub">Portland, Oregon � Botswana Branch</p>
+          <p class="footer-sub">Portland, Oregon � Botswana Branch</p>
         </div>
       </div>
 
@@ -346,333 +160,18 @@
     </div>
 
     <div class="footer-bottom">
-      <p class="footer-copy">� 2026 Apostolic Faith Church � Botswana. All rights reserved.</p>
-      <p class="footer-motto">�Faith, Fellowship, Service�</p>
+      <p class="footer-copy">� 2026 Apostolic Faith Church � Botswana. All rights reserved.</p>
+      <p class="footer-motto">?Faith, Fellowship, Service?</p>
     </div>
   </div>
 </footer>
 
 <div id="toast" class="toast"></div>
 
-<script>
-// ══════════════════════════════════════════════
-//  ALL 2026 EVENTS
-//  scope: 'national'  = church-wide / country-wide / international delegation
-//         'regional'  = a specific district, branch, or local group
-//         'international'  = a specific district, branch, or local group
-
-// ══════════════════════════════════════════════
-const EVENTS_2026_DEFAULT = [
-  { id:1,  name:'National Committees Meeting',    start:'2026-01-24', end:'2026-01-24', place:'Mahalapye',             type:'special',  scope:'national', resp:'National Committees' },
-  { id:2,  name:'National Youth Retreat',         start:'2026-02-20', end:'2026-02-22', place:'Francistown',           type:'youth',    scope:'national', resp:'Youths' },
-  { id:3,  name:'Revival',                        start:'2026-03-06', end:'2026-03-08', place:'Selebi Phikwe & Molepolole', type:'revival', scope:'regional', resp:'Central + Greater Phikwe' },
-  { id:4,  name:'Lesotho Camp',                   start:'2026-03-08', end:'2026-03-15', place:'Maseru, Lesotho',       type:'camp',     scope:'international', resp:'All' },
-  { id:5,  name:'Campmeeting Prep',               start:'2026-03-19', end:'2026-03-19', place:'Virtual',               type:'special',  scope:'national', resp:'Committees' },
-  { id:6,  name:'Revival',                        start:'2026-03-20', end:'2026-03-22', place:'Jackalas 1',            type:'revival',  scope:'regional', resp:'North East' },
-  { id:7,  name:'Revival',                        start:'2026-03-27', end:'2026-04-02', place:'Letlhakane',            type:'revival',  scope:'regional', resp:'Boteti/Maun' },
-  { id:8,  name:'SHE Training',                   start:'2026-03-31', end:'2026-03-31', place:'Branch/Virtual',        type:'special',  scope:'regional', resp:'Welfare' },
-  { id:9,  name:'Passover',                       start:'2026-04-02', end:'2026-04-06', place:'Regional',              type:'special',  scope:'regional', resp:'Regions' },
-  { id:10, name:'Zambia Camp',                    start:'2026-04-04', end:'2026-04-19', place:'Lusaka, Zambia',        type:'camp',     scope:'international', resp:'All' },
-  { id:11, name:'Revival',                        start:'2026-05-01', end:'2026-05-03', place:'Moshupa',               type:'revival',  scope:'regional', resp:'Southern' },
-  { id:12, name:'Namibia Camp',                   start:'2026-05-03', end:'2026-05-10', place:'Windhoek, Namibia',     type:'camp',     scope:'international', resp:'All' },
-  { id:13, name:"Mother's Day Celebration",       start:'2026-05-08', end:'2026-05-10', place:'Gaborone',              type:'special',  scope:'regional', resp:'Mothers' },
-  { id:14, name:'National Youth Camp',            start:'2026-05-14', end:'2026-05-17', place:'Gaborone',              type:'youth',    scope:'national', resp:'Youth' },
-  { id:15, name:'Revival',                        start:'2026-05-29', end:'2026-05-31', place:'Tsamaya',               type:'revival',  scope:'regional', resp:'North East' },
-  { id:16, name:"National Children's Day",        start:'2026-06-06', end:'2026-06-06', place:'Branches',              type:'special',  scope:'national', resp:'Services' },
-  { id:17, name:'Campmeeting Preparation',        start:'2026-06-13', end:'2026-06-13', place:'Gaborone',              type:'special',  scope:'national', resp:'National Committees' },
-  { id:18, name:"Father's Day",                   start:'2026-06-20', end:'2026-06-20', place:'Letlhakane',            type:'special',  scope:'regional', resp:'Men' },
-  { id:19, name:'International Camp',             start:'2026-06-28', end:'2026-07-12', place:'Portland, USA',         type:'camp',     scope:'international', resp:'All' },
-  { id:20, name:'Camp Revival',                   start:'2026-07-12', end:'2026-07-16', place:'Gaborone',              type:'camp',     scope:'regional', resp:'Outreach' },
-  { id:21, name:'Botswana Camp Meeting',          start:'2026-07-19', end:'2026-07-26', place:'Gaborone',              type:'camp',     scope:'national', resp:'National Committees' },
-  { id:22, name:'Revival',                        start:'2026-08-01', end:'2026-08-01', place:'Sebina',                type:'revival',  scope:'regional', resp:'North West' },
-  { id:23, name:'Malawi Camp',                    start:'2026-08-02', end:'2026-08-09', place:'Blantyre, Malawi',      type:'camp',     scope:'international', resp:'All' },
-  { id:24, name:'Eswatini / Burundi Camp',        start:'2026-08-09', end:'2026-08-16', place:'Eswatini',              type:'camp',     scope:'international', resp:'All' },
-  { id:25, name:'Revival',                        start:'2026-08-14', end:'2026-08-23', place:'Nata',                  type:'revival',  scope:'regional', resp:'North West' },
-  { id:26, name:'Angola Camp',                    start:'2026-08-16', end:'2026-08-23', place:'Angola',                type:'camp',     scope:'international', resp:'All' },
-  { id:27, name:'Regional Youth Camp',            start:'2026-08-23', end:'2026-08-30', place:'Harare, Zimbabwe',      type:'youth',    scope:'international', resp:'All' },
-  { id:28, name:'Revival',                        start:'2026-08-24', end:'2026-08-30', place:'Rakops',                type:'revival',  scope:'regional', resp:'Boteti/Maun' },
-  { id:29, name:'Revival',                        start:'2026-08-29', end:'2026-08-29', place:'Mahalapye',             type:'revival',  scope:'regional', resp:'Central' },
-  { id:30, name:'Mozambique Camp',                start:'2026-08-30', end:'2026-09-06', place:'Chimoio, Mozambique',   type:'camp',     scope:'international', resp:'All' },
-  { id:31, name:'Revival',                        start:'2026-09-11', end:'2026-09-13', place:'Sese/Jwaneng',          type:'revival',  scope:'regional', resp:'Southern' },
-  { id:32, name:'SHE Personnel Training',         start:'2026-09-01', end:'2026-09-30', place:'Branches',              type:'special',  scope:'regional', resp:'Services' },
-  { id:33, name:'South Africa Camp',              start:'2026-09-27', end:'2026-10-04', place:'Bapsfontein, South Africa', type:'camp', scope:'international', resp:'All' },
-  { id:34, name:'Revival',                        start:'2026-10-23', end:'2026-10-25', place:'Mmopane',               type:'revival',  scope:'regional', resp:'Southern' },
-  { id:35, name:'Revival',                        start:'2026-10-26', end:'2026-11-01', place:'Mokoboxane',            type:'revival',  scope:'regional', resp:'North West' },
-  { id:36, name:'Thanksgiving',                   start:'2026-11-21', end:'2026-11-21', place:'National',              type:'special',  scope:'regional', resp:'Regional/Branch' },
-  { id:37, name:'SEA Camp',                       start:'2026-12-06', end:'2026-12-20', place:'Bulawayo, Zimbabwe',    type:'camp',     scope:'international', resp:'All' },
-];
-
-let EVENTS_2026 = [...EVENTS_2026_DEFAULT];
-window.__afcJsonSources = window.__afcJsonSources || {};
-window.__afcJsonSources['calendar.events.data'] = EVENTS_2026;
-
-function refreshCalendarViews() {
-  renderList();
-  renderGrid();
-  renderTable();
-  renderUpcoming();
-  updateStats();
-}
-
-window.addEventListener('afc:json-block', (e) => {
-  if (e.detail?.key === 'calendar.events.data' && Array.isArray(e.detail.data)) {
-    EVENTS_2026 = e.detail.data;
-    window.__afcJsonSources['calendar.events.data'] = EVENTS_2026;
-    refreshCalendarViews();
-  }
-});
-
-const BOARD_MEETINGS = [];
-
-const TYPE_META = {
-  camp:    { pill:'pill-camp',    label:'Camp' },
-  revival: { pill:'pill-revival', label:'Revival' },
-  youth:   { pill:'pill-youth',   label:'Youth' },
-  board:   { pill:'pill-board',   label:'Board' },
-  special: { pill:'pill-special', label:'Special' },
-};
-const SCOPE_META = {
-  national: { pill:'pill-national', label:'National' },
-  regional: { pill:'pill-regional', label:'Regional' },
-  international: { pill:'pill-international', label:'International' },
-};
-
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const DAY_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-
-let currentFilter = 'all';
-let currentView   = 'list';
-let gridYear      = 2026;
-let gridMonth     = new Date().getMonth(); // 0-indexed
-
-// ── UTILS ──
-function parseDate(str) { return new Date(str + 'T00:00:00'); }
-function fmtDate(str) {
-  const d = parseDate(str);
-  return `${d.getDate()} ${MONTH_SHORT[d.getMonth()]}`;
-}
-function fmtDateRange(ev) {
-  if (ev.start === ev.end) return fmtDate(ev.start);
-  return `${fmtDate(ev.start)} – ${fmtDate(ev.end)}`;
-}
-
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-// ── FILTER & SEARCH ──
-// "revival" / "youth" match on event type; "national" / "regional" match on event scope
-function getFiltered() {
-  const q = document.getElementById('calSearch')?.value.toLowerCase() || '';
-  return EVENTS_2026.filter(ev => {
-    let matchFilter = true;
-    if (currentFilter !== 'all') {
-      matchFilter = ev.type === currentFilter || ev.scope === currentFilter;
-    }
-    const matchSearch = !q || ev.name.toLowerCase().includes(q) || ev.place.toLowerCase().includes(q);
-    return matchFilter && matchSearch;
-  });
-}
-
-window.setFilter = function(type, btn) {
-  currentFilter = type;
-  document.querySelectorAll('.cal-filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderCurrent();
-};
-
-window.setView = function(view) {
-  currentView = view;
-  document.getElementById('listView').style.display = view === 'list' ? 'block' : 'none';
-  document.getElementById('gridView').style.display = view === 'grid' ? 'block' : 'none';
-  document.getElementById('btnList').classList.toggle('active', view === 'list');
-  document.getElementById('btnGrid').classList.toggle('active', view === 'grid');
-  renderCurrent();
-};
-
-window.renderCurrent = function() {
-  if (currentView === 'list') renderTable();
-  else renderGrid();
-};
-
-// ── LIST VIEW ──
-function renderList() {
-  const events   = getFiltered();
-  const grouped  = {};
-  events.forEach(ev => {
-    const m = parseDate(ev.start).getMonth();
-    if (!grouped[m]) grouped[m] = [];
-    grouped[m].push(ev);
-  });
-
-  const el = document.getElementById('calListContent');
-  if (!events.length) {
-    el.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--muted);">No events match your search.</div>';
-    return;
-  }
-
-  let html = '';
-  Object.keys(grouped).sort((a,b)=>a-b).forEach(m => {
-    const evs = grouped[m];
-    html += `
-      <div class="cal-month-group">
-        <div class="cal-month-title">
-          ${MONTHS[m]} 2026
-          <span class="cal-month-count">${evs.length}</span>
-        </div>`;
-    evs.forEach(ev => {
-      const d     = parseDate(ev.start);
-      const tmeta = TYPE_META[ev.type] || TYPE_META.special;
-      const smeta = SCOPE_META[ev.scope] || SCOPE_META.regional;
-      html += `
-        <div class="cal-event-row scope-${ev.scope}">
-          <div class="cal-date-badge">
-            <div class="cal-date-day">${DAY_SHORT[d.getDay()]}</div>
-            <div class="cal-date-num">${d.getDate()}</div>
-            <div class="cal-date-month">${MONTH_SHORT[d.getMonth()]}</div>
-          </div>
-          <div class="cal-event-info">
-            <div class="cal-event-name">${esc(ev.name)}</div>
-            <div class="cal-event-meta">
-              <span>${esc(ev.place)}</span>
-              <span>${fmtDateRange(ev)}</span>
-              ${ev.resp ? `<span><span class="meta-label">Team:</span> ${esc(ev.resp)}</span>` : ''}
-            </div>
-          </div>
-          <span class="cal-type-pill ${tmeta.pill}">${tmeta.label}</span>
-          <span class="cal-scope-pill ${smeta.pill}">${smeta.label}</span>
-        </div>`;
-    });
-    html += '</div>';
-  });
-
-  el.innerHTML = html;
-}
-
-// ── GRID VIEW ──
-function renderGrid() {
-  const title = document.getElementById('gridMonthTitle');
-  title.textContent = `${MONTHS[gridMonth]} ${gridYear}`;
-
-  const firstDay = new Date(gridYear, gridMonth, 1).getDay();
-  const daysInMonth = new Date(gridYear, gridMonth + 1, 0).getDate();
-  const today = new Date();
-
-  // Events this month
-  const monthEvents = EVENTS_2026.filter(ev => {
-    const s = parseDate(ev.start);
-    const e = parseDate(ev.end);
-    return (s.getFullYear() === gridYear && s.getMonth() === gridMonth) ||
-           (e.getFullYear() === gridYear && e.getMonth() === gridMonth);
-  });
-
-  // Build day→events map
-  const dayMap = {};
-  monthEvents.forEach(ev => {
-    const s = parseDate(ev.start);
-    const e = parseDate(ev.end);
-    for (let d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
-      if (d.getFullYear() === gridYear && d.getMonth() === gridMonth) {
-        const day = d.getDate();
-        if (!dayMap[day]) dayMap[day] = [];
-        dayMap[day].push(ev);
-      }
-    }
-  });
-
-  let html = '';
-  // Empty cells before first day
-  for (let i = 0; i < firstDay; i++) html += '<div class="cal-grid-cell empty"></div>';
-
-  for (let day = 1; day <= daysInMonth; day++) {
-    const isToday = today.getFullYear() === gridYear && today.getMonth() === gridMonth && today.getDate() === day;
-    const evs = dayMap[day] || [];
-    const hasEvent = evs.length > 0;
-    html += `<div class="cal-grid-cell ${isToday?'today':''} ${hasEvent?'has-event':''}">
-      <div class="cal-grid-num">${day}</div>`;
-    evs.slice(0,3).forEach(ev => {
-      const meta = TYPE_META[ev.type] || TYPE_META.special;
-      html += `<div class="cal-grid-dot ${meta.pill}" title="${esc(ev.name)} · ${esc(ev.place)}">${esc(ev.name)}</div>`;
-    });
-    if (evs.length > 3) html += `<div style="font-size:.6rem;color:var(--muted);">+${evs.length-3} more</div>`;
-    html += '</div>';
-  }
-
-  document.getElementById('calGridBody').innerHTML = html;
-}
-
-window.prevMonth = function() {
-  gridMonth--;
-  if (gridMonth < 0) { gridMonth = 11; gridYear--; }
-  renderGrid();
-};
-window.nextMonth = function() {
-  gridMonth++;
-  if (gridMonth > 11) { gridMonth = 0; gridYear++; }
-  renderGrid();
-};
-
-// ── BOARD MEETINGS TABLE ──
-// ── UPCOMING EVENT BANNER ──
-function renderUpcoming() {
-  const now = new Date();
-  const upcoming = EVENTS_2026
-    .filter(ev => parseDate(ev.start) >= now)
-    .sort((a,b) => parseDate(a.start) - parseDate(b.start))[0];
-
-  if (!upcoming) return;
-
-  const diff = parseDate(upcoming.start) - now;
-  const days = Math.ceil(diff / 86400000);
-
-  document.getElementById('upcomingName').textContent = upcoming.name;
-  document.getElementById('upcomingMeta').textContent = `${fmtDateRange(upcoming)} · ${upcoming.place}`;
-  document.getElementById('upcomingCountdown').textContent = days === 0 ? 'Today!' : `${days} day${days!==1?'s':''} away`;
-  document.getElementById('upcomingBanner').style.display = 'flex';
-}
-
-// ── STATS ──
-function updateStats() {
-  const now = new Date();
-  document.getElementById('statTotal').textContent    = EVENTS_2026.length;
-  document.getElementById('statNational').textContent = EVENTS_2026.filter(ev => ev.scope === 'national').length;
-  document.getElementById('statRegional').textContent  = EVENTS_2026.filter(ev => ev.scope === 'regional').length;
-  document.getElementById('statUpcoming').textContent  = EVENTS_2026.filter(ev => parseDate(ev.end) >= now).length;
-}
-
-// ── NAV ──
-document.getElementById('hamburger').addEventListener('click', () => {
-  document.getElementById('navLinks').classList.toggle('open');
-});
-window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
-
-
-function renderTable(){
- const q=(document.getElementById('calendarSearch').value||'').toLowerCase();
- const body=document.getElementById('calendarBody');
- body.innerHTML=EVENTS_2026.filter(ev=>{
-   return (ev.name+ev.place+ev.type+ev.scope).toLowerCase().includes(q);
- }).map(ev=>`<tr>
-<td>${fmtDateRange(ev)}</td>
-<td>${ev.name}</td>
-<td>${ev.place}</td>
-<td>${TYPE_META[ev.type].label}</td>
-<td>${SCOPE_META[ev.scope].label}</td>
-</tr>`).join('');
-}
-
-// ── INIT ──
-renderTable();
-
-renderUpcoming();
-updateStats();
-
-// Set grid to current month
-gridMonth = new Date().getMonth();
-if (gridMonth < 0 || gridMonth > 11) gridMonth = 0;
+<script type="module">
+  import './js/site-core.js';
+  import { initCalendarPage } from './js/calendar-page.js';
+  initCalendarPage();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-<script type="module" src="js/site-core.js"></script>
 </body>
 </html>
