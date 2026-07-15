@@ -1,116 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Live Stream — Apostolic Faith Church Botswana</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/site-enhancements.css" />
-  <link rel="stylesheet" href="css/live.css?v=3" />
-  <style>
-    /* Critical cinema styles — beat cache / global white body */
-    html, body.live-theater-page {
-      background: #060a12 !important;
-      color: #f4f7fb !important;
-    }
-    body.live-theater-page .live-tool-btn {
-      background: #1a2438 !important;
-      color: #f7f3e8 !important;
-      border: 1px solid rgba(212,175,55,.35) !important;
-    }
-    body.live-theater-page .live-tool-btn.primary {
-      background: #d4af37 !important;
-      color: #0a1628 !important;
-      border-color: #d4af37 !important;
-    }
-    body.live-theater-page .live-stream-title,
-    body.live-theater-page .live-offline-card h2 { color: #fff !important; }
-    body.live-theater-page .live-stream-desc,
-    body.live-theater-page .live-offline-card p { color: rgba(255,255,255,.72) !important; }
-  </style>
-</head>
-<body data-page="live" class="live-theater-page">
-
-<header id="navbar">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-brand">
-      <div class="logo-icon"><img src="css/images/logo1.png" alt="AFC Botswana" /></div>
-      <div class="nav-brand-text">
-        <span class="brand-name">Apostolic Faith Church</span>
-        <span class="brand-sub">Portland, Oregon · Botswana</span>
-      </div>
-    </a>
-    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    <nav class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="locations.html">Locations</a>
-      <a href="live.html" class="active">Live</a>
-      <a href="index.html#events">Events</a>
-      <a href="index.html#resources">Resources</a>
-      <a href="calendar.html">Calendar</a>
-      <a href="index.html#contact">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<main class="theater">
-  <div class="theater-marquee">
-    <div class="theater-marquee-left">
-      <span class="theater-eyebrow">Now screening</span>
-      <h1>Live <em>Stream</em></h1>
-    </div>
-    <div class="theater-marquee-right">
-      <span class="live-status-pill is-offline" id="liveStatusPill">Checking…</span>
-      <span class="live-sync-note" id="liveSyncNote">Connecting to YouTube…</span>
-    </div>
-  </div>
-
-  <div class="live-setup-note" id="liveSetupNote" hidden>
-    <strong>Admin setup required:</strong> In <a href="admin.html">Admin → Site Content</a>, add your
-    <strong>YouTube Data API key</strong> and channel handle.
-  </div>
-
-  <div class="proscenium" id="liveLayout">
-    <div class="screen-frame">
-      <div class="screen-bevel">
-        <div class="live-player-wrap" id="livePlayerWrap">
-          <div class="live-player-placeholder">
-            <span class="live-player-placeholder-icon" aria-hidden="true">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            </span>
-            <span>Preparing the stream…</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="stage-apron">
-      <h2 class="live-stream-title" id="liveStreamTitle">Checking for live stream…</h2>
-      <p class="live-stream-desc" id="liveStreamDesc"></p>
-      <div class="live-meta-row" id="liveMeta" hidden></div>
-      <div class="live-toolbar" id="liveToolbar"></div>
-    </div>
-  </div>
-
-  <div class="live-offline-card" id="liveOfflineCard" hidden>
-    <div class="live-offline-icon" aria-hidden="true">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
-    </div>
-    <p class="offline-kicker">Offline for now</p>
-    <h2>We’re not live right now</h2>
-    <p id="liveOfflineMsg">When the next service begins on YouTube, it will open here automatically.</p>
-    <div class="live-offline-actions">
-      <a class="live-tool-btn primary" href="https://www.youtube.com/@apostolicfaithbotswanahead3540?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a>
-      <a class="live-tool-btn" href="index.html">Back to homepage</a>
-    </div>
-    <div id="liveLatestWrap" hidden></div>
-  </div>
-</main>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Stream â€” Apostolic Faith Church Botswana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/site-enhancements.css" />
+  <link rel="stylesheet" href="css/live.css?v=3" />
+  <style>
+    /* Critical cinema styles â€” beat cache / global white body */
+    html, body.live-theater-page {
+      background: #060a12 !important;
+      color: #f4f7fb !important;
+    }
+    body.live-theater-page .live-tool-btn {
+      background: #1a2438 !important;
+      color: #f7f3e8 !important;
+      border: 1px solid rgba(212,175,55,.35) !important;
+    }
+    body.live-theater-page .live-tool-btn.primary {
+      background: #d4af37 !important;
+      color: #0a1628 !important;
+      border-color: #d4af37 !important;
+    }
+    body.live-theater-page .live-stream-title,
+    body.live-theater-page .live-offline-card h2 { color: #fff !important; }
+    body.live-theater-page .live-stream-desc,
+    body.live-theater-page .live-offline-card p { color: rgba(255,255,255,.72) !important; }
+  </style>
+</head>
+<body data-page="live" class="live-theater-page">
+
+<header id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="logo-icon"><img src="css/images/logo1.png" alt="AFC Botswana" /></div>
+      <div class="nav-brand-text">
+        <span class="brand-name">Apostolic Faith Church</span>
+        <span class="brand-sub">Portland, Oregon Â· Botswana</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="locations.html">Locations</a>
+      <a href="live.html" class="active">Live</a>
+      <a href="events.html">Events</a>
+      <a href="resources.html">Resources</a>
+      <a href="calendar.html">Calendar</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="theater">
+  <div class="theater-marquee">
+    <div class="theater-marquee-left">
+      <span class="theater-eyebrow">Now screening</span>
+      <h1>Live <em>Stream</em></h1>
+    </div>
+    <div class="theater-marquee-right">
+      <span class="live-status-pill is-offline" id="liveStatusPill">Checkingâ€¦</span>
+      <span class="live-sync-note" id="liveSyncNote">Connecting to YouTubeâ€¦</span>
+    </div>
+  </div>
+
+  <div class="live-setup-note" id="liveSetupNote" hidden>
+    <strong>Admin setup required:</strong> In <a href="admin.html">Admin â†’ Site Content</a>, add your
+    <strong>YouTube Data API key</strong> and channel handle.
+  </div>
+
+  <div class="proscenium" id="liveLayout">
+    <div class="screen-frame">
+      <div class="screen-bevel">
+        <div class="live-player-wrap" id="livePlayerWrap">
+          <div class="live-player-placeholder">
+            <span class="live-player-placeholder-icon" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+            </span>
+            <span>Preparing the streamâ€¦</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-apron">
+      <h2 class="live-stream-title" id="liveStreamTitle">Checking for live streamâ€¦</h2>
+      <p class="live-stream-desc" id="liveStreamDesc"></p>
+      <div class="live-meta-row" id="liveMeta" hidden></div>
+      <div class="live-toolbar" id="liveToolbar"></div>
+    </div>
+  </div>
+
+  <div class="live-offline-card" id="liveOfflineCard" hidden>
+    <div class="live-offline-icon" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
+    </div>
+    <p class="offline-kicker">Offline for now</p>
+    <h2>Weâ€™re not live right now</h2>
+    <p id="liveOfflineMsg">When the next service begins on YouTube, it will open here automatically.</p>
+    <div class="live-offline-actions">
+      <a class="live-tool-btn primary" href="https://www.youtube.com/@apostolicfaithbotswanahead3540?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a>
+      <a class="live-tool-btn" href="index.html">Back to homepage</a>
+    </div>
+    <div id="liveLatestWrap" hidden></div>
+  </div>
+</main>
+
 <footer class="footer">
   <div class="container footer-inner">
     <div class="footer-main">
@@ -120,7 +120,7 @@
         </div>
         <div>
           <p class="footer-church-name">Apostolic Faith Church</p>
-          <p class="footer-sub">Portland, Oregon � Botswana Branch</p>
+          <p class="footer-sub">Portland, Oregon · Botswana Branch</p>
         </div>
       </div>
 
@@ -130,7 +130,7 @@
         <a href="locations.html">Locations</a>
         <a href="live.html">Live</a>
         <a href="calendar.html">Calendar</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="contact.html">Contact</a>
       </nav>
 
       <div class="footer-connect">
@@ -153,16 +153,16 @@
     </div>
 
     <div class="footer-bottom">
-      <p class="footer-copy">� 2026 Apostolic Faith Church � Botswana. All rights reserved.</p>
-      <p class="footer-motto">�Faith, Fellowship, Service�</p>
+      <p class="footer-copy">© 2026 Apostolic Faith Church – Botswana. All rights reserved.</p>
+      <p class="footer-motto">“Faith, Fellowship, Service”</p>
     </div>
   </div>
-</footer>
-
-<script type="module">
-  import './js/site-core.js';
-  import { initLiveStreamPage } from './js/live-stream.js';
-  initLiveStreamPage();
-</script>
-</body>
-</html>
+</footer>
+
+<script type="module">
+  import './js/site-core.js';
+  import { initLiveStreamPage } from './js/live-stream.js';
+  initLiveStreamPage();
+</script>
+</body>
+</html>

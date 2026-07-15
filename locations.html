@@ -1,702 +1,702 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Branch Locations ? AFC Botswana</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/site-enhancements.css" />
-  <link rel="stylesheet" href="css/locations.css?v=2" />
-</head>
-<body data-page="locations" class="locations-page">
-
-<!-- NAVBAR -->
-<header id="navbar">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-brand">
-      <div class="logo-icon logo-icon-sm">
-        <img src="css/images/logo1.png" alt="AFC Botswana"/>
-      </div>
-      <div class="nav-brand-text">
-        <span class="brand-name">Apostolic Faith Church</span>
-        <span class="brand-sub">Portland, Oregon · Botswana</span>
-      </div>
-    </a>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="locations.html" class="active">Locations</a>
-      <a href="live.html">Live</a>
-      <a href="index.html#events">Events</a>
-      <a href="index.html#resources">Resources</a>
-      <a href="calendar.html">Calendar</a>
-      <a href="index.html#contact">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="locations-hero">
-  <div class="locations-hero-inner">
-    <span class="locations-eyebrow"><i data-lucide="map-pin"></i> Find a fellowship</span>
-    <h1>Our Branches <em>Across Botswana</em></h1>
-    <p class="locations-hero-lead">Active congregations across four regions. Search a district, filter by region, or let us find the branch nearest to you.</p>
-    <div class="locations-hero-actions">
-      <button type="button" class="geo-btn" id="geoBtn" onclick="getUserLocation()">
-        <i data-lucide="locate-fixed"></i>
-        Find nearest branch
-      </button>
-      <a class="loc-chip-btn" href="#region-southern">
-        <i data-lucide="compass"></i>
-        Browse regions
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="locations-stats">
-  <div class="locations-stats-inner">
-    <div class="loc-stat">
-      <div class="loc-stat-icon"><i data-lucide="map"></i></div>
-      <div>
-        <span class="loc-stat-num">4</span>
-        <span class="loc-stat-lbl">Regions</span>
-      </div>
-    </div>
-    <div class="loc-stat">
-      <div class="loc-stat-icon"><i data-lucide="building-2"></i></div>
-      <div>
-        <span class="loc-stat-num">8</span>
-        <span class="loc-stat-lbl">Districts</span>
-      </div>
-    </div>
-    <div class="loc-stat">
-      <div class="loc-stat-icon"><i data-lucide="landmark"></i></div>
-      <div>
-        <span class="loc-stat-num">25+</span>
-        <span class="loc-stat-lbl">Branches</span>
-      </div>
-    </div>
-    <div class="loc-stat">
-      <div class="loc-stat-icon"><i data-lucide="users"></i></div>
-      <div>
-        <span class="loc-stat-num">HQ</span>
-        <span class="loc-stat-lbl">Gaborone</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- TOOLBAR (pinned under main nav while scrolling) -->
-<div class="locations-toolbar-anchor" id="locationsToolbarAnchor" aria-hidden="true"></div>
-<div class="locations-toolbar" id="locationsToolbar">
-  <div class="locations-toolbar-inner">
-    <div class="location-search">
-      <i data-lucide="search"></i>
-      <input id="locationSearch" type="search" placeholder="Search district or branch?" autocomplete="off" />
-    </div>
-    <div class="region-filters" id="regionFilters">
-      <button type="button" class="region-filter is-active" data-region-filter="all"><i data-lucide="layout-grid"></i> All</button>
-      <button type="button" class="region-filter" data-region-filter="southern"><i data-lucide="home"></i> Southern</button>
-      <button type="button" class="region-filter" data-region-filter="northeast"><i data-lucide="sparkles"></i> North East</button>
-      <button type="button" class="region-filter" data-region-filter="central"><i data-lucide="circle-dot"></i> Central</button>
-      <button type="button" class="region-filter" data-region-filter="northwest"><i data-lucide="mountain"></i> North West</button>
-    </div>
-  </div>
-</div>
-
-<!-- GEO STATUS BAR -->
-<div class="geo-bar" id="geoBar" hidden>
-  <div class="geo-bar-inner">
-    <i data-lucide="navigation"></i>
-    <span class="geo-status" id="geoStatus">Searching for your location?</span>
-  </div>
-</div>
-
-<!-- REGIONS -->
-<section class="locations-body">
-  <div class="container">
-
-    <!-- SOUTHERN REGION -->
-    <div class="region-section" id="region-southern">
-      <div class="region-header">
-        <div class="region-icon"><i data-lucide="home"></i></div>
-        <div>
-          <div class="region-title">Southern Region</div>
-          <div class="region-count">2 Districts · Gaborone &amp; Kgalagadi</div>
-        </div>
-      </div>
-
-      <div class="districts-grid">
-
-        <!-- Greater Gaborone -->
-        <div class="district-card" id="district-gaborone" data-lat="-24.68379" data-lng="25.88294">
-          <div class="district-card-head">
-            <div>
-              <div class="district-name">Greater Gaborone District</div>
-              <span class="district-hq-badge">National HQ</span>
-            </div>
-          </div>
-          <div class="district-card-body">
-            <div class="district-meta">
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">District Superintendent</span>
-                  <span class="meta-value">Rev Lordick Motshidisi</span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">District Overseer</span>
-                  <span class="meta-value">Rev Edith Nthaba</span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">Contact</span>
-                  <span class="meta-value"><a href="tel:+26774744897">+267 74 744 897</a></span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">Location</span>
-                  <span class="meta-value">Plot 54021, Phase 4, Gaborone<br><small style="color:var(--muted);">(Behind Pure Drop)</small></span>
-                </div>
-              </div>
-            </div>
-            <div class="sub-branches-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              Branches in this district
-            </div>
-            <div class="sub-branches-list">
-              <span class="sub-branch-tag">Gaborone</span>
-              <span class="sub-branch-tag">Mmopane</span>
-              <span class="sub-branch-tag">Moshupa</span>
-              <span class="sub-branch-tag">Molepolole</span>
-              <span class="sub-branch-tag">Lobatse</span>
-            </div>
-          </div>
-          <div class="district-map" id="map-gaborone">
-            <iframe
-              src="https://maps.google.com/maps?q=-24.68379,25.88294&z=14&output=embed"
-              title="Greater Gaborone Branch" allowfullscreen loading="lazy">
-            </iframe>
-          </div>
-          <div class="district-card-actions">
-            <a href="https://maps.google.com/?q=-24.68379,25.88294" target="_blank" class="btn-card-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Open in Maps
-            </a>
-            <a href="index.html#contact" class="btn-card-secondary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              Contact Branch
-            </a>
-            <button type="button" class="btn-map-toggle" data-map-toggle="gaborone"><i data-lucide="map"></i><span>Map</span></button>
-          </div>
-        </div>
-
-        <!-- Kgalagadi District -->
-        <div class="district-card" id="district-kgalagadi" data-lat="-24.6018" data-lng="24.9116">
-          <div class="district-card-head">
-            <div>
-              <div class="district-name">Kgalagadi District</div>
-            </div>
-          </div>
-          <div class="district-card-body">
-            <div class="district-meta">
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">District Overseer</span>
-                  <span class="meta-value">Rev Motlhabani Kemorwale</span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">Contact</span>
-                  <span class="meta-value"><a href="tel:+26774300340">+267 74 300 340</a></span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">Location</span>
-                  <span class="meta-value">Jwaneng, Southern District</span>
-                </div>
-              </div>
-            </div>
-            <div class="sub-branches-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              Branches in this district
-            </div>
-            <div class="sub-branches-list">
-              <span class="sub-branch-tag">Jwaneng</span>
-              <span class="sub-branch-tag">Sese</span>
-              <span class="sub-branch-tag">Hukuntsi</span>
-            </div>
-          </div>
-          <div class="district-map" id="map-kgalagadi">
-            <iframe
-              src="https://maps.google.com/maps?q=-24.6018,24.9116&z=13&output=embed"
-              title="Kgalagadi District" allowfullscreen loading="lazy">
-            </iframe>
-          </div>
-          <div class="district-card-actions">
-            <a href="https://maps.google.com/?q=-24.6018,24.9116" target="_blank" class="btn-card-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Open in Maps
-            </a>
-            <a href="index.html#contact" class="btn-card-secondary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              Contact Branch
-            </a>
-            <button type="button" class="btn-map-toggle" data-map-toggle="kgalagadi"><i data-lucide="map"></i><span>Map</span></button>
-          </div>
-        </div>
-
-      </div><!-- /districts-grid -->
-    </div><!-- /southern -->
-
-    <!-- NORTH EAST REGION -->
-    <div class="region-section" id="region-northeast">
-      <div class="region-header">
-        <div class="region-icon"><i data-lucide="sparkles"></i></div>
-        <div>
-          <div class="region-title">North East Region</div>
-          <div class="region-count">1 District · Francistown</div>
-        </div>
-      </div>
-      <div class="districts-grid">
-
-        <!-- Greater Francistown -->
-        <div class="district-card" id="district-francistown" data-lat="-21.17071" data-lng="27.50435">
-          <div class="district-card-head">
-            <div>
-              <div class="district-name">Greater Francistown District</div>
-            </div>
-          </div>
-          <div class="district-card-body">
-            <div class="district-meta">
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">District Overseer</span>
-                  <span class="meta-value">Rev Isaac Mabelebele</span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">Contact</span>
-                  <span class="meta-value"><a href="tel:+26771400809">+267 71 400 809</a></span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">Location</span>
-                  <span class="meta-value">Opposite Mokaleng Primary School, Francistown</span>
-                </div>
-              </div>
-            </div>
-            <div class="sub-branches-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              Branches in this district
-            </div>
-            <div class="sub-branches-list">
-              <span class="sub-branch-tag">Francistown</span>
-              <span class="sub-branch-tag">Tsamaya</span>
-              <span class="sub-branch-tag">Matsitama</span>
-            </div>
-          </div>
-          <div class="district-map" id="map-francistown">
-            <iframe
-              src="https://maps.google.com/maps?q=-21.17071,27.50435&z=14&output=embed"
-              title="Greater Francistown District" allowfullscreen loading="lazy">
-            </iframe>
-          </div>
-          <div class="district-card-actions">
-            <a href="https://maps.google.com/?q=-21.17071,27.50435" target="_blank" class="btn-card-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Open in Maps
-            </a>
-            <a href="index.html#contact" class="btn-card-secondary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              Contact Branch
-            </a>
-            <button type="button" class="btn-map-toggle" data-map-toggle="francistown"><i data-lucide="map"></i><span>Map</span></button>
-          </div>
-        </div>
-
-      </div>
-    </div><!-- /northeast -->
-
-    <!-- CENTRAL REGION -->
-    <div class="region-section" id="region-central">
-      <div class="region-header">
-        <div class="region-icon"><i data-lucide="circle-dot"></i></div>
-        <div>
-          <div class="region-title">Central Region</div>
-          <div class="region-count">2 Districts · Palapye &amp; Selebi Phikwe</div>
-        </div>
-      </div>
-      <div class="districts-grid">
-
-        <!-- Greater Palapye -->
-        <div class="district-card" id="district-palapye" data-lat="-22.5558" data-lng="27.1333">
-          <div class="district-card-head">
-            <div><div class="district-name">Greater Palapye District</div></div>
-          </div>
-          <div class="district-card-body">
-            <div class="district-meta">
-              <div class="district-meta-row">
-                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <div><span class="meta-label">District Overseer</span><span class="meta-value">Rev Ezekiel Ntshwarang</span></div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">Contact</span>
-                  <span class="meta-value"><a href="tel:+26771377450">+267 71 377 450</a></span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div><span class="meta-label">Location</span><span class="meta-value">Palapye, Central District</span></div>
-              </div>
-            </div>
-            <div class="sub-branches-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              Branches in this district
-            </div>
-            <div class="sub-branches-list">
-              <span class="sub-branch-tag">Palapye</span>
-              <span class="sub-branch-tag">Mahalapye</span>
-              <span class="sub-branch-tag">Mmutlane</span>
-              <span class="sub-branch-tag">Serowe</span>
-            </div>
-          </div>
-          <div class="district-map" id="map-palapye">
-            <iframe src="https://maps.google.com/maps?q=-22.5558,27.1333&z=13&output=embed" title="Greater Palapye District" allowfullscreen loading="lazy"></iframe>
-          </div>
-          <div class="district-card-actions">
-            <a href="https://maps.google.com/?q=-22.5558,27.1333" target="_blank" class="btn-card-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Open in Maps
-            </a>
-            <a href="index.html#contact" class="btn-card-secondary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
-            </a>
-            <button type="button" class="btn-map-toggle" data-map-toggle="palapye"><i data-lucide="map"></i><span>Map</span></button>
-          </div>
-        </div>
-
-        <!-- Greater Selebi Phikwe -->
-        <div class="district-card" id="district-phikwe" data-lat="-21.9893" data-lng="27.8335">
-          <div class="district-card-head">
-            <div><div class="district-name">Greater Selebi Phikwe District</div></div>
-          </div>
-          <div class="district-card-body">
-            <div class="district-meta">
-              <div class="district-meta-row">
-                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <div><span class="meta-label">District Overseer</span><span class="meta-value">Rev Lesedi Gaogane</span></div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">Contact</span>
-                  <span class="meta-value"><a href="tel:+26774171287">+267 74 171 287</a></span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div><span class="meta-label">Location</span><span class="meta-value">Selebi Phikwe, Central District</span></div>
-              </div>
-            </div>
-            <div class="sub-branches-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              Branches in this district
-            </div>
-            <div class="sub-branches-list">
-              <span class="sub-branch-tag">Selebi Phikwe</span>
-              <span class="sub-branch-tag">Mmadinare</span>
-            </div>
-          </div>
-          <div class="district-map" id="map-phikwe">
-            <iframe src="https://maps.google.com/maps?q=-21.9893,27.8335&z=13&output=embed" title="Greater Selebi Phikwe" allowfullscreen loading="lazy"></iframe>
-          </div>
-          <div class="district-card-actions">
-            <a href="https://maps.google.com/?q=-21.9893,27.8335" target="_blank" class="btn-card-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Open in Maps
-            </a>
-            <a href="index.html#contact" class="btn-card-secondary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
-            </a>
-            <button type="button" class="btn-map-toggle" data-map-toggle="phikwe"><i data-lucide="map"></i><span>Map</span></button>
-          </div>
-        </div>
-
-      </div><!-- /districts-grid -->
-    </div><!-- /central -->
-
-    <!-- NORTH WEST REGION -->
-    <div class="region-section" id="region-northwest">
-      <div class="region-header">
-        <div class="region-icon"><i data-lucide="mountain"></i></div>
-        <div>
-          <div class="region-title">North West Region</div>
-          <div class="region-count">3 Districts · Boteti, Ngami &amp; Chobe</div>
-        </div>
-      </div>
-      <div class="districts-grid">
-
-        <!-- Boteti -->
-        <div class="district-card" id="district-boteti" data-lat="-21.4220" data-lng="25.5874">
-          <div class="district-card-head">
-            <div><div class="district-name">Boteti District</div></div>
-          </div>
-          <div class="district-card-body">
-            <div class="district-meta">
-              <div class="district-meta-row">
-                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <div><span class="meta-label">District Overseer</span><span class="meta-value">Rev Chiyapo Motshidisi</span></div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">Contact</span>
-                  <span class="meta-value"><a href="tel:+26774502396">+267 74 502 396</a></span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div><span class="meta-label">Location</span><span class="meta-value">Letlhakane, Boteti</span></div>
-              </div>
-            </div>
-            <div class="sub-branches-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              Branches in this district
-            </div>
-            <div class="sub-branches-list">
-              <span class="sub-branch-tag">Letlhakane</span>
-              <span class="sub-branch-tag">Mopipi</span>
-              <span class="sub-branch-tag">Rakops</span>
-              <span class="sub-branch-tag">Mokoboxane</span>
-            </div>
-          </div>
-          <div class="district-map" id="map-boteti">
-            <iframe src="https://maps.google.com/maps?q=-21.4220,25.5874&z=12&output=embed" title="Boteti District" allowfullscreen loading="lazy"></iframe>
-          </div>
-          <div class="district-card-actions">
-            <a href="https://maps.google.com/?q=-21.4220,25.5874" target="_blank" class="btn-card-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Open in Maps
-            </a>
-            <a href="index.html#contact" class="btn-card-secondary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
-            </a>
-            <button type="button" class="btn-map-toggle" data-map-toggle="boteti"><i data-lucide="map"></i><span>Map</span></button>
-          </div>
-        </div>
-
-        <!-- Ngami -->
-        <div class="district-card" id="district-ngami" data-lat="-19.9833" data-lng="23.4167">
-          <div class="district-card-head">
-            <div><div class="district-name">Ngami District</div></div>
-          </div>
-          <div class="district-card-body">
-            <div class="district-meta">
-              <div class="district-meta-row">
-                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <div><span class="meta-label">District Overseer</span><span class="meta-value">Rev Chiyapo Motshidisi</span></div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">Contact</span>
-                  <span class="meta-value"><a href="tel:+26774502396">+267 74 502 396</a></span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div><span class="meta-label">Location</span><span class="meta-value">Maun, Ngamiland</span></div>
-              </div>
-            </div>
-            <div class="sub-branches-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              Branches in this district
-            </div>
-            <div class="sub-branches-list">
-              <span class="sub-branch-tag">Maun</span>
-            </div>
-          </div>
-          <div class="district-map" id="map-ngami">
-            <iframe src="https://maps.google.com/maps?q=-19.9833,23.4167&z=12&output=embed" title="Ngami District" allowfullscreen loading="lazy"></iframe>
-          </div>
-          <div class="district-card-actions">
-            <a href="https://maps.google.com/?q=-19.9833,23.4167" target="_blank" class="btn-card-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Open in Maps
-            </a>
-            <a href="index.html#contact" class="btn-card-secondary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
-            </a>
-            <button type="button" class="btn-map-toggle" data-map-toggle="ngami"><i data-lucide="map"></i><span>Map</span></button>
-          </div>
-        </div>
-
-        <!-- Chobe -->
-        <div class="district-card" id="district-chobe" data-lat="-17.7975" data-lng="25.3253">
-          <div class="district-card-head">
-            <div><div class="district-name">Chobe District</div></div>
-          </div>
-          <div class="district-card-body">
-            <div class="district-meta">
-              <div class="district-meta-row">
-                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <div><span class="meta-label">District Overseer</span><span class="meta-value">Rev Ben Bhuka</span></div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                </div>
-                <div>
-                  <span class="meta-label">Contact</span>
-                  <span class="meta-value"><a href="tel:+26777740151">+267 77 740 151</a></span>
-                </div>
-              </div>
-              <div class="district-meta-row">
-                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div><span class="meta-label">Location</span><span class="meta-value">Kasane, Chobe District</span></div>
-              </div>
-            </div>
-            <div class="sub-branches-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              Branches in this district
-            </div>
-            <div class="sub-branches-list">
-              <span class="sub-branch-tag">Kazungula</span>
-              <span class="sub-branch-tag">Nata</span>
-            </div>
-          </div>
-          <div class="district-map" id="map-chobe">
-            <iframe src="https://maps.google.com/maps?q=-17.7975,25.3253&z=12&output=embed" title="Chobe District" allowfullscreen loading="lazy"></iframe>
-          </div>
-          <div class="district-card-actions">
-            <a href="https://maps.google.com/?q=-17.7975,25.3253" target="_blank" class="btn-card-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Open in Maps
-            </a>
-            <a href="index.html#contact" class="btn-card-secondary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
-            </a>
-            <button type="button" class="btn-map-toggle" data-map-toggle="chobe"><i data-lucide="map"></i><span>Map</span></button>
-          </div>
-        </div>
-
-      </div>
-    </div><!-- /northwest -->
-
-    <div class="locations-empty" id="locationsEmpty" hidden>
-      <i data-lucide="search-x"></i>
-      <p>No districts match your search. Try another name or choose All regions.</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- ??? FOOTER ??? -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <div class="footer-main">
-      <div class="footer-brand">
-        <div class="logo-icon logo-icon-sm">
-          <img src="css/images/logo1.png" alt="AFC Botswana" />
-        </div>
-        <div>
-          <p class="footer-church-name">Apostolic Faith Church</p>
-          <p class="footer-sub">Portland, Oregon · Botswana Branch</p>
-        </div>
-      </div>
-
-      <nav class="footer-links" aria-label="Footer navigation">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="locations.html">Locations</a>
-        <a href="live.html">Live</a>
-        <a href="calendar.html">Calendar</a>
-        <a href="index.html#contact">Contact</a>
-      </nav>
-
-      <div class="footer-connect">
-        <p class="footer-connect-label">Connect</p>
-        <div class="footer-socials">
-          <a href="https://facebook.com/people/Apostolic-Faith-Church-of-Portland-Oregon-Botswana/100064412953117" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
-          <a href="https://zoom.us/j/84874457626" target="_blank" rel="noopener" aria-label="Zoom">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-          </a>
-          <a href="https://www.youtube.com/@apostolicfaithbotswanahead3540" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
-          </a>
-          <a href="mailto:apostolicfaithchurchbotswana@gmail.com" aria-label="Email us">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p class="footer-copy">? 2026 Apostolic Faith Church ? Botswana. All rights reserved.</p>
-      <p class="footer-motto">?Faith, Fellowship, Service?</p>
-    </div>
-  </div>
-</footer>
-
-<div id="toast" class="toast"></div>
-
-<script type="module">
-  import './js/site-core.js';
-  import { initLocationsPage } from './js/locations-page.js';
-  initLocationsPage();
-</script>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Branch Locations ? AFC Botswana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/site-enhancements.css" />
+  <link rel="stylesheet" href="css/locations.css?v=2" />
+</head>
+<body data-page="locations" class="locations-page">
+
+<!-- NAVBAR -->
+<header id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="logo-icon logo-icon-sm">
+        <img src="css/images/logo1.png" alt="AFC Botswana"/>
+      </div>
+      <div class="nav-brand-text">
+        <span class="brand-name">Apostolic Faith Church</span>
+        <span class="brand-sub">Portland, Oregon Â· Botswana</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="locations.html" class="active">Locations</a>
+      <a href="live.html">Live</a>
+      <a href="events.html">Events</a>
+      <a href="resources.html">Resources</a>
+      <a href="calendar.html">Calendar</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="locations-hero">
+  <div class="locations-hero-inner">
+    <span class="locations-eyebrow"><i data-lucide="map-pin"></i> Find a fellowship</span>
+    <h1>Our Branches <em>Across Botswana</em></h1>
+    <p class="locations-hero-lead">Active congregations across four regions. Search a district, filter by region, or let us find the branch nearest to you.</p>
+    <div class="locations-hero-actions">
+      <button type="button" class="geo-btn" id="geoBtn" onclick="getUserLocation()">
+        <i data-lucide="locate-fixed"></i>
+        Find nearest branch
+      </button>
+      <a class="loc-chip-btn" href="#region-southern">
+        <i data-lucide="compass"></i>
+        Browse regions
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="locations-stats">
+  <div class="locations-stats-inner">
+    <div class="loc-stat">
+      <div class="loc-stat-icon"><i data-lucide="map"></i></div>
+      <div>
+        <span class="loc-stat-num">4</span>
+        <span class="loc-stat-lbl">Regions</span>
+      </div>
+    </div>
+    <div class="loc-stat">
+      <div class="loc-stat-icon"><i data-lucide="building-2"></i></div>
+      <div>
+        <span class="loc-stat-num">8</span>
+        <span class="loc-stat-lbl">Districts</span>
+      </div>
+    </div>
+    <div class="loc-stat">
+      <div class="loc-stat-icon"><i data-lucide="landmark"></i></div>
+      <div>
+        <span class="loc-stat-num">25+</span>
+        <span class="loc-stat-lbl">Branches</span>
+      </div>
+    </div>
+    <div class="loc-stat">
+      <div class="loc-stat-icon"><i data-lucide="users"></i></div>
+      <div>
+        <span class="loc-stat-num">HQ</span>
+        <span class="loc-stat-lbl">Gaborone</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLBAR (pinned under main nav while scrolling) -->
+<div class="locations-toolbar-anchor" id="locationsToolbarAnchor" aria-hidden="true"></div>
+<div class="locations-toolbar" id="locationsToolbar">
+  <div class="locations-toolbar-inner">
+    <div class="location-search">
+      <i data-lucide="search"></i>
+      <input id="locationSearch" type="search" placeholder="Search district or branch?" autocomplete="off" />
+    </div>
+    <div class="region-filters" id="regionFilters">
+      <button type="button" class="region-filter is-active" data-region-filter="all"><i data-lucide="layout-grid"></i> All</button>
+      <button type="button" class="region-filter" data-region-filter="southern"><i data-lucide="home"></i> Southern</button>
+      <button type="button" class="region-filter" data-region-filter="northeast"><i data-lucide="sparkles"></i> North East</button>
+      <button type="button" class="region-filter" data-region-filter="central"><i data-lucide="circle-dot"></i> Central</button>
+      <button type="button" class="region-filter" data-region-filter="northwest"><i data-lucide="mountain"></i> North West</button>
+    </div>
+  </div>
+</div>
+
+<!-- GEO STATUS BAR -->
+<div class="geo-bar" id="geoBar" hidden>
+  <div class="geo-bar-inner">
+    <i data-lucide="navigation"></i>
+    <span class="geo-status" id="geoStatus">Searching for your location?</span>
+  </div>
+</div>
+
+<!-- REGIONS -->
+<section class="locations-body">
+  <div class="container">
+
+    <!-- SOUTHERN REGION -->
+    <div class="region-section" id="region-southern">
+      <div class="region-header">
+        <div class="region-icon"><i data-lucide="home"></i></div>
+        <div>
+          <div class="region-title">Southern Region</div>
+          <div class="region-count">2 Districts Â· Gaborone &amp; Kgalagadi</div>
+        </div>
+      </div>
+
+      <div class="districts-grid">
+
+        <!-- Greater Gaborone -->
+        <div class="district-card" id="district-gaborone" data-lat="-24.68379" data-lng="25.88294">
+          <div class="district-card-head">
+            <div>
+              <div class="district-name">Greater Gaborone District</div>
+              <span class="district-hq-badge">National HQ</span>
+            </div>
+          </div>
+          <div class="district-card-body">
+            <div class="district-meta">
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">District Superintendent</span>
+                  <span class="meta-value">Rev Lordick Motshidisi</span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">District Overseer</span>
+                  <span class="meta-value">Rev Edith Nthaba</span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">Contact</span>
+                  <span class="meta-value"><a href="tel:+26774744897">+267 74 744 897</a></span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">Location</span>
+                  <span class="meta-value">Plot 54021, Phase 4, Gaborone<br><small style="color:var(--muted);">(Behind Pure Drop)</small></span>
+                </div>
+              </div>
+            </div>
+            <div class="sub-branches-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Branches in this district
+            </div>
+            <div class="sub-branches-list">
+              <span class="sub-branch-tag">Gaborone</span>
+              <span class="sub-branch-tag">Mmopane</span>
+              <span class="sub-branch-tag">Moshupa</span>
+              <span class="sub-branch-tag">Molepolole</span>
+              <span class="sub-branch-tag">Lobatse</span>
+            </div>
+          </div>
+          <div class="district-map" id="map-gaborone">
+            <iframe
+              src="https://maps.google.com/maps?q=-24.68379,25.88294&z=14&output=embed"
+              title="Greater Gaborone Branch" allowfullscreen loading="lazy">
+            </iframe>
+          </div>
+          <div class="district-card-actions">
+            <a href="https://maps.google.com/?q=-24.68379,25.88294" target="_blank" class="btn-card-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Open in Maps
+            </a>
+            <a href="contact.html" class="btn-card-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Contact Branch
+            </a>
+            <button type="button" class="btn-map-toggle" data-map-toggle="gaborone"><i data-lucide="map"></i><span>Map</span></button>
+          </div>
+        </div>
+
+        <!-- Kgalagadi District -->
+        <div class="district-card" id="district-kgalagadi" data-lat="-24.6018" data-lng="24.9116">
+          <div class="district-card-head">
+            <div>
+              <div class="district-name">Kgalagadi District</div>
+            </div>
+          </div>
+          <div class="district-card-body">
+            <div class="district-meta">
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">District Overseer</span>
+                  <span class="meta-value">Rev Motlhabani Kemorwale</span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">Contact</span>
+                  <span class="meta-value"><a href="tel:+26774300340">+267 74 300 340</a></span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">Location</span>
+                  <span class="meta-value">Jwaneng, Southern District</span>
+                </div>
+              </div>
+            </div>
+            <div class="sub-branches-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Branches in this district
+            </div>
+            <div class="sub-branches-list">
+              <span class="sub-branch-tag">Jwaneng</span>
+              <span class="sub-branch-tag">Sese</span>
+              <span class="sub-branch-tag">Hukuntsi</span>
+            </div>
+          </div>
+          <div class="district-map" id="map-kgalagadi">
+            <iframe
+              src="https://maps.google.com/maps?q=-24.6018,24.9116&z=13&output=embed"
+              title="Kgalagadi District" allowfullscreen loading="lazy">
+            </iframe>
+          </div>
+          <div class="district-card-actions">
+            <a href="https://maps.google.com/?q=-24.6018,24.9116" target="_blank" class="btn-card-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Open in Maps
+            </a>
+            <a href="contact.html" class="btn-card-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Contact Branch
+            </a>
+            <button type="button" class="btn-map-toggle" data-map-toggle="kgalagadi"><i data-lucide="map"></i><span>Map</span></button>
+          </div>
+        </div>
+
+      </div><!-- /districts-grid -->
+    </div><!-- /southern -->
+
+    <!-- NORTH EAST REGION -->
+    <div class="region-section" id="region-northeast">
+      <div class="region-header">
+        <div class="region-icon"><i data-lucide="sparkles"></i></div>
+        <div>
+          <div class="region-title">North East Region</div>
+          <div class="region-count">1 District Â· Francistown</div>
+        </div>
+      </div>
+      <div class="districts-grid">
+
+        <!-- Greater Francistown -->
+        <div class="district-card" id="district-francistown" data-lat="-21.17071" data-lng="27.50435">
+          <div class="district-card-head">
+            <div>
+              <div class="district-name">Greater Francistown District</div>
+            </div>
+          </div>
+          <div class="district-card-body">
+            <div class="district-meta">
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">District Overseer</span>
+                  <span class="meta-value">Rev Isaac Mabelebele</span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">Contact</span>
+                  <span class="meta-value"><a href="tel:+26771400809">+267 71 400 809</a></span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">Location</span>
+                  <span class="meta-value">Opposite Mokaleng Primary School, Francistown</span>
+                </div>
+              </div>
+            </div>
+            <div class="sub-branches-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Branches in this district
+            </div>
+            <div class="sub-branches-list">
+              <span class="sub-branch-tag">Francistown</span>
+              <span class="sub-branch-tag">Tsamaya</span>
+              <span class="sub-branch-tag">Matsitama</span>
+            </div>
+          </div>
+          <div class="district-map" id="map-francistown">
+            <iframe
+              src="https://maps.google.com/maps?q=-21.17071,27.50435&z=14&output=embed"
+              title="Greater Francistown District" allowfullscreen loading="lazy">
+            </iframe>
+          </div>
+          <div class="district-card-actions">
+            <a href="https://maps.google.com/?q=-21.17071,27.50435" target="_blank" class="btn-card-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Open in Maps
+            </a>
+            <a href="contact.html" class="btn-card-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Contact Branch
+            </a>
+            <button type="button" class="btn-map-toggle" data-map-toggle="francistown"><i data-lucide="map"></i><span>Map</span></button>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /northeast -->
+
+    <!-- CENTRAL REGION -->
+    <div class="region-section" id="region-central">
+      <div class="region-header">
+        <div class="region-icon"><i data-lucide="circle-dot"></i></div>
+        <div>
+          <div class="region-title">Central Region</div>
+          <div class="region-count">2 Districts Â· Palapye &amp; Selebi Phikwe</div>
+        </div>
+      </div>
+      <div class="districts-grid">
+
+        <!-- Greater Palapye -->
+        <div class="district-card" id="district-palapye" data-lat="-22.5558" data-lng="27.1333">
+          <div class="district-card-head">
+            <div><div class="district-name">Greater Palapye District</div></div>
+          </div>
+          <div class="district-card-body">
+            <div class="district-meta">
+              <div class="district-meta-row">
+                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <div><span class="meta-label">District Overseer</span><span class="meta-value">Rev Ezekiel Ntshwarang</span></div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">Contact</span>
+                  <span class="meta-value"><a href="tel:+26771377450">+267 71 377 450</a></span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div><span class="meta-label">Location</span><span class="meta-value">Palapye, Central District</span></div>
+              </div>
+            </div>
+            <div class="sub-branches-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Branches in this district
+            </div>
+            <div class="sub-branches-list">
+              <span class="sub-branch-tag">Palapye</span>
+              <span class="sub-branch-tag">Mahalapye</span>
+              <span class="sub-branch-tag">Mmutlane</span>
+              <span class="sub-branch-tag">Serowe</span>
+            </div>
+          </div>
+          <div class="district-map" id="map-palapye">
+            <iframe src="https://maps.google.com/maps?q=-22.5558,27.1333&z=13&output=embed" title="Greater Palapye District" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="district-card-actions">
+            <a href="https://maps.google.com/?q=-22.5558,27.1333" target="_blank" class="btn-card-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Open in Maps
+            </a>
+            <a href="contact.html" class="btn-card-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
+            </a>
+            <button type="button" class="btn-map-toggle" data-map-toggle="palapye"><i data-lucide="map"></i><span>Map</span></button>
+          </div>
+        </div>
+
+        <!-- Greater Selebi Phikwe -->
+        <div class="district-card" id="district-phikwe" data-lat="-21.9893" data-lng="27.8335">
+          <div class="district-card-head">
+            <div><div class="district-name">Greater Selebi Phikwe District</div></div>
+          </div>
+          <div class="district-card-body">
+            <div class="district-meta">
+              <div class="district-meta-row">
+                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <div><span class="meta-label">District Overseer</span><span class="meta-value">Rev Lesedi Gaogane</span></div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">Contact</span>
+                  <span class="meta-value"><a href="tel:+26774171287">+267 74 171 287</a></span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div><span class="meta-label">Location</span><span class="meta-value">Selebi Phikwe, Central District</span></div>
+              </div>
+            </div>
+            <div class="sub-branches-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Branches in this district
+            </div>
+            <div class="sub-branches-list">
+              <span class="sub-branch-tag">Selebi Phikwe</span>
+              <span class="sub-branch-tag">Mmadinare</span>
+            </div>
+          </div>
+          <div class="district-map" id="map-phikwe">
+            <iframe src="https://maps.google.com/maps?q=-21.9893,27.8335&z=13&output=embed" title="Greater Selebi Phikwe" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="district-card-actions">
+            <a href="https://maps.google.com/?q=-21.9893,27.8335" target="_blank" class="btn-card-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Open in Maps
+            </a>
+            <a href="contact.html" class="btn-card-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
+            </a>
+            <button type="button" class="btn-map-toggle" data-map-toggle="phikwe"><i data-lucide="map"></i><span>Map</span></button>
+          </div>
+        </div>
+
+      </div><!-- /districts-grid -->
+    </div><!-- /central -->
+
+    <!-- NORTH WEST REGION -->
+    <div class="region-section" id="region-northwest">
+      <div class="region-header">
+        <div class="region-icon"><i data-lucide="mountain"></i></div>
+        <div>
+          <div class="region-title">North West Region</div>
+          <div class="region-count">3 Districts Â· Boteti, Ngami &amp; Chobe</div>
+        </div>
+      </div>
+      <div class="districts-grid">
+
+        <!-- Boteti -->
+        <div class="district-card" id="district-boteti" data-lat="-21.4220" data-lng="25.5874">
+          <div class="district-card-head">
+            <div><div class="district-name">Boteti District</div></div>
+          </div>
+          <div class="district-card-body">
+            <div class="district-meta">
+              <div class="district-meta-row">
+                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <div><span class="meta-label">District Overseer</span><span class="meta-value">Rev Chiyapo Motshidisi</span></div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">Contact</span>
+                  <span class="meta-value"><a href="tel:+26774502396">+267 74 502 396</a></span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div><span class="meta-label">Location</span><span class="meta-value">Letlhakane, Boteti</span></div>
+              </div>
+            </div>
+            <div class="sub-branches-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Branches in this district
+            </div>
+            <div class="sub-branches-list">
+              <span class="sub-branch-tag">Letlhakane</span>
+              <span class="sub-branch-tag">Mopipi</span>
+              <span class="sub-branch-tag">Rakops</span>
+              <span class="sub-branch-tag">Mokoboxane</span>
+            </div>
+          </div>
+          <div class="district-map" id="map-boteti">
+            <iframe src="https://maps.google.com/maps?q=-21.4220,25.5874&z=12&output=embed" title="Boteti District" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="district-card-actions">
+            <a href="https://maps.google.com/?q=-21.4220,25.5874" target="_blank" class="btn-card-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Open in Maps
+            </a>
+            <a href="contact.html" class="btn-card-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
+            </a>
+            <button type="button" class="btn-map-toggle" data-map-toggle="boteti"><i data-lucide="map"></i><span>Map</span></button>
+          </div>
+        </div>
+
+        <!-- Ngami -->
+        <div class="district-card" id="district-ngami" data-lat="-19.9833" data-lng="23.4167">
+          <div class="district-card-head">
+            <div><div class="district-name">Ngami District</div></div>
+          </div>
+          <div class="district-card-body">
+            <div class="district-meta">
+              <div class="district-meta-row">
+                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <div><span class="meta-label">District Overseer</span><span class="meta-value">Rev Chiyapo Motshidisi</span></div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">Contact</span>
+                  <span class="meta-value"><a href="tel:+26774502396">+267 74 502 396</a></span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div><span class="meta-label">Location</span><span class="meta-value">Maun, Ngamiland</span></div>
+              </div>
+            </div>
+            <div class="sub-branches-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Branches in this district
+            </div>
+            <div class="sub-branches-list">
+              <span class="sub-branch-tag">Maun</span>
+            </div>
+          </div>
+          <div class="district-map" id="map-ngami">
+            <iframe src="https://maps.google.com/maps?q=-19.9833,23.4167&z=12&output=embed" title="Ngami District" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="district-card-actions">
+            <a href="https://maps.google.com/?q=-19.9833,23.4167" target="_blank" class="btn-card-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Open in Maps
+            </a>
+            <a href="contact.html" class="btn-card-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
+            </a>
+            <button type="button" class="btn-map-toggle" data-map-toggle="ngami"><i data-lucide="map"></i><span>Map</span></button>
+          </div>
+        </div>
+
+        <!-- Chobe -->
+        <div class="district-card" id="district-chobe" data-lat="-17.7975" data-lng="25.3253">
+          <div class="district-card-head">
+            <div><div class="district-name">Chobe District</div></div>
+          </div>
+          <div class="district-card-body">
+            <div class="district-meta">
+              <div class="district-meta-row">
+                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <div><span class="meta-label">District Overseer</span><span class="meta-value">Rev Ben Bhuka</span></div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.91 5.91l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <span class="meta-label">Contact</span>
+                  <span class="meta-value"><a href="tel:+26777740151">+267 77 740 151</a></span>
+                </div>
+              </div>
+              <div class="district-meta-row">
+                <div class="meta-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div><span class="meta-label">Location</span><span class="meta-value">Kasane, Chobe District</span></div>
+              </div>
+            </div>
+            <div class="sub-branches-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Branches in this district
+            </div>
+            <div class="sub-branches-list">
+              <span class="sub-branch-tag">Kazungula</span>
+              <span class="sub-branch-tag">Nata</span>
+            </div>
+          </div>
+          <div class="district-map" id="map-chobe">
+            <iframe src="https://maps.google.com/maps?q=-17.7975,25.3253&z=12&output=embed" title="Chobe District" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="district-card-actions">
+            <a href="https://maps.google.com/?q=-17.7975,25.3253" target="_blank" class="btn-card-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Open in Maps
+            </a>
+            <a href="contact.html" class="btn-card-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
+            </a>
+            <button type="button" class="btn-map-toggle" data-map-toggle="chobe"><i data-lucide="map"></i><span>Map</span></button>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /northwest -->
+
+    <div class="locations-empty" id="locationsEmpty" hidden>
+      <i data-lucide="search-x"></i>
+      <p>No districts match your search. Try another name or choose All regions.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ??? FOOTER ??? -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <div class="logo-icon logo-icon-sm">
+          <img src="css/images/logo1.png" alt="AFC Botswana" />
+        </div>
+        <div>
+          <p class="footer-church-name">Apostolic Faith Church</p>
+          <p class="footer-sub">Portland, Oregon Â· Botswana Branch</p>
+        </div>
+      </div>
+
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="locations.html">Locations</a>
+        <a href="live.html">Live</a>
+        <a href="calendar.html">Calendar</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="footer-connect">
+        <p class="footer-connect-label">Connect</p>
+        <div class="footer-socials">
+          <a href="https://facebook.com/people/Apostolic-Faith-Church-of-Portland-Oregon-Botswana/100064412953117" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://zoom.us/j/84874457626" target="_blank" rel="noopener" aria-label="Zoom">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@apostolicfaithbotswanahead3540" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+          </a>
+          <a href="mailto:apostolicfaithchurchbotswana@gmail.com" aria-label="Email us">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">? 2026 Apostolic Faith Church ? Botswana. All rights reserved.</p>
+      <p class="footer-motto">?Faith, Fellowship, Service?</p>
+    </div>
+  </div>
+</footer>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+  import './js/site-core.js';
+  import { initLocationsPage } from './js/locations-page.js';
+  initLocationsPage();
+</script>
+</body>
 </html>

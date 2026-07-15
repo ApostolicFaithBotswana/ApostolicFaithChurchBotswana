@@ -132,8 +132,10 @@ body.page-exit {
   justify-content: center;
 }
 
-/* ── BUTTON READABILITY FIXES ── */
-.btn-primary {
+/* ── BUTTONS — unified ── */
+.btn-primary,
+.btn-gold,
+.social-join-btn {
   color: var(--navy-900) !important;
   text-shadow: none;
 }
@@ -143,6 +145,7 @@ body.page-exit {
 .event-card .btn-primary {
   color: var(--navy-900) !important;
   background: var(--gold) !important;
+  border-color: var(--gold) !important;
   font-weight: 700;
 }
 
@@ -152,24 +155,59 @@ body.page-exit {
 }
 
 .section-light .btn-outline,
-.about-links .btn-outline {
+.section-mid .btn-outline,
+.about-links .btn-outline,
+.home-band-light .btn-outline {
   color: var(--navy-700) !important;
   border-color: var(--navy-500) !important;
 }
 
+.section-light .btn-outline:hover,
+.section-mid .btn-outline:hover,
+.about-links .btn-outline:hover,
+.home-band-light .btn-outline:hover {
+  color: #fff !important;
+  background: var(--navy-700) !important;
+  border-color: var(--navy-700) !important;
+}
+
 .social-join-btn {
-  color: var(--navy-900) !important;
+  min-height: 2.25rem;
+  padding: 0.45rem 1rem !important;
+  font-size: 0.72rem !important;
   background: var(--gold) !important;
-  font-weight: 700;
+  border: 2px solid var(--gold) !important;
+  border-radius: 6px;
+}
+
+.resource-link {
+  color: var(--navy-800) !important;
+  background: transparent;
+  border: 2px solid var(--gold);
+  padding: 0.55rem 1.1rem !important;
+  min-height: 2.4rem;
+  font-size: 0.75rem !important;
+  margin-top: 0.75rem;
+}
+.resource-link:hover {
+  background: var(--gold) !important;
+  color: var(--navy-900) !important;
+  transform: translateY(-2px);
 }
 
 .prayer-btn {
-  color: #fff !important;
+  color: var(--navy-900) !important;
+  background: var(--gold) !important;
+  border-color: var(--gold) !important;
 }
 
 .contact-section .btn-primary {
   width: auto;
-  display: inline-block;
+  display: inline-flex;
+}
+.contact-form .btn-primary,
+.prayer-form .btn-primary {
+  width: 100%;
 }
 
 /* ── FOOTER LAYOUT ── */

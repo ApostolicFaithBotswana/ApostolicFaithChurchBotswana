@@ -7,10 +7,10 @@ const NAV_ITEMS = [
   { id: 'about', label: 'About', href: 'about.html' },
   { id: 'locations', label: 'Locations', href: 'locations.html' },
   { id: 'live', label: 'Live', href: 'live.html' },
-  { id: 'events', label: 'Events', href: 'index.html#events', indexHref: '#events' },
-  { id: 'resources', label: 'Resources', href: 'index.html#resources', indexHref: '#resources' },
+  { id: 'events', label: 'Events', href: 'events.html' },
+  { id: 'resources', label: 'Resources', href: 'resources.html' },
   { id: 'calendar', label: 'Calendar', href: 'calendar.html' },
-  { id: 'contact', label: 'Contact', href: 'index.html#contact', indexHref: '#contact' },
+  { id: 'contact', label: 'Contact', href: 'contact.html' },
 ];
 
 function currentPageId() {
@@ -23,7 +23,10 @@ function currentPageId() {
   if (file.includes('about') || file.includes('history')) return 'about';
   if (file.includes('location')) return 'locations';
   if (file.includes('live')) return 'live';
+  if (file.includes('event')) return 'events';
+  if (file.includes('resource')) return 'resources';
   if (file.includes('calendar')) return 'calendar';
+  if (file.includes('contact')) return 'contact';
   if (file.includes('newsletter')) return 'home';
   return '';
 }

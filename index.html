@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/site-enhancements.css" />
-  <link rel="stylesheet" href="css/event-spotlight.css?v=2" />
+  <link rel="stylesheet" href="css/home-sections.css" />
 
   <style>
     /* ── MOBILE LATEST PANEL ── */
@@ -30,12 +30,6 @@
   }
 }
 
-    /* ── SHORTER OUTLINE BUTTON ── */
-    .btn-outline {
-      padding: 10px 20px;
-      font-size: .82rem ;
-      letter-spacing: .04em;
-    }
   </style>
 </head>
 <body data-page="index">
@@ -62,10 +56,10 @@
       <a href="about.html">About</a>
       <a href="locations.html">Locations</a>
       <a href="live.html">Live</a>
-      <a href="#events">Events</a>
-      <a href="#resources">Resources</a>
+      <a href="events.html">Events</a>
+      <a href="resources.html">Resources</a>
       <a href="calendar.html">Calendar</a>
-      <a href="#contact">Contact</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
@@ -162,9 +156,10 @@
           family, you are warmly welcome to worship with us.
         </p>
 
-        <div class="about-links">
+        <div class="about-links btn-row">
           <a href="about.html" class="btn-primary">Learn More</a>
-          <a href="locations.html" class="btn-outline" style="border-color:var(--navy-700);color:var(--navy-700);">Find a Branch</a>
+          <a href="locations.html" class="btn-outline">Find a Branch</a>
+          <a href="history.html" class="btn-outline">Our History</a>
         </div>
       </div>
 
@@ -187,64 +182,86 @@
   </div>
 </section>
 
-<!-- ===== EVENTS ===== -->
-<section id="events" class="section section-dark">
-  <div class="container">
-    <div class="section-label light">Events</div>
-    <h2 class="section-title light">Upcoming Events</h2>
 
-    <!-- Single live focus: happening now, then next countdown -->
-    <div
-      id="homeEventSpotlight"
-      class="event-spotlight"
-      data-base-class="event-spotlight"
-      aria-live="polite"
-    >
-      <div class="spot-left">
-        <div class="spot-status">Loading…</div>
-        <h3 class="spot-title">Checking schedule</h3>
-        <div class="spot-meta"><span>Updating in real time</span></div>
-      </div>
-      <div class="spot-right">
-        <div class="spot-count-label">Please wait</div>
+<!-- ===== WORSHIP / LIVE ===== -->
+<section class="home-band home-band-dark" id="worship">
+  <div class="container home-split">
+    <div class="home-split-copy">
+      <span class="section-label light">Worship With Us</span>
+      <h2 class="section-title light">Join a service — in person or live</h2>
+      <p>
+        Whether you are nearby or connecting from afar, you are welcome.
+        Stream with us online or visit a branch for Sunday worship, Bible study, and fellowship.
+      </p>
+      <div class="btn-row">
+        <a href="live.html" class="btn-primary">Watch Live</a>
+        <a href="locations.html" class="btn-outline">Find a Branch</a>
+        <a href="calendar.html" class="btn-outline">View Calendar</a>
       </div>
     </div>
-
-    <div class="events-grid" id="eventsGrid">
-      <!-- populated by JS -->
-    </div>
-    <div id="noEventsMsg" class="no-events-msg" style="display:none;">
-      <p>No events currently scheduled. Please check back soon or <a href="#contact">contact us</a>.</p>
+    <div class="home-feature-card">
+      <h3>Weekly Rhythm</h3>
+      <ul class="home-service-list">
+        <li>Sunday School <span>09:00</span></li>
+        <li>Sunday Worship <span>10:00</span></li>
+        <li>Youth Forum (Sun) <span>18:00</span></li>
+        <li>Wednesday Bible Study <span>18:00</span></li>
+        <li>Friday Evening Service <span>18:00</span></li>
+      </ul>
+      <div class="btn-row">
+        <a href="events.html" class="btn-primary">All Events</a>
+        <a href="resources.html" class="btn-outline">Resources</a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ===== RESOURCES ===== -->
-<section id="resources" class="section section-light">
+<!-- ===== CAMP ===== -->
+<section class="home-band home-band-navy">
   <div class="container">
-    <div class="section-label">Resources</div>
-    <h2 class="section-title">Church Resources</h2>
-    <div class="resources-grid" data-edit-list="resources">
-      <div class="resource-card" data-edit="index.resource.hymns" data-edit-type="card" data-edit-label="Hymn Book card">
-        <h3 data-edit-field="title">Hymn Book</h3>
-        <p data-edit-field="body">Access our collection of traditional and contemporary hymns used in worship services.</p>
-        <a href="https://play.google.com/store/apps/details?id=com.afcsear.afc_hymns_collection&pli=1" class="resource-link" data-edit-field="link">Download App →</a>
+    <div class="home-camp-banner">
+      <div>
+        <span class="section-label light">19–26 July 2026</span>
+        <h2>National <em>Camp Meeting</em></h2>
+        <p>
+          A week of prayer, preaching, and fellowship. Register, browse the schedule,
+          and prepare your heart for a time of spiritual refreshment in Gaborone.
+        </p>
+        <div class="btn-row">
+          <a href="camp/index.html" class="btn-primary">Open Camp Portal</a>
+          <a href="camp/registration.html" class="btn-outline">Register</a>
+        </div>
       </div>
-      <div class="resource-card" data-edit="index.resource.doctrines" data-edit-type="card" data-edit-label="Doctrines card">
-        <h3 data-edit-field="title">Church Doctrines</h3>
-        <p data-edit-field="body">Read our core beliefs, theological teachings, and the foundational doctrines of the Apostolic Faith Church.</p>
-        <a href="https://www.apostolicfaith.org/library/doctrinal-resources" class="resource-link" data-edit-field="link">Read Doctrines →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LOCATIONS ===== -->
+<section class="section section-light home-band-light" id="branches">
+  <div class="container">
+    <span class="section-label">Across Botswana</span>
+    <h2 class="section-title">Find a place to worship</h2>
+    <p style="max-width:560px;color:#555;line-height:1.7;margin-bottom:2rem;">
+      Branches across the country gather each week. Visit our locations page for addresses,
+      maps, and regional details.
+    </p>
+    <div class="home-locations-grid">
+      <div class="home-loc-card">
+        <h3>Gaborone</h3>
+        <p>Headquarters and camp ground — Plot 54201, Phase 4.</p>
       </div>
-      <div class="resource-card" data-edit="index.resource.curriculum" data-edit-type="card" data-edit-label="Curriculum card">
-        <h3 data-edit-field="title">Curriculum</h3>
-        <p data-edit-field="body">View our comprehensive curriculum for Sunday school and Bible study.</p>
-        <a href="https://www.apostolicfaith.org/library/curriculum" target="_blank" class="resource-link" data-edit-field="link">View Curriculum →</a>
+      <div class="home-loc-card">
+        <h3>Lobatse</h3>
+        <p>Our pioneer southern branch where the work took deep root.</p>
       </div>
-      <div class="resource-card" data-edit="index.resource.calendar" data-edit-type="card" data-edit-label="Calendar card">
-        <h3 data-edit-field="title">Annual Calendar</h3>
-        <p data-edit-field="body">Full schedule of services, conventions, camp meetings, and special events for the year.</p>
-        <a href="calendar.html" class="resource-link" data-edit-field="link">View Calendar →</a>
+      <div class="home-loc-card">
+        <h3>Francistown &amp; beyond</h3>
+        <p>North East, Boteti, Central, and more congregations nationwide.</p>
       </div>
+    </div>
+    <div class="btn-row" style="margin-top:1.75rem;">
+      <a href="locations.html" class="btn-primary">View All Locations</a>
+      <a href="contact.html" class="btn-outline">Contact Us</a>
     </div>
   </div>
 </section>
@@ -297,92 +314,22 @@
   </div>
 </section>
 
-<!-- ===== CONTACT ===== -->
-<div class="contact-section" id="contact">
 
-  <!-- COLUMN 1 -->
-  <div class="contact-info">
-    <h3>Reach Out</h3>
-    <div class="contact-item">
-      <div class="contact-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-      <div>
-        <strong>Email</strong>
-        <p id="contactEmail" data-edit="index.contact.email" data-edit-type="text" data-edit-field="body" data-edit-label="Contact email">apostolicfaithchurchbotswana@gmail.com</p>
+<!-- ===== NEWSLETTER / CONNECT ===== -->
+<section class="home-band home-band-dark">
+  <div class="container">
+    <div class="home-newsletter">
+      <span class="section-label light">Stay Connected</span>
+      <h2 class="section-title light">News, reports &amp; invitations</h2>
+      <p>Read the latest fellowship updates, or send a message — we would love to hear from you.</p>
+      <div class="btn-row home-cta-row">
+        <a href="newsletter.html" class="btn-primary">Read Newsletter</a>
+        <a href="contact.html" class="btn-outline">Contact &amp; Prayer</a>
+        <a href="resources.html" class="btn-outline">Resources</a>
       </div>
     </div>
-    <div class="contact-item">
-      <div class="contact-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-      <div>
-        <strong>Phone</strong>
-        <p id="contactPhone" data-edit="index.contact.phone" data-edit-type="text" data-edit-field="body" data-edit-label="Contact phone">+267 74171287</p>
-      </div>
-    </div>
-    <div class="contact-item">
-      <div class="contact-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/></svg></div>
-      <div>
-        <strong>Head Office</strong>
-        <p data-edit="index.contact.address" data-edit-type="text" data-edit-field="body" data-edit-label="Head office address">Plot 54201, Phase 4, Gaborone</p>
-      </div>
-    </div>
-    <a href="locations.html" class="btn-primary">View All Branches</a>
   </div>
-
-  <!-- COLUMN 2 -->
-  <form class="contact-form" id="contactForm" onsubmit="handleContactForm(event)">
-    <h3>Send a Message</h3>
-    <div class="form-group">
-      <label>Full Name</label>
-      <input type="text" id="cName" required>
-    </div>
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" id="cEmail" required>
-    </div>
-    <div class="form-group">
-      <label>Subject</label>
-      <input type="text" id="cSubject">
-    </div>
-    <div class="form-group">
-      <label>Message</label>
-      <textarea id="cMsg" rows="6" required></textarea>
-    </div>
-    <button class="btn-primary" type="submit">Send Message</button>
-  </form>
-
-  <!-- COLUMN 3 -->
-  <form class="prayer-form" id="prayerForm" onsubmit="handlePrayerForm(event)">
-    <h3>Prayer Request</h3>
-    <p class="small-text">Your request will be handled with care and confidentiality.</p>
-    <div class="form-group">
-      <label>Name</label>
-      <input type="text" id="prName">
-    </div>
-    <div class="form-group">
-      <label>Category</label>
-      <select id="prCategory">
-        <option>General</option>
-        <option>Healing</option>
-        <option>Family</option>
-        <option>Salvation</option>
-        <option>Financial</option>
-        <option>Other</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Prayer Request</label>
-      <textarea id="prRequest" rows="5" required></textarea>
-    </div>
-    <div class="form-group">
-      <label>Visibility</label>
-      <select id="prAnon">
-        <option value="no">Show my name to ministers</option>
-        <option value="yes">Keep me anonymous</option>
-      </select>
-    </div>
-    <button class="btn-primary prayer-btn" type="submit">Submit Prayer Request</button>
-  </form>
-
-</div>
+</section>
 
 <!-- ===== FOOTER ===== -->
 <footer class="footer">
@@ -404,7 +351,7 @@
         <a href="locations.html">Locations</a>
         <a href="live.html">Live</a>
         <a href="calendar.html">Calendar</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="contact.html">Contact</a>
       </nav>
 
       <div class="footer-connect">
@@ -433,44 +380,6 @@
   </div>
 </footer>
 
-<!-- ===== EVENT REGISTRATION MODAL ===== -->
-<div id="regModal" class="modal-overlay" style="display:none;">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeRegModal()">×</button>
-    <h2>Register for Event</h2>
-    <div class="modal-event-info" id="modalEventInfo"></div>
-    <form id="regForm" onsubmit="handleRegistration(event)">
-      <div class="form-group">
-        <label>Full Name *</label>
-        <input type="text" id="regName" required placeholder="Your full name"/>
-      </div>
-      <div class="form-group">
-        <label>Email Address *</label>
-        <input type="email" id="regEmail" required placeholder="your@email.com"/>
-      </div>
-      <div class="form-group">
-        <label>Phone Number *</label>
-        <input type="tel" id="regPhone" required placeholder="+267 71 000 000"/>
-      </div>
-      <div class="form-group">
-        <label>Branch / City</label>
-        <select id="regBranch">
-          <option value="">Select your branch</option>
-          <option>Greater Gaborone </option>
-          <option>Greater Palapye</option>
-          <option>Selebi Phikwe</option>
-          <option>Boteti Region</option>
-          <option>Ngami Region</option>
-          <option>Chobe Region</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <button type="submit" class="btn-primary" style="width:100%;margin-top:.5rem;">Confirm Registration</button>
-    </form>
-  </div>
-</div>
-
-<!-- ===== TOAST ===== -->
 <div id="toast" class="toast"></div>
 
 <!-- Lenis smooth scroll — tune speed in js/site-motion.js -->
