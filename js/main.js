@@ -7,11 +7,18 @@ import { icon } from './icons.js';
 import { initSiteMotion, softNavigate } from './site-motion.js';
 import { initLiveAdmin, isLiveAdmin } from './live-admin.js';
 import { initSiteNav } from './site-nav.js';
-import { initLucideIcons } from './lucide-icons.js';
+import { initLucideIcons, refreshLucideIcons } from './lucide-icons.js';
 import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js';
+import {
+  EVENTS_2026_DEFAULT,
+  unifyEvents,
+  mountRealtimeSpotlight,
+} from './event-countdown.js';
 
 let currentEventForReg = null;
 let eventsCache = [];
+let calendarEvents = [...EVENTS_2026_DEFAULT];
+let stopHomeSpotlight = null;
 
 /* ---------- INIT ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
@@ -25,11 +32,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await applyConfig();
   await renderEvents();
+  await initHomeEventSpotlight();
 
   // Real-time: events + config update without page refresh
   DB.subscribeEvents((events) => {
     eventsCache = events;
     paintEvents(events);
+    restartHomeSpotlight();
   });
 
   DB.subscribeConfig(async (cfg) => {
@@ -42,6 +51,35 @@ document.addEventListener('DOMContentLoaded', async () => {
   const regModal = document.getElementById('regModal');
   if (regModal) trapModalWheel(regModal);
 });
+
+/** One live card: Happening now → next Starts in countdown. */
+async function initHomeEventSpotlight() {
+  try {
+    const blocks = await DB.getBlocks('calendar');
+    const stored = blocks?.['calendar.events.data']?.data;
+    let list = null;
+    if (Array.isArray(stored)) list = stored;
+    else if (Array.isArray(stored?.events)) list = stored.events;
+    else if (typeof stored?.body === 'string') {
+      try { list = JSON.parse(stored.body); } catch { /* ignore */ }
+    } else if (Array.isArray(stored?.body)) list = stored.body;
+    if (list?.length) calendarEvents = list;
+  } catch {
+    /* use defaults */
+  }
+  restartHomeSpotlight();
+}
+
+function restartHomeSpotlight() {
+  if (typeof stopHomeSpotlight === 'function') stopHomeSpotlight();
+  const el = document.getElementById('homeEventSpotlight');
+  if (!el) return;
+  stopHomeSpotlight = mountRealtimeSpotlight(el, {
+    getEvents: () => unifyEvents(calendarEvents, eventsCache),
+    refreshIcons: refreshLucideIcons,
+    calendarHref: 'calendar.html',
+  });
+}
 
 /* ---------- SECRET ADMIN TRIGGERS ---------- */
 function initSecretAdminTriggers() {

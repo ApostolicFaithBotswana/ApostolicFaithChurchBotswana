@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/site-enhancements.css" />
+  <link rel="stylesheet" href="css/event-spotlight.css" />
 
   <style>
     /* ── MOBILE LATEST PANEL ── */
@@ -191,6 +192,24 @@
   <div class="container">
     <div class="section-label light">Events</div>
     <h2 class="section-title light">Upcoming Events</h2>
+
+    <!-- Single live focus: happening now, then next countdown -->
+    <div
+      id="homeEventSpotlight"
+      class="event-spotlight"
+      data-base-class="event-spotlight"
+      aria-live="polite"
+    >
+      <div class="spot-left">
+        <div class="spot-status">Loading…</div>
+        <h3 class="spot-title">Checking schedule</h3>
+        <div class="spot-meta"><span>Updating in real time</span></div>
+      </div>
+      <div class="spot-right">
+        <div class="spot-count-label">Please wait</div>
+      </div>
+    </div>
+
     <div class="events-grid" id="eventsGrid">
       <!-- populated by JS -->
     </div>

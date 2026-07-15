@@ -4,9 +4,25 @@
 
 import { DB } from './data.js';
 import { refreshLucideIcons } from './lucide-icons.js';
+import {
+  EVENTS_2026_DEFAULT,
+  MONTH_SHORT,
+  esc,
+  startOfDay,
+  fmtDateRange,
+  pad2,
+  partsRemaining,
+  normalizeCalendarEvent,
+  eventBounds,
+  classify,
+  unifyEvents,
+  pickFocus,
+  remainingMs,
+} from './event-countdown.js';
+
+export { EVENTS_2026_DEFAULT };
 
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const DAY_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 const TYPE_META = {
@@ -24,108 +40,12 @@ const SCOPE_META = {
   international: { pill: 'pill-international', label: 'International' },
 };
 
-/** Default 2026 annual calendar (editable via live admin JSON). */
-export const EVENTS_2026_DEFAULT = [
-  { id: 1, name: 'National Committees Meeting', start: '2026-01-24', end: '2026-01-24', place: 'Mahalapye', type: 'special', scope: 'national', resp: 'National Committees' },
-  { id: 2, name: 'National Youth Retreat', start: '2026-02-20', end: '2026-02-22', place: 'Francistown', type: 'youth', scope: 'national', resp: 'Youths' },
-  { id: 3, name: 'Revival', start: '2026-03-06', end: '2026-03-08', place: 'Selebi Phikwe & Molepolole', type: 'revival', scope: 'regional', resp: 'Central + Greater Phikwe' },
-  { id: 4, name: 'Lesotho Camp', start: '2026-03-08', end: '2026-03-15', place: 'Maseru, Lesotho', type: 'camp', scope: 'international', resp: 'All' },
-  { id: 5, name: 'Campmeeting Prep', start: '2026-03-19', end: '2026-03-19', place: 'Virtual', type: 'special', scope: 'national', resp: 'Committees' },
-  { id: 6, name: 'Revival', start: '2026-03-20', end: '2026-03-22', place: 'Jackalas 1', type: 'revival', scope: 'regional', resp: 'North East' },
-  { id: 7, name: 'Revival', start: '2026-03-27', end: '2026-04-02', place: 'Letlhakane', type: 'revival', scope: 'regional', resp: 'Boteti/Maun' },
-  { id: 8, name: 'SHE Training', start: '2026-03-31', end: '2026-03-31', place: 'Branch/Virtual', type: 'special', scope: 'regional', resp: 'Welfare' },
-  { id: 9, name: 'Passover', start: '2026-04-02', end: '2026-04-06', place: 'Regional', type: 'special', scope: 'regional', resp: 'Regions' },
-  { id: 10, name: 'Zambia Camp', start: '2026-04-04', end: '2026-04-19', place: 'Lusaka, Zambia', type: 'camp', scope: 'international', resp: 'All' },
-  { id: 11, name: 'Revival', start: '2026-05-01', end: '2026-05-03', place: 'Moshupa', type: 'revival', scope: 'regional', resp: 'Southern' },
-  { id: 12, name: 'Namibia Camp', start: '2026-05-03', end: '2026-05-10', place: 'Windhoek, Namibia', type: 'camp', scope: 'international', resp: 'All' },
-  { id: 13, name: "Mother's Day Celebration", start: '2026-05-08', end: '2026-05-10', place: 'Gaborone', type: 'special', scope: 'regional', resp: 'Mothers' },
-  { id: 14, name: 'National Youth Camp', start: '2026-05-14', end: '2026-05-17', place: 'Gaborone', type: 'youth', scope: 'national', resp: 'Youth' },
-  { id: 15, name: 'Revival', start: '2026-05-29', end: '2026-05-31', place: 'Tsamaya', type: 'revival', scope: 'regional', resp: 'North East' },
-  { id: 16, name: "National Children's Day", start: '2026-06-06', end: '2026-06-06', place: 'Branches', type: 'special', scope: 'national', resp: 'Services' },
-  { id: 17, name: 'Campmeeting Preparation', start: '2026-06-13', end: '2026-06-13', place: 'Gaborone', type: 'special', scope: 'national', resp: 'National Committees' },
-  { id: 18, name: "Father's Day", start: '2026-06-20', end: '2026-06-20', place: 'Letlhakane', type: 'special', scope: 'regional', resp: 'Men' },
-  { id: 19, name: 'International Camp', start: '2026-06-28', end: '2026-07-12', place: 'Portland, USA', type: 'camp', scope: 'international', resp: 'All' },
-  { id: 20, name: 'Camp Revival', start: '2026-07-12', end: '2026-07-16', place: 'Gaborone', type: 'camp', scope: 'regional', resp: 'Outreach' },
-  { id: 21, name: 'Botswana Camp Meeting', start: '2026-07-19', end: '2026-07-26', place: 'Gaborone', type: 'camp', scope: 'national', resp: 'National Committees' },
-  { id: 22, name: 'Revival', start: '2026-08-01', end: '2026-08-01', place: 'Sebina', type: 'revival', scope: 'regional', resp: 'North West' },
-  { id: 23, name: 'Malawi Camp', start: '2026-08-02', end: '2026-08-09', place: 'Blantyre, Malawi', type: 'camp', scope: 'international', resp: 'All' },
-  { id: 24, name: 'Eswatini / Burundi Camp', start: '2026-08-09', end: '2026-08-16', place: 'Eswatini', type: 'camp', scope: 'international', resp: 'All' },
-  { id: 25, name: 'Revival', start: '2026-08-14', end: '2026-08-23', place: 'Nata', type: 'revival', scope: 'regional', resp: 'North West' },
-  { id: 26, name: 'Angola Camp', start: '2026-08-16', end: '2026-08-23', place: 'Angola', type: 'camp', scope: 'international', resp: 'All' },
-  { id: 27, name: 'Regional Youth Camp', start: '2026-08-23', end: '2026-08-30', place: 'Harare, Zimbabwe', type: 'youth', scope: 'international', resp: 'All' },
-  { id: 28, name: 'Revival', start: '2026-08-24', end: '2026-08-30', place: 'Rakops', type: 'revival', scope: 'regional', resp: 'Boteti/Maun' },
-  { id: 29, name: 'Revival', start: '2026-08-29', end: '2026-08-29', place: 'Mahalapye', type: 'revival', scope: 'regional', resp: 'Central' },
-  { id: 30, name: 'Mozambique Camp', start: '2026-08-30', end: '2026-09-06', place: 'Chimoio, Mozambique', type: 'camp', scope: 'international', resp: 'All' },
-  { id: 31, name: 'Revival', start: '2026-09-11', end: '2026-09-13', place: 'Sese/Jwaneng', type: 'revival', scope: 'regional', resp: 'Southern' },
-  { id: 32, name: 'SHE Personnel Training', start: '2026-09-01', end: '2026-09-30', place: 'Branches', type: 'special', scope: 'regional', resp: 'Services' },
-  { id: 33, name: 'South Africa Camp', start: '2026-09-27', end: '2026-10-04', place: 'Bapsfontein, South Africa', type: 'camp', scope: 'international', resp: 'All' },
-  { id: 34, name: 'Revival', start: '2026-10-23', end: '2026-10-25', place: 'Mmopane', type: 'revival', scope: 'regional', resp: 'Southern' },
-  { id: 35, name: 'Revival', start: '2026-10-26', end: '2026-11-01', place: 'Mokoboxane', type: 'revival', scope: 'regional', resp: 'North West' },
-  { id: 36, name: 'Thanksgiving', start: '2026-11-21', end: '2026-11-21', place: 'National', type: 'special', scope: 'regional', resp: 'Regional/Branch' },
-  { id: 37, name: 'SEA Camp', start: '2026-12-06', end: '2026-12-20', place: 'Bulawayo, Zimbabwe', type: 'camp', scope: 'international', resp: 'All' },
-];
-
 let calendarEvents = [...EVENTS_2026_DEFAULT];
 let siteEvents = [];
 let currentFilter = 'all';
 let tickTimer = null;
 let lastFocusKey = '';
 let lastCardsKey = '';
-
-function esc(s) {
-  return String(s ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-/** Parse YYYY-MM-DD as local midnight. */
-function startOfDay(str) {
-  if (!str) return null;
-  const m = String(str).match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (!m) {
-    const d = new Date(str);
-    return Number.isNaN(d.getTime()) ? null : d;
-  }
-  return new Date(+m[1], +m[2] - 1, +m[3], 0, 0, 0, 0);
-}
-
-/** End of local calendar day for YYYY-MM-DD. */
-function endOfDay(str) {
-  if (!str) return null;
-  const m = String(str).match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (!m) {
-    const d = new Date(str);
-    return Number.isNaN(d.getTime()) ? null : d;
-  }
-  return new Date(+m[1], +m[2] - 1, +m[3], 23, 59, 59, 999);
-}
-
-function fmtDate(str) {
-  const d = startOfDay(str);
-  if (!d) return '';
-  return `${d.getDate()} ${MONTH_SHORT[d.getMonth()]}`;
-}
-
-function fmtDateRange(start, end) {
-  if (!start) return '';
-  if (!end || start === end) return fmtDate(start);
-  return `${fmtDate(start)} – ${fmtDate(end)}`;
-}
-
-function partsRemaining(ms) {
-  const total = Math.max(0, Math.floor(ms / 1000));
-  const days = Math.floor(total / 86400);
-  const hours = Math.floor((total % 86400) / 3600);
-  const mins = Math.floor((total % 3600) / 60);
-  const secs = total % 60;
-  return { days, hours, mins, secs, total };
-}
-
-function pad2(n) {
-  return String(n).padStart(2, '0');
-}
 
 function formatCompactRemaining(ms) {
   const { days, hours, mins, secs } = partsRemaining(ms);
@@ -134,80 +54,8 @@ function formatCompactRemaining(ms) {
   return `${mins}m ${pad2(secs)}s`;
 }
 
-function normalizeCalendarEvent(ev) {
-  return {
-    id: `cal-${ev.id}`,
-    rawId: ev.id,
-    name: ev.name || '',
-    start: ev.start,
-    end: ev.end || ev.start,
-    place: ev.place || '',
-    type: ev.type || 'special',
-    scope: ev.scope || 'regional',
-    resp: ev.resp || '',
-    description: '',
-    poster: '',
-    externalUrl: '',
-    source: 'calendar',
-  };
-}
-
-function normalizeSiteEvent(ev) {
-  return {
-    id: `site-${ev.id}`,
-    rawId: ev.id,
-    name: ev.name || '',
-    start: ev.startDate || ev.date || '',
-    end: ev.endDate || ev.startDate || ev.date || '',
-    place: ev.location || '',
-    type: 'featured',
-    scope: 'national',
-    resp: '',
-    description: ev.description || '',
-    poster: ev.poster || '',
-    externalUrl: ev.externalUrl || '',
-    source: 'site',
-  };
-}
-
-function eventBounds(ev) {
-  const start = startOfDay(ev.start);
-  const end = endOfDay(ev.end || ev.start);
-  return { start, end };
-}
-
-function classify(ev, now = Date.now()) {
-  const { start, end } = eventBounds(ev);
-  if (!start || !end) return 'past';
-  const t = now instanceof Date ? now.getTime() : now;
-  if (t < start.getTime()) return 'upcoming';
-  if (t <= end.getTime()) return 'live';
-  return 'past';
-}
-
 function allUnified() {
-  const cal = calendarEvents.map(normalizeCalendarEvent);
-  const site = siteEvents.map(normalizeSiteEvent).filter((e) => e.start);
-  return [...cal, ...site];
-}
-
-/** Prefer live events (ending soonest), else soonest upcoming. */
-function pickFocus(events, now = Date.now()) {
-  const live = events
-    .filter((e) => classify(e, now) === 'live')
-    .sort((a, b) => eventBounds(a).end - eventBounds(b).end);
-  if (live.length) return { event: live[0], mode: 'live' };
-  const upcoming = events
-    .filter((e) => classify(e, now) === 'upcoming')
-    .sort((a, b) => eventBounds(a).start - eventBounds(b).start);
-  if (upcoming.length) return { event: upcoming[0], mode: 'upcoming' };
-  return null;
-}
-
-function remainingMs(ev, mode, now = Date.now()) {
-  const { start, end } = eventBounds(ev);
-  if (mode === 'live') return Math.max(0, end.getTime() - now);
-  return Math.max(0, start.getTime() - now);
+  return unifyEvents(calendarEvents, siteEvents);
 }
 
 function countdownHtml(ms) {
@@ -310,7 +158,6 @@ function renderUpcomingCards(now = Date.now()) {
   const key = items.map((e) => `${e.id}:${classify(e, now)}`).join('|');
 
   if (key === lastCardsKey) {
-    // Only refresh per-card countdown text
     items.forEach((ev) => {
       const card = [...grid.querySelectorAll('[data-event-id]')].find((n) => n.getAttribute('data-event-id') === ev.id);
       const node = card?.querySelector('.cal-card-countdown');
@@ -445,8 +292,6 @@ function tick() {
   const now = Date.now();
   renderSpotlight(now);
   renderUpcomingCards(now);
-  // Light refresh of list badges every ~15s via focus key change is enough;
-  // full list on filter/search/data change.
 }
 
 function refreshStaticViews() {
