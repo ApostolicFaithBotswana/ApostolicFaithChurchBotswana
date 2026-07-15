@@ -681,8 +681,8 @@ body{
     </h1>
     <p class="camp-hero-verse">— Romans 1:17 (KJV)</p>
     <div class="camp-hero-meta">
-      <span>📅 19-26 July 2026</span>
-      <span>📍 Plot 54021, Phase 4, Gaborone</span>
+      <span><span data-camp-icon="calendar" data-icon-size="16"></span> <span id="heroDates">19–26 July 2026</span></span>
+      <span><span data-camp-icon="mapPin" data-icon-size="16"></span> <span id="heroVenue">Plot 54201, Phase 4, Gaborone</span></span>
     </div>
     <div class="camp-hero-actions">
       <a href="registration.html" class="camp-btn-gold">Register Now</a>
@@ -696,7 +696,7 @@ body{
   <div class="camp-weather-advisory-row" id="weatherAdvisoryRow">
     <span class="camp-weather-advisory-pill">Camp Week Advisory</span>
     <div class="camp-weather-advisory" id="weatherAdvisory">
-      <span class="camp-advisory-icon">🧥</span>
+      <span class="camp-advisory-icon" data-camp-icon="jacket" data-icon-size="20"></span>
       <span class="camp-advisory-text">Loading this week's forecast for camp…</span>
     </div>
   </div>
@@ -704,6 +704,18 @@ body{
     <!-- 7 day cards injected by JS -->
   </div>
 </div>
+
+<!-- STATS + WELCOME (Supabase-backed) -->
+<section class="camp-section camp-section-dark" style="padding-top:2.5rem;padding-bottom:1rem;">
+  <div class="camp-container">
+    <div class="camp-alert" id="campAlertMsg">Camp Meeting 2026 registration is open. <a href="registration.html">Register here →</a></div>
+    <div class="camp-stats-bar">
+      <div class="camp-stat"><div class="camp-stat-num" id="statReg">—</div><div class="camp-stat-lbl">Registrations</div></div>
+      <div class="camp-stat"><div class="camp-stat-num" id="statOrders">—</div><div class="camp-stat-lbl">Store orders</div></div>
+      <div class="camp-stat"><div class="camp-stat-num" id="statDays">—</div><div class="camp-stat-lbl">Days to camp</div></div>
+    </div>
+  </div>
+</section>
 
 
 <!-- QUICK LINKS -->
@@ -713,42 +725,35 @@ body{
     <h2 class="camp-section-title">Everything You Need<br><em>for Camp</em></h2>
     <div class="camp-quick-grid">
       <a href="registration.html" class="camp-quick-card">
-        
+        <div class="camp-quick-icon" data-camp-icon="clipboard" data-icon-size="22"></div>
         <h3>Register</h3>
         <p>Secure your spot at Camp Meeting 2026. Registration is free.</p>
         <span class="camp-quick-link">Register Now →</span>
       </a>
       <a href="schedule.html" class="camp-quick-card">
-       
+        <div class="camp-quick-icon" data-camp-icon="calendar" data-icon-size="22"></div>
         <h3>Schedule</h3>
         <p>Full daily programme — services, meals, workshops and more.</p>
         <span class="camp-quick-link">View Schedule →</span>
       </a>
       <a href="store.html" class="camp-quick-card">
-        
+        <div class="camp-quick-icon" data-camp-icon="shoppingBag" data-icon-size="22"></div>
         <h3>Merch Store</h3>
         <p>Order your Camp Meeting 2026 t-shirts, hoodies and more.</p>
         <span class="camp-quick-link">Shop Now →</span>
       </a>
       <a href="announcements.html" class="camp-quick-card">
-        
+        <div class="camp-quick-icon" data-camp-icon="megaphone" data-icon-size="22"></div>
         <h3>Announcements</h3>
         <p>Latest updates and notices from the camp management team.</p>
         <span class="camp-quick-link">Read More →</span>
       </a>
-      <a href="https://wa.me/26776159933"
-   class="camp-quick-card">
-   
-   <h3>WhatsApp Hub</h3>
-   <p>
-      Receive camp updates, schedules,
-      announcements and support directly
-      through WhatsApp.
-   </p>
-   <span class="camp-quick-link">
-      Chat Now →
-   </span>
-</a>
+      <a href="https://wa.me/26776159933" class="camp-quick-card" id="quickWhatsApp">
+        <div class="camp-quick-icon" data-camp-icon="whatsapp" data-icon-size="22"></div>
+        <h3>WhatsApp Hub</h3>
+        <p>Receive camp updates, schedules, announcements and support directly through WhatsApp.</p>
+        <span class="camp-quick-link">Chat Now →</span>
+      </a>
     </div>
   </div>
 </section>
@@ -785,7 +790,7 @@ body{
     <p class="camp-section-label">Updates</p>
     <h2 class="camp-section-title">Latest <em>Announcements</em></h2>
     <div id="homeAnnouncements">
-      <div class="camp-empty">📢 No announcements yet. Check back soon.</div>
+      <div class="camp-empty"><div class="camp-empty-icon" data-camp-icon="megaphone" data-icon-size="28"></div>No announcements yet. Check back soon.</div>
     </div>
     <div style="text-align:center;margin-top:2rem;">
       <a href="announcements.html" class="camp-btn-outline">View All Announcements</a>
@@ -801,38 +806,39 @@ body{
     <div class="camp-location-grid">
       <div class="camp-location-info">
         <div class="camp-info-item">
-          <span class="camp-info-icon">📍</span>
+          <span class="camp-info-icon" data-camp-icon="mapPin" data-icon-size="20"></span>
           <div>
             <strong>Venue</strong>
-            <p>Apostolic Faith Church — Greater Gaborone Branch</p>
-            <p>Plot 54201, Phase 4, Gaborone</p>
+            <p id="locVenueName">Apostolic Faith Church — Greater Gaborone Branch</p>
+            <p id="locVenueAddress">Plot 54201, Phase 4, Gaborone</p>
           </div>
         </div>
         <div class="camp-info-item">
-          <span class="camp-info-icon">📅</span>
+          <span class="camp-info-icon" data-camp-icon="calendar" data-icon-size="20"></span>
           <div>
             <strong>Date</strong>
-            <p>19 July 2026</p>
+            <p id="locDates">19–26 July 2026</p>
           </div>
         </div>
         <div class="camp-info-item">
-          <span class="camp-info-icon">🕘</span>
+          <span class="camp-info-icon" data-camp-icon="clock" data-icon-size="20"></span>
           <div>
             <strong>Opening Service</strong>
-            <p>09:00 AM</p>
+            <p id="locOpening">09:00 AM</p>
           </div>
         </div>
         <div class="camp-info-item">
-          <span class="camp-info-icon">📱</span>
+          <span class="camp-info-icon" data-camp-icon="phone" data-icon-size="20"></span>
           <div>
             <strong>Contact</strong>
-            <p>+267 75 222 415</p>
+            <p id="locPhone">+267 75 222 415</p>
           </div>
         </div>
-        <a href="https://maps.google.com/?q=-24.68379308147856,25.882944318902148" target="_blank" class="camp-btn-gold" style="margin-top:1.5rem;display:inline-block;">Open in Google Maps</a>
+        <a id="locMapsLink" href="https://maps.google.com/?q=-24.68379308147856,25.882944318902148" target="_blank" class="camp-btn-gold" style="margin-top:1.5rem;display:inline-block;">Open in Google Maps</a>
       </div>
       <div class="camp-location-map">
         <iframe
+          id="locMapFrame"
           src="https://maps.google.com/maps?q=-24.68379308147856,25.882944318902148&z=15&output=embed"
           width="100%" height="320" style="border:0;border-radius:12px;" allowfullscreen="" loading="lazy">
         </iframe>
@@ -867,17 +873,17 @@ body{
 <script type="module">
 import {
   db,
-  collection, getDocs, query, orderBy,
-  CAMP_REGS, CAMP_ORDERS, CAMP_ANN
+  collection, getDocs, getDoc, doc, query, orderBy,
+  CAMP_REGS, CAMP_ORDERS, CAMP_ANN, CAMP_CONFIG
 } from './camp-firebase.js';
+import { campIcon, weatherIconFromCode, hydrateCampIcons } from './camp-icons.js';
+import { initCampShell } from './camp-shell.js';
 
-// ── MOBILE NAV ──
-document.getElementById('hamburger').addEventListener('click', function() {
-  document.getElementById('mobileNav').classList.toggle('open');
+initCampShell({ whatsapp: false }); // float mounted after config loads
+
+document.getElementById('hamburger')?.addEventListener('click', () => {
+  document.getElementById('mobileNav')?.classList.toggle('open');
 });
-function closeMobileNav() {
-  document.getElementById('mobileNav').classList.remove('open');
-}
 
 function esc(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -886,42 +892,95 @@ function esc(s) {
 function fmtTime(val) {
   if (!val) return '';
   if (val.toDate) {
-    return val.toDate().toLocaleDateString('en-BW', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    });
+    return val.toDate().toLocaleDateString('en-BW', { day: 'numeric', month: 'short', year: 'numeric' });
   }
-  return String(val);
+  try {
+    return new Date(val).toLocaleDateString('en-BW', { day: 'numeric', month: 'short', year: 'numeric' });
+  } catch {
+    return String(val);
+  }
 }
 
-// ── STATS FROM FIRESTORE ──
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el && val != null && val !== '') el.textContent = val;
+}
+
+let campCfg = {
+  dates_label: '19–26 July 2026',
+  start_date: '2026-07-19',
+  venue_name: 'Apostolic Faith Church — Greater Gaborone Branch',
+  venue_address: 'Plot 54201, Phase 4, Gaborone',
+  opening_service: '09:00 AM',
+  phone: '+267 75 222 415',
+  whatsapp: '26776159933',
+  map_lat: -24.68379308147856,
+  map_lng: 25.882944318902148,
+};
+
+function applyCampConfig(cfg) {
+  campCfg = { ...campCfg, ...cfg };
+  setText('heroDates', campCfg.dates_label);
+  setText('heroVenue', campCfg.venue_address);
+  setText('locVenueName', campCfg.venue_name);
+  setText('locVenueAddress', campCfg.venue_address);
+  setText('locDates', campCfg.dates_label);
+  setText('locOpening', campCfg.opening_service);
+  setText('locPhone', campCfg.phone);
+
+  const q = `${campCfg.map_lat},${campCfg.map_lng}`;
+  const maps = document.getElementById('locMapsLink');
+  const frame = document.getElementById('locMapFrame');
+  if (maps) maps.href = `https://maps.google.com/?q=${q}`;
+  if (frame) frame.src = `https://maps.google.com/maps?q=${q}&z=15&output=embed`;
+
+  const wa = campCfg.whatsapp || '26776159933';
+  const quickWa = document.getElementById('quickWhatsApp');
+  if (quickWa) quickWa.href = `https://wa.me/${wa}`;
+  initCampShell({ whatsappNumber: wa });
+
+  const start = campCfg.start_date || '2026-07-19';
+  const days = Math.max(0, Math.floor((new Date(start + 'T00:00:00') - new Date()) / 86400000));
+  setText('statDays', days);
+}
+
+async function loadCampConfig() {
+  try {
+    const snap = await getDoc(doc(db, CAMP_CONFIG, 'main'));
+    if (snap.exists()) applyCampConfig(snap.data());
+    else applyCampConfig({});
+  } catch (e) {
+    console.warn('camp_config load failed — using defaults:', e);
+    applyCampConfig({});
+  }
+}
+
 async function loadStats() {
   try {
     const [regs, orders] = await Promise.all([
       getDocs(collection(db, CAMP_REGS)),
-      getDocs(collection(db, CAMP_ORDERS))
+      getDocs(collection(db, CAMP_ORDERS)),
     ]);
-    document.getElementById('statReg').textContent = regs.size;
-    document.getElementById('statOrders').textContent = orders.size;
+    setText('statReg', regs.size);
+    setText('statOrders', orders.size);
   } catch (e) {
     console.warn('Could not load camp stats:', e);
   }
-
-  // days to camp
-  const diff = new Date('2026-07-19') - new Date();
-  const days = Math.max(0, Math.floor(diff / 86400000));
-  document.getElementById('statDays').textContent = days;
+  const start = campCfg.start_date || '2026-07-19';
+  const days = Math.max(0, Math.floor((new Date(start + 'T00:00:00') - new Date()) / 86400000));
+  setText('statDays', days);
 }
-loadStats();
 
-// ── ANNOUNCEMENTS ──
 async function loadAnnouncements() {
   const el = document.getElementById('homeAnnouncements');
+  if (!el) return;
   try {
     const snap = await getDocs(query(collection(db, CAMP_ANN), orderBy('timestamp', 'desc')));
-    if (snap.empty) return;
-    el.innerHTML = snap.docs.slice(0, 3).map(d => {
+    if (snap.empty) {
+      el.innerHTML = `<div class="camp-empty"><div class="camp-empty-icon">${campIcon('megaphone', { size: 28 })}</div>No announcements yet. Check back soon.</div>`;
+      return;
+    }
+    el.innerHTML = snap.docs.slice(0, 3).map((d) => {
       const a = d.data();
       const time = fmtTime(a.createdAt) || fmtTime(a.timestamp);
       return `
@@ -929,29 +988,11 @@ async function loadAnnouncements() {
           <div class="camp-announce-title">${esc(a.title)}</div>
           <div class="camp-announce-body">${esc(a.body).replace(/\n/g,'<br>')}</div>
           ${time ? `<div class="camp-announce-time">${time}</div>` : ''}
-        </div>
-      `;
+        </div>`;
     }).join('');
   } catch (e) {
     console.warn('Could not load announcements:', e);
   }
-}
-loadAnnouncements();
-
-// ── WEEKLY WEATHER (Open-Meteo — free, no API key, real 7-day forecast) ──
-const CAMP_LAT = -24.68379308147856;
-const CAMP_LNG = 25.882944318902148;
-
-function weatherIconFromCode(code) {
-  if (code === 0) return '☀️';
-  if ([1, 2].includes(code)) return '🌤️';
-  if (code === 3) return '☁️';
-  if ([45, 48].includes(code)) return '🌫️';
-  if ([51, 53, 55, 56, 57, 80, 81, 82].includes(code)) return '🌦️';
-  if ([61, 63, 65, 66, 67].includes(code)) return '🌧️';
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return '❄️';
-  if ([95, 96, 99].includes(code)) return '⛈️';
-  return '🌤️';
 }
 
 function isRainyCode(code) {
@@ -960,98 +1001,77 @@ function isRainyCode(code) {
 
 async function loadWeeklyWeather() {
   const weekEl = document.getElementById('weatherWeek');
-  const advEl  = document.getElementById('weatherAdvisory');
+  const advEl = document.getElementById('weatherAdvisory');
+  const lat = campCfg.map_lat;
+  const lng = campCfg.map_lng;
 
   try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${CAMP_LAT}&longitude=${CAMP_LNG}` +
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}` +
                 `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
                 `&timezone=Africa%2FGaborone&forecast_days=7`;
-    const res  = await fetch(url);
+    const res = await fetch(url);
     const data = await res.json();
     const d = data.daily;
-
     const todayStr = new Date().toISOString().slice(0, 10);
     let minLow = Infinity, maxHigh = -Infinity, rainyDays = 0;
 
     weekEl.innerHTML = d.time.map((dateStr, i) => {
       const code = d.weathercode[i];
       const high = Math.round(d.temperature_2m_max[i]);
-      const low  = Math.round(d.temperature_2m_min[i]);
-      const icon = weatherIconFromCode(code);
+      const low = Math.round(d.temperature_2m_min[i]);
       const dayName = new Date(dateStr + 'T00:00:00').toLocaleDateString('en-BW', { weekday: 'short' });
       const isToday = dateStr === todayStr;
-
-      if (low  < minLow)  minLow  = low;
+      if (low < minLow) minLow = low;
       if (high > maxHigh) maxHigh = high;
       if (isRainyCode(code)) rainyDays++;
-
       return `
         <div class="weather-day-card${isToday ? ' today' : ''}">
           <div class="weather-day-name">${isToday ? 'Today' : dayName}</div>
-          <div class="weather-day-icon">${icon}</div>
+          <div class="weather-day-icon">${weatherIconFromCode(code)}</div>
           <div class="weather-day-temps">
             <span class="weather-day-high">${high}°</span><span class="weather-day-low">${low}°</span>
           </div>
         </div>`;
     }).join('');
 
-    // Build one overall advisory for the week
-    let icon = '✅', label = 'Pleasant week ahead', body = 'Comfortable conditions expected — come prepared to enjoy camp!';
+    let iconName = 'checkCircle', label = 'Pleasant week ahead', body = 'Comfortable conditions expected — come prepared to enjoy camp!';
     if (minLow < 8) {
-      icon = '🧥'; label = 'Cold nights this week';
+      iconName = 'jacket'; label = 'Cold nights this week';
       body = `Lows near ${minLow}°C expected — pack warm layers for evening and early morning services.`;
     } else if (rainyDays >= 2) {
-      icon = '☂️'; label = `Rain expected ${rainyDays} day${rainyDays > 1 ? 's' : ''} this week`;
+      iconName = 'umbrella'; label = `Rain expected ${rainyDays} day${rainyDays > 1 ? 's' : ''} this week`;
       body = 'Bring an umbrella or raincoat — some outdoor sessions may be affected.';
     } else if (maxHigh > 30) {
-      icon = '💧'; label = 'Warm days ahead';
+      iconName = 'droplet'; label = 'Warm days ahead';
       body = `Highs up to ${maxHigh}°C — stay hydrated and bring sun protection.`;
     }
-
-    advEl.innerHTML = `<span class="camp-advisory-icon">${icon}</span>
+    advEl.innerHTML = `<span class="camp-advisory-icon">${campIcon(iconName, { size: 20 })}</span>
       <span class="camp-advisory-text"><strong>${label}</strong> — ${body}</span>`;
-
   } catch (e) {
     console.warn('Could not load weekly weather:', e);
-    weekEl.innerHTML = '<div class="weather-day-card"><div class="weather-day-name">—</div><div class="weather-day-icon">🌤️</div></div>';
-    advEl.innerHTML = `<span class="camp-advisory-icon">🧥</span>
+    weekEl.innerHTML = `<div class="weather-day-card"><div class="weather-day-name">—</div><div class="weather-day-icon">${campIcon('cloudSun', { size: 28 })}</div></div>`;
+    advEl.innerHTML = `<span class="camp-advisory-icon">${campIcon('jacket', { size: 20 })}</span>
       <span class="camp-advisory-text"><strong>Pack warm layers</strong> — July nights in Gaborone are typically cold for evening services.</span>`;
   }
 }
 
-loadWeeklyWeather();
-
-// ── DYNAMIC WELCOME MESSAGE ──
 function setWelcome() {
   const hour = new Date().getHours();
+  const el = document.getElementById('campAlertMsg');
+  if (!el) return;
   let msg = '';
-  if (hour < 12) msg = '🌅 Good morning! Camp Meeting 2026 registration is open.';
-  else if (hour < 17) msg = '☀️ Good afternoon! Have you registered for Camp Meeting 2026?';
-  else msg = '🌙 Good evening! Join us for Camp Meeting 2026 — 19 July, Gaborone.';
-  document.getElementById('campAlertMsg').innerHTML = msg + ' <a href="registration.html">Register here →</a>';
+  if (hour < 12) msg = `${campIcon('sunrise', { size: 16 })} Good morning! Camp Meeting 2026 registration is open.`;
+  else if (hour < 17) msg = `${campIcon('sun', { size: 16 })} Good afternoon! Have you registered for Camp Meeting 2026?`;
+  else msg = `${campIcon('moon', { size: 16 })} Good evening! Join us for Camp Meeting 2026 — Gaborone.`;
+  el.innerHTML = `${msg} <a href="registration.html">Register here →</a>`;
 }
+
+await loadCampConfig();
+hydrateCampIcons();
+loadStats();
+loadAnnouncements();
+loadWeeklyWeather();
 setWelcome();
 </script>
-
-<a href="https://wa.me/26776159933"
-style="
-position:fixed;
-right:25px;
-bottom:25px;
-width:65px;
-height:65px;
-border-radius:50%;
-background:#25D366;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:30px;
-text-decoration:none;
-z-index:9999;
-box-shadow:0 10px 25px rgba(0,0,0,.3);
-">
-💬
-</a>
-
 </body>
 </html>

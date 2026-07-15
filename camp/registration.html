@@ -121,7 +121,7 @@
 
     <!-- SUCCESS -->
     <div id="regSuccess" style="display:none;" class="camp-success-card">
-      <div class="camp-success-icon">✅</div>
+      <div class="camp-success-icon" data-camp-icon="checkCircle" data-icon-size="48"></div>
       <h2>You're Registered!</h2>
       <p>Thank you, <strong id="successName"></strong>. We look forward to seeing you on <strong>19 July</strong> at Phase 4, Gaborone.</p>
       <p style="margin-top:.75rem;color:var(--c-gold);font-style:italic;">"The just shall live by faith." — Romans 1:17</p>
@@ -279,7 +279,7 @@
         <div id="err-4" class="camp-error" style="display:none;"></div>
         <div class="btn-row">
           <button class="btn-prev" onclick="prevStep()">← Edit</button>
-          <button class="btn-next" id="submitBtn" onclick="submitRegistration()"> Submit Registration</button>
+          <button class="btn-next" id="submitBtn" onclick="submitRegistration()"><span data-camp-icon="check" data-icon-size="16"></span> Submit Registration</button>
         </div>
       </div>
 
@@ -288,26 +288,16 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="camp-footer">
-  <div class="camp-container camp-footer-inner">
-    <div class="camp-footer-brand">
-      <img src="../css/images/logo1.png" style="height:32px;" alt="AFC"/>
-      <div><p>Camp Meeting 2026</p><span>Apostolic Faith Church · Botswana</span></div>
-    </div>
-    <div class="camp-footer-links">
-      <a href="index.html">Home</a><a href="schedule.html">Schedule</a>
-      <a href="store.html">Store</a><a href="announcements.html">Announcements</a>
-      <a href="../index.html">← Main Site</a>
-    </div>
-    <p class="camp-footer-verse">"The just shall live by faith." — Romans 1:17 ✦</p>
-  </div>
-</footer>
-
-<a href="https://wa.me/26776159933" class="wa-float" target="_blank">💬</a>
+<footer class="camp-footer"></footer>
 <div id="toast" class="camp-toast"></div>
 
 <script type="module">
 import { db, collection, addDoc, serverTimestamp, CAMP_REGS, CAMP_PRAYERS } from './camp-firebase.js';
+import { campIcon, hydrateCampIcons } from './camp-icons.js';
+import { initCampShell } from './camp-shell.js';
+
+initCampShell();
+hydrateCampIcons();
 
 // ── NAV ──
 document.getElementById('hamburger').onclick = () => document.getElementById('mobileNav').classList.toggle('open');
@@ -444,7 +434,8 @@ window.submitRegistration = async function() {
     console.error(e);
     document.getElementById('err-4').textContent = 'Save failed: ' + e.message + '. Please try again.';
     document.getElementById('err-4').style.display = 'block';
-    btn.disabled = false; btn.textContent = '🙏 Submit Registration';
+    btn.disabled = false;
+    btn.innerHTML = `${campIcon('check', { size: 16 })} Submit Registration`;
   }
 };
 </script>

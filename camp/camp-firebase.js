@@ -25,6 +25,8 @@ export const CAMP_TESTIM = 'camp_testimonies';
 export const STORE_PRODUCTS = 'store_products';
 export const CAMP_SERVICE_ATT = 'camp_service_attendance';
 export const CAMP_SCHEDULE = 'camp_schedule';
+export const CAMP_CONFIG = 'camp_config';
+export const SITE_REGS = 'site_registrations';
 
 export const ROLE_EMAILS = {
   manager: 'bw.ycm.2024@gmail.com',
@@ -120,6 +122,7 @@ const INDEX_COLS = {
   store_products: ['product_key'],
   camp_service_attendance: ['service_date', 'created_at'],
   camp_schedule: ['day_name', 'time_slot'],
+  camp_config: ['updated_at'],
 };
 
 /** Tables that have a top-level `timestamp` column (not all Supabase tables do). */

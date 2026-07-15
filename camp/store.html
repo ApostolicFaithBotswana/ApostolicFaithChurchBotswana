@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Merch Store — Camp Meeting 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="camp-shared.css"/>
 <style>
 /* ── RESET ── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -408,8 +409,6 @@ body {
   </div>
 </footer>
 
-<a href="https://wa.me/26773837664" class="wa-float" target="_blank" aria-label="WhatsApp">💬</a>
-
 <!-- ══ FIREBASE + LOGIC ══ -->
 <script type="module">
 import {
@@ -638,5 +637,10 @@ mobileNav.querySelectorAll('a').forEach(link => {
 });
 </script>
 
+
+<script type="module">
+  import { initCampShell } from './camp-shell.js';
+  initCampShell();
+</script>
 </body>
 </html>

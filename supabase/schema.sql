@@ -95,6 +95,12 @@ CREATE TABLE IF NOT EXISTS camp_schedule (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
+CREATE TABLE IF NOT EXISTS camp_config (
+  id TEXT PRIMARY KEY,
+  data JSONB NOT NULL DEFAULT '{}',
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
 -- ─────────────────────────────────────────────
 -- INDEXES
 -- ─────────────────────────────────────────────
@@ -130,6 +136,24 @@ INSERT INTO site_config (id, data) VALUES
   }'::jsonb)
 ON CONFLICT (id) DO NOTHING;
 
+INSERT INTO camp_config (id, data) VALUES
+  ('main', '{
+    "theme_line1": "The Just Shall",
+    "theme_line2": "Live by Faith",
+    "theme_ref": "Romans 1:17 (KJV)",
+    "dates_label": "19–26 July 2026",
+    "start_date": "2026-07-19",
+    "end_date": "2026-07-26",
+    "venue_name": "Apostolic Faith Church — Greater Gaborone Branch",
+    "venue_address": "Plot 54201, Phase 4, Gaborone",
+    "opening_service": "09:00 AM",
+    "phone": "+267 75 222 415",
+    "whatsapp": "26776159933",
+    "map_lat": -24.68379308147856,
+    "map_lng": 25.882944318902148
+  }'::jsonb)
+ON CONFLICT (id) DO NOTHING;
+
 -- ─────────────────────────────────────────────
 -- ROW LEVEL SECURITY
 -- ─────────────────────────────────────────────
@@ -147,10 +171,12 @@ ALTER TABLE camp_testimonies ENABLE ROW LEVEL SECURITY;
 ALTER TABLE store_products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE camp_service_attendance ENABLE ROW LEVEL SECURITY;
 ALTER TABLE camp_schedule ENABLE ROW LEVEL SECURITY;
+ALTER TABLE camp_config ENABLE ROW LEVEL SECURITY;
 
 -- Public read (site + camp public pages)
 CREATE POLICY "public_read_site_events" ON site_events FOR SELECT TO anon, authenticated USING (true);
 CREATE POLICY "public_read_site_config" ON site_config FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "public_read_camp_config" ON camp_config FOR SELECT TO anon, authenticated USING (true);
 CREATE POLICY "public_read_camp_announcements" ON camp_announcements FOR SELECT TO anon, authenticated USING (true);
 CREATE POLICY "public_read_camp_schedule" ON camp_schedule FOR SELECT TO anon, authenticated USING (true);
 CREATE POLICY "public_read_store_products" ON store_products FOR SELECT TO anon, authenticated USING (true);
@@ -178,6 +204,7 @@ CREATE POLICY "admin_all_camp_testimonies" ON camp_testimonies FOR ALL TO authen
 CREATE POLICY "admin_all_store_products" ON store_products FOR ALL TO authenticated USING (true) WITH CHECK (true);
 CREATE POLICY "admin_all_camp_service_attendance" ON camp_service_attendance FOR ALL TO authenticated USING (true) WITH CHECK (true);
 CREATE POLICY "admin_all_camp_schedule" ON camp_schedule FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "admin_all_camp_config" ON camp_config FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 CREATE POLICY "public_read_camp_registrations" ON camp_registrations FOR SELECT TO anon, authenticated USING (true);
 CREATE POLICY "public_read_camp_orders" ON camp_orders FOR SELECT TO anon, authenticated USING (true);

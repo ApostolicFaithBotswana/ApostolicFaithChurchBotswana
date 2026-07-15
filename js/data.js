@@ -13,6 +13,7 @@ const SITE_EVENTS = 'site_events';
 const SITE_CONFIG = 'site_config';
 const SITE_REGISTRATIONS = 'site_registrations';
 const SITE_BLOCKS = 'site_blocks';
+const CAMP_REGISTRATIONS = 'camp_registrations';
 const LEGACY_EVENTS_KEY = 'afco_events';
 
 const defaultConfig = {
@@ -90,15 +91,21 @@ const DB = {
     );
   },
 
-  /** Real-time listener for event registrations */
+  /** Real-time listener for event + camp registrations */
   subscribeRegistrations(callback) {
     const refresh = async () => callback(await this.getRegistrations());
     refresh();
-    return onSnapshot(
+    const u1 = onSnapshot(
       collection(null, SITE_REGISTRATIONS),
       refresh,
       (err) => console.warn('Registrations subscription error:', err)
     );
+    const u2 = onSnapshot(
+      collection(null, CAMP_REGISTRATIONS),
+      refresh,
+      (err) => console.warn('Camp registrations subscription error:', err)
+    );
+    return () => { u1?.(); u2?.(); };
   },
 
   async addEvent(evt) {
@@ -223,7 +230,27 @@ const DB = {
   },
 
   async getRegistrations() {
-    return getCollection(SITE_REGISTRATIONS, 'createdAt', 'desc');
+    const site = await getCollection(SITE_REGISTRATIONS, 'createdAt', 'desc');
+    let camp = [];
+    try {
+      camp = (await getCollection(CAMP_REGISTRATIONS, 'createdAt', 'desc')).map((r) => ({
+        ...r,
+        name: r.name || `${r.firstName || ''} ${r.surname || ''}`.trim() || '—',
+        email: r.email || '',
+        phone: r.phone || '',
+        branch: r.branch || '',
+        event_name: r.event_name || 'Camp Meeting 2026',
+        type: r.type || 'camp_registration',
+        created: r.created || r.createdAt || r.timestamp || '',
+      }));
+    } catch (e) {
+      console.warn('Could not load camp registrations:', e);
+    }
+    return [...site, ...camp].sort((a, b) => {
+      const at = new Date(a.created || a.createdAt || 0).getTime();
+      const bt = new Date(b.created || b.createdAt || 0).getTime();
+      return bt - at;
+    });
   },
 
   async addRegistration(reg) {

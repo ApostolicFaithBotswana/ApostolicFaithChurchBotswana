@@ -202,7 +202,6 @@
   </div>
 </footer>
 
-<a href="https://wa.me/26776159933" class="wa-float" target="_blank">💬</a>
 <div id="toast" class="camp-toast"></div>
 
 <script type="module">
@@ -383,6 +382,11 @@ window.resetPrayer = function(){
   document.getElementById('prayerSuccess').style.display  = 'none';
   document.getElementById('prayerForm').style.display     = 'block';
 };
+</script>
+
+<script type="module">
+  import { initCampShell } from './camp-shell.js';
+  initCampShell();
 </script>
 </body>
 </html>
