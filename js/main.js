@@ -30,15 +30,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   initHamburger();
   initSecretAdminTriggers();
 
+  // Calendar spotlight first — don't wait on network (stuck "Loading…" otherwise)
+  restartHomeSpotlight();
+  loadCalendarEventsForSpotlight();
+
   await applyConfig();
   await renderEvents();
-  await initHomeEventSpotlight();
 
-  // Real-time: events + config update without page refresh
+  // Real-time: featured event cards update without page refresh
   DB.subscribeEvents((events) => {
     eventsCache = events;
     paintEvents(events);
-    restartHomeSpotlight();
   });
 
   DB.subscribeConfig(async (cfg) => {
@@ -47,15 +49,28 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   window.addEventListener('afc:events-changed', () => renderEvents());
   window.addEventListener('afc:admin-changed', () => paintEvents(eventsCache));
+  window.addEventListener('afc:json-block', (e) => {
+    if (e.detail?.key === 'calendar.events.data' && Array.isArray(e.detail.data)) {
+      calendarEvents = e.detail.data;
+      restartHomeSpotlight();
+    }
+  });
 
   const regModal = document.getElementById('regModal');
   if (regModal) trapModalWheel(regModal);
 });
 
-/** One live card: Happening now → next Starts in countdown. */
-async function initHomeEventSpotlight() {
+/**
+ * Homepage spotlight uses the annual calendar schedule only
+ * (same source as calendar.html), not the featured site_events cards.
+ */
+async function loadCalendarEventsForSpotlight() {
   try {
-    const blocks = await DB.getBlocks('calendar');
+    const blocks = await Promise.race([
+      DB.getBlocks('calendar'),
+      new Promise((resolve) => setTimeout(() => resolve(null), 4000)),
+    ]);
+    if (!blocks) return;
     const stored = blocks?.['calendar.events.data']?.data;
     let list = null;
     if (Array.isArray(stored)) list = stored;
@@ -63,11 +78,13 @@ async function initHomeEventSpotlight() {
     else if (typeof stored?.body === 'string') {
       try { list = JSON.parse(stored.body); } catch { /* ignore */ }
     } else if (Array.isArray(stored?.body)) list = stored.body;
-    if (list?.length) calendarEvents = list;
+    if (list?.length) {
+      calendarEvents = list;
+      restartHomeSpotlight();
+    }
   } catch {
-    /* use defaults */
+    /* keep EVENTS_2026_DEFAULT */
   }
-  restartHomeSpotlight();
 }
 
 function restartHomeSpotlight() {
@@ -75,7 +92,7 @@ function restartHomeSpotlight() {
   const el = document.getElementById('homeEventSpotlight');
   if (!el) return;
   stopHomeSpotlight = mountRealtimeSpotlight(el, {
-    getEvents: () => unifyEvents(calendarEvents, eventsCache),
+    getEvents: () => unifyEvents(calendarEvents, []),
     refreshIcons: refreshLucideIcons,
     calendarHref: 'calendar.html',
   });
