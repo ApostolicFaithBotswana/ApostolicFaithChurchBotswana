@@ -6,23 +6,38 @@ import { DB } from './data.js';
 import { icon } from './icons.js';
 import { initSiteMotion, softNavigate } from './site-motion.js';
 import { initLiveAdmin, isLiveAdmin } from './live-admin.js';
+import { initSiteNav } from './site-nav.js';
+import { initLucideIcons, refreshLucideIcons } from './lucide-icons.js';
 import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js';
+import {
+  EVENTS_2026_DEFAULT,
+  unifyEvents,
+  mountRealtimeSpotlight,
+} from './event-countdown.js';
 
 let currentEventForReg = null;
 let eventsCache = [];
+let calendarEvents = [...EVENTS_2026_DEFAULT];
+let stopHomeSpotlight = null;
 
 /* ---------- INIT ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
+  initSiteNav();
   initSiteMotion();
+  initLucideIcons();
   initLiveAdmin('index');
   initNavScroll();
   initHamburger();
   initSecretAdminTriggers();
 
+  // Calendar spotlight first — don't wait on network (stuck "Loading…" otherwise)
+  restartHomeSpotlight();
+  loadCalendarEventsForSpotlight();
+
   await applyConfig();
   await renderEvents();
 
-  // Real-time: events + config update without page refresh
+  // Real-time: featured event cards update without page refresh
   DB.subscribeEvents((events) => {
     eventsCache = events;
     paintEvents(events);
@@ -34,10 +49,54 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   window.addEventListener('afc:events-changed', () => renderEvents());
   window.addEventListener('afc:admin-changed', () => paintEvents(eventsCache));
+  window.addEventListener('afc:json-block', (e) => {
+    if (e.detail?.key === 'calendar.events.data' && Array.isArray(e.detail.data)) {
+      calendarEvents = e.detail.data;
+      restartHomeSpotlight();
+    }
+  });
 
   const regModal = document.getElementById('regModal');
   if (regModal) trapModalWheel(regModal);
 });
+
+/**
+ * Homepage spotlight uses the annual calendar schedule only
+ * (same source as calendar.html), not the featured site_events cards.
+ */
+async function loadCalendarEventsForSpotlight() {
+  try {
+    const blocks = await Promise.race([
+      DB.getBlocks('calendar'),
+      new Promise((resolve) => setTimeout(() => resolve(null), 4000)),
+    ]);
+    if (!blocks) return;
+    const stored = blocks?.['calendar.events.data']?.data;
+    let list = null;
+    if (Array.isArray(stored)) list = stored;
+    else if (Array.isArray(stored?.events)) list = stored.events;
+    else if (typeof stored?.body === 'string') {
+      try { list = JSON.parse(stored.body); } catch { /* ignore */ }
+    } else if (Array.isArray(stored?.body)) list = stored.body;
+    if (list?.length) {
+      calendarEvents = list;
+      restartHomeSpotlight();
+    }
+  } catch {
+    /* keep EVENTS_2026_DEFAULT */
+  }
+}
+
+function restartHomeSpotlight() {
+  if (typeof stopHomeSpotlight === 'function') stopHomeSpotlight();
+  const el = document.getElementById('homeEventSpotlight');
+  if (!el) return;
+  stopHomeSpotlight = mountRealtimeSpotlight(el, {
+    getEvents: () => unifyEvents(calendarEvents, []),
+    refreshIcons: refreshLucideIcons,
+    calendarHref: 'calendar.html',
+  });
+}
 
 /* ---------- SECRET ADMIN TRIGGERS ---------- */
 function initSecretAdminTriggers() {

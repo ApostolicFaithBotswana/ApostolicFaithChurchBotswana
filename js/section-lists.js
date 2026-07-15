@@ -169,6 +169,9 @@ export function gatherItemFromElement(el, config) {
     const linkEl = el.querySelector('h3 a[data-edit-field="link"], a[data-edit-field="link"]');
     if (linkEl && !data.title) data.title = linkEl.textContent.trim();
   }
+  if (config.cardClass === 'structure-card') {
+    data.icon = el.dataset.icon || el.querySelector('.structure-icon')?.dataset.icon || '';
+  }
   if (!data.id) data.id = slugId();
   return data;
 }
@@ -280,9 +283,21 @@ function renderCard(item, config, page, extraClass = '', index = 0) {
     </div>`;
   }
 
+  if (config.cardClass === 'structure-card') {
+    const structureIcons = ['globe', 'users', 'building'];
+    const iconName = item.icon || structureIcons[index % structureIcons.length];
+    const titleHtml = item.link
+      ? `<h3><a href="${escAttr(item.link)}" target="_blank" rel="noopener" data-edit-field="link">${esc(item.title || '')}</a></h3>`
+      : `<h3 data-edit-field="title">${esc(item.title || '')}</h3>`;
+    return `<div class="${config.cardClass}${extraClass}" data-list-item-id="${escAttr(item.id)}" data-edit="${editKey}" data-edit-type="card" data-edit-label="${escAttr(label)}" data-icon="${escAttr(iconName)}">
+      <div class="structure-icon" aria-hidden="true">${icon(iconName, { size: 26 })}</div>
+      ${titleHtml}
+      <p data-edit-field="body">${item.body || ''}</p>
+    </div>`;
+  }
+
   if (config.linkInTitle && item.link) {
     return `<div class="${config.cardClass}${extraClass}" data-list-item-id="${escAttr(item.id)}" data-edit="${editKey}" data-edit-type="card" data-edit-label="${escAttr(label)}">
-      <div class="structure-icon">🌍</div>
       <h3><a href="${escAttr(item.link)}" target="_blank" rel="noopener" data-edit-field="link">${esc(item.title || '')}</a></h3>
       <p data-edit-field="body">${item.body || ''}</p>
     </div>`;

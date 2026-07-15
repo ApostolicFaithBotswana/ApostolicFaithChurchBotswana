@@ -6,9 +6,13 @@
 
 import { initSiteMotion } from './site-motion.js';
 import { initLiveAdmin } from './live-admin.js';
+import { initSiteNav } from './site-nav.js';
+import { initLucideIcons } from './lucide-icons.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initSiteNav();
   initSiteMotion();
+  initLucideIcons();
   const page = document.body.dataset.page || 'index';
   initLiveAdmin(page);
 });

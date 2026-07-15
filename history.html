@@ -353,7 +353,7 @@
     }
   </style>
 </head>
-<body>
+<body data-page="about">
 
 <!-- NAV -->
 <header id="navbar">
@@ -370,7 +370,9 @@
       <a href="index.html">Home</a>
       <a href="about.html" class="active">About</a>
       <a href="locations.html">Locations</a>
+      <a href="live.html">Live</a>
       <a href="index.html#events">Events</a>
+      <a href="index.html#resources">Resources</a>
       <a href="calendar.html">Calendar</a>
       <a href="index.html#contact">Contact</a>
     </nav>
@@ -1143,6 +1145,9 @@ window.addEventListener('scroll', () => {
     l.classList.toggle('active', l.getAttribute('href') === '#' + current);
   });
 }, { passive: true });
+</script>
+<script type="module">
+  import './js/site-core.js';
 </script>
 </body>
 </html>
