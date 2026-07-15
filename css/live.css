@@ -13,8 +13,10 @@ body.live-theater-page #navbar {
 }
 
 body.live-theater-page .footer {
-  background: #05080f !important;
-  border-top: 1px solid rgba(212, 175, 55, 0.14);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(212, 175, 55, 0.1), transparent 45%),
+    linear-gradient(180deg, #0c1830 0%, #05080f 100%) !important;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .theater {
@@ -394,6 +396,11 @@ body.live-theater-page .live-tool-btn.primary:hover,
     padding: 5.7rem 0.9rem 3.4rem;
   }
 
+  .theater-marquee {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .theater-marquee-right {
     align-items: flex-start;
   }
@@ -404,6 +411,19 @@ body.live-theater-page .live-tool-btn.primary:hover,
 
   .stage-apron {
     padding: 1.2rem 1rem 1.3rem;
+  }
+
+  .live-toolbar {
+    width: 100%;
+  }
+
+  .live-tool-btn {
+    flex: 1 1 calc(50% - 0.55rem);
+    min-width: 140px;
+  }
+
+  .live-offline-card {
+    padding: 2.5rem 1.1rem 2.2rem;
   }
 
   .live-latest-thumb {
