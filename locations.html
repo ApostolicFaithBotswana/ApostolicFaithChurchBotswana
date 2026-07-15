@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/site-enhancements.css" />
-  <link rel="stylesheet" href="css/locations.css" />
+  <link rel="stylesheet" href="css/locations.css?v=2" />
 </head>
 <body data-page="locations" class="locations-page">
 
@@ -22,7 +22,7 @@
       </div>
       <div class="nav-brand-text">
         <span class="brand-name">Apostolic Faith Church</span>
-        <span class="brand-sub">Portland, Oregon Â· Botswana</span>
+        <span class="brand-sub">Portland, Oregon · Botswana</span>
       </div>
     </a>
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -94,8 +94,9 @@
   </div>
 </div>
 
-<!-- TOOLBAR -->
-<div class="locations-toolbar">
+<!-- TOOLBAR (pinned under main nav while scrolling) -->
+<div class="locations-toolbar-anchor" id="locationsToolbarAnchor" aria-hidden="true"></div>
+<div class="locations-toolbar" id="locationsToolbar">
   <div class="locations-toolbar-inner">
     <div class="location-search">
       <i data-lucide="search"></i>
@@ -129,7 +130,7 @@
         <div class="region-icon"><i data-lucide="home"></i></div>
         <div>
           <div class="region-title">Southern Region</div>
-          <div class="region-count">2 Districts Â· Gaborone &amp; Kgalagadi</div>
+          <div class="region-count">2 Districts · Gaborone &amp; Kgalagadi</div>
         </div>
       </div>
 
@@ -288,7 +289,7 @@
         <div class="region-icon"><i data-lucide="sparkles"></i></div>
         <div>
           <div class="region-title">North East Region</div>
-          <div class="region-count">1 District Â· Francistown</div>
+          <div class="region-count">1 District · Francistown</div>
         </div>
       </div>
       <div class="districts-grid">
@@ -368,7 +369,7 @@
         <div class="region-icon"><i data-lucide="circle-dot"></i></div>
         <div>
           <div class="region-title">Central Region</div>
-          <div class="region-count">2 Districts Â· Palapye &amp; Selebi Phikwe</div>
+          <div class="region-count">2 Districts · Palapye &amp; Selebi Phikwe</div>
         </div>
       </div>
       <div class="districts-grid">
@@ -480,7 +481,7 @@
         <div class="region-icon"><i data-lucide="mountain"></i></div>
         <div>
           <div class="region-title">North West Region</div>
-          <div class="region-count">3 Districts Â· Boteti, Ngami &amp; Chobe</div>
+          <div class="region-count">3 Districts · Boteti, Ngami &amp; Chobe</div>
         </div>
       </div>
       <div class="districts-grid">
@@ -651,7 +652,7 @@
         </div>
         <div>
           <p class="footer-church-name">Apostolic Faith Church</p>
-          <p class="footer-sub">Portland, Oregon Â· Botswana Branch</p>
+          <p class="footer-sub">Portland, Oregon · Botswana Branch</p>
         </div>
       </div>
 

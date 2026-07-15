@@ -18,9 +18,51 @@ export function initLocationsPage() {
   bindSearch();
   bindMapToggles();
   markCardMeta();
+  initPinnedToolbar();
   window.getUserLocation = getUserLocation;
   window.toggleMap = toggleMap;
   refreshLucideIcons();
+}
+
+/** Pin filter bar under the fixed navbar (sticky is broken by body overflow-x). */
+function initPinnedToolbar() {
+  const toolbar = document.getElementById('locationsToolbar');
+  const anchor = document.getElementById('locationsToolbarAnchor');
+  if (!toolbar || !anchor) return;
+
+  const navOffset = () => (
+    document.body.classList.contains('has-live-admin-bar') ? 112 : 72
+  );
+
+  const sync = () => {
+    const offset = navOffset();
+    const pinned = toolbar.classList.contains('is-fixed');
+    const edge = pinned
+      ? anchor.getBoundingClientRect().top
+      : toolbar.getBoundingClientRect().top;
+    const shouldPin = edge <= offset + 0.5;
+
+    if (shouldPin) {
+      if (!pinned) {
+        anchor.style.height = `${toolbar.offsetHeight}px`;
+        toolbar.classList.add('is-fixed');
+      } else {
+        anchor.style.height = `${toolbar.offsetHeight}px`;
+      }
+      toolbar.style.top = `${offset}px`;
+    } else if (pinned) {
+      toolbar.classList.remove('is-fixed');
+      toolbar.style.top = '';
+      anchor.style.height = '0px';
+    }
+  };
+
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync, { passive: true });
+  window.addEventListener('afc:admin-bar', sync);
+  // Catch layout after fonts/icons paint
+  requestAnimationFrame(sync);
+  setTimeout(sync, 200);
 }
 
 function markCardMeta() {
