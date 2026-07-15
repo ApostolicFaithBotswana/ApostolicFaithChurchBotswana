@@ -135,6 +135,53 @@ function paintEvents(events) {
     }
   </div>`).join('');
 }
+/* ── CONTACT FORM ── */
+window.handleContactForm = async function(e) {
+  e.preventDefault();
+  const btn = e.submitter || e.target.querySelector('[type=submit]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  try {
+    // Store in Firebase so admin can see messages
+    await DB.addRegistration({
+      type:    'contact_message',
+      name:    document.getElementById('cName')?.value.trim()    || '',
+      email:   document.getElementById('cEmail')?.value.trim()   || '',
+      subject: document.getElementById('cSubject')?.value.trim() || '',
+      message: document.getElementById('cMsg')?.value.trim()     || '',
+      event_name: 'Contact Form',
+    });
+    showToast('Message sent! We will get back to you soon.', 'success');
+    e.target.reset();
+  } catch {
+    showToast('Send failed — please try again.', 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Send Message'; }
+  }
+};
+
+/* ── PRAYER FORM ── */
+window.handlePrayerForm = async function(e) {
+  e.preventDefault();
+  const btn = e.submitter || e.target.querySelector('[type=submit]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
+
+  try {
+    await DB.addPrayerRequest({
+      name:     document.getElementById('prName')?.value.trim()    || 'Anonymous',
+      category: document.getElementById('prCategory')?.value       || 'General',
+      request:  document.getElementById('prRequest')?.value.trim() || '',
+      anon:     document.getElementById('prAnon')?.value === 'yes',
+    });
+    showToast('Prayer request received. Our ministers will pray for you.', 'success');
+    e.target.reset();
+  } catch {
+    showToast('Submit failed — please try again.', 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Submit Prayer Request'; }
+  }
+};
+
 
 /* ---------- REGISTRATION MODAL ---------- */
 async function openRegModal(eventId) {

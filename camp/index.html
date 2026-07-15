@@ -470,7 +470,7 @@ body{
     color:var(--gold);
 }
 /* =====================
-   WEATHER BAR
+   WEEKLY WEATHER BAR
 ===================== */
 
 .camp-weather-bar {
@@ -489,83 +489,15 @@ body{
   pointer-events: none;
 }
 
-.camp-weather-inner {
+.camp-weather-advisory-row {
   max-width: 1300px;
-  margin: auto;
-  padding: 0 40px;
+  margin: 0 auto;
+  padding: 16px 40px 0;
   display: flex;
-  align-items: center;
-  gap: 0;
-  min-height: 66px;
-  position: relative;
-}
-
-/* LEFT ZONE */
-.camp-weather-left {
-  display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
-  padding: 14px 28px 14px 0;
-  border-right: 1px solid rgba(255,255,255,0.08);
-  flex-shrink: 0;
-}
-
-.camp-weather-icon-wrap {
-  width: 46px;
-  height: 46px;
-  background: rgba(212,175,55,0.1);
-  border: 1px solid rgba(212,175,55,0.22);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.45rem;
-  flex-shrink: 0;
-}
-
-.camp-weather-temp {
-  font-size: 1.55rem;
-  font-weight: 900;
-  color: var(--gold);
-  line-height: 1;
-}
-
-.camp-weather-loc {
-  font-size: .65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: rgba(255,255,255,0.38);
-  margin-top: 4px;
-}
-
-/* CENTRE ZONE */
-.camp-weather-centre {
-  flex: 1;
-  padding: 14px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.camp-weather-condition {
-  font-size: .9rem;
-  font-weight: 700;
-  color: white;
-}
-
-.camp-weather-feels {
-  font-size: .74rem;
-  color: rgba(255,255,255,0.45);
-  line-height: 1.4;
-}
-
-/* RIGHT ZONE */
-.camp-weather-right {
-  padding: 14px 28px 14px 28px;
-  border-left: 1px solid rgba(255,255,255,0.08);
-  flex-shrink: 0;
-  max-width: 380px;
+  flex-wrap: wrap;
+  position: relative;
 }
 
 .camp-weather-advisory-pill {
@@ -578,83 +510,105 @@ body{
   color: var(--gold);
   border: 1px solid rgba(212,175,55,0.25);
   border-radius: 4px;
-  padding: 2px 8px;
-  margin-bottom: 7px;
+  padding: 4px 10px;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .camp-weather-advisory {
   display: flex;
   align-items: flex-start;
   gap: 9px;
+  flex: 1;
+  min-width: 200px;
 }
 
 .camp-advisory-icon {
-  font-size: .88rem;
+  font-size: .95rem;
   flex-shrink: 0;
   margin-top: 1px;
 }
 
 .camp-advisory-text {
-  font-size: .78rem;
-  color: rgba(255,255,255,0.62);
+  font-size: .82rem;
+  color: rgba(255,255,255,0.68);
   line-height: 1.55;
 }
 
-.camp-advisory-text strong,
-#weatherAdvisory strong {
+.camp-advisory-text strong {
   color: var(--gold-light);
   font-weight: 700;
 }
 
-/* LIVE DOT */
-.camp-weather-live {
-  width: 7px;
-  height: 7px;
-  background: #2ecc71;
-  border-radius: 50%;
-  margin-left: 20px;
-  flex-shrink: 0;
-  box-shadow: 0 0 0 3px rgba(46,204,113,0.2);
-  animation: weatherPulse 2.4s ease-in-out infinite;
+.camp-weather-week {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  padding: 16px 40px 22px;
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
-@keyframes weatherPulse {
-  0%, 100% { box-shadow: 0 0 0 3px rgba(46,204,113,0.18); }
-  50%       { box-shadow: 0 0 0 7px rgba(46,204,113,0.06); }
+.weather-day-card {
+  flex: 1 1 0;
+  min-width: 92px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(212,175,55,0.16);
+  border-radius: 14px;
+  padding: 14px 10px;
+  text-align: center;
+  transition: .2s;
+}
+
+.weather-day-card.today {
+  border-color: var(--gold);
+  background: rgba(212,175,55,0.08);
+}
+
+.weather-day-name {
+  font-size: .66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 6px;
+}
+
+.weather-day-icon {
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+}
+
+.weather-day-temps {
+  white-space: nowrap;
+}
+
+.weather-day-high {
+  font-weight: 900;
+  color: var(--gold);
+  font-size: .92rem;
+}
+
+.weather-day-low {
+  font-size: .76rem;
+  color: rgba(255,255,255,0.4);
+  margin-left: 5px;
 }
 
 /* MOBILE */
 @media(max-width: 768px) {
-  .camp-weather-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 16px 20px;
-    gap: 12px;
-    min-height: unset;
+  .camp-weather-advisory-row {
+    padding: 14px 20px 0;
   }
-  .camp-weather-left {
-    border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding: 0 0 12px 0;
-    width: 100%;
+  .camp-weather-week {
+    padding: 14px 20px 18px;
   }
-  .camp-weather-centre {
-    padding: 0;
-  }
-  .camp-weather-right {
-    border-left: none;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    padding: 12px 0 0 0;
-    max-width: 100%;
-    width: 100%;
-  }
-  .camp-weather-live {
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    margin-left: 0;
+  .weather-day-card {
+    min-width: 78px;
   }
 }
+
 /* =====================
    MOBILE
 ===================== */
@@ -688,7 +642,10 @@ body{
   <div class="camp-nav-inner">
     <a href="index.html" class="camp-nav-brand">
       <img src="../css/images/logo1.png" class="camp-nav-logo" alt="AFC"/>
-      <div><span class="camp-nav-title">Camp Meeting 2026</span><span class="camp-nav-sub">AFC Botswana</span></div>
+      <div class="nav-brand-text">
+        <span class="brand-name">Camp Meeting 2026</span>
+        <span class="brand-sub">Apostolic Faith · Botswana</span>
+      </div>
     </a>
     <nav class="camp-nav-links">
       <a href="../index.html" class="active">Home</a>
@@ -734,39 +691,17 @@ body{
   </div>
 </section>
 
-<!-- WEATHER ALERT -->
+<!-- WEEKLY WEATHER FORECAST -->
 <div class="camp-weather-bar" id="weatherBar">
-  <div class="camp-weather-inner">
-
-    <!-- LEFT: icon + temp -->
-    <div class="camp-weather-left">
-      <div class="camp-weather-icon-wrap">
-        <span id="weatherIcon">🌤️</span>
-      </div>
-      <div class="camp-weather-temp-block">
-        <div class="camp-weather-temp" id="weatherTemp">—°C</div>
-        <div class="camp-weather-loc">Gaborone</div>
-      </div>
+  <div class="camp-weather-advisory-row" id="weatherAdvisoryRow">
+    <span class="camp-weather-advisory-pill">Camp Week Advisory</span>
+    <div class="camp-weather-advisory" id="weatherAdvisory">
+      <span class="camp-advisory-icon">🧥</span>
+      <span class="camp-advisory-text">Loading this week's forecast for camp…</span>
     </div>
-
-    <!-- CENTRE: condition + feels like -->
-    <div class="camp-weather-centre">
-      <div class="camp-weather-condition" id="weatherTitle">Loading conditions…</div>
-      <div class="camp-weather-feels" id="weatherDetail">Phase 4, Gaborone · July is typically cool and dry</div>
-    </div>
-
-    <!-- RIGHT: advisory -->
-    <div class="camp-weather-right">
-      <div class="camp-weather-advisory-pill">Camp Advisory</div>
-      <div class="camp-weather-advisory" id="weatherAdvisory">
-        <span class="camp-advisory-icon">🧥</span>
-        <span class="camp-advisory-text">July nights in Gaborone can be cold — pack a jacket for evening services.</span>
-      </div>
-    </div>
-
-    <!-- live dot -->
-    <div class="camp-weather-live" title="Live weather data"></div>
-
+  </div>
+  <div class="camp-weather-week" id="weatherWeek">
+    <!-- 7 day cards injected by JS -->
   </div>
 </div>
 
@@ -778,32 +713,32 @@ body{
     <h2 class="camp-section-title">Everything You Need<br><em>for Camp</em></h2>
     <div class="camp-quick-grid">
       <a href="registration.html" class="camp-quick-card">
-        <div class="camp-quick-icon">📋</div>
+        
         <h3>Register</h3>
         <p>Secure your spot at Camp Meeting 2026. Registration is free.</p>
         <span class="camp-quick-link">Register Now →</span>
       </a>
       <a href="schedule.html" class="camp-quick-card">
-        <div class="camp-quick-icon">📅</div>
+       
         <h3>Schedule</h3>
         <p>Full daily programme — services, meals, workshops and more.</p>
         <span class="camp-quick-link">View Schedule →</span>
       </a>
       <a href="store.html" class="camp-quick-card">
-        <div class="camp-quick-icon">👕</div>
+        
         <h3>Merch Store</h3>
         <p>Order your Camp Meeting 2026 t-shirts, hoodies and more.</p>
         <span class="camp-quick-link">Shop Now →</span>
       </a>
       <a href="announcements.html" class="camp-quick-card">
-        <div class="camp-quick-icon">📢</div>
+        
         <h3>Announcements</h3>
         <p>Latest updates and notices from the camp management team.</p>
         <span class="camp-quick-link">Read More →</span>
       </a>
       <a href="https://wa.me/26776159933"
    class="camp-quick-card">
-   <div class="camp-quick-icon">💬</div>
+   
    <h3>WhatsApp Hub</h3>
    <p>
       Receive camp updates, schedules,
@@ -1003,63 +938,88 @@ async function loadAnnouncements() {
 }
 loadAnnouncements();
 
-// ── WEATHER ──
-async function loadWeather() {
+// ── WEEKLY WEATHER (Open-Meteo — free, no API key, real 7-day forecast) ──
+const CAMP_LAT = -24.68379308147856;
+const CAMP_LNG = 25.882944318902148;
+
+function weatherIconFromCode(code) {
+  if (code === 0) return '☀️';
+  if ([1, 2].includes(code)) return '🌤️';
+  if (code === 3) return '☁️';
+  if ([45, 48].includes(code)) return '🌫️';
+  if ([51, 53, 55, 56, 57, 80, 81, 82].includes(code)) return '🌦️';
+  if ([61, 63, 65, 66, 67].includes(code)) return '🌧️';
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return '❄️';
+  if ([95, 96, 99].includes(code)) return '⛈️';
+  return '🌤️';
+}
+
+function isRainyCode(code) {
+  return [51,53,55,56,57,61,63,65,66,67,80,81,82,95,96,99].includes(code);
+}
+
+async function loadWeeklyWeather() {
+  const weekEl = document.getElementById('weatherWeek');
+  const advEl  = document.getElementById('weatherAdvisory');
+
   try {
-    const res = await fetch('https://wttr.in/Gaborone?format=j1');
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${CAMP_LAT}&longitude=${CAMP_LNG}` +
+                `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
+                `&timezone=Africa%2FGaborone&forecast_days=7`;
+    const res  = await fetch(url);
     const data = await res.json();
-    const current = data.current_condition[0];
-    const temp    = current.temp_C;
-    const feels   = current.FeelsLikeC;
-    const wind    = current.windspeedKmph;
-    const desc    = current.weatherDesc[0].value;
-    const d       = desc.toLowerCase();
+    const d = data.daily;
 
-    // ── icon ──
-    let icon = '🌤️';
-    if (d.includes('sunny') || d.includes('clear'))       icon = '☀️';
-    else if (d.includes('thunder'))                        icon = '⛈️';
-    else if (d.includes('rain') || d.includes('drizzle')) icon = '🌧️';
-    else if (d.includes('cloud'))                          icon = '⛅';
-    else if (d.includes('fog')  || d.includes('mist'))    icon = '🌫️';
-    else if (d.includes('wind'))                           icon = '💨';
-    else if (d.includes('snow') || d.includes('sleet'))   icon = '❄️';
+    const todayStr = new Date().toISOString().slice(0, 10);
+    let minLow = Infinity, maxHigh = -Infinity, rainyDays = 0;
 
-    // ── populate new elements ──
-    document.getElementById('weatherIcon').textContent      = icon;
-    document.getElementById('weatherTemp').textContent      = `${temp}°C`;
-    document.getElementById('weatherTitle').textContent     = desc;
-    document.getElementById('weatherDetail').textContent    = `Feels like ${feels}°C · Wind ${wind} km/h`;
+    weekEl.innerHTML = d.time.map((dateStr, i) => {
+      const code = d.weathercode[i];
+      const high = Math.round(d.temperature_2m_max[i]);
+      const low  = Math.round(d.temperature_2m_min[i]);
+      const icon = weatherIconFromCode(code);
+      const dayName = new Date(dateStr + 'T00:00:00').toLocaleDateString('en-BW', { weekday: 'short' });
+      const isToday = dateStr === todayStr;
 
-    // ── advisory ──
-    let advisoryIcon  = '✅';
-    let advisoryLabel = 'Comfortable weather';
-    let advisoryBody  = 'Great conditions expected for camp. Come prepared!';
+      if (low  < minLow)  minLow  = low;
+      if (high > maxHigh) maxHigh = high;
+      if (isRainyCode(code)) rainyDays++;
 
-    const t = parseInt(temp);
-    if      (t < 10)              { advisoryIcon = '🧥'; advisoryLabel = 'Very cold expected';   advisoryBody = 'Pack warm layers — overnight temperatures can be near freezing in July.'; }
-    else if (t < 15)              { advisoryIcon = '🧣'; advisoryLabel = 'Cool weather expected'; advisoryBody = 'A light jacket is recommended, especially for evening and early morning services.'; }
-    else if (t > 30)              { advisoryIcon = '💧'; advisoryLabel = 'Hot conditions';        advisoryBody = 'Stay hydrated and bring sunscreen for outdoor sessions.'; }
-    else if (d.includes('rain'))  { advisoryIcon = '☂️'; advisoryLabel = 'Rain expected';         advisoryBody = 'Bring an umbrella or raincoat — sessions may be affected.'; }
-    else if (d.includes('wind'))  { advisoryIcon = '💨'; advisoryLabel = 'Windy conditions';      advisoryBody = 'Secure loose items and dress in layers for outdoor services.'; }
+      return `
+        <div class="weather-day-card${isToday ? ' today' : ''}">
+          <div class="weather-day-name">${isToday ? 'Today' : dayName}</div>
+          <div class="weather-day-icon">${icon}</div>
+          <div class="weather-day-temps">
+            <span class="weather-day-high">${high}°</span><span class="weather-day-low">${low}°</span>
+          </div>
+        </div>`;
+    }).join('');
 
-    document.getElementById('weatherAdvisory').innerHTML =
-      `<span class="camp-advisory-icon">${advisoryIcon}</span>
-       <span class="camp-advisory-text"><strong>${advisoryLabel}</strong> — ${advisoryBody}</span>`;
+    // Build one overall advisory for the week
+    let icon = '✅', label = 'Pleasant week ahead', body = 'Comfortable conditions expected — come prepared to enjoy camp!';
+    if (minLow < 8) {
+      icon = '🧥'; label = 'Cold nights this week';
+      body = `Lows near ${minLow}°C expected — pack warm layers for evening and early morning services.`;
+    } else if (rainyDays >= 2) {
+      icon = '☂️'; label = `Rain expected ${rainyDays} day${rainyDays > 1 ? 's' : ''} this week`;
+      body = 'Bring an umbrella or raincoat — some outdoor sessions may be affected.';
+    } else if (maxHigh > 30) {
+      icon = '💧'; label = 'Warm days ahead';
+      body = `Highs up to ${maxHigh}°C — stay hydrated and bring sun protection.`;
+    }
 
-  } catch(e) {
-    // ── fallback ──
-    document.getElementById('weatherIcon').textContent   = '🌤️';
-    document.getElementById('weatherTemp').textContent   = '—°C';
-    document.getElementById('weatherTitle').textContent  = 'July is typically cool and dry in Gaborone';
-    document.getElementById('weatherDetail').textContent = 'Phase 4, Gaborone · Morning and evenings can be cold';
-    document.getElementById('weatherAdvisory').innerHTML =
-      `<span class="camp-advisory-icon">🧥</span>
-       <span class="camp-advisory-text"><strong>Pack warm layers</strong> — July nights in Gaborone can be cold for evening services.</span>`;
+    advEl.innerHTML = `<span class="camp-advisory-icon">${icon}</span>
+      <span class="camp-advisory-text"><strong>${label}</strong> — ${body}</span>`;
+
+  } catch (e) {
+    console.warn('Could not load weekly weather:', e);
+    weekEl.innerHTML = '<div class="weather-day-card"><div class="weather-day-name">—</div><div class="weather-day-icon">🌤️</div></div>';
+    advEl.innerHTML = `<span class="camp-advisory-icon">🧥</span>
+      <span class="camp-advisory-text"><strong>Pack warm layers</strong> — July nights in Gaborone are typically cold for evening services.</span>`;
   }
 }
 
-loadWeather();
+loadWeeklyWeather();
 
 // ── DYNAMIC WELCOME MESSAGE ──
 function setWelcome() {
