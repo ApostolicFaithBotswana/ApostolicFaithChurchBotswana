@@ -48,4 +48,10 @@ export function initSiteNav() {
   nav.querySelectorAll('a').forEach((a) => {
     a.addEventListener('click', () => nav.classList.remove('open'));
   });
+
+  const btn = document.getElementById('hamburger');
+  if (btn && !btn.dataset.navBound) {
+    btn.dataset.navBound = '1';
+    btn.addEventListener('click', () => nav.classList.toggle('open'));
+  }
 }

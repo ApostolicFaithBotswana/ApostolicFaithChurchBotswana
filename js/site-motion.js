@@ -7,18 +7,33 @@
      • LENIS_LERP    — lower = smoother scroll (0.08–0.12)
    ============================================================ */
 
-const PAGE_EXIT_MS = 520;
+const PAGE_EXIT_MS = 420;
 
 let lenis = null;
 
 export function initSiteMotion() {
+  ensurePageVeil();
   initLenis();
   initPageTransitions();
   initScrollReveal();
 
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    requestAnimationFrame(() => document.body.classList.add('page-enter'));
+    requestAnimationFrame(() => {
+      document.body.classList.add('page-enter');
+      document.documentElement.classList.add('page-ready');
+    });
+  } else {
+    document.documentElement.classList.add('page-ready');
   }
+}
+
+function ensurePageVeil() {
+  if (document.getElementById('pageVeil')) return;
+  const veil = document.createElement('div');
+  veil.id = 'pageVeil';
+  veil.className = 'page-veil';
+  veil.setAttribute('aria-hidden', 'true');
+  document.body.prepend(veil);
 }
 
 function initLenis() {
@@ -66,12 +81,15 @@ function initPageTransitions() {
 
     e.preventDefault();
     document.body.classList.add('page-exit');
+    document.documentElement.classList.add('page-leaving');
     setTimeout(() => { window.location.href = a.href; }, PAGE_EXIT_MS);
   });
 }
 
 function initScrollReveal() {
-  const els = document.querySelectorAll('.pillar-card, .resource-card, .event-card, .gallery-tile, .belief-card');
+  const els = document.querySelectorAll(
+    '.pillar-card, .resource-card, .event-card, .gallery-tile, .belief-card, .district-card, .region-section, .loc-stat, .structure-card, .timeline-card'
+  );
   if (!('IntersectionObserver' in window)) {
     els.forEach((el) => el.classList.add('is-visible'));
     return;
@@ -88,7 +106,7 @@ function initScrollReveal() {
 
   els.forEach((el, i) => {
     el.classList.add('reveal-on-scroll');
-    el.style.setProperty('--reveal-delay', `${Math.min(i * 0.04, 0.25)}s`);
+    el.style.setProperty('--reveal-delay', `${Math.min(i * 0.035, 0.28)}s`);
     io.observe(el);
   });
 }
@@ -101,6 +119,7 @@ export function softNavigate(url) {
     return;
   }
   document.body.classList.add('page-exit');
+  document.documentElement.classList.add('page-leaving');
   setTimeout(() => { window.location.href = url; }, PAGE_EXIT_MS);
 }
 

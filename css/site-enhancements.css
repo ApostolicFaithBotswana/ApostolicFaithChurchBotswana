@@ -29,26 +29,46 @@ body.has-live-admin-bar {
   padding-top: 112px;
 }
 
-/* ── PAGE TRANSITIONS — soft crossfade (tune in js/site-motion.js) ── */
+/* ── PAGE TRANSITIONS — soft crossfade + veil ── */
+.page-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(212, 175, 55, 0.12), transparent 50%),
+    #060a12;
+  opacity: 0;
+  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.page-leaving .page-veil {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 body.page-enter {
-  animation: pageEnter 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: pageEnter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 body.page-exit {
-  animation: pageExit 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: pageExit 0.42s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 @keyframes pageEnter {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
 @keyframes pageExit {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from { opacity: 1; transform: translateY(0); filter: blur(0); }
+  to { opacity: 0; transform: translateY(-6px); filter: blur(2px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .page-veil {
+    display: none;
+  }
   body.page-enter,
   body.page-exit {
     animation: none;
@@ -63,9 +83,9 @@ body.page-exit {
 /* ── SCROLL REVEAL ── */
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(14px);
+  transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--reveal-delay, 0s);
 }
 
@@ -74,10 +94,22 @@ body.page-exit {
   transform: translateY(0);
 }
 
-/* ── SVG ICONS INLINE ── */
+/* ── Lucide icons ── */
+[data-lucide] {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  vertical-align: -0.15em;
+  stroke: currentColor;
+  fill: none;
+  flex-shrink: 0;
+}
+
 .afc-icon {
   display: inline-block;
   vertical-align: -0.15em;
+  flex-shrink: 0;
+}
   flex-shrink: 0;
 }
 

@@ -7,6 +7,7 @@ import { icon } from './icons.js';
 import { initSiteMotion, softNavigate } from './site-motion.js';
 import { initLiveAdmin, isLiveAdmin } from './live-admin.js';
 import { initSiteNav } from './site-nav.js';
+import { initLucideIcons } from './lucide-icons.js';
 import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js';
 
 let currentEventForReg = null;
@@ -16,6 +17,7 @@ let eventsCache = [];
 document.addEventListener('DOMContentLoaded', async () => {
   initSiteNav();
   initSiteMotion();
+  initLucideIcons();
   initLiveAdmin('index');
   initNavScroll();
   initHamburger();

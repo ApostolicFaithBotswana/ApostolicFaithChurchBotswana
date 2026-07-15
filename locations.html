@@ -3,258 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Branch Locations – AFC Botswana</title>
+  <title>Branch Locations ? AFC Botswana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
-  <style>
-    /* ── LOCATIONS PAGE SPECIFIC ── */
-
-    /* Page hero override */
-    .locations-hero {
-      padding: 130px 1.5rem 70px;
-      background:
-        radial-gradient(ellipse at 60% 0%, rgba(212,175,55,0.1), transparent 55%),
-        linear-gradient(180deg, var(--navy-800) 0%, var(--navy-900) 100%);
-      text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    } 
-
-    /* Geo bar */
-    .geo-bar {
-      background: var(--navy-700);
-      border-bottom: 1px solid var(--border);
-      padding: 0.85rem 1.5rem;
-    }
-    .geo-bar-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-    }
-    .geo-btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.6rem 1.25rem;
-      background: var(--gold); color: var(--navy-900);
-      font-family: var(--font-body); font-size: 0.8rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      border: none; border-radius: 6px; cursor: pointer; transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .geo-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
-    .geo-status {
-      font-family: var(--font-body);
-      font-size: 0.85rem; color: var(--navy-100);
-    }
-
-    /* Region header */
-    .region-header {
-      display: flex; align-items: center; gap: 1rem;
-      margin-bottom: 2rem; padding-bottom: 1rem;
-      border-bottom: 2px solid var(--border);
-    }
-    .region-icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      background: var(--gold-dim); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--gold); flex-shrink: 0;
-    }
-    .region-title {
-      font-family: var(--font-heading);
-      font-size: 1.6rem; font-weight: 900; color: var(--navy-900);
-    }
-    .region-count {
-      font-family: var(--font-body);
-      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; color: var(--muted); margin-top: 0.2rem;
-    }
-
-    /* Districts grid */
-    .districts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 1.5rem;
-    }
-
-    /* District card */
-    .district-card {
-      background: var(--white);
-      border-radius: 14px;
-      border: 1px solid #e8edf5;
-      border-top: 4px solid var(--gold);
-      overflow: hidden;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-      transition: all 0.3s;
-    }
-    .district-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
-    }
-    .district-card.nearest {
-      border-top-color: var(--success);
-      box-shadow: 0 0 0 3px rgba(46,204,113,0.2), 0 12px 32px rgba(0,0,0,0.12);
-    }
-
-    .district-card-head {
-      padding: 1.25rem 1.5rem 1rem;
-      border-bottom: 1px solid #f0f2f7;
-      display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
-    }
-    .district-name {
-      font-family: var(--font-heading);
-      font-size: 1.1rem; font-weight: 700; color: var(--navy-900);
-      margin-bottom: 0.2rem;
-    }
-    .district-hq-badge {
-      display: inline-block; padding: 0.2rem 0.65rem;
-      background: var(--gold-dim); border: 1px solid var(--border);
-      color: var(--navy-700); font-family: var(--font-body);
-      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; border-radius: 20px; white-space: nowrap;
-    }
-    .nearest-badge {
-      display: inline-block; padding: 0.2rem 0.65rem;
-      background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.3);
-      color: var(--success); font-family: var(--font-body);
-      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; border-radius: 20px; white-space: nowrap;
-      display: flex; align-items: center; gap: 0.3rem;
-    }
-
-    .district-card-body { padding: 1.25rem 1.5rem; }
-
-    .district-meta { margin-bottom: 1.1rem; }
-    .district-meta-row {
-      display: flex; align-items: flex-start; gap: 0.7rem;
-      margin-bottom: 0.65rem;
-    }
-    .meta-icon {
-      width: 20px; height: 20px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--gold); margin-top: 1px;
-    }
-    .meta-label {
-      font-family: var(--font-body);
-      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.06em; color: var(--muted); display: block; margin-bottom: 0.1rem;
-    }
-    .meta-value {
-      font-family: var(--font-body);
-      font-size: 0.88rem; color: var(--navy-900); line-height: 1.4;
-    }
-    .meta-value a {
-      color: var(--navy-700); font-weight: 700;
-      display: flex; align-items: center; gap: 0.3rem;
-    }
-    .meta-value a:hover { color: var(--gold); }
-
-    /* Sub-branches list */
-    .sub-branches-label {
-      font-family: var(--font-body);
-      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.06em; color: var(--muted);
-      display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;
-    }
-    .sub-branches-list {
-      display: flex; flex-wrap: wrap; gap: 0.4rem;
-    }
-    .sub-branch-tag {
-      font-family: var(--font-body);
-      font-size: 0.75rem; color: var(--navy-700);
-      background: var(--off-white); border: 1px solid #dde3ef;
-      border-radius: 20px; padding: 0.2rem 0.7rem;
-    }
-
-    /* Map embed */
-    .district-map {
-      position: relative; overflow: hidden;
-      border-top: 1px solid #f0f2f7;
-      height: 0; max-height: 0;
-      transition: max-height 0.4s ease, height 0.4s ease;
-    }
-    .district-map.open { height: 220px; max-height: 220px; }
-    .district-map iframe {
-      width: 100%; height: 220px; border: 0; display: block;
-    }
-
-    /* Card actions */
-    .district-card-actions {
-      display: flex; gap: 0.6rem; padding: 1rem 1.5rem;
-      border-top: 1px solid #f0f2f7; flex-wrap: wrap;
-    }
-    .btn-card-primary {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      padding: 0.55rem 1.1rem;
-      background: var(--navy-900); color: var(--white);
-      font-family: var(--font-body); font-size: 0.78rem; font-weight: 700;
-      border: none; border-radius: 6px; cursor: pointer;
-      text-decoration: none; transition: all 0.2s; flex: 1; justify-content: center;
-    }
-    .btn-card-primary:hover { background: var(--navy-700); }
-    .btn-card-secondary {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      padding: 0.55rem 1.1rem;
-      background: transparent; color: var(--navy-700);
-      font-family: var(--font-body); font-size: 0.78rem; font-weight: 700;
-      border: 1.5px solid #dde3ef; border-radius: 6px; cursor: pointer;
-      text-decoration: none; transition: all 0.2s; flex: 1; justify-content: center;
-    }
-    .btn-card-secondary:hover { border-color: var(--gold); color: var(--navy-900); }
-    .btn-map-toggle {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      padding: 0.55rem 1.1rem;
-      background: transparent; color: var(--muted);
-      font-family: var(--font-body); font-size: 0.78rem; font-weight: 700;
-      border: 1.5px solid #dde3ef; border-radius: 6px; cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-map-toggle:hover { border-color: var(--navy-600); color: var(--navy-600); }
-
-    /* Region section spacing */
-    .region-section { margin-bottom: 4rem; }
-    .region-section:last-child { margin-bottom: 0; }
-
-    /* Stats bar */
-    .locations-stats {
-      background: var(--navy-900);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding: 1.5rem;
-    }
-    .locations-stats-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
-    }
-    .loc-stat {
-      text-align: center; padding: 1rem;
-      border-right: 1px solid rgba(255,255,255,0.06);
-    }
-    .loc-stat:last-child { border-right: none; }
-    .loc-stat-num {
-      font-family: var(--font-heading);
-      font-size: 2rem; font-weight: 900; color: var(--gold);
-      display: block; line-height: 1;
-    }
-    .loc-stat-lbl {
-      font-family: var(--font-body);
-      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--muted); margin-top: 0.3rem; display: block;
-    }
-
-
-    /* Toast override for light page */
-    @media (max-width: 768px) {
-      .locations-stats-inner { grid-template-columns: 1fr 1fr; }
-      .loc-stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
-      .loc-stat:nth-child(even) { border-bottom: none; }
-      .districts-grid { grid-template-columns: 1fr; }
-      .district-card-actions { flex-direction: column; }
-      .btn-card-primary, .btn-card-secondary, .btn-map-toggle { flex: none; width: 100%; }
-    }
-    @media (max-width: 480px) {
-      .locations-hero { padding: 110px 1rem 50px; }
-      .region-title { font-size: 1.3rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="css/site-enhancements.css" />
+  <link rel="stylesheet" href="css/locations.css" />
 </head>
-<body data-page="locations">
+<body data-page="locations" class="locations-page">
 
-<!-- ═══ NAVBAR ═══ -->
+<!-- NAVBAR -->
 <header id="navbar">
   <div class="nav-inner">
     <a href="index.html" class="nav-brand">
@@ -282,40 +41,95 @@
   </div>
 </header>
 
-<!-- ═══ HERO ═══ -->
-<div class="locations-hero" >
+<!-- HERO -->
+<section class="locations-hero">
+  <div class="locations-hero-inner">
+    <span class="locations-eyebrow"><i data-lucide="map-pin"></i> Find a fellowship</span>
+    <h1>Our Branches <em>Across Botswana</em></h1>
+    <p class="locations-hero-lead">Active congregations across four regions. Search a district, filter by region, or let us find the branch nearest to you.</p>
+    <div class="locations-hero-actions">
+      <button type="button" class="geo-btn" id="geoBtn" onclick="getUserLocation()">
+        <i data-lucide="locate-fixed"></i>
+        Find nearest branch
+      </button>
+      <a class="loc-chip-btn" href="#region-southern">
+        <i data-lucide="compass"></i>
+        Browse regions
+      </a>
+    </div>
+  </div>
+</section>
 
-  <h1 class="hero-title">Our Branches <em>Across Botswana</em></h1>
-  <span class="section-label" style="text-align:center;display:block;color:white;"> We have active congregations across four regions of Botswana. Find the district nearest to you and connect with your local fellowship.</span>
-  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-    <button class="geo-btn" onclick="getUserLocation()" id="geoBtn">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" stroke-width="1.5"/></svg>
-      Find Nearest Branch
-    </button>
+<!-- STATS -->
+<div class="locations-stats">
+  <div class="locations-stats-inner">
+    <div class="loc-stat">
+      <div class="loc-stat-icon"><i data-lucide="map"></i></div>
+      <div>
+        <span class="loc-stat-num">4</span>
+        <span class="loc-stat-lbl">Regions</span>
+      </div>
+    </div>
+    <div class="loc-stat">
+      <div class="loc-stat-icon"><i data-lucide="building-2"></i></div>
+      <div>
+        <span class="loc-stat-num">8</span>
+        <span class="loc-stat-lbl">Districts</span>
+      </div>
+    </div>
+    <div class="loc-stat">
+      <div class="loc-stat-icon"><i data-lucide="landmark"></i></div>
+      <div>
+        <span class="loc-stat-num">25+</span>
+        <span class="loc-stat-lbl">Branches</span>
+      </div>
+    </div>
+    <div class="loc-stat">
+      <div class="loc-stat-icon"><i data-lucide="users"></i></div>
+      <div>
+        <span class="loc-stat-num">HQ</span>
+        <span class="loc-stat-lbl">Gaborone</span>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ═══ GEO STATUS BAR ═══ -->
-<div class="geo-bar" id="geoBar" style="display:none;">
+<!-- TOOLBAR -->
+<div class="locations-toolbar">
+  <div class="locations-toolbar-inner">
+    <div class="location-search">
+      <i data-lucide="search"></i>
+      <input id="locationSearch" type="search" placeholder="Search district or branch?" autocomplete="off" />
+    </div>
+    <div class="region-filters" id="regionFilters">
+      <button type="button" class="region-filter is-active" data-region-filter="all"><i data-lucide="layout-grid"></i> All</button>
+      <button type="button" class="region-filter" data-region-filter="southern"><i data-lucide="home"></i> Southern</button>
+      <button type="button" class="region-filter" data-region-filter="northeast"><i data-lucide="sparkles"></i> North East</button>
+      <button type="button" class="region-filter" data-region-filter="central"><i data-lucide="circle-dot"></i> Central</button>
+      <button type="button" class="region-filter" data-region-filter="northwest"><i data-lucide="mountain"></i> North West</button>
+    </div>
+  </div>
+</div>
+
+<!-- GEO STATUS BAR -->
+<div class="geo-bar" id="geoBar" hidden>
   <div class="geo-bar-inner">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-    <span class="geo-status" id="geoStatus">Searching for your location...</span>
+    <i data-lucide="navigation"></i>
+    <span class="geo-status" id="geoStatus">Searching for your location?</span>
   </div>
 </div>
 
-<!-- ═══ REGIONS ═══ -->
-<section class="section section-light">
+<!-- REGIONS -->
+<section class="locations-body">
   <div class="container">
 
-    <!-- ── SOUTHERN REGION ── -->
+    <!-- SOUTHERN REGION -->
     <div class="region-section" id="region-southern">
       <div class="region-header">
-        <div class="region-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </div>
+        <div class="region-icon"><i data-lucide="home"></i></div>
         <div>
           <div class="region-title">Southern Region</div>
-          <div class="region-count">2 Districts &nbsp;·&nbsp; Gaborone &amp; Kgalagadi</div>
+          <div class="region-count">2 Districts · Gaborone &amp; Kgalagadi</div>
         </div>
       </div>
 
@@ -395,10 +209,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               Contact Branch
             </a>
-            <button class="btn-map-toggle" onclick="toggleMap('gaborone', this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-              Map
-            </button>
+            <button type="button" class="btn-map-toggle" data-map-toggle="gaborone"><i data-lucide="map"></i><span>Map</span></button>
           </div>
         </div>
 
@@ -464,25 +275,20 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               Contact Branch
             </a>
-            <button class="btn-map-toggle" onclick="toggleMap('kgalagadi', this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-              Map
-            </button>
+            <button type="button" class="btn-map-toggle" data-map-toggle="kgalagadi"><i data-lucide="map"></i><span>Map</span></button>
           </div>
         </div>
 
       </div><!-- /districts-grid -->
     </div><!-- /southern -->
 
-    <!-- ── NORTH EAST REGION ── -->
+    <!-- NORTH EAST REGION -->
     <div class="region-section" id="region-northeast">
       <div class="region-header">
-        <div class="region-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </div>
+        <div class="region-icon"><i data-lucide="sparkles"></i></div>
         <div>
           <div class="region-title">North East Region</div>
-          <div class="region-count">1 District &nbsp;·&nbsp; Francistown</div>
+          <div class="region-count">1 District · Francistown</div>
         </div>
       </div>
       <div class="districts-grid">
@@ -549,25 +355,20 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               Contact Branch
             </a>
-            <button class="btn-map-toggle" onclick="toggleMap('francistown', this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-              Map
-            </button>
+            <button type="button" class="btn-map-toggle" data-map-toggle="francistown"><i data-lucide="map"></i><span>Map</span></button>
           </div>
         </div>
 
       </div>
     </div><!-- /northeast -->
 
-    <!-- ── CENTRAL REGION ── -->
+    <!-- CENTRAL REGION -->
     <div class="region-section" id="region-central">
       <div class="region-header">
-        <div class="region-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </div>
+        <div class="region-icon"><i data-lucide="circle-dot"></i></div>
         <div>
           <div class="region-title">Central Region</div>
-          <div class="region-count">2 Districts &nbsp;·&nbsp; Palapye &amp; Selebi Phikwe</div>
+          <div class="region-count">2 Districts · Palapye &amp; Selebi Phikwe</div>
         </div>
       </div>
       <div class="districts-grid">
@@ -618,9 +419,7 @@
             <a href="index.html#contact" class="btn-card-secondary">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
             </a>
-            <button class="btn-map-toggle" onclick="toggleMap('palapye', this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>Map
-            </button>
+            <button type="button" class="btn-map-toggle" data-map-toggle="palapye"><i data-lucide="map"></i><span>Map</span></button>
           </div>
         </div>
 
@@ -668,24 +467,20 @@
             <a href="index.html#contact" class="btn-card-secondary">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
             </a>
-            <button class="btn-map-toggle" onclick="toggleMap('phikwe', this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>Map
-            </button>
+            <button type="button" class="btn-map-toggle" data-map-toggle="phikwe"><i data-lucide="map"></i><span>Map</span></button>
           </div>
         </div>
 
       </div><!-- /districts-grid -->
     </div><!-- /central -->
 
-    <!-- ── NORTH WEST REGION ── -->
+    <!-- NORTH WEST REGION -->
     <div class="region-section" id="region-northwest">
       <div class="region-header">
-        <div class="region-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </div>
+        <div class="region-icon"><i data-lucide="mountain"></i></div>
         <div>
           <div class="region-title">North West Region</div>
-          <div class="region-count">3 Districts &nbsp;·&nbsp; Boteti, Ngami &amp; Chobe</div>
+          <div class="region-count">3 Districts · Boteti, Ngami &amp; Chobe</div>
         </div>
       </div>
       <div class="districts-grid">
@@ -736,9 +531,7 @@
             <a href="index.html#contact" class="btn-card-secondary">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
             </a>
-            <button class="btn-map-toggle" onclick="toggleMap('boteti', this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>Map
-            </button>
+            <button type="button" class="btn-map-toggle" data-map-toggle="boteti"><i data-lucide="map"></i><span>Map</span></button>
           </div>
         </div>
 
@@ -785,9 +578,7 @@
             <a href="index.html#contact" class="btn-card-secondary">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
             </a>
-            <button class="btn-map-toggle" onclick="toggleMap('ngami', this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>Map
-            </button>
+            <button type="button" class="btn-map-toggle" data-map-toggle="ngami"><i data-lucide="map"></i><span>Map</span></button>
           </div>
         </div>
 
@@ -835,19 +626,22 @@
             <a href="index.html#contact" class="btn-card-secondary">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Branch
             </a>
-            <button class="btn-map-toggle" onclick="toggleMap('chobe', this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>Map
-            </button>
+            <button type="button" class="btn-map-toggle" data-map-toggle="chobe"><i data-lucide="map"></i><span>Map</span></button>
           </div>
         </div>
 
       </div>
     </div><!-- /northwest -->
 
+    <div class="locations-empty" id="locationsEmpty" hidden>
+      <i data-lucide="search-x"></i>
+      <p>No districts match your search. Try another name or choose All regions.</p>
+    </div>
+
   </div>
 </section>
 
-<!-- ═══ FOOTER ═══ -->
+<!-- ??? FOOTER ??? -->
 <footer class="footer">
   <div class="container footer-inner">
     <div class="footer-main">
@@ -857,7 +651,7 @@
         </div>
         <div>
           <p class="footer-church-name">Apostolic Faith Church</p>
-          <p class="footer-sub">Portland, Oregon � Botswana Branch</p>
+          <p class="footer-sub">Portland, Oregon · Botswana Branch</p>
         </div>
       </div>
 
@@ -890,113 +684,18 @@
     </div>
 
     <div class="footer-bottom">
-      <p class="footer-copy">� 2026 Apostolic Faith Church � Botswana. All rights reserved.</p>
-      <p class="footer-motto">�Faith, Fellowship, Service�</p>
+      <p class="footer-copy">? 2026 Apostolic Faith Church ? Botswana. All rights reserved.</p>
+      <p class="footer-motto">?Faith, Fellowship, Service?</p>
     </div>
   </div>
 </footer>
 
 <div id="toast" class="toast"></div>
 
-<script>
-/* ── NAV ── */
-document.getElementById('hamburger').addEventListener('click', () => {
-  document.getElementById('navLinks').classList.toggle('open');
-});
-window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
-
-/* ── MAP TOGGLE ── */
-window.toggleMap = function(id, btn) {
-  const map = document.getElementById('map-' + id);
-  const isOpen = map.classList.contains('open');
-  map.classList.toggle('open', !isOpen);
-  btn.style.color = !isOpen ? 'var(--navy-700)' : '';
-  btn.style.borderColor = !isOpen ? 'var(--navy-600)' : '';
-};
-
-/* ── GEOLOCATION ── */
-const DISTRICTS = [
-  { id: 'gaborone',    name: 'Greater Gaborone',      lat: -24.68379, lng: 25.88294 },
-  { id: 'kgalagadi',  name: 'Kgalagadi',              lat: -24.6018,  lng: 24.9116  },
-  { id: 'francistown',name: 'Greater Francistown',    lat: -21.17071, lng: 27.50435 },
-  { id: 'palapye',    name: 'Greater Palapye',        lat: -22.5558,  lng: 27.1333  },
-  { id: 'phikwe',     name: 'Greater Selebi Phikwe',  lat: -21.9893,  lng: 27.8335  },
-  { id: 'boteti',     name: 'Boteti',                 lat: -21.4220,  lng: 25.5874  },
-  { id: 'ngami',      name: 'Ngami',                  lat: -19.9833,  lng: 23.4167  },
-  { id: 'chobe',      name: 'Chobe',                  lat: -17.7975,  lng: 25.3253  },
-];
-
-function haversine(lat1, lng1, lat2, lng2) {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
-  const a = Math.sin(dLat/2)**2 +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLng/2)**2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
-
-window.getUserLocation = function() {
-  const bar    = document.getElementById('geoBar');
-  const status = document.getElementById('geoStatus');
-  bar.style.display = 'block';
-  status.textContent = 'Locating you...';
-
-  if (!navigator.geolocation) {
-    status.textContent = 'Geolocation is not supported by your browser.';
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      const { latitude: lat, longitude: lng } = pos.coords;
-      let nearest = null, minDist = Infinity;
-
-      DISTRICTS.forEach(d => {
-        const dist = haversine(lat, lng, d.lat, d.lng);
-        if (dist < minDist) { minDist = dist; nearest = d; }
-      });
-
-      if (!nearest) return;
-
-      // Clear previous highlights
-      document.querySelectorAll('.district-card').forEach(c => c.classList.remove('nearest'));
-      document.querySelectorAll('.nearest-badge').forEach(b => b.remove());
-
-      const card = document.getElementById('district-' + nearest.id);
-      if (card) {
-        card.classList.add('nearest');
-        const badge = document.createElement('div');
-        badge.className = 'nearest-badge';
-        badge.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Nearest to You`;
-        card.querySelector('.district-card-head div').appendChild(badge);
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-
-      const km = minDist < 1
-        ? Math.round(minDist * 1000) + ' m'
-        : minDist.toFixed(1) + ' km';
-      status.textContent = `Nearest district: ${nearest.name} — ${km} from your location.`;
-    },
-    () => {
-      status.textContent = 'Could not access your location. Please check your browser permissions.';
-    }
-  );
-};
-
-/* ── TOAST ── */
-function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast show ${type}`;
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), 4500);
-}
-</script>
 <script type="module">
   import './js/site-core.js';
+  import { initLocationsPage } from './js/locations-page.js';
+  initLocationsPage();
 </script>
 </body>
 </html>
