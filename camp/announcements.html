@@ -13,7 +13,6 @@
   display: flex;
   gap: .5rem;
   margin-bottom: 2rem;
-  /* horizontal scroll on mobile — no wrapping */
   overflow-x: auto;
   scrollbar-width: none;
   padding-bottom: 4px;
@@ -22,6 +21,9 @@
 .filter-bar::-webkit-scrollbar { display: none; }
 
 .filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
   padding: .5rem 1.1rem;
   border-radius: 20px;
   border: 1.5px solid rgba(255,255,255,.12);
@@ -32,7 +34,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: all .2s;
-  white-space: nowrap;   /* stops buttons breaking onto two lines */
+  white-space: nowrap;
   flex-shrink: 0;
 }
 .filter-btn:hover { border-color: rgba(255,255,255,.25); color: white; }
@@ -42,9 +44,10 @@
   color: var(--c-gold);
 }
 
-/* ── CATEGORY PILLS ── */
 .category-pill {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
   font-size: .65rem;
   font-weight: 700;
   padding: .22rem .6rem;
@@ -61,7 +64,6 @@
 .cat-kitchen        { background: rgba(230,126,34,.12);  color: #f39c12; }
 .cat-workers        { background: rgba(231,76,60,.12);   color: #e74c3c; }
 
-/* ── ANNOUNCEMENT CARDS ── */
 .ann-card {
   background: rgba(255,255,255,.04);
   border: 1px solid rgba(255,255,255,.08);
@@ -88,9 +90,15 @@
 }
 .ann-title { font-weight: 800; font-size: .98rem; color: white; }
 .ann-body  { font-size: .88rem; color: rgba(255,255,255,.72); line-height: 1.65; }
-.ann-time  { font-size: .7rem; color: var(--c-muted); margin-top: .65rem; }
+.ann-time  {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .7rem;
+  color: var(--c-muted);
+  margin-top: .65rem;
+}
 
-/* ── MOBILE TWEAKS ── */
 @media (max-width: 600px) {
   .ann-card  { padding: 1.1rem; }
   .ann-title { font-size: .92rem; }
@@ -117,7 +125,7 @@
       <a href="store.html">Store</a>
       <a href="announcements.html" class="active">Announcements</a>
       <a href="testimonies.html">Testimonies</a>
- </nav>
+    </nav>
     <button class="camp-hamburger" id="hamburger">
       <span></span><span></span><span></span>
     </button>
@@ -125,52 +133,43 @@
 </header>
 
 <div class="camp-mobile-nav" id="mobileNav">
-  <a href="index.html">🏠 Home</a>
-  <a href="registration.html">📋 Register</a>
-  <a href="schedule.html">📅 Schedule</a>
-  <a href="store.html">👕 Store</a>
-  <a href="announcements.html" class="active">📢 Announcements</a>
-  <a href="testimonies.html">✨ Testimonies</a>
-
+  <a href="index.html">Home</a>
+  <a href="registration.html">Register</a>
+  <a href="schedule.html">Schedule</a>
+  <a href="store.html">Store</a>
+  <a href="announcements.html" class="active">Announcements</a>
+  <a href="testimonies.html">Testimonies</a>
   <a href="../index.html">← Main Site</a>
 </div>
 
 <div class="camp-page-hero">
   <span class="camp-eyebrow">Camp Meeting 2026</span>
-  <h1 class="camp-page-title">📢 <em>Announcements</em></h1>
+  <h1 class="camp-page-title"><span data-camp-icon="megaphone" data-icon-size="34"></span> <em>Announcements</em></h1>
   <p class="camp-page-sub">Latest updates from the camp management team</p>
 </div>
 
 <section class="camp-section">
   <div class="camp-container" style="max-width:760px;">
-
-    <!-- Filter bar — scrollable on mobile -->
     <div class="filter-bar">
-      <button class="filter-btn active"  onclick="filterAnn('all',this)">All</button>
-      <button class="filter-btn" onclick="filterAnn('general',this)">🟢 General</button>
-      <button class="filter-btn" onclick="filterAnn('transportation',this)">🚌 Transport</button>
-      <button class="filter-btn" onclick="filterAnn('accommodation',this)">🏕️ Accommodation</button>
-      <button class="filter-btn" onclick="filterAnn('choir',this)">🎵 Choir</button>
-      <button class="filter-btn" onclick="filterAnn('kitchen',this)">🍽️ Kitchen</button>
-      <button class="filter-btn" onclick="filterAnn('workers',this)">⚙️ Workers</button>
+      <button class="filter-btn active" onclick="filterAnn('all',this)"><span data-camp-icon="layoutGrid" data-icon-size="14"></span> All</button>
+      <button class="filter-btn" onclick="filterAnn('general',this)"><span data-camp-icon="circle" data-icon-size="14"></span> General</button>
+      <button class="filter-btn" onclick="filterAnn('transportation',this)"><span data-camp-icon="bus" data-icon-size="14"></span> Transport</button>
+      <button class="filter-btn" onclick="filterAnn('accommodation',this)"><span data-camp-icon="tent" data-icon-size="14"></span> Accommodation</button>
+      <button class="filter-btn" onclick="filterAnn('choir',this)"><span data-camp-icon="music" data-icon-size="14"></span> Choir</button>
+      <button class="filter-btn" onclick="filterAnn('kitchen',this)"><span data-camp-icon="utensils" data-icon-size="14"></span> Kitchen</button>
+      <button class="filter-btn" onclick="filterAnn('workers',this)"><span data-camp-icon="settings" data-icon-size="14"></span> Workers</button>
     </div>
 
     <div id="annList">
       <div class="camp-empty">
-        <div class="camp-empty-icon">📢</div>
+        <div class="camp-empty-icon" data-camp-icon="megaphone" data-icon-size="28"></div>
         Loading announcements…
       </div>
     </div>
-
   </div>
 </section>
 
-<footer class="camp-footer">
-  <div class="camp-container camp-footer-inner">
-    <p class="camp-footer-verse">✦ "The just shall live by faith." — Romans 1:17 ✦</p>
-    <p class="camp-footer-copy">© 2026 Apostolic Faith Church – Botswana</p>
-  </div>
-</footer>
+<footer class="camp-footer"></footer>
 
 <script type="module">
 import {
@@ -179,19 +178,22 @@ import {
   onSnapshot,
   CAMP_ANN
 } from './camp-firebase.js';
+import { campIcon, hydrateCampIcons } from './camp-icons.js';
+import { initCampShell } from './camp-shell.js';
 
-// ── NAV ──
+initCampShell();
+hydrateCampIcons();
+
 document.getElementById('hamburger').onclick = () =>
   document.getElementById('mobileNav').classList.toggle('open');
 
-// ── CATEGORY CONFIG ──
 const CAT = {
-  general:        { icon:'🟢', label:'General',        cls:'cat-general'        },
-  transportation: { icon:'🚌', label:'Transportation',  cls:'cat-transportation' },
-  accommodation:  { icon:'🏕️', label:'Accommodation',   cls:'cat-accommodation'  },
-  choir:          { icon:'🎵', label:'Choir',           cls:'cat-choir'          },
-  kitchen:        { icon:'🍽️', label:'Kitchen',         cls:'cat-kitchen'        },
-  workers:        { icon:'⚙️', label:'Workers',         cls:'cat-workers'        },
+  general:        { icon: 'circle',   label: 'General',        cls: 'cat-general' },
+  transportation: { icon: 'bus',      label: 'Transportation', cls: 'cat-transportation' },
+  accommodation:  { icon: 'tent',     label: 'Accommodation',  cls: 'cat-accommodation' },
+  choir:          { icon: 'music',    label: 'Choir',          cls: 'cat-choir' },
+  kitchen:        { icon: 'utensils', label: 'Kitchen',        cls: 'cat-kitchen' },
+  workers:        { icon: 'settings', label: 'Workers',        cls: 'cat-workers' },
 };
 
 function esc(s){
@@ -207,13 +209,11 @@ function fmtTime(val){
   return String(val);
 }
 
-// ── STATE ──
-let allAnn       = [];
+let allAnn = [];
 let activeFilter = 'all';
 
-// ── RENDER ──
 function render(){
-  const el   = document.getElementById('annList');
+  const el = document.getElementById('annList');
   const list = activeFilter === 'all'
     ? allAnn
     : allAnn.filter(a => (a.priority || 'general') === activeFilter);
@@ -221,7 +221,7 @@ function render(){
   if(!list.length){
     el.innerHTML = `
       <div class="camp-empty">
-        <div class="camp-empty-icon">📢</div>
+        <div class="camp-empty-icon">${campIcon('megaphone', { size: 28 })}</div>
         ${activeFilter === 'all'
           ? 'No announcements yet. Check back soon.'
           : 'No announcements in this category yet.'}
@@ -235,16 +235,15 @@ function render(){
     return `
       <div class="ann-card ${a.priority || 'general'}">
         <div class="ann-header">
-          <span class="category-pill ${cat.cls}">${cat.icon} ${cat.label}</span>
+          <span class="category-pill ${cat.cls}">${campIcon(cat.icon, { size: 13 })} ${cat.label}</span>
           <div class="ann-title">${esc(a.title)}</div>
         </div>
         <div class="ann-body">${esc(a.body || '').replace(/\n/g,'<br>')}</div>
-        ${time ? `<div class="ann-time">📅 ${time} · Camp Management</div>` : ''}
+        ${time ? `<div class="ann-time">${campIcon('calendar', { size: 13 })} ${time} · Camp Management</div>` : ''}
       </div>`;
   }).join('');
 }
 
-// ── FILTER ──
 window.filterAnn = function(filter, btn){
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -252,7 +251,6 @@ window.filterAnn = function(filter, btn){
   render();
 };
 
-// ── LIVE FIREBASE LISTENER ──
 onSnapshot(
   query(collection(db, CAMP_ANN), orderBy('timestamp','desc')),
   snap => {
@@ -263,16 +261,11 @@ onSnapshot(
     console.error('Announcements error:', err);
     document.getElementById('annList').innerHTML = `
       <div class="camp-empty">
-        <div class="camp-empty-icon">⚠️</div>
+        <div class="camp-empty-icon">${campIcon('alertTriangle', { size: 28 })}</div>
         Could not load announcements. Please check your connection and try again.
       </div>`;
   }
 );
-</script>
-
-<script type="module">
-  import { initCampShell } from './camp-shell.js';
-  initCampShell();
 </script>
 </body>
 </html>

@@ -244,6 +244,27 @@ body {
 .camp-empty .camp-empty-icon { display:flex; justify-content:center; margin-bottom:.75rem; opacity:.55; color: var(--c-gold); }
 
 .camp-icon { display: inline-block; vertical-align: -0.2em; flex-shrink: 0; }
+.camp-inline-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.camp-inline-icon .camp-icon { flex-shrink: 0; }
+.filter-btn .camp-icon,
+.category-pill .camp-icon,
+.status-badge .camp-icon {
+  margin-right: 0.25rem;
+  vertical-align: -0.25em;
+}
+.camp-page-title .camp-icon {
+  margin-right: 0.35rem;
+  color: var(--c-gold, #d4af37);
+  vertical-align: -0.1em;
+}
+.camp-eyebrow .camp-icon {
+  margin-right: 0.35rem;
+  vertical-align: -0.2em;
+}
 .camp-info-icon {
   display: inline-flex; align-items: center; justify-content: center;
   width: 42px; height: 42px; border-radius: 12px;

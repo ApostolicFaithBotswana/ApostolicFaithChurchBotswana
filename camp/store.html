@@ -158,7 +158,10 @@ body {
 .prod-name { font-weight: 900; font-size: 1.1rem; margin-bottom: 8px; }
 
 .status-badge {
-  display: inline-block; padding: 4px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: 4px 12px;
   font-size: .73rem; border-radius: 20px; font-weight: 700;
   margin-bottom: 10px; width: fit-content;
 }
@@ -309,7 +312,7 @@ body {
       <a href="store.html" class="active">Store</a>
       <a href="announcements.html">Announcements</a>
       <a href="testimonies.html">Testimonies</a>
-      <a href="https://wa.me/26773837664" class="nav-wa" target="_blank">💬 WhatsApp</a>
+      <a href="https://wa.me/26773837664" class="nav-wa" target="_blank"><span data-camp-icon="whatsapp" data-icon-size="14"></span> WhatsApp</a>
     </nav>
     <button class="camp-hamburger" id="hamburger" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -319,13 +322,13 @@ body {
 
 <!-- ══ MOBILE NAV ══ -->
 <div class="camp-mobile-nav" id="mobileNav">
-  <a href="index.html">🏠 Home</a>
-  <a href="registration.html">📋 Register</a>
-  <a href="schedule.html">📅 Schedule</a>
-  <a href="store.html" class="active">👕 Store</a>
-  <a href="announcements.html">📢 Announcements</a>
-  <a href="testimonies.html">✨ Testimonies</a>
-  <a href="https://wa.me/26773837664" target="_blank">💬 WhatsApp</a>
+  <a href="index.html">Home</a>
+  <a href="registration.html">Register</a>
+  <a href="schedule.html">Schedule</a>
+  <a href="store.html" class="active">Store</a>
+  <a href="announcements.html">Announcements</a>
+  <a href="testimonies.html">Testimonies</a>
+  <a href="https://wa.me/26773837664" target="_blank">WhatsApp</a>
   <a href="../index.html">← Main Site</a>
 </div>
 
@@ -378,7 +381,7 @@ body {
     </select>
 
     <div class="note">
-      📱 After submitting, WhatsApp will open with your order details for confirmation.
+      After submitting, WhatsApp will open with your order details for confirmation.
     </div>
 
     <button class="btn" id="submitOrderBtn" style="margin-top:18px;">Submit Order</button>
@@ -417,6 +420,7 @@ import {
   serverTimestamp,
   CAMP_ORDERS, STORE_PRODUCTS
 } from './camp-firebase.js';
+import { campIcon } from './camp-icons.js';
 
 // ═══════════════════════════════════════════════════════
 //  CATALOGUE — names, images, sizes hardcoded here.
@@ -481,9 +485,11 @@ function renderProducts() {
     const badgeClass = status === 'available' ? 'status-available'
                      : status === 'limited'   ? 'status-limited'
                      : 'status-out';
-    const badgeLabel = status === 'available' ? '✅ Available'
-                     : status === 'limited'   ? '⚠️ Limited Stock'
-                     : '❌ Out of Stock';
+    const badgeLabel = status === 'available'
+      ? `${campIcon('checkCircle', { size: 13 })} Available`
+      : status === 'limited'
+      ? `${campIcon('alertTriangle', { size: 13 })} Limited Stock`
+      : `${campIcon('xCircle', { size: 13 })} Out of Stock`;
 
     return `
       <div class="card">
@@ -589,7 +595,7 @@ document.getElementById('submitOrderBtn').addEventListener('click', async functi
     });
 
     const msg =
-`Hello AFC Store 👋
+`Hello AFC Store,
 
 Item: ${selectedProduct.name}
 Name: ${name}
@@ -599,13 +605,13 @@ Qty: ${qty}
 Total: P${total}${payment === 'deposit' ? `\nDeposit (60%): P${deposit}` : ''}
 Payment: ${payment === 'deposit' ? '60% Deposit' : 'Full payment at camp'}
 
-Please confirm my order. 🙏`;
+Please confirm my order.`;
 
     window.open(`https://wa.me/26773837664?text=${encodeURIComponent(msg)}`);
     closeModal();
     document.getElementById('customerName').value  = '';
     document.getElementById('customerPhone').value = '';
-    alert('Order placed successfully! 🎉');
+    alert('Order placed successfully!');
 
   } catch(e) {
     alert('Error placing order: ' + e.message);
@@ -640,7 +646,9 @@ mobileNav.querySelectorAll('a').forEach(link => {
 
 <script type="module">
   import { initCampShell } from './camp-shell.js';
+  import { hydrateCampIcons } from './camp-icons.js';
   initCampShell();
+  hydrateCampIcons();
 </script>
 </body>
 </html>
