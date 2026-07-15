@@ -256,7 +256,7 @@ function unmountPlayer() {
         <span class="live-player-placeholder-icon" aria-hidden="true">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
         </span>
-        <span>Waiting for the next live stream…</span>
+        <span>Waiting for the next performance…</span>
       </div>`;
   }
   playerIframe = null;

@@ -277,7 +277,7 @@
     }
   </style>
 </head>
-<body>
+<body data-page="locations">
 
 <!-- ═══ NAVBAR ═══ -->
 <header id="navbar">
@@ -298,6 +298,7 @@
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="locations.html" class="active">Locations</a>
+      <a href="live.html">Live</a>
       <a href="index.html#events">Events</a>
       <a href="index.html#resources">Resources</a>
       <a href="calendar.html">Calendar</a>
@@ -1034,6 +1035,9 @@ function showToast(msg, type = 'success') {
   clearTimeout(t._t);
   t._t = setTimeout(() => t.classList.remove('show'), 4500);
 }
+</script>
+<script type="module">
+  import './js/site-core.js';
 </script>
 </body>
 </html>

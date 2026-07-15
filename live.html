@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="css/site-enhancements.css" />
   <link rel="stylesheet" href="css/live.css" />
 </head>
-<body data-page="live">
+<body data-page="live" class="live-theater-page">
 
 <header id="navbar">
   <div class="nav-inner">
@@ -36,18 +36,18 @@
   </div>
 </header>
 
-<section class="live-page-hero">
-  <div class="live-page-hero-inner">
-    <span class="section-label light">Watch With Us</span>
-    <h1>Church <em>Live</em></h1>
-    <p>When we broadcast on YouTube, the service appears here automatically — same stream and title.</p>
-  </div>
-</section>
+<main class="theater">
+  <div class="theater-glow" aria-hidden="true"></div>
 
-<main class="live-shell">
-  <div class="live-status-bar">
-    <span class="live-status-pill is-offline" id="liveStatusPill">Checking…</span>
-    <span class="live-sync-note" id="liveSyncNote">Connecting to YouTube…</span>
+  <div class="theater-marquee">
+    <div class="theater-marquee-left">
+      <span class="theater-eyebrow">House lights dim</span>
+      <h1>Live <em>Theatre</em></h1>
+    </div>
+    <div class="theater-marquee-right">
+      <span class="live-status-pill is-offline" id="liveStatusPill">Checking…</span>
+      <span class="live-sync-note" id="liveSyncNote">Connecting to YouTube…</span>
+    </div>
   </div>
 
   <div class="live-setup-note" id="liveSetupNote" hidden>
@@ -57,17 +57,25 @@
     (enable YouTube Data API v3, restrict the key to your website domain).
   </div>
 
-  <div class="live-stage" id="liveLayout">
-    <div class="live-player-card">
-      <div class="live-player-wrap" id="livePlayerWrap">
-        <div class="live-player-placeholder">
-          <span class="live-player-placeholder-icon" aria-hidden="true">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-          </span>
-          <span>Loading player…</span>
+  <div class="proscenium" id="liveLayout">
+    <div class="curtain curtain-left" aria-hidden="true"></div>
+    <div class="curtain curtain-right" aria-hidden="true"></div>
+
+    <div class="screen-frame">
+      <div class="screen-bevel">
+        <div class="live-player-wrap" id="livePlayerWrap">
+          <div class="live-player-placeholder">
+            <span class="live-player-placeholder-icon" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+            </span>
+            <span>The auditorium is preparing…</span>
+          </div>
         </div>
       </div>
-      <div class="live-player-body">
+    </div>
+
+    <div class="stage-apron">
+      <div class="stage-program">
         <h2 class="live-stream-title" id="liveStreamTitle">Checking for live stream…</h2>
         <p class="live-stream-desc" id="liveStreamDesc"></p>
         <div class="live-meta-row" id="liveMeta" hidden></div>
@@ -77,16 +85,20 @@
   </div>
 
   <div class="live-offline-card" id="liveOfflineCard" hidden>
-    <div class="live-offline-icon" aria-hidden="true">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
+    <div class="offline-curtain" aria-hidden="true"></div>
+    <div class="live-offline-content">
+      <div class="live-offline-icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
+      </div>
+      <p class="offline-kicker">Curtains closed</p>
+      <h2>We’re not live right now</h2>
+      <p id="liveOfflineMsg">When the next service begins on YouTube, the stream will open here automatically — seats ready, house lights dimmed.</p>
+      <div class="live-offline-actions">
+        <a class="btn-primary" href="https://www.youtube.com/@apostolicfaithbotswanahead3540?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a>
+        <a class="live-tool-btn" href="index.html">Back to homepage</a>
+      </div>
+      <div id="liveLatestWrap" hidden></div>
     </div>
-    <h2>We’re not live right now</h2>
-    <p id="liveOfflineMsg">Subscribe on YouTube to get notified the moment our next service or event goes live.</p>
-    <div class="live-offline-actions">
-      <a class="btn-primary" href="https://www.youtube.com/@apostolicfaithbotswanahead3540?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a>
-      <a class="live-tool-btn" href="index.html">Back to homepage</a>
-    </div>
-    <div id="liveLatestWrap" hidden></div>
   </div>
 </main>
 

@@ -6,8 +6,10 @@
 
 import { initSiteMotion } from './site-motion.js';
 import { initLiveAdmin } from './live-admin.js';
+import { initSiteNav } from './site-nav.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initSiteNav();
   initSiteMotion();
   const page = document.body.dataset.page || 'index';
   initLiveAdmin(page);
