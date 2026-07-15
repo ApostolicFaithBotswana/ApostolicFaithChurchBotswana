@@ -91,7 +91,7 @@ function initPageTransitions() {
 
 function initScrollReveal() {
   const els = document.querySelectorAll(
-    '.pillar-card, .resource-card, .event-card, .gallery-tile, .belief-card, .district-card, .region-section, .loc-stat, .structure-card, .timeline-card, .home-loc-card, .home-feature-card, .home-camp-banner'
+    '.pillar-card, .resource-card, .event-card, .gallery-tile, .belief-card, .district-card, .region-section, .loc-stat, .structure-card, .timeline-card, .home-loc-card, .home-feature-card, .home-camp-banner, .contact-card, .contact-aside, .contact-panel'
   );
   if (!('IntersectionObserver' in window)) {
     els.forEach((el) => el.classList.add('is-visible'));

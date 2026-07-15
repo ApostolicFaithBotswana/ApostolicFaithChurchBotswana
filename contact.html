@@ -9,9 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/site-enhancements.css" />
-  <link rel="stylesheet" href="css/home-sections.css" />
+  <link rel="stylesheet" href="css/contact.css" />
 </head>
-<body data-page="contact">
+<body data-page="contact" class="contact-page">
 
 <header id="navbar">
   <div class="nav-inner">
@@ -27,97 +27,173 @@
   </div>
 </header>
 
-<section class="page-hero">
-  <div class="page-hero-content">
-    <span class="section-label">Get in Touch</span>
-    <h1 class="page-hero-title">Contact <em>Us</em></h1>
-    <p>Send a message, request prayer, or find a branch near you. We would love to hear from you.</p>
+<section class="contact-hero">
+  <div class="contact-hero-inner">
+    <nav class="contact-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a><span>/</span><span>Contact</span>
+    </nav>
+    <span class="contact-hero-eyebrow">We'd love to hear from you</span>
+    <h1>Get in <em>Touch</em></h1>
+    <p class="contact-hero-lead">
+      Send a message, submit a prayer request, or connect with our national office.
+      Every inquiry is handled with care.
+    </p>
   </div>
 </section>
 
-<div class="contact-section" id="contact">
-  <div class="contact-info">
-    <h3>Reach Out</h3>
-    <div class="contact-item">
-      <div class="contact-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-      <div>
-        <strong>Email</strong>
-        <p id="contactEmail" data-edit="index.contact.email" data-edit-type="text" data-edit-field="body" data-edit-label="Contact email">apostolicfaithchurchbotswana@gmail.com</p>
+<main class="contact-body" id="contact">
+  <div class="container">
+
+    <div class="contact-cards">
+      <article class="contact-card">
+        <div class="contact-card-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-value">
+          <a id="contactEmail" href="mailto:apostolicfaithchurchbotswana@gmail.com" data-edit="index.contact.email" data-edit-type="text" data-edit-field="body" data-edit-label="Contact email">apostolicfaithchurchbotswana@gmail.com</a>
+        </div>
+      </article>
+
+      <article class="contact-card">
+        <div class="contact-card-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div class="contact-card-label">Phone</div>
+        <div class="contact-card-value">
+          <a id="contactPhone" href="tel:+26774171287" data-edit="index.contact.phone" data-edit-type="text" data-edit-field="body" data-edit-label="Contact phone">+267 74171287</a>
+        </div>
+      </article>
+
+      <article class="contact-card">
+        <div class="contact-card-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/></svg>
+        </div>
+        <div class="contact-card-label">Head Office</div>
+        <div class="contact-card-value" data-edit="index.contact.address" data-edit-type="text" data-edit-field="body" data-edit-label="Head office address">Plot 54201, Phase 4, Gaborone</div>
+      </article>
+
+      <article class="contact-card">
+        <div class="contact-card-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="contact-card-label">Branches</div>
+        <div class="contact-card-value">Congregations across Botswana</div>
+        <a href="locations.html" class="contact-card-link">View all locations →</a>
+      </article>
+    </div>
+
+    <div class="contact-layout">
+      <aside class="contact-aside">
+        <h2>National Office</h2>
+        <p>Reach the headquarters team for general enquiries, event information, or directions to a branch near you.</p>
+
+        <ul class="contact-hours">
+          <li><span>Sunday School</span><span>09:00</span></li>
+          <li><span>Sunday Worship</span><span>10:00</span></li>
+          <li><span>Wednesday Bible Study</span><span>18:00</span></li>
+          <li><span>Friday Evening Service</span><span>18:00</span></li>
+        </ul>
+
+        <p class="contact-social-label">Connect online</p>
+        <div class="contact-socials">
+          <a href="https://facebook.com/people/Apostolic-Faith-Church-of-Portland-Oregon-Botswana/100064412953117" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://zoom.us/j/84874457626" target="_blank" rel="noopener" aria-label="Zoom">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@apostolicfaithbotswanahead3540" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+          </a>
+          <a href="mailto:apostolicfaithchurchbotswana@gmail.com" aria-label="Email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+
+        <div class="btn-row">
+          <a href="locations.html" class="btn-primary">Find a Branch</a>
+          <a href="live.html" class="btn-outline">Watch Live</a>
+        </div>
+      </aside>
+
+      <div class="contact-panel">
+        <div class="contact-tabs" role="tablist" aria-label="Contact forms">
+          <button type="button" class="contact-tab active" role="tab" aria-selected="true" aria-controls="panel-message" id="tab-message" data-tab="message">Send a Message</button>
+          <button type="button" class="contact-tab" role="tab" aria-selected="false" aria-controls="panel-prayer" id="tab-prayer" data-tab="prayer">Prayer Request</button>
+        </div>
+
+        <div class="contact-tab-panel active" id="panel-message" role="tabpanel" aria-labelledby="tab-message">
+          <h3>Write to us</h3>
+          <p class="contact-panel-desc">Share your question or comment and our team will respond as soon as possible.</p>
+          <form id="contactForm" onsubmit="handleContactForm(event)">
+            <div class="contact-form-row">
+              <div class="form-group">
+                <label for="cName">Full Name</label>
+                <input type="text" id="cName" required placeholder="Your name">
+              </div>
+              <div class="form-group">
+                <label for="cEmail">Email</label>
+                <input type="email" id="cEmail" required placeholder="you@email.com">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cSubject">Subject</label>
+              <input type="text" id="cSubject" placeholder="What is this regarding?">
+            </div>
+            <div class="form-group">
+              <label for="cMsg">Message</label>
+              <textarea id="cMsg" rows="6" required placeholder="Your message…"></textarea>
+            </div>
+            <button class="btn-primary" type="submit">Send Message</button>
+          </form>
+        </div>
+
+        <div class="contact-tab-panel" id="panel-prayer" role="tabpanel" aria-labelledby="tab-prayer" hidden>
+          <h3>Prayer request</h3>
+          <p class="contact-panel-desc">Your request will be handled with care and confidentiality by our ministers.</p>
+          <form id="prayerForm" onsubmit="handlePrayerForm(event)">
+            <div class="form-group">
+              <label for="prName">Name</label>
+              <input type="text" id="prName" placeholder="Optional — leave blank to stay anonymous">
+            </div>
+            <div class="contact-form-row">
+              <div class="form-group">
+                <label for="prCategory">Category</label>
+                <select id="prCategory">
+                  <option>General</option>
+                  <option>Healing</option>
+                  <option>Family</option>
+                  <option>Salvation</option>
+                  <option>Financial</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="prAnon">Visibility</label>
+                <select id="prAnon">
+                  <option value="no">Show my name to ministers</option>
+                  <option value="yes">Keep me anonymous</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="prRequest">Prayer Request</label>
+              <textarea id="prRequest" rows="5" required placeholder="Share your prayer need…"></textarea>
+            </div>
+            <button class="btn-primary prayer-btn" type="submit">Submit Prayer Request</button>
+          </form>
+        </div>
       </div>
     </div>
-    <div class="contact-item">
-      <div class="contact-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-      <div>
-        <strong>Phone</strong>
-        <p id="contactPhone" data-edit="index.contact.phone" data-edit-type="text" data-edit-field="body" data-edit-label="Contact phone">+267 74171287</p>
-      </div>
+
+    <div class="contact-trust">
+      <blockquote>"Call unto me, and I will answer thee, and shew thee great and mighty things, which thou knowest not."</blockquote>
+      <cite>Jeremiah 33:3</cite>
     </div>
-    <div class="contact-item">
-      <div class="contact-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/></svg></div>
-      <div>
-        <strong>Head Office</strong>
-        <p data-edit="index.contact.address" data-edit-type="text" data-edit-field="body" data-edit-label="Head office address">Plot 54201, Phase 4, Gaborone</p>
-      </div>
-    </div>
-    <div class="btn-row">
-      <a href="locations.html" class="btn-primary">View All Branches</a>
-      <a href="live.html" class="btn-outline-dark">Join Live</a>
-    </div>
+
   </div>
-
-  <form class="contact-form" id="contactForm" onsubmit="handleContactForm(event)">
-    <h3>Send a Message</h3>
-    <div class="form-group">
-      <label>Full Name</label>
-      <input type="text" id="cName" required>
-    </div>
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" id="cEmail" required>
-    </div>
-    <div class="form-group">
-      <label>Subject</label>
-      <input type="text" id="cSubject">
-    </div>
-    <div class="form-group">
-      <label>Message</label>
-      <textarea id="cMsg" rows="6" required></textarea>
-    </div>
-    <button class="btn-primary" type="submit">Send Message</button>
-  </form>
-
-  <form class="prayer-form" id="prayerForm" onsubmit="handlePrayerForm(event)">
-    <h3>Prayer Request</h3>
-    <p class="small-text">Your request will be handled with care and confidentiality.</p>
-    <div class="form-group">
-      <label>Name</label>
-      <input type="text" id="prName">
-    </div>
-    <div class="form-group">
-      <label>Category</label>
-      <select id="prCategory">
-        <option>General</option>
-        <option>Healing</option>
-        <option>Family</option>
-        <option>Salvation</option>
-        <option>Financial</option>
-        <option>Other</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Prayer Request</label>
-      <textarea id="prRequest" rows="5" required></textarea>
-    </div>
-    <div class="form-group">
-      <label>Visibility</label>
-      <select id="prAnon">
-        <option value="no">Show my name to ministers</option>
-        <option value="yes">Keep me anonymous</option>
-      </select>
-    </div>
-    <button class="btn-primary prayer-btn" type="submit">Submit Prayer Request</button>
-  </form>
-</div>
+</main>
 
 <footer class="footer">
   <div class="container footer-inner">

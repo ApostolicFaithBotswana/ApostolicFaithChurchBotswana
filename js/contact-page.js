@@ -1,16 +1,53 @@
-/* Contact page — message + prayer forms */
+/* Contact page — tabs, forms, config */
 
 import { DB } from './data.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+  initContactTabs();
   try {
     const cfg = await DB.getConfig();
-    setElIfNoEdit('contactEmail', cfg.contact_email);
-    setElIfNoEdit('contactPhone', cfg.contact_phone);
+    setContactField('contactEmail', cfg.contact_email, 'mailto:');
+    setContactField('contactPhone', cfg.contact_phone, 'tel:');
   } catch {
     /* keep HTML defaults */
   }
 });
+
+function initContactTabs() {
+  const tabs = document.querySelectorAll('.contact-tab');
+  const panels = document.querySelectorAll('.contact-tab-panel');
+  if (!tabs.length) return;
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      tabs.forEach((t) => {
+        const active = t.dataset.tab === target;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      panels.forEach((panel) => {
+        const isMessage = panel.id === 'panel-message';
+        const isPrayer = panel.id === 'panel-prayer';
+        const show =
+          (target === 'message' && isMessage) ||
+          (target === 'prayer' && isPrayer);
+        panel.classList.toggle('active', show);
+        panel.hidden = !show;
+      });
+    });
+  });
+}
+
+function setContactField(id, val, hrefPrefix) {
+  const el = document.getElementById(id);
+  if (!el || !val || el.hasAttribute('data-edit')) return;
+  el.textContent = val;
+  if (el.tagName === 'A') {
+    const clean = hrefPrefix === 'tel:' ? val.replace(/\s/g, '') : val;
+    el.href = hrefPrefix + clean;
+  }
+}
 
 window.handleContactForm = async function (e) {
   e.preventDefault();
@@ -55,11 +92,6 @@ window.handlePrayerForm = async function (e) {
     if (btn) { btn.disabled = false; btn.textContent = 'Submit Prayer Request'; }
   }
 };
-
-function setElIfNoEdit(id, val) {
-  const el = document.getElementById(id);
-  if (el && val && !el.hasAttribute('data-edit')) el.textContent = val;
-}
 
 function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
