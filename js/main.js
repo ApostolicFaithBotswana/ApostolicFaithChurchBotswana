@@ -3,26 +3,16 @@
    ============================================================ */
 
 import { DB } from './data.js';
-import { icon } from './icons.js';
 import { initSiteMotion, softNavigate } from './site-motion.js';
 import { initLiveAdmin, isLiveAdmin } from './live-admin.js';
 import { initSiteNav } from './site-nav.js';
-import { initLucideIcons, refreshLucideIcons } from './lucide-icons.js';
-import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js';
-import {
-  EVENTS_2026_DEFAULT,
-  unifyEvents,
-  mountRealtimeSpotlight,
-} from './event-countdown.js';
-
-let currentEventForReg = null;
-let eventsCache = [];
-let calendarEvents = [...EVENTS_2026_DEFAULT];
-let stopHomeSpotlight = null;
+import { initSiteFooter } from './site-footer.js';
+import { initLucideIcons } from './lucide-icons.js';
 
 /* ---------- INIT ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
   initSiteNav();
+  initSiteFooter();
   initSiteMotion();
   initLucideIcons();
   initLiveAdmin('index');
@@ -30,73 +20,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   initHamburger();
   initSecretAdminTriggers();
 
-  // Calendar spotlight first — don't wait on network (stuck "Loading…" otherwise)
-  restartHomeSpotlight();
-  loadCalendarEventsForSpotlight();
-
   await applyConfig();
-  await renderEvents();
-
-  // Real-time: featured event cards update without page refresh
-  DB.subscribeEvents((events) => {
-    eventsCache = events;
-    paintEvents(events);
-  });
 
   DB.subscribeConfig(async (cfg) => {
     applyConfigFromData(cfg);
   });
-
-  window.addEventListener('afc:events-changed', () => renderEvents());
-  window.addEventListener('afc:admin-changed', () => paintEvents(eventsCache));
-  window.addEventListener('afc:json-block', (e) => {
-    if (e.detail?.key === 'calendar.events.data' && Array.isArray(e.detail.data)) {
-      calendarEvents = e.detail.data;
-      restartHomeSpotlight();
-    }
-  });
-
-  const regModal = document.getElementById('regModal');
-  if (regModal) trapModalWheel(regModal);
 });
-
-/**
- * Homepage spotlight uses the annual calendar schedule only
- * (same source as calendar.html), not the featured site_events cards.
- */
-async function loadCalendarEventsForSpotlight() {
-  try {
-    const blocks = await Promise.race([
-      DB.getBlocks('calendar'),
-      new Promise((resolve) => setTimeout(() => resolve(null), 4000)),
-    ]);
-    if (!blocks) return;
-    const stored = blocks?.['calendar.events.data']?.data;
-    let list = null;
-    if (Array.isArray(stored)) list = stored;
-    else if (Array.isArray(stored?.events)) list = stored.events;
-    else if (typeof stored?.body === 'string') {
-      try { list = JSON.parse(stored.body); } catch { /* ignore */ }
-    } else if (Array.isArray(stored?.body)) list = stored.body;
-    if (list?.length) {
-      calendarEvents = list;
-      restartHomeSpotlight();
-    }
-  } catch {
-    /* keep EVENTS_2026_DEFAULT */
-  }
-}
-
-function restartHomeSpotlight() {
-  if (typeof stopHomeSpotlight === 'function') stopHomeSpotlight();
-  const el = document.getElementById('homeEventSpotlight');
-  if (!el) return;
-  stopHomeSpotlight = mountRealtimeSpotlight(el, {
-    getEvents: () => unifyEvents(calendarEvents, []),
-    refreshIcons: refreshLucideIcons,
-    calendarHref: 'calendar.html',
-  });
-}
 
 /* ---------- SECRET ADMIN TRIGGERS ---------- */
 function initSecretAdminTriggers() {
@@ -105,7 +34,7 @@ function initSecretAdminTriggers() {
   const logo = document.querySelector('.nav-brand');
   if (logo) {
     logo.addEventListener('click', (e) => {
-      if (isLiveAdmin()) return; // admins use the live editor bar instead
+      if (isLiveAdmin()) return;
       e.preventDefault();
       logoClicks++;
       clearTimeout(logoTimer);
@@ -147,157 +76,16 @@ async function applyConfig() {
 }
 
 function applyConfigFromData(cfg) {
-  // site_blocks (live editor) is the source of truth for elements with data-edit.
-  // Legacy site_config only fills elements that are not live-editable.
   const verseEl = document.getElementById('weeklyVerse');
   if (verseEl && cfg.verse_text && !verseEl.hasAttribute('data-edit')) {
     verseEl.textContent = `"${cfg.verse_text}" — ${cfg.verse_reference || ''}`;
   }
   setElIfNoEdit('aboutText', cfg.about_text);
-  setElIfNoEdit('contactEmail', cfg.contact_email);
-  setElIfNoEdit('contactPhone', cfg.contact_phone);
 }
 
-/* ---------- EVENTS ---------- */
-async function renderEvents() {
-  eventsCache = await DB.getEvents();
-  paintEvents(eventsCache);
-}
-
-function paintEvents(events) {
-  const grid = document.getElementById('eventsGrid');
-  const noMsg = document.getElementById('noEventsMsg');
-  if (!grid) return;
-
-  if (!events.length) {
-    grid.innerHTML = '';
-    if (noMsg) noMsg.style.display = 'block';
-    return;
-  }
-  if (noMsg) noMsg.style.display = 'none';
-
-  events.sort((a, b) => getEventDate(a) - getEventDate(b));
-
-  grid.innerHTML = events.map((ev) => `
-  <div class="event-card ${isLiveAdmin() ? 'live-editable' : ''}"
-       data-edit="event.${ev.id}" data-edit-type="event" data-edit-label="${escAttr(ev.name)}"
-       ${ev.externalUrl ? '' : `onclick="openRegModal('${ev.id}')"`}>
-    ${isLiveAdmin() ? `<button type="button" class="live-edit-btn" title="Edit this event — click to change details" onclick="event.stopPropagation();window.dispatchEvent(new CustomEvent('afc:edit-event',{detail:'${ev.id}'}))">${icon('edit', { size: 14 })}<span class="live-edit-btn-label">Edit</span></button>` : ''}
-    ${ev.poster ? `<img src="${escAttr(ev.poster)}" alt="${escAttr(ev.name)} poster" class="event-card-poster" loading="lazy" onerror="this.style.display='none'" />` : ''}
-    <div class="event-card-date">${icon('calendar', { size: 14 })} ${formatDateRange(ev.startDate, ev.endDate)}</div>
-    <h3>${escHtml(ev.name)}</h3>
-    <div class="event-card-loc">${icon('location', { size: 14 })} ${escHtml(ev.location)}</div>
-    <p>${escHtml(ev.description || '')}</p>
-    ${ev.externalUrl
-      ? `<a href="${escAttr(ev.externalUrl)}" target="_blank" rel="noopener" class="btn-primary btn-on-dark" onclick="event.stopPropagation();">${icon('external', { size: 14 })} Register on Camp Portal</a>`
-      : `<button class="btn-primary btn-on-dark" onclick="event.stopPropagation();openRegModal('${ev.id}')">Register / RSVP</button>`
-    }
-  </div>`).join('');
-}
-/* ── CONTACT FORM ── */
-window.handleContactForm = async function(e) {
-  e.preventDefault();
-  const btn = e.submitter || e.target.querySelector('[type=submit]');
-  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
-
-  try {
-    // Store in Firebase so admin can see messages
-    await DB.addRegistration({
-      type:    'contact_message',
-      name:    document.getElementById('cName')?.value.trim()    || '',
-      email:   document.getElementById('cEmail')?.value.trim()   || '',
-      subject: document.getElementById('cSubject')?.value.trim() || '',
-      message: document.getElementById('cMsg')?.value.trim()     || '',
-      event_name: 'Contact Form',
-    });
-    showToast('Message sent! We will get back to you soon.', 'success');
-    e.target.reset();
-  } catch {
-    showToast('Send failed — please try again.', 'error');
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Send Message'; }
-  }
-};
-
-/* ── PRAYER FORM ── */
-window.handlePrayerForm = async function(e) {
-  e.preventDefault();
-  const btn = e.submitter || e.target.querySelector('[type=submit]');
-  if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
-
-  try {
-    await DB.addPrayerRequest({
-      name:     document.getElementById('prName')?.value.trim()    || 'Anonymous',
-      category: document.getElementById('prCategory')?.value       || 'General',
-      request:  document.getElementById('prRequest')?.value.trim() || '',
-      anon:     document.getElementById('prAnon')?.value === 'yes',
-    });
-    showToast('Prayer request received. Our ministers will pray for you.', 'success');
-    e.target.reset();
-  } catch {
-    showToast('Submit failed — please try again.', 'error');
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Submit Prayer Request'; }
-  }
-};
-
-
-/* ---------- REGISTRATION MODAL ---------- */
-async function openRegModal(eventId) {
-  const events = eventsCache.length ? eventsCache : await DB.getEvents();
-  const ev = events.find((e) => e.id === eventId);
-  if (!ev) return;
-
-  currentEventForReg = ev;
-  const info = document.getElementById('modalEventInfo');
-  if (info) {
-    info.innerHTML = `<strong>${escHtml(ev.name)}</strong><br>${icon('calendar', { size: 14 })} ${formatDateRange(ev.startDate, ev.endDate)}<br>${icon('location', { size: 14 })} ${escHtml(ev.location)}`;
-  }
-  document.getElementById('regModal').style.display = 'flex';
-  lockScroll();
-}
-
-function closeRegModal() {
-  document.getElementById('regModal').style.display = 'none';
-  document.getElementById('regForm').reset();
-  currentEventForReg = null;
-  unlockScroll();
-}
-
-async function handleRegistration(e) {
-  e.preventDefault();
-  if (!currentEventForReg) return;
-
-  const reg = {
-    event_id: currentEventForReg.id,
-    event_name: currentEventForReg.name,
-    name: document.getElementById('regName').value.trim(),
-    email: document.getElementById('regEmail').value.trim(),
-    phone: document.getElementById('regPhone').value.trim(),
-    branch: document.getElementById('regBranch').value,
-  };
-
-  await DB.addRegistration(reg);
-  closeRegModal();
-  showToast('Registration confirmed! We look forward to seeing you.', 'success');
-}
-
-document.getElementById('regModal')?.addEventListener('click', function (e) {
-  if (e.target === this) closeRegModal();
-});
-
-function handleContactForm(e) {
-  e.preventDefault();
-  showToast('Message received! We will get back to you soon.', 'success');
-  e.target.reset();
-}
-
-/* ---------- NAV SCROLL — navbar stays fixed at top, always blue ---------- */
 function initNavScroll() {
   const nav = document.getElementById('navbar');
-  if (nav) {
-    nav.classList.add('nav-pinned');
-  }
+  if (nav) nav.classList.add('nav-pinned');
 }
 
 function initHamburger() {
@@ -308,58 +96,7 @@ function initHamburger() {
   links.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => links.classList.remove('open')));
 }
 
-function setEl(id, val) {
-  const el = document.getElementById(id);
-  if (el && val) el.textContent = val;
-}
-
 function setElIfNoEdit(id, val) {
   const el = document.getElementById(id);
   if (el && val && !el.hasAttribute('data-edit')) el.textContent = val;
 }
-
-function escHtml(str = '') {
-  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-function escAttr(str = '') {
-  return escHtml(str).replace(/'/g, '&#39;');
-}
-
-function getEventDate(ev) {
-  return new Date(`${ev.startDate || '9999-12-31'}T00:00:00`);
-}
-
-function formatDateRange(startStr, endStr) {
-  if (!startStr) return '';
-  if (!endStr || endStr === startStr) return formatDate(startStr);
-
-  const start = new Date(startStr + 'T00:00:00');
-  const end = new Date(endStr + 'T00:00:00');
-  const opts = { day: 'numeric', month: 'long', year: 'numeric' };
-
-  if (start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth()) {
-    return `${start.getDate()} – ${end.toLocaleDateString('en-BW', opts)}`;
-  }
-  return `${start.toLocaleDateString('en-BW', opts)} – ${end.toLocaleDateString('en-BW', opts)}`;
-}
-
-function formatDate(dateStr) {
-  if (!dateStr) return '';
-  try {
-    return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-BW', { day: 'numeric', month: 'long', year: 'numeric' });
-  } catch { return dateStr; }
-}
-
-function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  if (!t) return;
-  t.textContent = msg;
-  t.className = `toast show ${type}`;
-  setTimeout(() => t.classList.remove('show'), 4000);
-}
-
-window.openRegModal = openRegModal;
-window.closeRegModal = closeRegModal;
-window.handleRegistration = handleRegistration;
-window.handleContactForm = handleContactForm;

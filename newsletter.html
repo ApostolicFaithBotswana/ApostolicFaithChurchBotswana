@@ -1,318 +1,318 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026 EVENTS — Apostolic Faith Church Botswana</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
-
-<style>
-:root {
-  --navy:    #0b1f3a;
-  --navy2:   #0e2850;
-  --navy3:   #152f5c;
-  --gold:    #d4af37;
-  --gold2:   #f0c84a;
-  --cream:   #faf7ef;
-  --cream2:  #f3efe3;
-  --text:    #2a2a2a;
-  --muted:   #6b7280;
-  --white:   #ffffff;
-  --shadow:  0 20px 60px rgba(0,0,0,.13);
-  --shadow-sm: 0 4px 16px rgba(0,0,0,.08);
-  --radius:  18px;
-  --serif:   'Playfair Display', Georgia, serif;
-  --sans:    'Lato', Arial, sans-serif;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 EVENTS — Apostolic Faith Church Botswana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --navy:    #0b1f3a;
+  --navy2:   #0e2850;
+  --navy3:   #152f5c;
+  --gold:    #d4af37;
+  --gold2:   #f0c84a;
+  --cream:   #faf7ef;
+  --cream2:  #f3efe3;
+  --text:    #2a2a2a;
+  --muted:   #6b7280;
+  --white:   #ffffff;
+  --shadow:  0 20px 60px rgba(0,0,0,.13);
+  --shadow-sm: 0 4px 16px rgba(0,0,0,.08);
+  --radius:  18px;
+  --serif:   'Playfair Display', Georgia, serif;
+  --sans:    'Lato', Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.75;
+}
+
+/* ── NAV ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(11,31,58,0.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(212,175,55,.18);
+}
+.nav-inner {
+  max-width: 1180px; margin: auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 11px;
+  text-decoration: none;
+}
+.nav-brand img { height: 38px; }
+.brand-name { display: block; font-weight: 900; font-size: .88rem; color: #fff; }
+.brand-sub  { display: block; font-size: .72rem; color: var(--gold); }
+.nav-links { display: flex; gap: 6px; }
+.nav-links a {
+  color: rgba(255,255,255,.65); text-decoration: none;
+  font-size: .8rem; font-weight: 700;
+  padding: 6px 10px; border-radius: 7px;
+  transition: all .2s;
+}
+.nav-links a:hover { color: #fff; background: rgba(255,255,255,.07); }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+}
+.hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; }
+.mobile-nav {
+  display: none; flex-direction: column;
+  background: rgba(11,31,58,.98); padding: .5rem 1rem 1rem;
+  border-bottom: 1px solid rgba(212,175,55,.15);
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  color: rgba(255,255,255,.7); text-decoration: none;
+  font-size: .88rem; font-weight: 700;
+  padding: .65rem .75rem; border-radius: 8px; transition: all .2s;
+}
+.mobile-nav a:hover { color: var(--gold); background: rgba(212,175,55,.07); }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(155deg, #060f20 0%, #0d2044 55%, #162d5a 100%);
+  padding: 90px 20px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(212,175,55,.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 20%, rgba(212,175,55,.07) 0%, transparent 45%);
+}
+.hero-inner { position: relative; max-width: 800px; margin: auto; }
+.hero-eyebrow {
+  display: inline-block;
+  font-size: .7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .2em; color: var(--gold);
+  border: 1px solid rgba(212,175,55,.3);
+  padding: .4rem 1.1rem; border-radius: 30px;
+  margin-bottom: 1.5rem;
+  background: rgba(212,175,55,.06);
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  color: #fff; line-height: 1.1;
+  margin-bottom: .6rem;
+}
+.hero h1 em { color: var(--gold); font-style: italic; }
+.hero h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: rgba(255,255,255,.75);
+  font-weight: 700; margin-bottom: 1.25rem;
+}
+.hero-verse {
+  font-size: .92rem; color: rgba(255,255,255,.55);
+  font-style: italic; margin-bottom: 2.2rem;
+}
+.hero-verse span { color: var(--gold2); font-weight: 700; }
+.hero-divider {
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  border-radius: 2px; margin: 0 auto;
+}
+
+/* ── INTRO ── */
+.intro-section {
+  background: var(--white);
+  padding: 72px 20px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.intro-inner {
+  max-width: 740px; margin: auto; text-align: center;
+}
+.section-label {
+  font-size: .68rem; font-weight: 900; text-transform: uppercase;
+  letter-spacing: .22em; color: var(--gold);
+  margin-bottom: .75rem;
+}
+.intro-inner h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: var(--navy); line-height: 1.1; margin-bottom: 1.25rem;
+}
+.intro-inner p { color: var(--muted); font-size: .96rem; line-height: 1.8; }
+
+/* ── EVENTS WRAPPER ── */
+.events-wrapper {
+  max-width: 1180px; margin: auto;
+  padding: 80px 20px;
+  display: flex; flex-direction: column; gap: 80px;
+}
+
+/* ── EVENT CARD ── */
+.event-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 420px;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 32px 80px rgba(0,0,0,.16);
+}
+.event-card.reverse { direction: rtl; }
+.event-card.reverse > * { direction: ltr; }
+
+.event-media {
+  position: relative; overflow: hidden; min-height: 360px;
+}
+.event-media img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block; transition: transform .5s ease;
+}
+.event-card:hover .event-media img { transform: scale(1.04); }
+.event-gallery {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 38%;
+}
+.event-gallery img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+.event-body {
+  padding: 48px 48px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.event-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: var(--navy); font-size: .7rem; font-weight: 900;
+  text-transform: uppercase; letter-spacing: .14em;
+  padding: .35rem .9rem; border-radius: 20px; margin-bottom: 1.1rem;
+  width: fit-content;
+}
+.event-body h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+  color: var(--navy); line-height: 1.2; margin-bottom: 1rem;
+}
+.event-body p {
+  color: var(--muted); font-size: .92rem; line-height: 1.85;
+  margin-bottom: .85rem;
+}
+.event-body p:last-of-type { margin-bottom: 0; }
+.event-body strong { color: var(--navy); font-weight: 900; }
+.event-accent {
+  display: flex; align-items: center; gap: .5rem;
+  margin-top: 1.4rem; padding-top: 1.2rem;
+  border-top: 1px solid rgba(0,0,0,.07);
+  font-size: .8rem; color: var(--gold);
+  font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+}
+.event-accent::before {
+  content: '';
+  width: 28px; height: 2px;
+  background: var(--gold);
+  border-radius: 2px; flex-shrink: 0;
+}
+
+/* ── PHOTO-ONLY STRIP ── */
+.gallery-strip {
+  background: var(--navy);
+  padding: 16px 20px;
+  overflow: hidden;
+}
+.gallery-strip-inner {
+  max-width: 1180px; margin: auto;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+}
+.gallery-strip img {
+  width: 100%; height: 200px; object-fit: cover;
+  border-radius: 10px; transition: transform .3s, opacity .3s;
+}
+.gallery-strip img:hover { transform: scale(1.03); opacity: .9; }
+
+/* ── QUOTE / CLOSING ── */
+.closing {
+  background: linear-gradient(150deg, var(--navy) 0%, var(--navy2) 60%, var(--navy3) 100%);
+  padding: 90px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.closing::before {
+  content: '"';
+  position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+  font-family: var(--serif);
+  font-size: 18rem; color: rgba(212,175,55,.06);
+  line-height: 1; pointer-events: none; user-select: none;
+}
+.closing-inner { position: relative; max-width: 720px; margin: auto; }
+.closing h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  color: #fff; margin-bottom: 1.25rem;
+}
+.closing-verse {
+  font-size: 1.05rem; color: rgba(255,255,255,.75);
+  font-style: italic; line-height: 1.75;
+  margin-bottom: .6rem;
+}
+.closing-verse em { color: var(--gold2); font-style: normal; font-weight: 900; }
+.closing-ref {
+  font-size: .82rem; color: var(--gold);
+  font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
+  margin-bottom: 1.8rem;
+}
+.closing p {
+  font-size: .94rem; color: rgba(255,255,255,.6);
+  line-height: 1.8; margin-bottom: 2rem;
+}
+.btn-gallery {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: var(--navy); font-weight: 900; text-decoration: none;
+  padding: 14px 32px; border-radius: 50px;
+  font-size: .88rem; letter-spacing: .02em;
+  transition: all .25s;
+  box-shadow: 0 6px 24px rgba(212,175,55,.35);
+}
+.btn-gallery:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(212,175,55,.45); }
+
+/* ── FOOTER ── */
+footer {
+  background: #050e1c;
+  color: rgba(255,255,255,.5);
+  text-align: center;
+  padding: 72px 20px 40px;
+  border-top: 1px solid rgba(212,175,55,.18);
+}
+footer h3 {
+  font-family: var(--serif);
+  font-size: 1.1rem; color: #fff;
+  margin-bottom: .4rem;
+}
+footer p { font-size: .82rem; line-height: 1.7; }
+footer .tagline {
+  font-style: italic; color: var(--gold);
+  font-size: .78rem; margin-top: .5rem;
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: var(--sans);
-  background: var(--cream);
-  color: var(--text);
-  line-height: 1.75;
-}
-
-/* ── NAV ── */
-header {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(11,31,58,0.96);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(212,175,55,.18);
-}
-.nav-inner {
-  max-width: 1180px; margin: auto;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 28px;
-}
-.nav-brand {
-  display: flex; align-items: center; gap: 11px;
-  text-decoration: none;
-}
-.nav-brand img { height: 38px; }
-.brand-name { display: block; font-weight: 900; font-size: .88rem; color: #fff; }
-.brand-sub  { display: block; font-size: .72rem; color: var(--gold); }
-.nav-links { display: flex; gap: 6px; }
-.nav-links a {
-  color: rgba(255,255,255,.65); text-decoration: none;
-  font-size: .8rem; font-weight: 700;
-  padding: 6px 10px; border-radius: 7px;
-  transition: all .2s;
-}
-.nav-links a:hover { color: #fff; background: rgba(255,255,255,.07); }
-.hamburger {
-  display: none; flex-direction: column; gap: 5px;
-  background: none; border: none; cursor: pointer; padding: 4px;
-}
-.hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; }
-.mobile-nav {
-  display: none; flex-direction: column;
-  background: rgba(11,31,58,.98); padding: .5rem 1rem 1rem;
-  border-bottom: 1px solid rgba(212,175,55,.15);
-}
-.mobile-nav.open { display: flex; }
-.mobile-nav a {
-  color: rgba(255,255,255,.7); text-decoration: none;
-  font-size: .88rem; font-weight: 700;
-  padding: .65rem .75rem; border-radius: 8px; transition: all .2s;
-}
-.mobile-nav a:hover { color: var(--gold); background: rgba(212,175,55,.07); }
-
-/* ── HERO ── */
-.hero {
-  background: linear-gradient(155deg, #060f20 0%, #0d2044 55%, #162d5a 100%);
-  padding: 90px 20px 80px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 30% 50%, rgba(212,175,55,.12) 0%, transparent 55%),
-    radial-gradient(ellipse at 70% 20%, rgba(212,175,55,.07) 0%, transparent 45%);
-}
-.hero-inner { position: relative; max-width: 800px; margin: auto; }
-.hero-eyebrow {
-  display: inline-block;
-  font-size: .7rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .2em; color: var(--gold);
-  border: 1px solid rgba(212,175,55,.3);
-  padding: .4rem 1.1rem; border-radius: 30px;
-  margin-bottom: 1.5rem;
-  background: rgba(212,175,55,.06);
-}
-.hero h1 {
-  font-family: var(--serif);
-  font-size: clamp(2.4rem, 6vw, 4rem);
-  color: #fff; line-height: 1.1;
-  margin-bottom: .6rem;
-}
-.hero h1 em { color: var(--gold); font-style: italic; }
-.hero h2 {
-  font-family: var(--serif);
-  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-  color: rgba(255,255,255,.75);
-  font-weight: 700; margin-bottom: 1.25rem;
-}
-.hero-verse {
-  font-size: .92rem; color: rgba(255,255,255,.55);
-  font-style: italic; margin-bottom: 2.2rem;
-}
-.hero-verse span { color: var(--gold2); font-weight: 700; }
-.hero-divider {
-  width: 60px; height: 3px;
-  background: linear-gradient(90deg, var(--gold), var(--gold2));
-  border-radius: 2px; margin: 0 auto;
-}
-
-/* ── INTRO ── */
-.intro-section {
-  background: var(--white);
-  padding: 72px 20px;
-  border-bottom: 1px solid rgba(0,0,0,.06);
-}
-.intro-inner {
-  max-width: 740px; margin: auto; text-align: center;
-}
-.section-label {
-  font-size: .68rem; font-weight: 900; text-transform: uppercase;
-  letter-spacing: .22em; color: var(--gold);
-  margin-bottom: .75rem;
-}
-.intro-inner h2 {
-  font-family: var(--serif);
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  color: var(--navy); line-height: 1.1; margin-bottom: 1.25rem;
-}
-.intro-inner p { color: var(--muted); font-size: .96rem; line-height: 1.8; }
-
-/* ── EVENTS WRAPPER ── */
-.events-wrapper {
-  max-width: 1180px; margin: auto;
-  padding: 80px 20px;
-  display: flex; flex-direction: column; gap: 80px;
-}
-
-/* ── EVENT CARD ── */
-.event-card {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 420px;
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-.event-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 32px 80px rgba(0,0,0,.16);
-}
-.event-card.reverse { direction: rtl; }
-.event-card.reverse > * { direction: ltr; }
-
-.event-media {
-  position: relative; overflow: hidden; min-height: 360px;
-}
-.event-media img {
-  width: 100%; height: 100%; object-fit: cover;
-  display: block; transition: transform .5s ease;
-}
-.event-card:hover .event-media img { transform: scale(1.04); }
-.event-gallery {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 38%;
-}
-.event-gallery img {
-  width: 100%; height: 100%; object-fit: cover;
-}
-
-.event-body {
-  padding: 48px 48px;
-  display: flex; flex-direction: column; justify-content: center;
-}
-.event-badge {
-  display: inline-block;
-  background: linear-gradient(135deg, var(--gold), var(--gold2));
-  color: var(--navy); font-size: .7rem; font-weight: 900;
-  text-transform: uppercase; letter-spacing: .14em;
-  padding: .35rem .9rem; border-radius: 20px; margin-bottom: 1.1rem;
-  width: fit-content;
-}
-.event-body h2 {
-  font-family: var(--serif);
-  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
-  color: var(--navy); line-height: 1.2; margin-bottom: 1rem;
-}
-.event-body p {
-  color: var(--muted); font-size: .92rem; line-height: 1.85;
-  margin-bottom: .85rem;
-}
-.event-body p:last-of-type { margin-bottom: 0; }
-.event-body strong { color: var(--navy); font-weight: 900; }
-.event-accent {
-  display: flex; align-items: center; gap: .5rem;
-  margin-top: 1.4rem; padding-top: 1.2rem;
-  border-top: 1px solid rgba(0,0,0,.07);
-  font-size: .8rem; color: var(--gold);
-  font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
-}
-.event-accent::before {
-  content: '';
-  width: 28px; height: 2px;
-  background: var(--gold);
-  border-radius: 2px; flex-shrink: 0;
-}
-
-/* ── PHOTO-ONLY STRIP ── */
-.gallery-strip {
-  background: var(--navy);
-  padding: 16px 20px;
-  overflow: hidden;
-}
-.gallery-strip-inner {
-  max-width: 1180px; margin: auto;
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-}
-.gallery-strip img {
-  width: 100%; height: 200px; object-fit: cover;
-  border-radius: 10px; transition: transform .3s, opacity .3s;
-}
-.gallery-strip img:hover { transform: scale(1.03); opacity: .9; }
-
-/* ── QUOTE / CLOSING ── */
-.closing {
-  background: linear-gradient(150deg, var(--navy) 0%, var(--navy2) 60%, var(--navy3) 100%);
-  padding: 90px 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.closing::before {
-  content: '"';
-  position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
-  font-family: var(--serif);
-  font-size: 18rem; color: rgba(212,175,55,.06);
-  line-height: 1; pointer-events: none; user-select: none;
-}
-.closing-inner { position: relative; max-width: 720px; margin: auto; }
-.closing h2 {
-  font-family: var(--serif);
-  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-  color: #fff; margin-bottom: 1.25rem;
-}
-.closing-verse {
-  font-size: 1.05rem; color: rgba(255,255,255,.75);
-  font-style: italic; line-height: 1.75;
-  margin-bottom: .6rem;
-}
-.closing-verse em { color: var(--gold2); font-style: normal; font-weight: 900; }
-.closing-ref {
-  font-size: .82rem; color: var(--gold);
-  font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
-  margin-bottom: 1.8rem;
-}
-.closing p {
-  font-size: .94rem; color: rgba(255,255,255,.6);
-  line-height: 1.8; margin-bottom: 2rem;
-}
-.btn-gallery {
-  display: inline-block;
-  background: linear-gradient(135deg, var(--gold), var(--gold2));
-  color: var(--navy); font-weight: 900; text-decoration: none;
-  padding: 14px 32px; border-radius: 50px;
-  font-size: .88rem; letter-spacing: .02em;
-  transition: all .25s;
-  box-shadow: 0 6px 24px rgba(212,175,55,.35);
-}
-.btn-gallery:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(212,175,55,.45); }
-
-/* ── FOOTER ── */
-footer {
-  background: #050e1c;
-  color: rgba(255,255,255,.5);
-  text-align: center;
-  padding: 72px 20px 40px;
-  border-top: 1px solid rgba(212,175,55,.18);
-}
-footer h3 {
-  font-family: var(--serif);
-  font-size: 1.1rem; color: #fff;
-  margin-bottom: .4rem;
-}
-footer p { font-size: .82rem; line-height: 1.7; }
-footer .tagline {
-  font-style: italic; color: var(--gold);
-  font-size: .78rem; margin-top: .5rem;
-}
-
+
     
 /* FOOTER (aligned with main site) */
 .footer {
@@ -372,158 +372,158 @@ footer .tagline {
   .footer-bottom { flex-direction: column; text-align: center; justify-content: center; }
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .nav-links { display: none; }
-  .hamburger { display: flex; }
-  .event-card,
-  .event-card.reverse { grid-template-columns: 1fr; direction: ltr; }
-  .event-media { min-height: 260px; }
-  .event-gallery { position: static; height: auto; }
-  .event-gallery img { height: 130px; }
-  .event-body { padding: 32px 28px; }
-  .gallery-strip-inner { grid-template-columns: 1fr 1fr; }
-  .gallery-strip img { height: 150px; }
-}
-@media (max-width: 600px) {
-  .events-wrapper { padding: 50px 14px; gap: 50px; }
-  .event-body { padding: 24px 20px; }
-  .gallery-strip-inner { grid-template-columns: 1fr 1fr; gap: 8px; }
-}
-</style>
-</head>
-<body data-page="newsletter">
-
-<!-- NAV -->
-<header>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-brand">
-      <img src="css/images/logo1.png" alt="AFC Botswana logo">
-      <div>
-        <span class="brand-name">Apostolic Faith Church</span>
-        <span class="brand-sub">Portland, Oregon · Botswana</span>
-      </div>
-    </a>
-    <nav class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="locations.html">Locations</a>
-      <a href="live.html">Live</a>
-      <a href="index.html#events">Events</a>
-      <a href="index.html#resources">Resources</a>
-      <a href="calendar.html">Calendar</a>
-      <a href="index.html#contact">Contact</a>
-    </nav>
-    <button class="hamburger" id="hamburger" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-  <nav class="mobile-nav" id="mobileNav">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="locations.html">Locations</a>
-    <a href="live.html">Live</a>
-    <a href="index.html#events">Events</a>
-    <a href="index.html#resources">Resources</a>
-    <a href="calendar.html">Calendar</a>
-    <a href="index.html#contact">Contact</a>
-  </nav>
-</header>
-
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="hero-inner">
-    <div class="hero-eyebrow" data-edit="newsletter.hero.eyebrow" data-edit-type="text" data-edit-field="body" data-edit-label="Hero eyebrow">AFC Botswana · Annual Report</div>
-    <h1 data-edit="newsletter.hero.title" data-edit-type="text" data-edit-field="body" data-edit-label="Hero title">2026 Local Newsletter</h1>
-    <h2 data-edit="newsletter.hero.subtitle" data-edit-type="text" data-edit-field="body" data-edit-label="Hero subtitle">Celebrating God's Faithfulness</h2>
-    <p class="hero-verse" data-edit="newsletter.hero.verse" data-edit-type="text" data-edit-field="body" data-edit-label="Hero verse">"Remember the wondrous works that He has done." — <span>Psalm 105:5</span></p>
-    <div class="hero-divider"></div>
-  </div>
-</section>
-
-<!-- INTRO -->
-<section class="intro-section">
-  <div class="intro-inner">
-    <p class="section-label" data-edit="newsletter.intro.label" data-edit-type="text" data-edit-field="body" data-edit-label="Intro label">Recent Events</p>
-    <h2 data-edit="newsletter.intro.title" data-edit-type="text" data-edit-field="body" data-edit-label="Intro title">A Year of God's Grace</h2>
-    <p data-edit="newsletter.intro.body" data-edit-type="text" data-edit-field="body" data-edit-label="Intro body">Throughout 2026, God has faithfully blessed the Apostolic Faith Church Botswana through conventions, conferences, youth camps, worship, fellowship, and lives transformed by His grace. This newsletter highlights some of the major events that shaped our year.</p>
-  </div>
-</section>
-
-<!-- EVENTS -->
-<div class="events-wrapper" id="events" data-edit-list="events">
-
-  <!-- EASTER CONVENTION -->
-  <div class="event-card" data-edit="newsletter.event.easter" data-edit-type="event-card" data-edit-label="Easter Convention">
-    <div class="event-media">
-        <img src="css/images/francistown.jpg" alt="Francistown branch" loading="lazy" data-edit-field="image">
-    </div>
-    <div class="event-body">
-      <div class="event-badge" data-edit-field="badge">Easter Convention</div>
-      <h2 data-edit-field="title">Christ Our Passover</h2>
-      <div data-edit-field="body" data-edit-format="html">
-        <p>The 2026 Easter Convention united believers from Francistown, Letlhakane, Mmutlane, and Gaborone under the theme <strong>"Christ Our Passover" (1 Corinthians 5:7)</strong>.</p>
-        <p>Through Bible studies, sermons, youth services, testimonies, devotional meetings, and musical concerts, participants reflected on Christ's sacrifice, resurrection, and the hope of salvation. The convention strengthened fellowship across Botswana while encouraging believers to deepen their faith and boldly share the Gospel.</p>
-      </div>
-      <div class="event-accent" data-edit-field="accent">Easter 2026</div>
-    </div>
-  </div>
-
-  <!-- MOTHER'S CONFERENCE -->
-  <div class="event-card reverse" data-edit="newsletter.event.mothers" data-edit-type="event-card" data-edit-label="Mother's Conference">
-    <div class="event-media">
-      
-        <img src="css/images/allmothers.jpg" alt="Mothers conference group" loading="lazy" data-edit-field="image">
-  
-      
-    </div>
-    <div class="event-body">
-      <div class="event-badge" data-edit-field="badge">Mother's Conference</div>
-      <h2 data-edit-field="title">My Beauty, My Pride, I Am God's Masterpiece</h2>
-      <div data-edit-field="body" data-edit-format="html">
-        <p>Held from <strong>8–10 May 2026</strong>, this inspiring conference celebrated women through worship, biblical teaching, testimonies, and practical workshops. Ladies were encouraged to embrace their identity in Christ while growing spiritually, emotionally, physically, and financially.</p>
-        <p>Sessions on health, stewardship, healing, and personal development equipped participants to serve God, their families, and their communities with renewed confidence and purpose.</p>
-      </div>
-      <div class="event-accent" data-edit-field="accent">Mother's Conference · 2026</div>
-    </div>
-  </div>
-
-  <!-- YOUTH CAMP -->
-  <div class="event-card" data-edit="newsletter.event.youth" data-edit-type="event-card" data-edit-label="Youth Camp">
-    <div class="event-media">
-      
-        <img src="css/images/youthDis.jpg" alt="Youth discussions" loading="lazy" data-edit-field="image">
-        
-     
-    </div>
-    <div class="event-body">
-      <div class="event-badge" data-edit-field="badge">Youth Camp</div>
-      <h2 data-edit-field="title">Soar High 2026</h2>
-      <div data-edit-field="body" data-edit-format="html">
-        <p>Centred on the theme <strong>"SOAR HIGH"</strong>, our 2026 YOUTH CAMP brought together young people for four days of worship, Bible teaching, prayer, fellowship, and personal reflection.</p>
-        <p>Powerful messages, concerts, discussions, and testimonies inspired participants to discover their identity in Christ, live with purpose, and shine His light in their communities. Many experienced spiritual renewal and left with strengthened faith and lasting friendships.</p>
-      </div>
-      <div class="event-accent" data-edit-field="accent">Youth Camp · 2026</div>
-    </div>
-  </div>
-
-</div>
-
-<!-- CLOSING / LOOKING AHEAD -->
-<section class="closing">
-  <div class="closing-inner">
-    <h2 data-edit="newsletter.closing.title" data-edit-type="text" data-edit-field="body" data-edit-label="Closing title">Looking Ahead</h2>
-    <p class="closing-verse" data-edit="newsletter.closing.verse" data-edit-type="html" data-edit-field="body" data-edit-label="Closing verse"><em>"The Lord has done great things for us, and we are filled with joy."</em></p>
-    <p class="closing-ref" data-edit="newsletter.closing.reference" data-edit-type="text" data-edit-field="body" data-edit-label="Closing reference">— Psalm 126:3</p>
-    <p data-edit="newsletter.closing.body" data-edit-type="text" data-edit-field="body" data-edit-label="Closing body">We thank God for His faithfulness throughout 2026 and look forward with expectation to all He will continue to accomplish through the Apostolic Faith Church Botswana.</p>
-    <div data-edit="newsletter.closing.cta" data-edit-type="fields" data-edit-label="Closing button">
-      <a class="btn-gallery" href="index.html#events" data-edit-field="link">View More Events →</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<!-- ===== FOOTER ===== -->
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .event-card,
+  .event-card.reverse { grid-template-columns: 1fr; direction: ltr; }
+  .event-media { min-height: 260px; }
+  .event-gallery { position: static; height: auto; }
+  .event-gallery img { height: 130px; }
+  .event-body { padding: 32px 28px; }
+  .gallery-strip-inner { grid-template-columns: 1fr 1fr; }
+  .gallery-strip img { height: 150px; }
+}
+@media (max-width: 600px) {
+  .events-wrapper { padding: 50px 14px; gap: 50px; }
+  .event-body { padding: 24px 20px; }
+  .gallery-strip-inner { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+</style>
+</head>
+<body data-page="newsletter">
+
+<!-- NAV -->
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <img src="css/images/logo1.png" alt="AFC Botswana logo">
+      <div>
+        <span class="brand-name">Apostolic Faith Church</span>
+        <span class="brand-sub">Portland, Oregon · Botswana</span>
+      </div>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="locations.html">Locations</a>
+      <a href="live.html">Live</a>
+      <a href="events.html">Events</a>
+      <a href="resources.html">Resources</a>
+      <a href="calendar.html">Calendar</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="locations.html">Locations</a>
+    <a href="live.html">Live</a>
+    <a href="events.html">Events</a>
+    <a href="resources.html">Resources</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-eyebrow" data-edit="newsletter.hero.eyebrow" data-edit-type="text" data-edit-field="body" data-edit-label="Hero eyebrow">AFC Botswana · Annual Report</div>
+    <h1 data-edit="newsletter.hero.title" data-edit-type="text" data-edit-field="body" data-edit-label="Hero title">2026 Local Newsletter</h1>
+    <h2 data-edit="newsletter.hero.subtitle" data-edit-type="text" data-edit-field="body" data-edit-label="Hero subtitle">Celebrating God's Faithfulness</h2>
+    <p class="hero-verse" data-edit="newsletter.hero.verse" data-edit-type="text" data-edit-field="body" data-edit-label="Hero verse">"Remember the wondrous works that He has done." — <span>Psalm 105:5</span></p>
+    <div class="hero-divider"></div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro-section">
+  <div class="intro-inner">
+    <p class="section-label" data-edit="newsletter.intro.label" data-edit-type="text" data-edit-field="body" data-edit-label="Intro label">Recent Events</p>
+    <h2 data-edit="newsletter.intro.title" data-edit-type="text" data-edit-field="body" data-edit-label="Intro title">A Year of God's Grace</h2>
+    <p data-edit="newsletter.intro.body" data-edit-type="text" data-edit-field="body" data-edit-label="Intro body">Throughout 2026, God has faithfully blessed the Apostolic Faith Church Botswana through conventions, conferences, youth camps, worship, fellowship, and lives transformed by His grace. This newsletter highlights some of the major events that shaped our year.</p>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<div class="events-wrapper" id="events" data-edit-list="events">
+
+  <!-- EASTER CONVENTION -->
+  <div class="event-card" data-edit="newsletter.event.easter" data-edit-type="event-card" data-edit-label="Easter Convention">
+    <div class="event-media">
+        <img src="css/images/francistown.jpg" alt="Francistown branch" loading="lazy" data-edit-field="image">
+    </div>
+    <div class="event-body">
+      <div class="event-badge" data-edit-field="badge">Easter Convention</div>
+      <h2 data-edit-field="title">Christ Our Passover</h2>
+      <div data-edit-field="body" data-edit-format="html">
+        <p>The 2026 Easter Convention united believers from Francistown, Letlhakane, Mmutlane, and Gaborone under the theme <strong>"Christ Our Passover" (1 Corinthians 5:7)</strong>.</p>
+        <p>Through Bible studies, sermons, youth services, testimonies, devotional meetings, and musical concerts, participants reflected on Christ's sacrifice, resurrection, and the hope of salvation. The convention strengthened fellowship across Botswana while encouraging believers to deepen their faith and boldly share the Gospel.</p>
+      </div>
+      <div class="event-accent" data-edit-field="accent">Easter 2026</div>
+    </div>
+  </div>
+
+  <!-- MOTHER'S CONFERENCE -->
+  <div class="event-card reverse" data-edit="newsletter.event.mothers" data-edit-type="event-card" data-edit-label="Mother's Conference">
+    <div class="event-media">
+      
+        <img src="css/images/allmothers.jpg" alt="Mothers conference group" loading="lazy" data-edit-field="image">
+  
+      
+    </div>
+    <div class="event-body">
+      <div class="event-badge" data-edit-field="badge">Mother's Conference</div>
+      <h2 data-edit-field="title">My Beauty, My Pride, I Am God's Masterpiece</h2>
+      <div data-edit-field="body" data-edit-format="html">
+        <p>Held from <strong>8–10 May 2026</strong>, this inspiring conference celebrated women through worship, biblical teaching, testimonies, and practical workshops. Ladies were encouraged to embrace their identity in Christ while growing spiritually, emotionally, physically, and financially.</p>
+        <p>Sessions on health, stewardship, healing, and personal development equipped participants to serve God, their families, and their communities with renewed confidence and purpose.</p>
+      </div>
+      <div class="event-accent" data-edit-field="accent">Mother's Conference · 2026</div>
+    </div>
+  </div>
+
+  <!-- YOUTH CAMP -->
+  <div class="event-card" data-edit="newsletter.event.youth" data-edit-type="event-card" data-edit-label="Youth Camp">
+    <div class="event-media">
+      
+        <img src="css/images/youthDis.jpg" alt="Youth discussions" loading="lazy" data-edit-field="image">
+        
+     
+    </div>
+    <div class="event-body">
+      <div class="event-badge" data-edit-field="badge">Youth Camp</div>
+      <h2 data-edit-field="title">Soar High 2026</h2>
+      <div data-edit-field="body" data-edit-format="html">
+        <p>Centred on the theme <strong>"SOAR HIGH"</strong>, our 2026 YOUTH CAMP brought together young people for four days of worship, Bible teaching, prayer, fellowship, and personal reflection.</p>
+        <p>Powerful messages, concerts, discussions, and testimonies inspired participants to discover their identity in Christ, live with purpose, and shine His light in their communities. Many experienced spiritual renewal and left with strengthened faith and lasting friendships.</p>
+      </div>
+      <div class="event-accent" data-edit-field="accent">Youth Camp · 2026</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CLOSING / LOOKING AHEAD -->
+<section class="closing">
+  <div class="closing-inner">
+    <h2 data-edit="newsletter.closing.title" data-edit-type="text" data-edit-field="body" data-edit-label="Closing title">Looking Ahead</h2>
+    <p class="closing-verse" data-edit="newsletter.closing.verse" data-edit-type="html" data-edit-field="body" data-edit-label="Closing verse"><em>"The Lord has done great things for us, and we are filled with joy."</em></p>
+    <p class="closing-ref" data-edit="newsletter.closing.reference" data-edit-type="text" data-edit-field="body" data-edit-label="Closing reference">— Psalm 126:3</p>
+    <p data-edit="newsletter.closing.body" data-edit-type="text" data-edit-field="body" data-edit-label="Closing body">We thank God for His faithfulness throughout 2026 and look forward with expectation to all He will continue to accomplish through the Apostolic Faith Church Botswana.</p>
+    <div data-edit="newsletter.closing.cta" data-edit-type="fields" data-edit-label="Closing button">
+      <a class="btn-gallery" href="events.html" data-edit-field="link">View More Events →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<!-- ===== FOOTER ===== -->
 <footer class="footer">
   <div class="container footer-inner">
     <div class="footer-main">
@@ -543,7 +543,7 @@ footer .tagline {
         <a href="locations.html">Locations</a>
         <a href="live.html">Live</a>
         <a href="calendar.html">Calendar</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="contact.html">Contact</a>
       </nav>
 
       <div class="footer-connect">
@@ -570,20 +570,20 @@ footer .tagline {
       <p class="footer-motto">�Faith, Fellowship, Service�</p>
     </div>
   </div>
-</footer>
-
-<script>
-document.getElementById('hamburger').addEventListener('click', function() {
-  document.getElementById('mobileNav').classList.toggle('open');
-  this.setAttribute('aria-expanded', document.getElementById('mobileNav').classList.contains('open'));
-});
-
-window.addEventListener('scroll', function() {
-  document.querySelector('header').style.boxShadow =
-    window.scrollY > 10 ? '0 4px 30px rgba(0,0,0,.4)' : '';
-});
-</script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-<script type="module" src="js/site-core.js"></script>
-</body>
+</footer>
+
+<script>
+document.getElementById('hamburger').addEventListener('click', function() {
+  document.getElementById('mobileNav').classList.toggle('open');
+  this.setAttribute('aria-expanded', document.getElementById('mobileNav').classList.contains('open'));
+});
+
+window.addEventListener('scroll', function() {
+  document.querySelector('header').style.boxShadow =
+    window.scrollY > 10 ? '0 4px 30px rgba(0,0,0,.4)' : '';
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script type="module" src="js/site-core.js"></script>
+</body>
 </html>
