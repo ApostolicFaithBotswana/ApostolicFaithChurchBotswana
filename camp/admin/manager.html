@@ -787,7 +787,8 @@ import {
   collection, addDoc, getDocs, doc, updateDoc, deleteDoc,
   query, orderBy, onSnapshot, where, serverTimestamp,
   CAMP_REGS, CAMP_ORDERS, CAMP_ANN, CAMP_ATT,
-  CAMP_PRAYERS, CAMP_JOURNAL, CAMP_TESTIM, CAMP_SERVICE_ATT
+  CAMP_PRAYERS, CAMP_JOURNAL, CAMP_TESTIM, CAMP_SERVICE_ATT,
+  ROLE_EMAILS
 } from '../camp-firebase.js';
 
 // ── Collection name for schedule ──
@@ -882,7 +883,10 @@ function schedTypeBadge(type){
 
 // ─── AUTH GUARD ──────────────────────────────────────
 onAuthStateChanged(auth, user => {
-  if(!user){ window.location.href = 'adminlogin.html'; return; }
+  if(!user || user.email.toLowerCase() !== ROLE_EMAILS.manager){
+    window.location.href = 'adminlogin.html';
+    return;
+  }
   document.getElementById('managerEmail').textContent = user.email;
   initAll();
 });

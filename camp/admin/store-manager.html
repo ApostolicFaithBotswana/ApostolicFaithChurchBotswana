@@ -236,7 +236,7 @@ input[type="checkbox"]{width:16px;height:16px;cursor:pointer;accent-color:var(--
     </nav>
     <div class="sidebar-footer">
       AFC Botswana · 2026
-      <button onclick="window.location.href='adminlogin.html'">→ Logout</button>
+      <button onclick="doLogout()">→ Logout</button>
     </div>
   </aside>
 
@@ -317,7 +317,8 @@ import {
   db, auth,
   CAMP_ORDERS, STORE_PRODUCTS,
   collection, getDocs, addDoc, doc, updateDoc, deleteDoc,
-  onSnapshot, onAuthStateChanged, serverTimestamp
+  onSnapshot, onAuthStateChanged, serverTimestamp,
+  signOut, ROLE_EMAILS
 } from '../camp-firebase.js';
 
 // ── CATALOGUE — images hardcoded, price lives in Firestore ──
@@ -344,8 +345,19 @@ function toast(msg, ok=true){
   setTimeout(()=>t.classList.remove('show'), 2800);
 }
 
-// ── AUTH ──
-onAuthStateChanged(auth, u=>{ if(u) document.getElementById('admin-email').textContent = u.email; });
+// ── AUTH GUARD ──
+onAuthStateChanged(auth, u => {
+  if(!u || u.email.toLowerCase() !== ROLE_EMAILS.store){
+    window.location.href = 'adminlogin.html';
+    return;
+  }
+  document.getElementById('admin-email').textContent = u.email;
+});
+
+window.doLogout = async function(){
+  await signOut();
+  window.location.href = 'adminlogin.html';
+};
 
 // ── NAV ──
 window.showPage = function(page, el){
