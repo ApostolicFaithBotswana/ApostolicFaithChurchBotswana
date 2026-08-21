@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS camp_orders (
 CREATE TABLE IF NOT EXISTS camp_announcements (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   data JSONB NOT NULL DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT now(),
   timestamp TIMESTAMPTZ DEFAULT now()
 );
 
@@ -70,6 +71,7 @@ CREATE TABLE IF NOT EXISTS camp_testimonies (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   data JSONB NOT NULL DEFAULT '{}',
   published BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now(),
   timestamp TIMESTAMPTZ DEFAULT now()
 );
 
@@ -77,7 +79,8 @@ CREATE TABLE IF NOT EXISTS store_products (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   data JSONB NOT NULL DEFAULT '{}',
   product_key TEXT,
-  created_at TIMESTAMPTZ DEFAULT now()
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE TABLE IF NOT EXISTS camp_service_attendance (

@@ -1100,7 +1100,7 @@ document.getElementById('annPostBtn').addEventListener('click', async () => {
     await addDoc(collection(db, CAMP_ANN), {
       title, body, priority,
       timestamp: serverTimestamp(),
-      createdAt: new Date().toLocaleString('en-BW')
+      createdAt: serverTimestamp()
     });
     document.getElementById('annTitle').value = '';
     document.getElementById('annBody').value  = '';
