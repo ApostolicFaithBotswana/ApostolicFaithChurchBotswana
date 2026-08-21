@@ -44,8 +44,22 @@ body {
   text-decoration: none; color: white;
 }
 .camp-nav-logo { height: 44px; }
-.camp-nav-title { display: block; font-weight: 900; font-size: .95rem; }
+.camp-nav-title { display: block; font-family: 'Playfair Display', serif; font-weight: 900; font-size: .95rem; }
 .camp-nav-sub   { display: block; color: var(--c-gold); font-size: .78rem; }
+.nav-brand-text { display: flex; flex-direction: column; }
+.brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-white);
+  line-height: 1.2;
+}
+.brand-sub {
+  font-size: .68rem;
+  color: var(--c-gold);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
 .camp-nav-links { display: flex; gap: 6px; align-items: center; }
 .camp-nav-links a {
   color: rgba(255,255,255,0.7);
@@ -357,7 +371,12 @@ body {
   background: rgba(255,255,255,.06); display: flex; align-items: center; justify-content: center;
 }
 .camp-site-footer .logo-icon-sm img { width: 100%; height: 100%; object-fit: contain; }
-.camp-site-footer .footer-church-name { font-weight: 800; color: #fff; margin: 0; }
+.camp-site-footer .footer-church-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+}
 .camp-site-footer .footer-sub { margin: .2rem 0 0; font-size: .78rem; color: var(--c-gold); }
 .camp-site-footer .footer-links {
   display: flex; flex-wrap: wrap; gap: .55rem .85rem; align-items: center;
