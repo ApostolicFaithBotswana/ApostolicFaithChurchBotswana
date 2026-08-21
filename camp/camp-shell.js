@@ -58,12 +58,12 @@ export function mountCampFooters() {
   });
 }
 
-export function mountWhatsAppFloat(number = '26776159933') {
+export function mountWhatsAppFloat(number = '26773837664') {
   if (document.getElementById('campWaFloat')) return;
   const a = document.createElement('a');
   a.id = 'campWaFloat';
   a.className = 'camp-wa-float';
-  a.href = `https://wa.me/${number}`;
+  a.href = `https://wa.me/26773837664`;
   a.target = '_blank';
   a.rel = 'noopener';
   a.setAttribute('aria-label', 'WhatsApp camp hub');
@@ -75,6 +75,6 @@ export function initCampShell(opts = {}) {
   mountCampFooters();
   hydrateCampIcons();
   if (opts.whatsapp !== false) {
-    mountWhatsAppFloat(opts.whatsappNumber || '26776159933');
+    mountWhatsAppFloat(opts.whatsappNumber || '26773837664');
   }
 }

@@ -682,7 +682,7 @@ body{
     <p class="camp-hero-verse">— Romans 1:17 (KJV)</p>
     <div class="camp-hero-meta">
       <span><span data-camp-icon="calendar" data-icon-size="16"></span> <span id="heroDates">19–26 July 2026</span></span>
-      <span><span data-camp-icon="mapPin" data-icon-size="16"></span> <span id="heroVenue">Plot 54201, Phase 4, Gaborone</span></span>
+      <span><span data-camp-icon="mapPin" data-icon-size="16"></span> <span id="heroVenue">Plot 54021, Phase 4, Gaborone</span></span>
     </div>
     <div class="camp-hero-actions">
       <a href="registration.html" class="camp-btn-gold">Register Now</a>
@@ -810,7 +810,7 @@ body{
           <div>
             <strong>Venue</strong>
             <p id="locVenueName">Apostolic Faith Church — Greater Gaborone Branch</p>
-            <p id="locVenueAddress">Plot 54201, Phase 4, Gaborone</p>
+            <p id="locVenueAddress">Plot 54021, Phase 4, Gaborone</p>
           </div>
         </div>
         <div class="camp-info-item">
@@ -910,10 +910,10 @@ let campCfg = {
   dates_label: '19–26 July 2026',
   start_date: '2026-07-19',
   venue_name: 'Apostolic Faith Church — Greater Gaborone Branch',
-  venue_address: 'Plot 54201, Phase 4, Gaborone',
+  venue_address: 'Plot 54021, Phase 4, Gaborone',
   opening_service: '09:00 AM',
   phone: '+267 75 222 415',
-  whatsapp: '26776159933',
+  whatsapp: '26773837664',
   map_lat: -24.68379308147856,
   map_lng: 25.882944318902148,
 };
@@ -934,7 +934,7 @@ function applyCampConfig(cfg) {
   if (maps) maps.href = `https://maps.google.com/?q=${q}`;
   if (frame) frame.src = `https://maps.google.com/maps?q=${q}&z=15&output=embed`;
 
-  const wa = campCfg.whatsapp || '26776159933';
+  const wa = campCfg.whatsapp || '26773837664';
   const quickWa = document.getElementById('quickWhatsApp');
   if (quickWa) quickWa.href = `https://wa.me/${wa}`;
   initCampShell({ whatsappNumber: wa });
