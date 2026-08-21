@@ -7,6 +7,7 @@ import { campIcon, hydrateCampIcons } from './camp-icons.js';
 function footerHtml(base = '.') {
   const root = base === '.' ? '..' : '../..';
   const here = base;
+  const adminHref = base === '.' ? './admin/adminlogin.html' : 'adminlogin.html';
   return `
   <div class="container footer-inner">
     <div class="footer-main">
@@ -27,6 +28,7 @@ function footerHtml(base = '.') {
         <a href="${here}/store.html">Store</a>
         <a href="${here}/announcements.html">Announcements</a>
         <a href="${root}/index.html">Main Site</a>
+        <a href="${adminHref}">Admin</a>
       </nav>
 
       <div class="footer-connect">

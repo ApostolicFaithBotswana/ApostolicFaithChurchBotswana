@@ -145,10 +145,10 @@ INSERT INTO camp_config (id, data) VALUES
     "start_date": "2026-07-19",
     "end_date": "2026-07-26",
     "venue_name": "Apostolic Faith Church — Greater Gaborone Branch",
-    "venue_address": "Plot 54201, Phase 4, Gaborone",
+    "venue_address": "Plot 54021, Phase 4, Gaborone",
     "opening_service": "09:00 AM",
     "phone": "+267 75 222 415",
-    "whatsapp": "26776159933",
+    "whatsapp": "26773837664",
     "map_lat": -24.68379308147856,
     "map_lng": 25.882944318902148
   }'::jsonb)
