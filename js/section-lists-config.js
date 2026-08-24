@@ -85,6 +85,7 @@ export const SECTION_LISTS = {
     itemPrefix: 'event',
     alternateReverse: true,
     bodyHtml: true,
+    prependNew: true,
     selector: '[data-edit-list="events"]',
   },
   'locations:districts-southern': {

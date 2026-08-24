@@ -187,6 +187,10 @@ CREATE POLICY "public_read_published_testimonies" ON camp_testimonies FOR SELECT
 
 -- Public inserts (forms)
 CREATE POLICY "public_insert_site_registrations" ON site_registrations FOR INSERT TO anon, authenticated WITH CHECK (true);
+-- Required alongside the insert policy above: Supabase's insert-then-return-the-row
+-- flow needs SELECT visibility on the row just inserted, or the insert itself fails
+-- with a misleading "row-level security policy" error even though INSERT succeeded.
+CREATE POLICY "public_read_site_registrations" ON site_registrations FOR SELECT TO anon, authenticated USING (true);
 CREATE POLICY "public_insert_camp_registrations" ON camp_registrations FOR INSERT TO anon, authenticated WITH CHECK (true);
 CREATE POLICY "public_insert_camp_orders" ON camp_orders FOR INSERT TO anon, authenticated WITH CHECK (true);
 CREATE POLICY "public_insert_camp_prayers" ON camp_prayers FOR INSERT TO anon, authenticated WITH CHECK (true);

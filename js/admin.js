@@ -622,16 +622,17 @@ function paintRegistrations(regs) {
         <thead>
           <tr>
             <th>Name</th><th>Email</th><th>Phone</th>
-            <th>Branch</th><th>Event</th><th>Date</th>
+            <th>Branch</th><th>Role</th><th>Event</th><th>Date</th>
           </tr>
         </thead>
         <tbody>
           ${regs.map(r => `
             <tr>
               <td>${escHtml(r.name)}</td>
-              <td>${escHtml(r.email)}</td>
+              <td>${escHtml(r.email || '—')}</td>
               <td>${escHtml(r.phone)}</td>
               <td>${escHtml(r.branch || '—')}</td>
+              <td>${escHtml(r.role || '—')}</td>
               <td>${escHtml(r.event_name || '—')}</td>
               <td>${r.created ? new Date(r.created).toLocaleDateString('en-BW') : '—'}</td>
             </tr>`).join('')}
@@ -644,9 +645,9 @@ window.exportRegistrations = async function() {
   const regs = await DB.getRegistrations();
   if (!regs.length) { showToast('No registrations to export.', 'error'); return; }
 
-  const header = ['Name','Email','Phone','Branch','Event','Date'];
+  const header = ['Name','Email','Phone','Branch','Role','Event','Date'];
   const rows   = regs.map(r => [
-    r.name, r.email, r.phone, r.branch || '',
+    r.name, r.email, r.phone, r.branch || '', r.role || '',
     r.event_name || '',
     r.created ? new Date(r.created).toLocaleDateString('en-BW') : ''
   ]);

@@ -4,6 +4,7 @@
 
 import { DB } from './data.js';
 import { refreshLucideIcons } from './lucide-icons.js';
+import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js';
 import {
   EVENTS_2026_DEFAULT,
   MONTH_SHORT,
@@ -193,7 +194,11 @@ function renderUpcomingCards(now = Date.now()) {
           ${ev.place ? `<div class="cal-card-row"><i data-lucide="map-pin"></i><span>${esc(ev.place)}</span></div>` : ''}
           ${ev.description ? `<p class="cal-card-desc">${esc(ev.description)}</p>` : ''}
           <div class="cal-card-countdown">${countText}</div>
-          ${ev.externalUrl ? `<a class="btn-primary" style="margin-top:.5rem;align-self:flex-start" href="${esc(ev.externalUrl)}" target="_blank" rel="noopener">Register</a>` : ''}
+          ${ev.externalUrl
+            ? `<a class="btn-primary" style="margin-top:.5rem;align-self:flex-start" href="${esc(ev.externalUrl)}" target="_blank" rel="noopener">Register</a>`
+            : ev.source === 'site'
+              ? `<button type="button" class="btn-primary" style="margin-top:.5rem;align-self:flex-start" onclick="openRegModal('${esc(ev.rawId)}')">Register / RSVP</button>`
+              : ''}
         </div>
       </article>`;
   }).join('');
@@ -310,6 +315,53 @@ function setFilter(type, btn) {
   renderList();
 }
 
+let currentEventForReg = null;
+
+function openRegModal(rawId) {
+  const ev = siteEvents.find((e) => String(e.id) === String(rawId));
+  if (!ev) return;
+
+  currentEventForReg = ev;
+  const info = document.getElementById('modalEventInfo');
+  if (info) {
+    info.innerHTML = `<strong>${esc(ev.name)}</strong><br><i data-lucide="calendar"></i> ${esc(fmtDateRange(ev.startDate, ev.endDate))}${ev.location ? `<br><i data-lucide="map-pin"></i> ${esc(ev.location)}` : ''}`;
+    refreshLucideIcons(info);
+  }
+  document.getElementById('regModal').style.display = 'flex';
+  lockScroll();
+}
+
+function closeRegModal() {
+  document.getElementById('regModal').style.display = 'none';
+  document.getElementById('regForm')?.reset();
+  currentEventForReg = null;
+  unlockScroll();
+}
+
+async function handleRegistration(e) {
+  e.preventDefault();
+  if (!currentEventForReg) return;
+
+  await DB.addRegistration({
+    event_id: currentEventForReg.id,
+    event_name: currentEventForReg.name,
+    name: document.getElementById('regName').value.trim(),
+    phone: document.getElementById('regPhone').value.trim(),
+    branch: document.getElementById('regBranch').value,
+    role: document.getElementById('regRole').value,
+  });
+  closeRegModal();
+  showToast('Registration confirmed! We look forward to seeing you.');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.className = 'toast show success';
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
 async function loadSiteEvents() {
   try {
     if (typeof DB.subscribeEvents === 'function') {
@@ -340,6 +392,15 @@ export function initCalendarPage() {
   });
 
   window.setCalFilter = setFilter;
+  window.openRegModal = openRegModal;
+  window.closeRegModal = closeRegModal;
+  window.handleRegistration = handleRegistration;
+
+  const regModal = document.getElementById('regModal');
+  if (regModal) {
+    trapModalWheel(regModal);
+    regModal.addEventListener('click', (ev) => { if (ev.target === regModal) closeRegModal(); });
+  }
 
   document.getElementById('calSearch')?.addEventListener('input', () => renderList());
 

@@ -111,7 +111,9 @@ export async function addListItem(page, listId, data) {
   if (!config) throw new Error('Unknown section');
   const items = [...getListItems(page, listId)];
   const id = `${config.itemPrefix}-${Date.now().toString(36)}`;
-  items.push({ id, ...data });
+  const newItem = { id, ...data };
+  if (config.prependNew) items.unshift(newItem);
+  else items.push(newItem);
   await saveListItems(page, listId, items);
   const container = document.querySelector(config.selector);
   if (container) renderList(container, items, config, page);

@@ -32,7 +32,6 @@
       <a href="about.html">About</a>
       <a href="locations.html">Locations</a>
       <a href="live.html">Live</a>
-      <a href="events.html">Events</a>
       <a href="resources.html">Resources</a>
       <a href="calendar.html" class="active">Calendar</a>
       <a href="contact.html">Contact</a>
@@ -165,6 +164,44 @@
     </div>
   </div>
 </footer>
+
+<div id="regModal" class="modal-overlay" style="display:none;">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeRegModal()">×</button>
+    <h2>Register for Event</h2>
+    <div class="modal-event-info" id="modalEventInfo"></div>
+    <form id="regForm" onsubmit="handleRegistration(event)">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" id="regName" required placeholder="Your full name"/>
+      </div>
+      <div class="form-group">
+        <label>Phone Number *</label>
+        <input type="tel" id="regPhone" required placeholder="+267 71 000 000"/>
+      </div>
+      <div class="form-group">
+        <label>Branch</label>
+        <select id="regBranch">
+          <option value="">Select branch</option>
+          <optgroup label="Greater Gaborone"><option>Gaborone</option><option>Mmopane</option><option>Lobatse</option><option>Molepolole</option><option>Moshupa</option><option>Sese</option></optgroup>
+          <optgroup label="Francistown"><option>Francistown</option><option>Tsamaya</option><option>Selebi Phikwe</option><option>Matsitama</option></optgroup>
+          <optgroup label="Mahalapye"><option>Mahalapye</option><option>Mmutlane</option><option>Serowe</option><option>Palapye</option></optgroup>
+          <optgroup label="Letlhakane"><option>Letlhakane</option><option>Mopipi</option><option>Rakops</option><option>Maun</option><option>Nata</option></optgroup>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Role *</label>
+        <select id="regRole" required>
+          <option value="">Select role</option>
+          <option value="Worker">Worker</option>
+          <option value="Non-worker">Non-worker</option>
+        </select>
+      </div>
+      <button class="btn-primary" type="submit">Confirm Registration</button>
+    </form>
+  </div>
+</div>
 
 <div id="toast" class="toast"></div>
 
