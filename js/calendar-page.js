@@ -184,8 +184,10 @@ function renderUpcomingCards(now = Date.now()) {
     const countText = mode === 'live'
       ? `Ending in ${formatCompactRemaining(ms)}`
       : `Starts in ${formatCompactRemaining(ms)}`;
+    const rsvpable = ev.source === 'site' && !ev.externalUrl;
+    const cardClick = rsvpable ? ` onclick="openRegModal('${esc(ev.rawId)}')" style="cursor:pointer;"` : '';
     return `
-      <article class="cal-event-card${mode === 'live' ? ' is-live' : ''}" data-event-id="${esc(ev.id)}">
+      <article class="cal-event-card${mode === 'live' ? ' is-live' : ''}" data-event-id="${esc(ev.id)}"${cardClick}>
         ${ev.poster ? `<img class="cal-event-card-poster" src="${esc(ev.poster)}" alt="" loading="lazy" onerror="this.remove()" />` : ''}
         <div class="cal-event-card-body">
           ${cardBadge(ev, now)}
@@ -195,9 +197,9 @@ function renderUpcomingCards(now = Date.now()) {
           ${ev.description ? `<p class="cal-card-desc">${esc(ev.description)}</p>` : ''}
           <div class="cal-card-countdown">${countText}</div>
           ${ev.externalUrl
-            ? `<a class="btn-primary" style="margin-top:.5rem;align-self:flex-start" href="${esc(ev.externalUrl)}" target="_blank" rel="noopener">Register</a>`
-            : ev.source === 'site'
-              ? `<button type="button" class="btn-primary" style="margin-top:.5rem;align-self:flex-start" onclick="openRegModal('${esc(ev.rawId)}')">Register / RSVP</button>`
+            ? `<a class="btn-primary" style="margin-top:.5rem;align-self:flex-start" href="${esc(ev.externalUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Register</a>`
+            : rsvpable
+              ? `<button type="button" class="btn-primary" style="margin-top:.5rem;align-self:flex-start" onclick="event.stopPropagation();openRegModal('${esc(ev.rawId)}')">Register / RSVP</button>`
               : ''}
         </div>
       </article>`;
