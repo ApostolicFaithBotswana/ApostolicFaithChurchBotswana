@@ -184,8 +184,8 @@ function renderUpcomingCards(now = Date.now()) {
     const countText = mode === 'live'
       ? `Ending in ${formatCompactRemaining(ms)}`
       : `Starts in ${formatCompactRemaining(ms)}`;
-    const rsvpable = ev.source === 'site' && !ev.externalUrl;
-    const cardClick = rsvpable ? ` onclick="openRegModal('${esc(ev.rawId)}')" style="cursor:pointer;"` : '';
+    const rsvpable = !ev.externalUrl;
+    const cardClick = rsvpable ? ` onclick="openRegModal('${esc(ev.id)}')" style="cursor:pointer;"` : '';
     return `
       <article class="cal-event-card${mode === 'live' ? ' is-live' : ''}" data-event-id="${esc(ev.id)}"${cardClick}>
         ${ev.poster ? `<img class="cal-event-card-poster" src="${esc(ev.poster)}" alt="" loading="lazy" onerror="this.remove()" />` : ''}
@@ -199,7 +199,7 @@ function renderUpcomingCards(now = Date.now()) {
           ${ev.externalUrl
             ? `<a class="btn-primary" style="margin-top:.5rem;align-self:flex-start" href="${esc(ev.externalUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Register</a>`
             : rsvpable
-              ? `<button type="button" class="btn-primary" style="margin-top:.5rem;align-self:flex-start" onclick="event.stopPropagation();openRegModal('${esc(ev.rawId)}')">Register / RSVP</button>`
+              ? `<button type="button" class="btn-primary" style="margin-top:.5rem;align-self:flex-start" onclick="event.stopPropagation();openRegModal('${esc(ev.id)}')">Register / RSVP</button>`
               : ''}
         </div>
       </article>`;
@@ -255,8 +255,12 @@ function renderList(now = Date.now()) {
         const d = startOfDay(ev.start);
         const tmeta = TYPE_META[ev.type] || TYPE_META.special;
         const smeta = SCOPE_META[ev.scope] || SCOPE_META.regional;
+        const rowRsvpable = status !== 'past' && !ev.externalUrl;
+        const rowClick = (rowRsvpable || ev.externalUrl)
+          ? ` onclick="${ev.externalUrl ? `window.open('${esc(ev.externalUrl)}','_blank')` : `openRegModal('${esc(ev.id)}')`}" style="cursor:pointer;"`
+          : '';
         html += `
-          <div class="cal-event-row${status === 'live' ? ' is-live' : ''}${status === 'past' ? ' is-past' : ''}">
+          <div class="cal-event-row${status === 'live' ? ' is-live' : ''}${status === 'past' ? ' is-past' : ''}"${rowClick}>
             <div class="cal-date-badge">
               <div class="cal-date-day">${DAY_SHORT[d.getDay()]}</div>
               <div class="cal-date-num">${d.getDate()}</div>
@@ -274,6 +278,7 @@ function renderList(now = Date.now()) {
               ${status === 'live' ? '<span class="cal-row-live">Now</span>' : ''}
               <span class="cal-type-pill ${tmeta.pill}">${tmeta.label}</span>
               <span class="cal-scope-pill ${smeta.pill}">${smeta.label}</span>
+              ${ev.externalUrl ? '<span class="cal-row-live" style="background:var(--gold);color:var(--navy-900);">Register</span>' : rowRsvpable ? '<span class="cal-row-live" style="background:rgba(212,175,55,.15);color:var(--gold);">RSVP</span>' : ''}
             </div>
           </div>`;
       });
@@ -319,14 +324,14 @@ function setFilter(type, btn) {
 
 let currentEventForReg = null;
 
-function openRegModal(rawId) {
-  const ev = siteEvents.find((e) => String(e.id) === String(rawId));
+function openRegModal(unifiedId) {
+  const ev = allUnified().find((e) => e.id === unifiedId);
   if (!ev) return;
 
   currentEventForReg = ev;
   const info = document.getElementById('modalEventInfo');
   if (info) {
-    info.innerHTML = `<strong>${esc(ev.name)}</strong><br><i data-lucide="calendar"></i> ${esc(fmtDateRange(ev.startDate, ev.endDate))}${ev.location ? `<br><i data-lucide="map-pin"></i> ${esc(ev.location)}` : ''}`;
+    info.innerHTML = `<strong>${esc(ev.name)}</strong><br><i data-lucide="calendar"></i> ${esc(fmtDateRange(ev.start, ev.end))}${ev.place ? `<br><i data-lucide="map-pin"></i> ${esc(ev.place)}` : ''}`;
     refreshLucideIcons(info);
   }
   document.getElementById('regModal').style.display = 'flex';

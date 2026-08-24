@@ -26,7 +26,7 @@ export const EVENTS_2026_DEFAULT = [
   { id: 18, name: "Father's Day", start: '2026-06-20', end: '2026-06-20', place: 'Letlhakane', type: 'special', scope: 'regional', resp: 'Men' },
   { id: 19, name: 'International Camp', start: '2026-06-28', end: '2026-07-12', place: 'Portland, USA', type: 'camp', scope: 'international', resp: 'All' },
   { id: 20, name: 'Camp Revival', start: '2026-07-12', end: '2026-07-16', place: 'Gaborone', type: 'camp', scope: 'regional', resp: 'Outreach' },
-  { id: 21, name: 'Botswana Camp Meeting', start: '2026-07-19', end: '2026-07-26', place: 'Gaborone', type: 'camp', scope: 'national', resp: 'National Committees' },
+  { id: 21, name: 'Botswana Camp Meeting', start: '2026-07-19', end: '2026-07-26', place: 'Gaborone', type: 'camp', scope: 'national', resp: 'National Committees', externalUrl: 'camp/registration.html' },
   { id: 22, name: 'Revival', start: '2026-08-01', end: '2026-08-01', place: 'Sebina', type: 'revival', scope: 'regional', resp: 'North West' },
   { id: 23, name: 'Malawi Camp', start: '2026-08-02', end: '2026-08-09', place: 'Blantyre, Malawi', type: 'camp', scope: 'international', resp: 'All' },
   { id: 24, name: 'Eswatini / Burundi Camp', start: '2026-08-09', end: '2026-08-16', place: 'Eswatini', type: 'camp', scope: 'international', resp: 'All' },
@@ -113,7 +113,7 @@ export function normalizeCalendarEvent(ev) {
     resp: ev.resp || '',
     description: '',
     poster: '',
-    externalUrl: '',
+    externalUrl: ev.externalUrl || '',
     source: 'calendar',
   };
 }
