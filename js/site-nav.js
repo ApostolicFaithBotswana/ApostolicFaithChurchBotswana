@@ -4,11 +4,11 @@
 
 const NAV_ITEMS = [
   { id: 'home', label: 'Home', href: 'index.html', indexHref: '#home' },
-  { id: 'about', label: 'About', href: 'about.html' },
-  { id: 'locations', label: 'Locations', href: 'locations.html' },
-  { id: 'live', label: 'Live', href: 'live.html' },
   { id: 'resources', label: 'Resources', href: 'resources.html' },
   { id: 'calendar', label: 'Calendar', href: 'calendar.html' },
+  { id: 'live', label: 'Live', href: 'live.html' },
+  { id: 'camp', label: 'Camp', href: 'camp/index.html' },
+  { id: 'locations', label: 'Locations', href: 'locations.html' },
   { id: 'contact', label: 'Contact', href: 'contact.html' },
 ];
 
@@ -19,7 +19,6 @@ function currentPageId() {
 
   const file = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
   if (!file || file === 'index.html' || file === '') return 'home';
-  if (file.includes('about') || file.includes('history')) return 'about';
   if (file.includes('location')) return 'locations';
   if (file.includes('live')) return 'live';
   if (file.includes('resource')) return 'resources';

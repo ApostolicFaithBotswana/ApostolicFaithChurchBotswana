@@ -283,7 +283,12 @@ function applyBlockToElement(el, data) {
 
   if (type === 'text') {
     const field = el.dataset.editField || 'body';
-    if (data[field] !== undefined) el.textContent = data[field];
+    if (data[field] === undefined) return;
+    el.textContent = data[field];
+    if (el.tagName === 'A') {
+      if (el.href.startsWith('tel:')) el.href = `tel:${String(data[field]).replace(/\s/g, '')}`;
+      else if (el.href.startsWith('mailto:')) el.href = `mailto:${String(data[field]).trim()}`;
+    }
     return;
   }
 

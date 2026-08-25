@@ -162,9 +162,9 @@
 /* ── Main layout ── */
 .contact-layout {
   display: grid;
-  grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.4fr);
-  gap: 1.5rem;
-  align-items: start;
+  grid-template-columns: 1fr;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 /* Sidebar */
