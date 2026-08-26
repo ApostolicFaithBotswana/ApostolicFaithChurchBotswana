@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Camp Meeting 2026 — AFC Botswana</title>
+  <title>Camp Meeting 2027 — AFC Botswana</title>
+  <link rel="stylesheet" href="../css/site-enhancements.css"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="camp-shared.css"/>
@@ -347,6 +348,57 @@ body{
 }
 
 /* =====================
+   2026 RECAP
+===================== */
+
+.camp-recap-body{
+    max-width:800px;
+    margin:0 auto;
+    text-align:center;
+    color:#d5d9e6;
+    font-size:1rem;
+    line-height:1.85;
+}
+
+.camp-recap-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:20px;
+    margin-top:45px;
+}
+
+.camp-recap-photo{
+    border-radius:18px;
+    overflow:hidden;
+    aspect-ratio:4/3;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.05);
+    position:relative;
+}
+
+.camp-recap-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.camp-recap-photo.is-empty::after{
+    content:'Photo coming soon';
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.78rem;
+    color:rgba(255,255,255,.35);
+    text-align:center;
+    padding:1rem;
+}
+
+.camp-recap-photo.is-empty img{ display:none; }
+
+/* =====================
    THEME SECTION
 ===================== */
 
@@ -636,14 +688,14 @@ body{
 
 
 </head>
-<body>
+<body data-page="camp-index">
 <!-- NAV -->
 <header class="camp-nav">
   <div class="camp-nav-inner">
     <a href="index.html" class="camp-nav-brand">
       <img src="../css/images/logo1.png" class="camp-nav-logo" alt="AFC"/>
       <div class="nav-brand-text">
-        <span class="brand-name">Camp Meeting 2026</span>
+        <span class="brand-name">Camp Meeting 2027</span>
         <span class="brand-sub">Apostolic Faith · Botswana</span>
       </div>
     </a>
@@ -677,11 +729,11 @@ body{
   <div class="camp-hero-content">
     <div class="camp-hero-badge">AFC Botswana · Annual Camp Meeting</div>
     <h1 class="camp-hero-title">
-      <em>"The Just Shall</em><br>Live by Faith"
+      Camp Meeting <em>2027</em>
     </h1>
-    <p class="camp-hero-verse">— Romans 1:17 (KJV)</p>
+    <p class="camp-hero-verse">A week of prayer, preaching, and fellowship</p>
     <div class="camp-hero-meta">
-      <span><span data-camp-icon="calendar" data-icon-size="16"></span> <span id="heroDates">19–26 July 2026</span></span>
+      <span><span data-camp-icon="calendar" data-icon-size="16"></span> <span id="heroDates">18–25 July 2027</span></span>
       <span><span data-camp-icon="mapPin" data-icon-size="16"></span> <span id="heroVenue">Plot 54021, Phase 4, Gaborone</span></span>
     </div>
     <div class="camp-hero-actions">
@@ -708,7 +760,7 @@ body{
 <!-- STATS + WELCOME (Supabase-backed) -->
 <section class="camp-section camp-section-dark" style="padding-top:2.5rem;padding-bottom:1rem;">
   <div class="camp-container">
-    <div class="camp-alert" id="campAlertMsg">Camp Meeting 2026 registration is open. <a href="registration.html">Register here →</a></div>
+    <div class="camp-alert" id="campAlertMsg">Camp Meeting 2027 registration is open. <a href="registration.html">Register here →</a></div>
     <div class="camp-stats-bar">
       <div class="camp-stat"><div class="camp-stat-num" id="statReg">—</div><div class="camp-stat-lbl">Registrations</div></div>
       <div class="camp-stat"><div class="camp-stat-num" id="statOrders">—</div><div class="camp-stat-lbl">Store orders</div></div>
@@ -727,7 +779,7 @@ body{
       <a href="registration.html" class="camp-quick-card">
         <div class="camp-quick-icon" data-camp-icon="clipboard" data-icon-size="22"></div>
         <h3>Register</h3>
-        <p>Secure your spot at Camp Meeting 2026. Registration is free.</p>
+        <p>Secure your spot at Camp Meeting 2027. Registration is free.</p>
         <span class="camp-quick-link">Register Now →</span>
       </a>
       <a href="schedule.html" class="camp-quick-card">
@@ -739,7 +791,7 @@ body{
       <a href="store.html" class="camp-quick-card">
         <div class="camp-quick-icon" data-camp-icon="shoppingBag" data-icon-size="22"></div>
         <h3>Merch Store</h3>
-        <p>Order your Camp Meeting 2026 t-shirts, hoodies and more.</p>
+        <p>Order your Camp Meeting 2027 t-shirts, hoodies and more.</p>
         <span class="camp-quick-link">Shop Now →</span>
       </a>
       <a href="announcements.html" class="camp-quick-card">
@@ -758,43 +810,85 @@ body{
   </div>
 </section>
 
-<!-- THEME SECTION -->
-<section class="camp-section camp-theme-section">
+<!-- 2026 CAMP RECAP -->
+<section class="camp-section" data-edit="camp-index.recap.heading" data-edit-type="section" data-edit-label="2026 Camp Recap heading">
   <div class="camp-container">
-    <div class="camp-theme-grid">
-      <div class="camp-theme-text">
-        <p class="camp-section-label">2026 Theme</p>
-        <h2 class="camp-section-title">"The Just Shall<br><em>Live by Faith"</em></h2>
-        <p class="camp-theme-verse">Romans 1:17 (KJV)</p>
-        <p class="camp-theme-body">
-          "For therein is the righteousness of God revealed from faith to faith: as it is written,
-          The just shall live by faith."
-        </p>
-        <p class="camp-theme-body" style="margin-top:1rem;">
-          This year's camp meeting calls us to a deeper walk of faith — trusting God completely,
-          living by His Word, and standing firm in His righteousness. Join us as we gather
-          together to be renewed, refreshed, and revived in faith.
-        </p>
-        <a href="registration.html" class="camp-btn-gold" style="margin-top:2rem;display:inline-block;">Join Us This July</a>
+    <p class="camp-section-label" data-edit-field="label">Looking Back</p>
+    <h2 class="camp-section-title">2026 Camp <em>Recap</em></h2>
+    <p class="camp-recap-body" data-edit-field="body">
+      The 2026 Botswana Camp Meeting was held from 19–26 July under the theme "The Just Shall Live by Faith"
+      (Romans 1:17), drawing believers from Botswana and eight other nations across the region. The week opened
+      with a Workers' Meeting led by Onias Gumbo, setting a tone of consecration that carried through eight days
+      of Bible teaching, evangelistic services, and anointed worship. The children blessed the congregation with
+      their own presentation, the choir ministered throughout the week, and dedicated youth services together
+      with a musical concert stirred hearts across every generation. Seminars on marriage and business equipped
+      saints for practical, everyday faith, deepening the week's call to holy living. The camp closed with visible
+      demonstrations of God's grace — fifteen believers baptized in water, many participating in foot washing, and
+      thirty-six testifying of what they had received from God — leaving the congregation spiritually renewed and
+      inspired to carry the camp's enduring theme into their homes, churches, and daily walk with Christ.
+    </p>
+    <div class="camp-recap-grid" data-edit-list="recap-photos">
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.1" data-edit-type="image" data-edit-label="2026 recap photo 1">
+        <img src="../css/images/campp2.png" alt="2026 Botswana Annual Camp Meeting poster" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
       </div>
-      <div class="camp-theme-image">
-        <img src="../css/images/camp-theme.jpeg" alt="The Just Shall Live by Faith" />
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.2" data-edit-type="image" data-edit-label="2026 recap photo 2">
+        <img src="../css/images/campp3.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.3" data-edit-type="image" data-edit-label="2026 recap photo 3">
+        <img src="../css/images/campp4.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.4" data-edit-type="image" data-edit-label="2026 recap photo 4">
+        <img src="../css/images/campp5.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.5" data-edit-type="image" data-edit-label="2026 recap photo 5">
+        <img src="../css/images/campp6.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.6" data-edit-type="image" data-edit-label="2026 recap photo 6">
+        <img src="../css/images/campp8.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.7" data-edit-type="image" data-edit-label="2026 recap photo 7">
+        <img src="../css/images/campp7.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.8" data-edit-type="image" data-edit-label="2026 recap photo 8">
+        <img src="../css/images/campp9.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.9" data-edit-type="image" data-edit-label="2026 recap photo 9">
+        <img src="../css/images/campp10.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.10" data-edit-type="image" data-edit-label="2026 recap photo 10">
+        <img src="../css/images/campp11.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.11" data-edit-type="image" data-edit-label="2026 recap photo 11">
+        <img src="../css/images/campp12.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.12" data-edit-type="image" data-edit-label="2026 recap photo 12">
+        <img src="../css/images/campp13.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.13" data-edit-type="image" data-edit-label="2026 recap photo 13">
+        <img src="../css/images/campp14.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.14" data-edit-type="image" data-edit-label="2026 recap photo 14">
+        <img src="../css/images/campp15.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
+      </div>
+      <div class="camp-recap-photo" data-edit="camp-index.recap-photo.15" data-edit-type="image" data-edit-label="2026 recap photo 15">
+        <img src="../css/images/campp16.png" alt="Camp Meeting 2026" loading="lazy" onerror="this.closest('.camp-recap-photo').classList.add('is-empty')"/>
       </div>
     </div>
   </div>
 </section>
 
-<!-- LATEST ANNOUNCEMENTS -->
-<section class="camp-section camp-section-dark">
-  <div class="camp-container">
-    <p class="camp-section-label">Updates</p>
-    <h2 class="camp-section-title">Latest <em>Announcements</em></h2>
-    <div id="homeAnnouncements">
-      <div class="camp-empty"><div class="camp-empty-icon" data-camp-icon="megaphone" data-icon-size="28"></div>No announcements yet. Check back soon.</div>
-    </div>
-    <div style="text-align:center;margin-top:2rem;">
-      <a href="announcements.html" class="camp-btn-outline">View All Announcements</a>
-    </div>
+<!-- SAVE THE DATE -->
+<section class="camp-section camp-theme-section">
+  <div class="camp-container" style="max-width:700px;text-align:center;">
+    <p class="camp-section-label">Save The Date</p>
+    <h2 class="camp-section-title">Join Us for <em>Camp 2027</em></h2>
+    <p class="camp-theme-verse">18 – 25 July 2027 · Gaborone</p>
+    <p class="camp-theme-body">
+      Mark your calendars for another week of prayer, preaching, and fellowship as we gather once more
+      as one body in Christ. Registration is open now — full theme and programme details will be
+      announced closer to the date.
+    </p>
+    <a href="registration.html" class="camp-btn-gold" style="margin-top:2rem;display:inline-block;">Join Us This July</a>
   </div>
 </section>
 
@@ -817,7 +911,7 @@ body{
           <span class="camp-info-icon" data-camp-icon="calendar" data-icon-size="20"></span>
           <div>
             <strong>Date</strong>
-            <p id="locDates">19–26 July 2026</p>
+            <p id="locDates">18–25 July 2027</p>
           </div>
         </div>
         <div class="camp-info-item">
@@ -853,7 +947,7 @@ body{
     <div class="camp-footer-brand">
       <img src="../css/images/logo1.png" alt="AFC" style="height:36px;"/>
       <div>
-        <p>Camp Meeting 2026</p>
+        <p>Camp Meeting 2027</p>
         <span>Apostolic Faith Church · Botswana</span>
       </div>
     </div>
@@ -874,12 +968,14 @@ body{
 import {
   db,
   collection, getDocs, getDoc, doc, query, orderBy,
-  CAMP_REGS, CAMP_ORDERS, CAMP_ANN, CAMP_CONFIG
+  CAMP_REGS, CAMP_ORDERS, CAMP_CONFIG
 } from './camp-firebase.js';
 import { campIcon, weatherIconFromCode, hydrateCampIcons } from './camp-icons.js';
 import { initCampShell } from './camp-shell.js';
+import { initLiveAdmin } from '../js/live-admin.js';
 
 initCampShell({ whatsapp: false }); // float mounted after config loads
+initLiveAdmin('camp-index'); // enables live-editing of the 2026 recap section for the main-site admin
 
 document.getElementById('hamburger')?.addEventListener('click', () => {
   document.getElementById('mobileNav')?.classList.toggle('open');
@@ -907,8 +1003,8 @@ function setText(id, val) {
 }
 
 let campCfg = {
-  dates_label: '19–26 July 2026',
-  start_date: '2026-07-19',
+  dates_label: '18–25 July 2027',
+  start_date: '2027-07-18',
   venue_name: 'Apostolic Faith Church — Greater Gaborone Branch',
   venue_address: 'Plot 54021, Phase 4, Gaborone',
   opening_service: '09:00 AM',
@@ -939,7 +1035,7 @@ function applyCampConfig(cfg) {
   if (quickWa) quickWa.href = `https://wa.me/${wa}`;
   initCampShell({ whatsappNumber: wa });
 
-  const start = campCfg.start_date || '2026-07-19';
+  const start = campCfg.start_date || '2027-07-18';
   const days = Math.max(0, Math.floor((new Date(start + 'T00:00:00') - new Date()) / 86400000));
   setText('statDays', days);
 }
@@ -966,33 +1062,9 @@ async function loadStats() {
   } catch (e) {
     console.warn('Could not load camp stats:', e);
   }
-  const start = campCfg.start_date || '2026-07-19';
+  const start = campCfg.start_date || '2027-07-18';
   const days = Math.max(0, Math.floor((new Date(start + 'T00:00:00') - new Date()) / 86400000));
   setText('statDays', days);
-}
-
-async function loadAnnouncements() {
-  const el = document.getElementById('homeAnnouncements');
-  if (!el) return;
-  try {
-    const snap = await getDocs(query(collection(db, CAMP_ANN), orderBy('timestamp', 'desc')));
-    if (snap.empty) {
-      el.innerHTML = `<div class="camp-empty"><div class="camp-empty-icon">${campIcon('megaphone', { size: 28 })}</div>No announcements yet. Check back soon.</div>`;
-      return;
-    }
-    el.innerHTML = snap.docs.slice(0, 3).map((d) => {
-      const a = d.data();
-      const time = fmtTime(a.createdAt) || fmtTime(a.timestamp);
-      return `
-        <div class="camp-announce-card">
-          <div class="camp-announce-title">${esc(a.title)}</div>
-          <div class="camp-announce-body">${esc(a.body).replace(/\n/g,'<br>')}</div>
-          ${time ? `<div class="camp-announce-time">${time}</div>` : ''}
-        </div>`;
-    }).join('');
-  } catch (e) {
-    console.warn('Could not load announcements:', e);
-  }
 }
 
 function isRainyCode(code) {
@@ -1060,16 +1132,15 @@ function setWelcome() {
   const el = document.getElementById('campAlertMsg');
   if (!el) return;
   let msg = '';
-  if (hour < 12) msg = `${campIcon('sunrise', { size: 16 })} Good morning! Camp Meeting 2026 registration is open.`;
-  else if (hour < 17) msg = `${campIcon('sun', { size: 16 })} Good afternoon! Have you registered for Camp Meeting 2026?`;
-  else msg = `${campIcon('moon', { size: 16 })} Good evening! Join us for Camp Meeting 2026 — Gaborone.`;
+  if (hour < 12) msg = `${campIcon('sunrise', { size: 16 })} Good morning! Camp Meeting 2027 registration is open.`;
+  else if (hour < 17) msg = `${campIcon('sun', { size: 16 })} Good afternoon! Have you registered for Camp Meeting 2027?`;
+  else msg = `${campIcon('moon', { size: 16 })} Good evening! Join us for Camp Meeting 2027 — Gaborone.`;
   el.innerHTML = `${msg} <a href="registration.html">Register here →</a>`;
 }
 
 await loadCampConfig();
 hydrateCampIcons();
 loadStats();
-loadAnnouncements();
 loadWeeklyWeather();
 setWelcome();
 </script>

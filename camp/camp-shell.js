@@ -17,7 +17,7 @@ function footerHtml(base = '.') {
         </div>
         <div>
           <p class="footer-church-name">Apostolic Faith Church</p>
-          <p class="footer-sub">Camp Meeting 2026 · Botswana</p>
+          <p class="footer-sub">Camp Meeting 2027 · Botswana</p>
         </div>
       </div>
 

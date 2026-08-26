@@ -32,6 +32,16 @@ export const SECTION_LISTS = {
     itemPrefix: 'gallery',
     selector: '[data-edit-list="gallery"]',
   },
+  'camp-index:recap-photos': {
+    page: 'camp-index',
+    id: 'recap-photos',
+    label: 'Camp Home — 2026 Recap Photos',
+    cardType: 'image',
+    fields: ['image', 'alt'],
+    cardClass: 'camp-recap-photo',
+    itemPrefix: 'recap-photo',
+    selector: '[data-edit-list="recap-photos"]',
+  },
   'about:beliefs': {
     page: 'about',
     id: 'beliefs',
