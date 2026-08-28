@@ -244,7 +244,7 @@ form.prayer-form button.btn-primary {
 
 .small-text {
   font-size: 0.85rem;
-  color: #777;
+  color: var(--text-mid);
   margin-bottom: 1rem;
 }
 
@@ -1012,7 +1012,7 @@ textarea{
 
 .small-text{
     font-size:.85rem;
-    color:#777;
+    color:var(--text-mid);
     margin-bottom:1rem;
 }
 

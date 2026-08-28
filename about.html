@@ -28,7 +28,7 @@
   }
   .belief-card:hover{ transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,.1); }
   .belief-card h3{ font-size:1.05rem; color:var(--navy-900); margin-bottom:.65rem; }
-  .belief-card p{ font-size:.87rem; color:#555; line-height:1.7; }
+  .belief-card p{ font-size:.87rem; color:var(--text-mid); line-height:1.7; }
 
   /* STRUCTURE SECTION */
   .structure-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.25rem; }
@@ -130,7 +130,7 @@
       </p>
     </div>
 
-    <p style="text-align:center;max-width:640px;margin:2rem auto 0;color:#555;font-size:.9rem;line-height:1.8;">
+    <p style="text-align:center;max-width:640px;margin:2rem auto 0;color:var(--text-mid);font-size:.9rem;line-height:1.8;">
       For a detailed account of how the Gospel journeyed from Azusa Street to Botswana, please visit our <a href="history.html" style="color:var(--gold);font-weight:700;">History page</a>.
     </p>
   </div>
@@ -167,7 +167,7 @@
   <div class="container">
     <span class="section-label">What We Believe</span>
     <h2 class="section-title">Sound <em>Doctrine</em></h2>
-    <p style="color:#555;font-size:.9rem;margin-bottom:2.5rem;max-width:620px;margin-left:auto;margin-right:auto;text-align:center;line-height:1.8;" data-edit="about.beliefs.intro" data-edit-type="text" data-edit-field="body" data-edit-label="Beliefs introduction">
+    <p style="color:var(--text-mid);font-size:.9rem;margin-bottom:2.5rem;max-width:620px;margin-left:auto;margin-right:auto;text-align:center;line-height:1.8;" data-edit="about.beliefs.intro" data-edit-type="text" data-edit-field="body" data-edit-label="Beliefs introduction">
       We uphold a Trinitarian and fundamental Christian faith, believing in the divine inspiration of the Bible as
       God's infallible Word. Following is a summary of our basic doctrines, placing vital emphasis on three
       definite and separate Christian experiences.
@@ -221,7 +221,7 @@
     </div>
 
     <div style="text-align:center;margin-top:2.5rem;">
-      <p style="font-size:.85rem;color:#888;margin-bottom:1.25rem;">For our complete Statement of Bible Doctrine and further resources:</p>
+      <p style="font-size:.85rem;color:var(--text-mid);margin-bottom:1.25rem;">For our complete Statement of Bible Doctrine and further resources:</p>
       <a href="https://www.apostolicfaith.org/our-faith" target="_blank" rel="noopener" class="btn-primary">Visit apostolicfaith.org</a>
     </div>
   </div>
@@ -231,8 +231,8 @@
 <section class="section section-light">
   <div class="container">
     <span class="section-label">Leadership</span>
-    <h2 class="section-title">Our <em>Board of Trustees</em> Today</h2>
-    <p style="color:#555;font-size:.9rem;max-width:620px;margin:0 auto 2.5rem;text-align:center;line-height:1.8;" data-edit="about.board.intro" data-edit-type="text" data-edit-field="body" data-edit-label="Board introduction">
+    <h2 class="section-title">Our <em>Board of Trustees</em></h2>
+    <p style="color:var(--text-mid);font-size:.9rem;max-width:620px;margin:0 auto 2.5rem;text-align:center;line-height:1.8;" data-edit="about.board.intro" data-edit-type="text" data-edit-field="body" data-edit-label="Board introduction">
       The Board of Trustees governs the Apostolic Faith work in Botswana. The Country Overseer presides over Board meetings, national workers meetings, and the national annual camp meeting.
     </p>
     <div class="board-rows" data-edit-list="board">
@@ -255,7 +255,7 @@
       </div>
       <div class="board-row">
         <div class="board-card" data-edit="about.board.mabelebele" data-edit-type="card" data-edit-label="Board member: Mabelebele">
-          <div class="board-photo"><img src="css/images/board-mabelebele.jpg" alt="Rev. Isaac Mabelebele" data-edit-field="image" onerror="this.remove()"/></div>
+          <div class="board-photo"><img src="css/images/isaac.png" alt="Rev. Isaac Mabelebele" data-edit-field="image" onerror="this.remove()"/></div>
           <h3 data-edit-field="title">Rev. Isaac Mabelebele</h3>
           <p data-edit-field="body">Board Member </p>
         </div>
@@ -265,7 +265,7 @@
           <p data-edit-field="body">Board Member </p>
         </div>
         <div class="board-card" data-edit="about.board.kemorwale" data-edit-type="card" data-edit-label="Board member: Kemorwale">
-          <div class="board-photo"><img src="css/images/board-kemorwale.jpg" alt="Rev. Motlhabani Kemorwale" data-edit-field="image" onerror="this.remove()"/></div>
+          <div class="board-photo"><img src="css/images/kemorwale.png" alt="Rev. Motlhabani Kemorwale" data-edit-field="image" onerror="this.remove()"/></div>
           <h3 data-edit-field="title">Rev. Motlhabani Kemorwale</h3>
           <p data-edit-field="body">Board Member</p>
         </div>
@@ -370,10 +370,5 @@
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 <script type="module" src="js/site-core.js"></script>
-<script>
-document.getElementById('hamburger').addEventListener('click', () => {
-  document.getElementById('navLinks').classList.toggle('open');
-});
-</script>
 </body>
 </html>

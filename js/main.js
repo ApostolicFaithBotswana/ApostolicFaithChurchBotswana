@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   initLucideIcons();
   initLiveAdmin('index');
   initNavScroll();
-  initHamburger();
   initSecretAdminTriggers();
 
   await applyConfig();
@@ -86,14 +85,6 @@ function applyConfigFromData(cfg) {
 function initNavScroll() {
   const nav = document.getElementById('navbar');
   if (nav) nav.classList.add('nav-pinned');
-}
-
-function initHamburger() {
-  const btn = document.getElementById('hamburger');
-  const links = document.getElementById('navLinks');
-  if (!btn || !links) return;
-  btn.addEventListener('click', () => links.classList.toggle('open'));
-  links.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => links.classList.remove('open')));
 }
 
 function setElIfNoEdit(id, val) {

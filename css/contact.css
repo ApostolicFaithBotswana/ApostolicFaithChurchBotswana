@@ -316,7 +316,7 @@
 }
 .contact-panel-desc {
   font-size: 0.88rem;
-  color: #666;
+  color: var(--text-mid);
   line-height: 1.6;
   margin-bottom: 1.5rem;
 }

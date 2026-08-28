@@ -63,7 +63,7 @@
   margin-bottom: 1.5rem;
 }
 .home-band-light .home-split-copy p {
-  color: #555;
+  color: var(--text-mid);
 }
 .home-feature-card {
   background: rgba(255, 255, 255, 0.04);
@@ -155,7 +155,7 @@
 }
 .home-loc-card p {
   font-size: 0.86rem;
-  color: #666;
+  color: var(--text-mid);
   line-height: 1.55;
 }
 .home-newsletter {
