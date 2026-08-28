@@ -346,31 +346,6 @@
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
-.contact-trust {
-  margin-top: 2.5rem;
-  text-align: center;
-  padding: 2rem 1.5rem;
-  background: linear-gradient(135deg, #0a1628, #152c55);
-  border-radius: 14px;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-}
-.contact-trust blockquote {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.88);
-  line-height: 1.65;
-  max-width: 640px;
-  margin: 0 auto 0.5rem;
-}
-.contact-trust cite {
-  font-size: 0.78rem;
-  font-style: normal;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-
 @media (max-width: 960px) {
   .contact-cards {
     grid-template-columns: repeat(2, 1fr);

@@ -1095,19 +1095,6 @@ textarea{
 /* ============================================================
    LOCATIONS PAGE
    ============================================================ */
-.page-hero {
-  background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-600) 100%);
-  padding: 8rem 2rem 4rem;
-  text-align: center;
-}
-.page-hero-content { max-width: 600px; margin: 0 auto; }
-.page-hero-title {
-  font-size: clamp(2.2rem, 5vw, 3.5rem);
-  color: #fff;
-  margin-bottom: 1rem;
-}
-.page-hero p { color: rgba(255,255,255,0.7); font-size: 1.05rem; }
-
 .geo-bar {
   background: var(--navy-800);
   padding: 1rem 2rem;

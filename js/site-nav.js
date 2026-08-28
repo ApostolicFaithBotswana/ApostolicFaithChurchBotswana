@@ -28,8 +28,13 @@ function currentPageId() {
   return '';
 }
 
+function isOnIndexPage() {
+  const file = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  return file === '' || file === 'index.html';
+}
+
 function hrefFor(item, pageId) {
-  if (pageId === 'home' && item.indexHref) return item.indexHref;
+  if (pageId === 'home' && item.indexHref && isOnIndexPage()) return item.indexHref;
   return item.href;
 }
 
