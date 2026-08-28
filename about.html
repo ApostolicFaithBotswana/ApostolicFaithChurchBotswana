@@ -11,18 +11,24 @@
   <style>
   /* ── ABOUT PAGE SPECIFIC ── */
 
-  /* BELIEFS GRID */
+  /* BELIEFS GRID — fixed 3-up so the 6 cards sit 3 top / 3 bottom */
   .beliefs-grid{
-    display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:1.25rem;
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1.75rem;
+  }
+  @media(max-width:900px){
+    .beliefs-grid{ grid-template-columns:repeat(2, 1fr); }
+  }
+  @media(max-width:600px){
+    .beliefs-grid{ grid-template-columns:1fr; }
   }
   .belief-card{
-    background:var(--white); border-radius:12px; padding:1.5rem;
+    background:var(--white); border-radius:12px; padding:2rem 1.75rem;
     border-top:4px solid var(--gold); box-shadow:0 2px 12px rgba(0,0,0,.06);
     transition:all .3s;
   }
   .belief-card:hover{ transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,.1); }
-  .belief-card h3{ font-size:1rem; color:var(--navy-900); margin-bottom:.5rem; }
-  .belief-card p{ font-size:.85rem; color:#555; line-height:1.6; }
+  .belief-card h3{ font-size:1.05rem; color:var(--navy-900); margin-bottom:.65rem; }
+  .belief-card p{ font-size:.87rem; color:#555; line-height:1.7; }
 
   /* STRUCTURE SECTION */
   .structure-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.25rem; }
@@ -53,17 +59,18 @@
   .structure-card p a{ color:var(--gold); font-weight:600; text-decoration:none; }
   .structure-card p a:hover{ text-decoration:underline; }
 
-  /* BOARD SECTION */
-  .board-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:1.5rem; }
-  .board-card{ text-align:center; }
+  /* BOARD SECTION — 3 on top, 4 below, both rows centered */
+  .board-rows{ display:flex; flex-direction:column; gap:2.75rem; }
+  .board-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:2rem 2.25rem; }
+  .board-card{ text-align:center; width:170px; padding:.5rem; }
   .board-photo{
-    width:110px; height:110px; border-radius:50%; margin:0 auto .9rem;
+    width:110px; height:110px; border-radius:50%; margin:0 auto 1rem;
     overflow:hidden; border:3px solid var(--gold);
     background:linear-gradient(135deg, var(--navy-800), var(--navy-600));
     display:flex; align-items:center; justify-content:center;
   }
   .board-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .board-card h3{ font-size:.95rem; color:var(--navy-900); margin-bottom:.2rem; }
+  .board-card h3{ font-size:.95rem; color:var(--navy-900); margin-bottom:.3rem; line-height:1.35; }
   .board-card p{ font-size:.78rem; color:#8a7526; font-weight:600; }
 
   /* CYCLE SECTION */
@@ -228,41 +235,45 @@
     <p style="color:#555;font-size:.9rem;max-width:620px;margin:0 auto 2.5rem;text-align:center;line-height:1.8;" data-edit="about.board.intro" data-edit-type="text" data-edit-field="body" data-edit-label="Board introduction">
       The Board of Trustees governs the Apostolic Faith work in Botswana. The Country Overseer presides over Board meetings, national workers meetings, and the national annual camp meeting.
     </p>
-    <div class="board-grid" data-edit-list="board">
-      <div class="board-card" data-edit="about.board.motshidisi" data-edit-type="card" data-edit-label="Board member: Motshidisi">
-        <div class="board-photo"><img src="css/images/ds.jpg" alt="Rev. Lordick K. Motshidisi" data-edit-field="image" onerror="this.remove()"/></div>
-        <h3 data-edit-field="title">Rev. Lordick K. Motshidisi</h3>
-        <p data-edit-field="body">Board Chairman · Country Overseer</p>
+    <div class="board-rows" data-edit-list="board">
+      <div class="board-row">
+        <div class="board-card" data-edit="about.board.motshidisi" data-edit-type="card" data-edit-label="Board member: Motshidisi">
+          <div class="board-photo"><img src="css/images/ds.jpg" alt="Rev. Lordick K. Motshidisi" data-edit-field="image" onerror="this.remove()"/></div>
+          <h3 data-edit-field="title">Rev. Lordick K. Motshidisi</h3>
+          <p data-edit-field="body">Board Chairman · Country Overseer</p>
+        </div>
+        <div class="board-card" data-edit="about.board.lesedi" data-edit-type="card" data-edit-label="Board member: Lesedi">
+          <div class="board-photo"><img src="css/images/lesedi.png" alt="Rev. Lesedi Gaogane" data-edit-field="image" onerror="this.remove()"/></div>
+          <h3 data-edit-field="title">Rev. Lesedi Gaogane</h3>
+          <p data-edit-field="body">Board Secretary- Treasurer  </p>
+        </div>
+        <div class="board-card" data-edit="about.board.nthaba" data-edit-type="card" data-edit-label="Board member: Nthaba">
+          <div class="board-photo"><img src="css/images/nthaba.png" alt="Rev. Edith Nthaba" data-edit-field="image" onerror="this.remove()"/></div>
+          <h3 data-edit-field="title">Rev. Edith Nthaba</h3>
+          <p data-edit-field="body">Board Member </p>
+        </div>
       </div>
-      <div class="board-card" data-edit="about.board.lesedi" data-edit-type="card" data-edit-label="Board member: Lesedi">
-        <div class="board-photo"><img src="css/images/lesedi.png" alt="Rev. Lesedi Gaogane" data-edit-field="image" onerror="this.remove()"/></div>
-        <h3 data-edit-field="title">Rev. Lesedi Gaogane</h3>
-        <p data-edit-field="body">Board Secretary- Treasurer  </p>
-      </div>
-      <div class="board-card" data-edit="about.board.nthaba" data-edit-type="card" data-edit-label="Board member: Nthaba">
-        <div class="board-photo"><img src="css/images/nthaba.png" alt="Rev. Edith Nthaba" data-edit-field="image" onerror="this.remove()"/></div>
-        <h3 data-edit-field="title">Rev. Edith Nthaba</h3>
-        <p data-edit-field="body">Board Member </p>
-      </div>
-      <div class="board-card" data-edit="about.board.mabelebele" data-edit-type="card" data-edit-label="Board member: Mabelebele">
-        <div class="board-photo"><img src="css/images/board-mabelebele.jpg" alt="Rev. Isaac Mabelebele" data-edit-field="image" onerror="this.remove()"/></div>
-        <h3 data-edit-field="title">Rev. Isaac Mabelebele</h3>
-        <p data-edit-field="body">Board Member </p>
-      </div>
-      <div class="board-card" data-edit="about.board.gaogane" data-edit-type="card" data-edit-label="Board member: Gaogane">
-        <div class="board-photo"><img src="css/images/board-gaogane.jpg" alt="Rev. Bakang L. Gaogane" data-edit-field="image" onerror="this.remove()"/></div>
-        <h3 data-edit-field="title">Rev. Bakang L. Gaogane</h3>
-        <p data-edit-field="body">Board Member </p>
-      </div>
-      <div class="board-card" data-edit="about.board.kemorwale" data-edit-type="card" data-edit-label="Board member: Kemorwale">
-        <div class="board-photo"><img src="css/images/board-kemorwale.jpg" alt="Rev. Motlhabani Kemorwale" data-edit-field="image" onerror="this.remove()"/></div>
-        <h3 data-edit-field="title">Rev. Motlhabani Kemorwale</h3>
-        <p data-edit-field="body">Board Member</p>
-      </div>
-      <div class="board-card" data-edit="about.board.ezekiel" data-edit-type="card" data-edit-label="Board member: Ezekiel">
-        <div class="board-photo"><img src="css/images/ezekiel.png" alt="Rev. Ezekiel Ntshwarang" data-edit-field="image" onerror="this.remove()"/></div>
-        <h3 data-edit-field="title">Rev. Ezekiel Ntshwarang</h3>
-        <p data-edit-field="body">Board Member</p>
+      <div class="board-row">
+        <div class="board-card" data-edit="about.board.mabelebele" data-edit-type="card" data-edit-label="Board member: Mabelebele">
+          <div class="board-photo"><img src="css/images/board-mabelebele.jpg" alt="Rev. Isaac Mabelebele" data-edit-field="image" onerror="this.remove()"/></div>
+          <h3 data-edit-field="title">Rev. Isaac Mabelebele</h3>
+          <p data-edit-field="body">Board Member </p>
+        </div>
+        <div class="board-card" data-edit="about.board.gaogane" data-edit-type="card" data-edit-label="Board member: Gaogane">
+          <div class="board-photo"><img src="css/images/loeto.png" alt="Rev. Bakang L. Gaogane" data-edit-field="image" onerror="this.remove()"/></div>
+          <h3 data-edit-field="title">Rev. Bakang L. Gaogane</h3>
+          <p data-edit-field="body">Board Member </p>
+        </div>
+        <div class="board-card" data-edit="about.board.kemorwale" data-edit-type="card" data-edit-label="Board member: Kemorwale">
+          <div class="board-photo"><img src="css/images/board-kemorwale.jpg" alt="Rev. Motlhabani Kemorwale" data-edit-field="image" onerror="this.remove()"/></div>
+          <h3 data-edit-field="title">Rev. Motlhabani Kemorwale</h3>
+          <p data-edit-field="body">Board Member</p>
+        </div>
+        <div class="board-card" data-edit="about.board.ezekiel" data-edit-type="card" data-edit-label="Board member: Ezekiel">
+          <div class="board-photo"><img src="css/images/ezekiel.png" alt="Rev. Ezekiel Ntshwarang" data-edit-field="image" onerror="this.remove()"/></div>
+          <h3 data-edit-field="title">Rev. Ezekiel Ntshwarang</h3>
+          <p data-edit-field="body">Board Member</p>
+        </div>
       </div>
     </div>
   </div>
