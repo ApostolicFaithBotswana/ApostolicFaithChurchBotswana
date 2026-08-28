@@ -11,10 +11,10 @@ export const SECTION_LISTS = {
     itemPrefix: 'pillar',
     selector: '[data-edit-list="pillars"]',
   },
-  'index:resources': {
-    page: 'index',
+  'resources:resources': {
+    page: 'resources',
     id: 'resources',
-    label: 'Home — Resource Cards',
+    label: 'Resources — Resource Cards',
     cardType: 'card',
     fields: ['title', 'body', 'link'],
     cardClass: 'resource-card',

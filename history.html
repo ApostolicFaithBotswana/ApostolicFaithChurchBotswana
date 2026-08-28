@@ -88,46 +88,6 @@
   .timeline-card:nth-child(odd)::before, .timeline-card:nth-child(even)::before{ left:-33px; right:auto; }
 }
 
-/* MODAL (extends shared .modal-overlay/.modal-box) */
-.modal-box.hist-modal { max-width: 780px; text-align: left; }
-.hist-modal h2 { font-family: 'Playfair Display', Georgia, serif; }
-.hist-modal .s-label { color: var(--gold); font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; display: block; margin: 2rem 0 .5rem; }
-.hist-modal .s-label:first-of-type { margin-top: 0; }
-
-.tl { position: relative; padding-left: 2rem; margin-top: 1rem; }
-.tl::before {
-  content: ''; position: absolute; left: .7rem; top: 0; bottom: 0; width: 2px;
-  background: linear-gradient(to bottom, var(--gold), rgba(212,175,55,.08));
-}
-.tl-item { position: relative; margin-bottom: 1.5rem; }
-.tl-dot {
-  position: absolute; left: -2.05rem; top: .3rem;
-  width: 14px; height: 14px; border-radius: 50%;
-  background: var(--gold); border: 3px solid #fff;
-  box-shadow: 0 0 0 3px rgba(212,175,55,.22);
-}
-.tl-year { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--gold); margin-bottom: .25rem; display: block; }
-.tl-ttl { font-size: .98rem; font-weight: 700; color: var(--navy-900); margin-bottom: .3rem; }
-.tl-body { font-size: .85rem; color: #555; line-height: 1.7; }
-
-.camp-note {
-  background: var(--gold-dim); border-left: 4px solid var(--gold);
-  border-radius: 0 10px 10px 0; padding: 1rem 1.25rem;
-  font-size: .85rem; color: #555; line-height: 1.7; margin-bottom: 1.25rem;
-}
-
-.board-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap: 1.1rem; margin-top: 1rem; }
-.board-card { text-align: center; }
-.board-photo {
-  width: 84px; height: 84px; border-radius: 50%; margin: 0 auto .6rem;
-  overflow: hidden; border: 3px solid var(--gold);
-  background: linear-gradient(135deg, var(--navy-800), var(--navy-600));
-  display: flex; align-items: center; justify-content: center;
-}
-.board-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.board-card h3 { font-size: .82rem; color: var(--navy-900); margin-bottom: .15rem; }
-.board-card p { font-size: .7rem; color: #8a7526; font-weight: 600; }
-
 /* VINTAGE GALLERY */
 .vintage-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 1rem; margin-top: 2rem; }
 .vintage-gallery-cell { border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; }
@@ -237,7 +197,7 @@
           <p>
             Today, the Apostolic Faith Church Botswana continues proclaiming the Gospel through worship, prayer, evangelism, Bible teaching, youth ministries, camp meetings, and missionary outreach, while remaining connected to the International Headquarters in Portland, Oregon.
           </p>
-          <button type="button" class="btn-primary" onclick="openHistoryModal()" style="margin-top:1rem;">Read More on Our Story</button>
+          <a href="our-story.html" class="btn-primary" style="margin-top:1rem;display:inline-block;">Read Our Full Story</a>
         </div>
       </div>
 
@@ -257,7 +217,7 @@
           <img src="css/images/maseko.png" alt="Rev. Alfred Maseko" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
           <div class="vintage-gallery-placeholder" style="display:none;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo coming soon</span></div>
         </div>
-        <p class="vintage-gallery-caption">Rev. Alfred Maseko — Pioneer &amp; Opening the Temple at Mopipi, During a dedication service</p>
+        <p class="vintage-gallery-caption">Rev. Morgan Sengwayo — Pioneer &amp; Opening the Temple at Mopipi, During a dedication service</p>
       </div>
       <div>
         <div class="vintage-gallery-cell">
@@ -311,107 +271,6 @@
   </div>
 </section>
 
-<!-- HISTORY MODAL -->
-<div id="historyModal" class="modal-overlay" style="display:none;">
-  <div class="modal-box hist-modal">
-    <button class="modal-close" onclick="closeHistoryModal()">×</button>
-    <h2>Our Story in Botswana</h2>
-
-    <span class="s-label">How It Began</span>
-    <div class="tl">
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <span class="tl-year">1968 — Lobatse</span>
-        <div class="tl-ttl">Rev. Alfred Maseko — Pioneer &amp; Overseer</div>
-        <div class="tl-body">The Gospel in Botswana began through Rev. Alfred Maseko. He fell seriously ill while residing in Lobatse and, when local help failed, travelled to Johannesburg seeking treatment. There he met someone whose testimony directed him to Bulawayo, Zimbabwe — where a church would pray for him. He went immediately and was healed, saved, sanctified, and baptized with the Holy Ghost and Fire.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <span class="tl-year">1968 — Mopipi &amp; Orapa</span>
-        <div class="tl-ttl">The Gospel Spreads — First Preaching</div>
-        <div class="tl-body">On returning to Botswana, Rev. Maseko got a job with a construction company which took him to Mopipi and Orapa in the north west, where he began to preach. God blessed his ministry such that in 1970, the very first Apostolic Faith Church building in Botswana was dedicated in Mopipi by Rev. Morgan Sengwayo of Zimbabwe.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <span class="tl-year">1973 — Lobatse</span>
-        <div class="tl-ttl">Services in Rev. Maseko's Home</div>
-        <div class="tl-body">Rev. Maseko was transferred back to Lobatse where services were initially held in his home in Peleng East. As the congregation grew, a small hall was built adjacent to the main house, and church branches began to open across the nation. Rev. Maseko served faithfully as Pioneer and Overseer until 1999.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <span class="tl-year">1990 — Official HQ</span>
-        <div class="tl-ttl">Plot 3354, Woodhall 2, Lobatse</div>
-        <div class="tl-body">A plot was secured and a tabernacle built — becoming the official Headquarters of the Apostolic Faith Work in Botswana.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <span class="tl-year">1999 — New Leadership</span>
-        <div class="tl-ttl">Rev. Lordick K. Motshidisi Receives the Torch</div>
-        <div class="tl-body">Rev. Maseko faithfully passed on the torch to Rev. Lordick K. Motshidisi, who has led the Apostolic Faith Work in Botswana ever since. Rev. Maseko went to be with his Saviour on 26 February 2003.</div>
-      </div>
-    </div>
-
-    <span class="s-label">Our Camp Meetings</span>
-    <div class="camp-note">
-      Before 2004, Botswana believers did not yet have a dedicated national camp meeting — gatherings took the form of <strong>revivals and national Easter meetings</strong> held around the country, with many brethren travelling each year to the camp meeting in Bulawayo, Zimbabwe instead.
-    </div>
-    <div class="tl">
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <span class="tl-year">2004 — First National Camp</span>
-        <div class="tl-ttl">Botswana Camp Meeting Begins, Lobatse</div>
-        <div class="tl-body">The first National Camp Meeting was held in July 2004 in Lobatse, officially opened by the then Southern Africa Overseer, Rev. Richard Sibanda. Attendance was large from the onset, and has grown every year since.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <span class="tl-year">2011 — Gaborone</span>
-        <div class="tl-ttl">Camp Ground Relocated to Gaborone</div>
-        <div class="tl-body">Following completion of the tabernacle in Gaborone, the camp ground relocated there in 2011 — dedicated by Rev. Timothy Kaibula, District Superintendent of Eastern Africa. Camp Meeting has been held in Gaborone every year since.</div>
-      </div>
-    </div>
-
-    <span class="s-label">Our Board Members</span>
-    <div class="board-grid">
-      <div class="board-card">
-        <div class="board-photo"><img src="css/images/board-motshidisi.jpg" alt="Rev. Lordick K. Motshidisi" onerror="this.remove()"/></div>
-        <h3>Rev. L. K. Motshidisi</h3>
-        <p>Chairman · Country Overseer</p>
-      </div>
-      <div class="board-card">
-        <div class="board-photo"><img src="css/images/board-nkobi.jpg" alt="Rev. Phineas Nkobi" onerror="this.remove()"/></div>
-        <h3>Rev. Phineas Nkobi</h3>
-        <p>Southern Region</p>
-      </div>
-      <div class="board-card">
-        <div class="board-photo"><img src="css/images/board-bhuka.jpg" alt="Rev. Ben Bhuka" onerror="this.remove()"/></div>
-        <h3>Rev. Ben Bhuka</h3>
-        <p>Boteti Region</p>
-      </div>
-      <div class="board-card">
-        <div class="board-photo"><img src="css/images/board-mabelebele.jpg" alt="Rev. Isaac Mabelebele" onerror="this.remove()"/></div>
-        <h3>Rev. Isaac Mabelebele</h3>
-        <p>North East Region</p>
-      </div>
-      <div class="board-card">
-        <div class="board-photo"><img src="css/images/board-gaogane.jpg" alt="Rev. Loomatsoga D. Gaogane" onerror="this.remove()"/></div>
-        <h3>Rev. L. D. Gaogane</h3>
-        <p>Central Region</p>
-      </div>
-      <div class="board-card">
-        <div class="board-photo"><img src="css/images/board-nakasala.jpg" alt="Rev. Edward Nakasala" onerror="this.remove()"/></div>
-        <h3>Rev. Edward Nakasala</h3>
-        <p>South East Region</p>
-      </div>
-      <div class="board-card">
-        <div class="board-photo"><img src="css/images/board-katholo.jpg" alt="Rev. Gotulweng K. Katholo" onerror="this.remove()"/></div>
-        <h3>Rev. G. K. Katholo</h3>
-        <p>Secretary / Treasurer</p>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container footer-inner">
@@ -443,21 +302,5 @@
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 <script type="module" src="js/site-core.js"></script>
-<script type="module">
-import { lockScroll, unlockScroll, trapModalWheel } from './js/modal-lock.js';
-
-const historyModal = document.getElementById('historyModal');
-trapModalWheel(historyModal);
-historyModal.addEventListener('click', (e) => { if (e.target === historyModal) closeHistoryModal(); });
-
-window.openHistoryModal = function () {
-  historyModal.style.display = 'flex';
-  lockScroll();
-};
-window.closeHistoryModal = function () {
-  historyModal.style.display = 'none';
-  unlockScroll();
-};
-</script>
 </body>
 </html>

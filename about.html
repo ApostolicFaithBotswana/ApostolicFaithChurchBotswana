@@ -24,39 +24,6 @@
   .belief-card h3{ font-size:1rem; color:var(--navy-900); margin-bottom:.5rem; }
   .belief-card p{ font-size:.85rem; color:#555; line-height:1.6; }
 
-  /* SUPERINTENDENT FEATURE */
-  .superintendent-section{
-    background:linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 100%);
-    border:1px solid var(--border); border-radius:20px;
-    overflow:hidden; display:grid; grid-template-columns:280px 1fr;
-  }
-  .supt-sidebar{
-    background:rgba(212,175,55,.08); border-right:1px solid var(--border);
-    padding:2.5rem 2rem; display:flex; flex-direction:column; align-items:center; text-align:center;
-  }
-  .supt-photo{
-    width:120px; height:120px; border-radius:50%;
-    overflow:hidden;
-    object-fit:cover; border:3px solid var(--gold);
-    margin-bottom:1.25rem;
-    background:rgba(255,255,255,.1);
-    display:flex; align-items:center; justify-content:center;
-    font-size:3rem;
-  }
-  .supt-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .supt-name{ font-family:'Playfair Display', serif; font-size:1.15rem; color:var(--white); margin-bottom:.3rem; }
-  .supt-title{ font-size:.75rem; color:var(--gold); text-transform:uppercase; letter-spacing:.1em; margin-bottom:1rem; }
-  .supt-quote{
-    font-style:italic; font-size:.85rem; color:rgba(255,255,255,.65);
-    border-left:3px solid var(--gold); padding-left:.85rem; text-align:left;
-    line-height:1.6;
-  }
-  .supt-body{ padding:2.5rem; }
-  .supt-body h2{ font-size:1.5rem; margin-bottom:1rem; }
-  .supt-body h2 em{ color:var(--gold); }
-  .supt-story-text{ font-size:.92rem; color:rgba(255,255,255,.75); line-height:1.85; }
-  .supt-story-text p{ margin-bottom:1rem; }
-
   /* STRUCTURE SECTION */
   .structure-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.25rem; }
   .structure-card{
@@ -108,13 +75,13 @@
   .cycle-label{ font-weight:700; font-size:.9rem; color:#fff; }
   .cycle-arrow{ font-size:1.5rem; color:var(--gold); }
 
-  @media(max-width:900px){
-    .superintendent-section{ grid-template-columns:1fr; }
-    .supt-sidebar{ border-right:none; border-bottom:1px solid var(--border); }
-  }
   @media(max-width:600px){
     .cycle-arrow{ display:none; }
   }
+
+  /* Centre every section's eyebrow + title on this page */
+  .section-label { display:block; text-align:center; }
+  .section-title { text-align:center; }
   </style>
 </head>
 <body data-page="about">
@@ -253,50 +220,6 @@
   </div>
 </section>
 
-<!-- SUPERINTENDENT STORY -->
-<section class="section section-dark">
-  <div class="container">
-    <span class="section-label light">Leadership</span>
-    <h2 class="section-title light">Testimony of Our District Superintendent</h2>
-
-    <div class="superintendent-section" data-edit="about.superintendent.profile" data-edit-type="profile" data-edit-label="Superintendent profile">
-      <!-- SIDEBAR -->
-      <div class="supt-sidebar">
-        <div class="supt-photo">
-          <img src="css/images/ds.jpg" alt="Rev Lordick Motshidisi, Botswana District Superintendent" data-edit-field="image"/>
-        </div>
-        <div class="supt-name" data-edit-field="name">Rev<br>Lordick Motshidisi</div>
-        <div class="supt-title" data-edit-field="role">Botswana District Superintendent</div>
-        <blockquote class="supt-quote" data-edit-field="quote">
-          "During the Easter services of 1983, I surrendered my life to Him and
-          experienced salvation. At last, I had peace in my heart and knew I was ready for Heaven."
-        </blockquote>
-      </div>
-
-      <!-- STORY BODY -->
-      <div class="supt-body">
-        <h2><em>A Worker for God</em></h2>
-        <div class="supt-story-text" data-edit-field="body" data-edit-format="html">
-          <p>
-            Raised in a small village in Botswana, I was not brought up in a Christian home, yet God continued to
-            draw me to Himself. As a young man searching for truth, I found the Apostolic Faith Church while
-            working in Jwaneng. During the Easter services of 1983, I surrendered my life to Christ and
-            experienced salvation. In the years that followed, God sanctified me, baptized me with the Holy
-            Spirit, and opened doors for ministry that I never imagined.
-          </p>
-          <p>
-            Looking back, I can clearly see God's hand guiding every step of my journey, from providing for my
-            family and career to calling me into full-time ministry as Botswana District Superintendent. My
-            prayer is that every person will experience the same saving grace and discover God's purpose for
-            their life.
-          </p>
-        </div>
-        <a href="https://www.apostolicfaith.org/the-apostolic-faith/a-worker-for-god" target="_blank" class="btn-primary" data-edit-field="link">Read My Full Testimony</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- BOARD -->
 <section class="section section-light">
   <div class="container">
@@ -311,13 +234,13 @@
         <h3 data-edit-field="title">Rev. Lordick K. Motshidisi</h3>
         <p data-edit-field="body">Board Chairman · Country Overseer</p>
       </div>
-      <div class="board-card" data-edit="about.board.nkobi" data-edit-type="card" data-edit-label="Board member: Nkobi">
-        <div class="board-photo"><img src="css/images/lesedi.png" alt="Rev. Phineas Nkobi" data-edit-field="image" onerror="this.remove()"/></div>
+      <div class="board-card" data-edit="about.board.lesedi" data-edit-type="card" data-edit-label="Board member: Lesedi">
+        <div class="board-photo"><img src="css/images/lesedi.png" alt="Rev. Lesedi Gaogane" data-edit-field="image" onerror="this.remove()"/></div>
         <h3 data-edit-field="title">Rev. Lesedi Gaogane</h3>
-        <p data-edit-field="body">Board Secretary  </p>
+        <p data-edit-field="body">Board Secretary- Treasurer  </p>
       </div>
-      <div class="board-card" data-edit="about.board.bhuka" data-edit-type="card" data-edit-label="Board member: Bhuka">
-        <div class="board-photo"><img src="css/images/nthaba.png" alt="Rev. Ben Bhuka" data-edit-field="image" onerror="this.remove()"/></div>
+      <div class="board-card" data-edit="about.board.nthaba" data-edit-type="card" data-edit-label="Board member: Nthaba">
+        <div class="board-photo"><img src="css/images/nthaba.png" alt="Rev. Edith Nthaba" data-edit-field="image" onerror="this.remove()"/></div>
         <h3 data-edit-field="title">Rev. Edith Nthaba</h3>
         <p data-edit-field="body">Board Member </p>
       </div>
@@ -327,17 +250,17 @@
         <p data-edit-field="body">Board Member </p>
       </div>
       <div class="board-card" data-edit="about.board.gaogane" data-edit-type="card" data-edit-label="Board member: Gaogane">
-        <div class="board-photo"><img src="css/images/board-gaogane.jpg" alt="Rev. Loomatsoga D. Gaogane" data-edit-field="image" onerror="this.remove()"/></div>
+        <div class="board-photo"><img src="css/images/board-gaogane.jpg" alt="Rev. Bakang L. Gaogane" data-edit-field="image" onerror="this.remove()"/></div>
         <h3 data-edit-field="title">Rev. Bakang L. Gaogane</h3>
         <p data-edit-field="body">Board Member </p>
       </div>
-      <div class="board-card" data-edit="about.board.nakasala" data-edit-type="card" data-edit-label="Board member: Nakasala">
-        <div class="board-photo"><img src="css/images/board-nakasala.jpg" alt="Rev. Edward Nakasala" data-edit-field="image" onerror="this.remove()"/></div>
+      <div class="board-card" data-edit="about.board.kemorwale" data-edit-type="card" data-edit-label="Board member: Kemorwale">
+        <div class="board-photo"><img src="css/images/board-kemorwale.jpg" alt="Rev. Motlhabani Kemorwale" data-edit-field="image" onerror="this.remove()"/></div>
         <h3 data-edit-field="title">Rev. Motlhabani Kemorwale</h3>
         <p data-edit-field="body">Board Member</p>
       </div>
-      <div class="board-card" data-edit="about.board.katholo" data-edit-type="card" data-edit-label="Board member: Katholo">
-        <div class="board-photo"><img src="css/images/board-katholo.jpg" alt="Rev. Gotulweng K. Katholo" data-edit-field="image" onerror="this.remove()"/></div>
+      <div class="board-card" data-edit="about.board.ezekiel" data-edit-type="card" data-edit-label="Board member: Ezekiel">
+        <div class="board-photo"><img src="css/images/ezekiel.png" alt="Rev. Ezekiel Ntshwarang" data-edit-field="image" onerror="this.remove()"/></div>
         <h3 data-edit-field="title">Rev. Ezekiel Ntshwarang</h3>
         <p data-edit-field="body">Board Member</p>
       </div>

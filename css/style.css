@@ -548,6 +548,9 @@ form.prayer-form button.btn-primary {
   border-top: 4px solid var(--navy-500);
   box-shadow: var(--shadow);
   transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .resource-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
 .resource-icon { font-size: 2rem; margin-bottom: 1rem; }
@@ -561,6 +564,7 @@ form.prayer-form button.btn-primary {
   letter-spacing: 0.04em;
   transition: color 0.2s;
 }
+.resource-card .resource-link { margin-top: auto; }
 .resource-link:hover { color: var(--gold); }
 
 /* ============================================================

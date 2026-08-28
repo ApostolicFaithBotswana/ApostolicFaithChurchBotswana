@@ -10,6 +10,37 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/site-enhancements.css" />
   <link rel="stylesheet" href="css/home-sections.css" />
+  <style>
+  /* SUPERINTENDENT FEATURE (moved from about.html, centred) */
+  .superintendent-section{
+    max-width:900px; margin:0 auto;
+    background:linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 100%);
+    border:1px solid var(--border); border-radius:20px;
+    overflow:hidden; display:flex; flex-direction:column; align-items:center;
+    text-align:center; padding:3rem 2.5rem;
+  }
+  .supt-photo{
+    width:120px; height:120px; border-radius:50%;
+    overflow:hidden;
+    object-fit:cover; border:3px solid var(--gold);
+    margin-bottom:1.25rem;
+    background:rgba(255,255,255,.1);
+    display:flex; align-items:center; justify-content:center;
+    font-size:3rem;
+  }
+  .supt-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .supt-name{ font-family:'Playfair Display', serif; font-size:1.15rem; color:var(--white); margin-bottom:.3rem; }
+  .supt-title{ font-size:.75rem; color:var(--gold); text-transform:uppercase; letter-spacing:.1em; margin-bottom:1.5rem; }
+  .supt-quote{
+    font-style:italic; font-size:.9rem; color:rgba(255,255,255,.65);
+    border-left:3px solid var(--gold); padding-left:.9rem; text-align:left;
+    line-height:1.6; max-width:520px; margin:0 auto 2rem;
+  }
+  .supt-body h2{ font-size:1.5rem; margin-bottom:1rem; text-align:center; }
+  .supt-body h2 em{ color:var(--gold); }
+  .supt-story-text{ font-size:.92rem; color:rgba(255,255,255,.75); line-height:1.85; text-align:left; }
+  .supt-story-text p{ margin-bottom:1rem; }
+  </style>
 </head>
 <body data-page="resources">
 
@@ -27,6 +58,46 @@
   </div>
 </header>
 
+<!-- SUPERINTENDENT STORY -->
+<section class="section section-dark">
+  <div class="container">
+    <span class="section-label light" style="text-align:center;display:block;">Leadership</span>
+    <h2 class="section-title light" style="text-align:center;">Testimony of Our Country Overseer</h2>
+
+    <div class="superintendent-section" data-edit="resources.superintendent.profile" data-edit-type="profile" data-edit-label="Superintendent profile">
+      <div class="supt-photo">
+        <img src="css/images/ds.jpg" alt="Rev Lordick Motshidisi, Botswana Country Overseer" data-edit-field="image"/>
+      </div>
+      <div class="supt-name" data-edit-field="name">Rev<br>Lordick Motshidisi</div>
+      <div class="supt-title" data-edit-field="role">Botswana Country Overseer</div>
+      <blockquote class="supt-quote" data-edit-field="quote">
+        "During the Easter services of 1983, I surrendered my life to Him and
+        experienced salvation. At last, I had peace in my heart and knew I was ready for Heaven."
+      </blockquote>
+
+      <div class="supt-body">
+        <h2><em>A Worker for God</em></h2>
+        <div class="supt-story-text" data-edit-field="body" data-edit-format="html">
+          <p>
+            Raised in a small village in Botswana, I was not brought up in a Christian home, yet God continued to
+            draw me to Himself. As a young man searching for truth, I found the Apostolic Faith Church while
+            working in Jwaneng. During the Easter services of 1983, I surrendered my life to Christ and
+            experienced salvation. In the years that followed, God sanctified me, baptized me with the Holy
+            Spirit, and opened doors for ministry that I never imagined.
+          </p>
+          <p>
+            Looking back, I can clearly see God's hand guiding every step of my journey, from providing for my
+            family and career to calling me into full-time ministry as Botswana Country Overseer. My
+            prayer is that every person will experience the same saving grace and discover God's purpose for
+            their life.
+          </p>
+        </div>
+        <a href="https://www.apostolicfaith.org/the-apostolic-faith/a-worker-for-god" target="_blank" class="btn-primary" data-edit-field="link">Read My Full Testimony</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="page-hero">
   <div class="page-hero-content">
     <span class="section-label">Study &amp; Worship</span>
@@ -38,25 +109,25 @@
 <section class="section section-light">
   <div class="container">
     <div class="resources-grid" data-edit-list="resources">
-      <div class="resource-card" data-edit="index.resource.hymns" data-edit-type="card" data-edit-label="Hymn Book card">
+      <div class="resource-card" data-edit="resources.resource.hymns" data-edit-type="card" data-edit-label="Hymn Book card">
         <h3 data-edit-field="title">Hymn Book</h3>
         <p data-edit-field="body">Access our collection of traditional and contemporary hymns used in worship services.</p>
         <a href="https://play.google.com/store/apps/details?id=com.afcsear.afc_hymns_collection&pli=1" class="resource-link" data-edit-field="link">Download App →</a>
       </div>
-      <div class="resource-card" data-edit="index.resource.doctrines" data-edit-type="card" data-edit-label="Doctrines card">
+      <div class="resource-card" data-edit="resources.resource.doctrines" data-edit-type="card" data-edit-label="Doctrines card">
         <h3 data-edit-field="title">Church Doctrines</h3>
         <p data-edit-field="body">Read our core beliefs, theological teachings, and the foundational doctrines of the Apostolic Faith Church.</p>
         <a href="https://www.apostolicfaith.org/library/doctrinal-resources" class="resource-link" data-edit-field="link">Read Doctrines →</a>
       </div>
-      <div class="resource-card" data-edit="index.resource.curriculum" data-edit-type="card" data-edit-label="Curriculum card">
-        <h3 data-edit-field="title">Curriculum</h3>
-        <p data-edit-field="body">View our comprehensive curriculum for Sunday school and Bible study.</p>
-        <a href="https://www.apostolicfaith.org/library/curriculum" target="_blank" class="resource-link" data-edit-field="link">View Curriculum →</a>
+      <div class="resource-card" data-edit="resources.resource.magazine" data-edit-type="card" data-edit-label="Church Magazine card">
+        <h3 data-edit-field="title">Church Magazine</h3>
+        <p data-edit-field="body">Read the Apostolic Faith Magazine — Gospel articles, testimonies, and teachings published for believers worldwide.</p>
+        <a href="https://www.apostolicfaith.org/apostolic-faith-magazine" target="_blank" class="resource-link" data-edit-field="link">Read Magazine →</a>
       </div>
-      <div class="resource-card" data-edit="index.resource.calendar" data-edit-type="card" data-edit-label="Calendar card">
-        <h3 data-edit-field="title">Annual Calendar</h3>
-        <p data-edit-field="body">Full schedule of services, conventions, camp meetings, and special events for the year.</p>
-        <a href="calendar.html" class="resource-link" data-edit-field="link">View Calendar →</a>
+      <div class="resource-card" data-edit="resources.resource.tracts" data-edit-type="card" data-edit-label="Church Tracts card">
+        <h3 data-edit-field="title">Church Tracts</h3>
+        <p data-edit-field="body">Free Gospel tracts and literature published for evangelism and outreach.</p>
+        <a href="https://www.apostolicfaith.org/print-publishing/tracts" target="_blank" class="resource-link" data-edit-field="link">View Tracts →</a>
       </div>
     </div>
 
