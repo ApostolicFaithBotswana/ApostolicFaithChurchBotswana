@@ -38,6 +38,15 @@ function hrefFor(item, pageId) {
   return item.href;
 }
 
+/* A page restored from the back/forward cache (very common on phones)
+   can keep the "leaving" state, leaving an invisible veil that blocks taps. */
+window.addEventListener('pageshow', () => {
+  document.documentElement.classList.remove('page-leaving');
+  document.body?.classList.remove('page-exit');
+});
+
+let navDelegateBound = false;
+
 export function initSiteNav() {
   const nav = document.getElementById('navLinks') || document.querySelector('nav.nav-links');
   if (!nav) return;
@@ -49,14 +58,53 @@ export function initSiteNav() {
     return `<a href="${href}"${active}>${item.label}</a>`;
   }).join('');
 
-  // Keep existing hamburger behaviour wired to rebuilt links
+  const btn = document.getElementById('hamburger');
+
+  function setOpen(open) {
+    nav.classList.toggle('open', open);
+    if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  // Close the menu when a link is tapped
   nav.querySelectorAll('a').forEach((a) => {
-    a.addEventListener('click', () => nav.classList.remove('open'));
+    a.addEventListener('click', () => setOpen(false));
   });
 
-  const btn = document.getElementById('hamburger');
-  if (btn && !btn.dataset.navBound) {
-    btn.dataset.navBound = '1';
-    btn.addEventListener('click', () => nav.classList.toggle('open'));
-  }
+  if (navDelegateBound) return;
+  navDelegateBound = true;
+
+  /* One single owner of the hamburger.
+     Listening on document in the CAPTURE phase means we run before any other
+     handler attached to the button (e.g. an old one in main.js), and we stop
+     it from firing. That prevents the "opens then instantly closes" bug where
+     two handlers both toggle .open. */
+  document.addEventListener(
+    'click',
+    (e) => {
+      const target = e.target instanceof Element ? e.target : null;
+      if (!target) return;
+
+      if (target.closest('#hamburger')) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        setOpen(!nav.classList.contains('open'));
+        return;
+      }
+
+      // Tap outside the menu closes it
+      if (nav.classList.contains('open') && !target.closest('#navLinks')) {
+        setOpen(false);
+      }
+    },
+    true
+  );
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+
+  // Reset when resizing back up to desktop width
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1100) setOpen(false);
+  });
 }

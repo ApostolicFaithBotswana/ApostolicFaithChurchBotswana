@@ -109,6 +109,122 @@
   .report-media { min-height: 240px; }
   .report-body { padding: 2rem 1.75rem; }
 }
+
+/* ── KEEP CARD TEXT DARK ON WHITE ──
+   Targets the card by its data-edit attributes, so it still applies if
+   site-core.js re-renders the card with different classes or inline colours. */
+[data-edit-type="event-card"] {
+  background: #fff;
+  color: #0d1626;
+}
+[data-edit-type="event-card"] h2,
+[data-edit-type="event-card"] h2 * { color: #0d1f3c !important; }
+
+[data-edit-type="event-card"] [data-edit-field="body"],
+[data-edit-type="event-card"] [data-edit-field="body"] p,
+[data-edit-type="event-card"] [data-edit-field="body"] p * { color: #3a4a6a !important; }
+
+[data-edit-type="event-card"] [data-edit-field="body"] strong { color: #0d1f3c !important; }
+
+/* ── KEEP CARD LAYOUT SIDE BY SIDE (image left, text right) ──
+   Same idea: target by data-edit attributes so the layout survives re-rendering. */
+[data-edit-type="event-card"] {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  grid-auto-rows: min-content;
+  align-content: stretch;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-lg) !important;
+  overflow: hidden;
+  min-height: 400px;
+  cursor: default;
+}
+[data-edit-type="event-card"]:hover { border: none !important; }
+
+/* Image column */
+[data-edit-type="event-card"] > .report-media,
+[data-edit-type="event-card"] > [data-edit-field="image"] {
+  grid-column: 1;
+  grid-row: 1 / span 10;
+  align-self: stretch;
+  min-height: 320px;
+  width: 100%;
+  height: 100%;
+}
+[data-edit-type="event-card"] img[data-edit-field="image"],
+[data-edit-type="event-card"] .report-media img {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  object-fit: cover;
+  display: block;
+  aspect-ratio: auto;
+  margin: 0;
+  border-radius: 0;
+}
+
+/* Text column */
+[data-edit-type="event-card"] > .report-body {
+  grid-column: 2;
+  grid-row: 1 / span 10;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+[data-edit-type="event-card"] > [data-edit-field="badge"],
+[data-edit-type="event-card"] > [data-edit-field="title"],
+[data-edit-type="event-card"] > [data-edit-field="body"],
+[data-edit-type="event-card"] > [data-edit-field="accent"] {
+  grid-column: 2;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+/* Badge as gold pill (in case the re-render drops the badge styling) */
+[data-edit-type="event-card"] [data-edit-field="badge"] {
+  display: inline-block;
+  width: fit-content;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy-900) !important;
+  font-size: .7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  padding: .35rem .9rem;
+  border-radius: 20px;
+  margin-bottom: 1.1rem;
+}
+[data-edit-type="event-card"] [data-edit-field="accent"] { color: var(--gold) !important; }
+
+/* Mother's Conference: image on the right */
+[data-edit="newsletter.event.mothers"] { direction: rtl; }
+[data-edit="newsletter.event.mothers"] > * { direction: ltr; }
+
+/* Phones and small tablets: stack */
+@media (max-width: 900px) {
+  [data-edit-type="event-card"] { grid-template-columns: 1fr !important; direction: ltr !important; }
+  [data-edit-type="event-card"] > .report-media,
+  [data-edit-type="event-card"] > [data-edit-field="image"],
+  [data-edit-type="event-card"] > .report-body,
+  [data-edit-type="event-card"] > [data-edit-field="badge"],
+  [data-edit-type="event-card"] > [data-edit-field="title"],
+  [data-edit-type="event-card"] > [data-edit-field="body"],
+  [data-edit-type="event-card"] > [data-edit-field="accent"] {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  [data-edit-type="event-card"] > .report-body { padding: 2rem 1.75rem; }
+  [data-edit-type="event-card"] > [data-edit-field="badge"],
+  [data-edit-type="event-card"] > [data-edit-field="title"],
+  [data-edit-type="event-card"] > [data-edit-field="body"],
+  [data-edit-type="event-card"] > [data-edit-field="accent"] {
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+}
 </style>
 </head>
 <body data-page="newsletter">

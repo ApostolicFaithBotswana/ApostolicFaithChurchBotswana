@@ -21,6 +21,18 @@
   background: var(--navy-700) !important;
 }
 
+/* Hamburger must always sit above the logo/brand and be easy to tap */
+.hamburger {
+  position: relative;
+  z-index: 1300;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+
 body {
   padding-top: 72px;
 }
@@ -109,8 +121,6 @@ body.page-exit {
 .afc-icon {
   display: inline-block;
   vertical-align: -0.15em;
-  flex-shrink: 0;
-}
   flex-shrink: 0;
 }
 

@@ -599,12 +599,78 @@ window.saveContent = async function() {
   }
 };
 
+
 /* ══════════════════════════════════════════════════════════
-   REGISTRATIONS
+   REGISTRATIONS — BRANCH & ROLE FILTERS
 ══════════════════════════════════════════════════════════ */
 
+let allRegistrations = [];
+
 async function loadRegistrations() {
-  paintRegistrations(await DB.getRegistrations());
+  allRegistrations = await DB.getRegistrations();
+
+  populateRegistrationFilters();
+  applyRegistrationFilters();
+}
+
+function populateRegistrationFilters() {
+  const branchSelect = document.getElementById('filterBranch');
+  const roleSelect = document.getElementById('filterRole');
+
+  if (!branchSelect || !roleSelect) return;
+
+  const selectedBranch = branchSelect.value;
+  const selectedRole = roleSelect.value;
+
+  const branches = [...new Set(
+    allRegistrations
+      .map(r => (r.branch || '').trim())
+      .filter(Boolean)
+  )].sort((a, b) => a.localeCompare(b));
+
+  const roles = [...new Set(
+    allRegistrations
+      .map(r => (r.role || '').trim())
+      .filter(Boolean)
+  )].sort((a, b) => a.localeCompare(b));
+
+  branchSelect.innerHTML =
+    '<option value="">All Branches</option>' +
+    branches.map(branch =>
+      `<option value="${escHtml(branch)}">${escHtml(branch)}</option>`
+    ).join('');
+
+  roleSelect.innerHTML =
+    '<option value="">All Roles</option>' +
+    roles.map(role =>
+      `<option value="${escHtml(role)}">${escHtml(role)}</option>`
+    ).join('');
+
+  // Preserve selections when the filters are refreshed.
+  if (branches.includes(selectedBranch)) {
+    branchSelect.value = selectedBranch;
+  }
+
+  if (roles.includes(selectedRole)) {
+    roleSelect.value = selectedRole;
+  }
+}
+
+function applyRegistrationFilters() {
+  const branch = document.getElementById('filterBranch')?.value || '';
+  const role = document.getElementById('filterRole')?.value || '';
+
+  const filteredRegs = allRegistrations.filter(r => {
+    const branchMatches =
+      !branch || (r.branch || '').trim() === branch;
+
+    const roleMatches =
+      !role || (r.role || '').trim() === role;
+
+    return branchMatches && roleMatches;
+  });
+
+  paintRegistrations(filteredRegs);
 }
 
 function paintRegistrations(regs) {
@@ -612,55 +678,136 @@ function paintRegistrations(regs) {
   if (!container) return;
 
   if (!regs.length) {
-    container.innerHTML = '<p class="empty-state">No registrations yet.</p>';
+    container.innerHTML = `
+      <p class="empty-state">
+        No registrations match the selected filters.
+      </p>`;
     return;
   }
 
   container.innerHTML = `
+    <p style="margin-bottom:1rem;">
+      Showing <strong>${regs.length}</strong> registration(s)
+    </p>
+
     <div style="overflow-x:auto;">
       <table class="reg-table">
         <thead>
           <tr>
-            <th>Name</th><th>Email</th><th>Phone</th>
-            <th>Branch</th><th>Role</th><th>Event</th><th>Date</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Branch</th>
+            <th>Role</th>
+            <th>Event</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
           ${regs.map(r => `
             <tr>
-              <td>${escHtml(r.name)}</td>
+              <td>${escHtml(r.name || '—')}</td>
               <td>${escHtml(r.email || '—')}</td>
-              <td>${escHtml(r.phone)}</td>
+              <td>${escHtml(r.phone || '—')}</td>
               <td>${escHtml(r.branch || '—')}</td>
               <td>${escHtml(r.role || '—')}</td>
               <td>${escHtml(r.event_name || '—')}</td>
-              <td>${r.created ? new Date(r.created).toLocaleDateString('en-BW') : '—'}</td>
+              <td>${r.created
+                ? new Date(r.created).toLocaleDateString('en-BW')
+                : '—'}</td>
             </tr>`).join('')}
         </tbody>
       </table>
     </div>`;
 }
 
-window.exportRegistrations = async function() {
-  const regs = await DB.getRegistrations();
-  if (!regs.length) { showToast('No registrations to export.', 'error'); return; }
+// Attach filter events once.
+function initRegistrationFilters() {
+  const branchSelect = document.getElementById('filterBranch');
+  const roleSelect = document.getElementById('filterRole');
+  const resetButton = document.getElementById('resetRegFilters');
 
-  const header = ['Name','Email','Phone','Branch','Role','Event','Date'];
-  const rows   = regs.map(r => [
-    r.name, r.email, r.phone, r.branch || '', r.role || '',
+  if (branchSelect && !branchSelect.dataset.filterBound) {
+    branchSelect.addEventListener('change', applyRegistrationFilters);
+    branchSelect.dataset.filterBound = 'true';
+  }
+
+  if (roleSelect && !roleSelect.dataset.filterBound) {
+    roleSelect.addEventListener('change', applyRegistrationFilters);
+    roleSelect.dataset.filterBound = 'true';
+  }
+
+  if (resetButton && !resetButton.dataset.filterBound) {
+    resetButton.addEventListener('click', () => {
+      if (branchSelect) branchSelect.value = '';
+      if (roleSelect) roleSelect.value = '';
+      applyRegistrationFilters();
+    });
+    resetButton.dataset.filterBound = 'true';
+  }
+}
+
+// Export the currently filtered registrations.
+window.exportRegistrations = function() {
+  const branch = document.getElementById('filterBranch')?.value || '';
+  const role = document.getElementById('filterRole')?.value || '';
+
+  const regs = allRegistrations.filter(r => {
+    const branchMatches =
+      !branch || (r.branch || '').trim() === branch;
+
+    const roleMatches =
+      !role || (r.role || '').trim() === role;
+
+    return branchMatches && roleMatches;
+  });
+
+  if (!regs.length) {
+    showToast('No registrations to export.', 'error');
+    return;
+  }
+
+  const header = [
+    'Name', 'Email', 'Phone', 'Branch',
+    'Role', 'Event', 'Date'
+  ];
+
+  const rows = regs.map(r => [
+    r.name || '',
+    r.email || '',
+    r.phone || '',
+    r.branch || '',
+    r.role || '',
     r.event_name || '',
-    r.created ? new Date(r.created).toLocaleDateString('en-BW') : ''
+    r.created
+      ? new Date(r.created).toLocaleDateString('en-BW')
+      : ''
   ]);
+
   const csv = [header, ...rows]
-    .map(row => row.map(v => `"${String(v).replace(/"/g,'""')}"`).join(','))
+    .map(row => row.map(v =>
+      `"${String(v).replace(/"/g, '""')}"`
+    ).join(','))
     .join('\n');
 
-  const a    = document.createElement('a');
-  a.href     = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-  a.download = `afc_registrations_${new Date().toISOString().slice(0,10)}.csv`;
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(
+    new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })
+  );
+
+  a.href = url;
+  a.download = `afc_registrations_${new Date()
+    .toISOString().slice(0, 10)}.csv`;
+
   a.click();
+  URL.revokeObjectURL(url);
+
   showToast('Registrations exported as CSV.', 'success');
 };
+
+// Initialise the filters when the admin JS loads.
+initRegistrationFilters();
+
 
 /* ══════════════════════════════════════════════════════════
    GALLERY — managed via Page Sections tab (list.gallery)

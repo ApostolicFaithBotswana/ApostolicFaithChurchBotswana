@@ -1,6 +1,12 @@
 // ═══════════════════════════════════════════════
-// AFC Botswana — Supabase backend
-// Firebase-compatible API for existing camp + site pages
+// AFC Botswana — Camp Meeting · Supabase data layer
+//
+// One module every camp page (public + Manager / Secretary / Store Manager
+// portals) talks to. It exposes a small collection/doc/query API so the pages
+// stay simple, and stores each record as `data` JSONB plus a few indexed
+// columns (see supabase/schema.sql and supabase/camp-portal-sync.sql).
+//
+// Same Supabase project as the main AFC Botswana site.
 // ═══════════════════════════════════════════════
 
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/+esm';
@@ -11,10 +17,10 @@ const SUPABASE_ANON_KEY =
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/** @deprecated Kept for import compatibility — use `supabase` instead */
+/** Kept so existing `import { db }` lines keep working. */
 export const db = { _supabase: true };
 
-// ── TABLE NAMES (same as former Firestore collections) ──
+// ── TABLE NAMES ──
 export const CAMP_REGS = 'camp_registrations';
 export const CAMP_ORDERS = 'camp_orders';
 export const CAMP_ANN = 'camp_announcements';
@@ -28,6 +34,7 @@ export const CAMP_SCHEDULE = 'camp_schedule';
 export const CAMP_CONFIG = 'camp_config';
 export const SITE_REGS = 'site_registrations';
 
+// Must match is_camp_manager() / is_store_or_secretary() in the SQL.
 export const ROLE_EMAILS = {
   manager: 'bw.ycm.2024@gmail.com',
   store: 'bwstore2026@gmail.com',
@@ -35,11 +42,17 @@ export const ROLE_EMAILS = {
   mainsite: 'bw.ycm.2024@gmail.com',
 };
 
-// ── AUTH (Firebase-shaped) ──
+// ═══════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════
 export const auth = { currentUser: null };
 
 const authListeners = new Set();
-let authReady = false;
+
+function mapAuthUser(sessionUser) {
+  if (!sessionUser) return null;
+  return { email: sessionUser.email, uid: sessionUser.id };
+}
 
 function notifyAuth(user) {
   auth.currentUser = user;
@@ -48,41 +61,52 @@ function notifyAuth(user) {
   });
 }
 
-function mapAuthUser(sessionUser) {
-  if (!sessionUser) return null;
-  return { email: sessionUser.email, uid: sessionUser.id };
-}
-
-function mapAuthError(err) {
+function throwAuthError(err) {
   const e = new Error(err.message || 'Authentication failed');
   const msg = (err.message || '').toLowerCase();
   if (msg.includes('invalid login credentials')) e.code = 'auth/invalid-credential';
-  else if (msg.includes('email not confirmed')) e.code = 'auth/user-not-found';
-  else if (msg.includes('too many')) e.code = 'auth/too-many-requests';
+  else if (msg.includes('email not confirmed')) e.code = 'auth/email-not-verified';
+  else if (msg.includes('too many') || msg.includes('rate limit')) e.code = 'auth/too-many-requests';
+  else if (msg.includes('invalid') && msg.includes('email')) e.code = 'auth/invalid-email';
   else e.code = 'auth/network-request-failed';
   throw e;
 }
 
 supabase.auth.onAuthStateChange((_event, session) => {
   notifyAuth(mapAuthUser(session?.user ?? null));
-  authReady = true;
 });
 
-supabase.auth.getSession().then(({ data }) => {
-  if (!authReady) notifyAuth(mapAuthUser(data.session?.user ?? null));
-});
-
+/**
+ * Calls `callback(user)` once with the current session, then again only when
+ * the signed-in user actually changes (sign-in / sign-out). Token refreshes do
+ * not re-fire it, so page `initAll()` code never runs twice.
+ */
 export function onAuthStateChanged(_auth, callback) {
+  let delivered = false;
+  let lastUid;
+  let stopped = false;
+
+  const deliver = (user) => {
+    const uid = user ? user.uid : null;
+    if (delivered && uid === lastUid) return;
+    delivered = true;
+    lastUid = uid;
+    try { callback(user); } catch (e) { console.error(e); }
+  };
+
   supabase.auth.getSession().then(({ data }) => {
-    callback(mapAuthUser(data.session?.user ?? null));
+    if (!stopped) deliver(mapAuthUser(data.session?.user ?? null));
   });
-  authListeners.add(callback);
-  return () => authListeners.delete(callback);
+
+  const listener = (user) => { if (!stopped && delivered) deliver(user); };
+  authListeners.add(listener);
+
+  return () => { stopped = true; authListeners.delete(listener); };
 }
 
 export async function signInWithEmailAndPassword(_auth, email, password) {
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) mapAuthError(error);
+  if (error) throwAuthError(error);
   const user = mapAuthUser(data.user);
   notifyAuth(user);
   return { user };
@@ -90,49 +114,51 @@ export async function signInWithEmailAndPassword(_auth, email, password) {
 
 export async function signOut() {
   const { error } = await supabase.auth.signOut();
-  if (error) mapAuthError(error);
+  if (error) throwAuthError(error);
   notifyAuth(null);
 }
 
 export async function sendPasswordResetEmail(_auth, email) {
+  // Land back on the camp admin login page.
+  const base = `${window.location.origin}${window.location.pathname.replace(/[^/]+$/, '')}`;
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${window.location.origin}${window.location.pathname.replace(/[^/]+$/, '')}admin.html`,
+    redirectTo: `${base}adminlogin.html`,
   });
-  if (error) mapAuthError(error);
+  if (error) throwAuthError(error);
 }
 
-// ── FIRESTORE COMPAT HELPERS ──
+// ═══════════════════════════════════════════════
+//  DOCUMENT HELPERS
+// ═══════════════════════════════════════════════
+
+/** Fields stored as ISO strings in `data` that pages read back via .toDate()/.toMillis(). */
 const TS_FIELDS = new Set([
   'createdAt', 'updatedAt', 'timestamp', 'markedAt',
   'depositApprovedAt', 'collectedAt',
 ]);
 
-const INDEX_COLS = {
-  site_events: ['start_date', 'created_at', 'updated_at'],
-  site_config: ['created_at', 'updated_at'],
-  site_blocks: ['page', 'block_key', 'created_at', 'updated_at'],
-  site_registrations: ['created_at'],
-  camp_registrations: ['created_at', 'timestamp'],
-  camp_orders: ['created_at'],
-  camp_announcements: ['timestamp'],
-  camp_attendance: ['session'],
-  camp_prayers: ['created_at', 'timestamp'],
-  camp_journal: ['created_at'],
-  camp_testimonies: ['timestamp', 'published'],
-  store_products: ['product_key'],
+/** Real columns each table has (after supabase/camp-portal-sync.sql). */
+const TABLE_COLS = {
+  site_events:             ['start_date', 'created_at', 'updated_at'],
+  site_config:             ['created_at', 'updated_at'],
+  site_blocks:             ['page', 'block_key', 'block_type', 'created_at', 'updated_at'],
+  site_registrations:      ['created_at'],
+  camp_registrations:      ['created_at', 'timestamp'],
+  camp_orders:             ['created_at'],
+  camp_announcements:      ['created_at', 'timestamp'],
+  camp_attendance:         ['session', 'registrant_id', 'created_at'],
+  camp_prayers:            ['created_at', 'timestamp'],
+  camp_journal:            ['created_at'],
+  camp_testimonies:        ['published', 'created_at', 'timestamp'],
+  store_products:          ['product_key', 'created_at', 'updated_at'],
   camp_service_attendance: ['service_date', 'created_at'],
-  camp_schedule: ['day_name', 'time_slot'],
-  camp_config: ['updated_at'],
+  camp_schedule:           ['day_name', 'time_slot', 'created_at', 'updated_at'],
+  camp_config:             ['updated_at'],
 };
 
-/** Tables that have a top-level `timestamp` column (not all Supabase tables do). */
-const TABLES_WITH_TIMESTAMP = new Set([
-  'camp_registrations',
-  'camp_announcements',
-  'camp_prayers',
-  'camp_testimonies',
-]);
+const hasCol = (table, col) => (TABLE_COLS[table] || []).includes(col);
 
+/** Page field name  →  column name (for where / orderBy). */
 const FIELD_TO_COL = {
   startDate: 'start_date',
   createdAt: 'created_at',
@@ -142,6 +168,7 @@ const FIELD_TO_COL = {
   published: 'published',
   date: 'service_date',
   key: 'product_key',
+  productKey: 'product_key',
   day: 'day_name',
   time: 'time_slot',
   registrantId: 'registrant_id',
@@ -149,24 +176,37 @@ const FIELD_TO_COL = {
   block_key: 'block_key',
 };
 
-const COL_TO_FIELD = Object.fromEntries(
-  Object.entries(FIELD_TO_COL).map(([k, v]) => [v, k])
-);
+/** Column name → page field name (for reading rows back). */
+const COL_TO_FIELD = {
+  start_date: 'startDate',
+  created_at: 'createdAt',
+  updated_at: 'updatedAt',
+  timestamp: 'timestamp',
+  session: 'session',
+  published: 'published',
+  service_date: 'date',
+  product_key: 'key',
+  day_name: 'day',
+  time_slot: 'time',
+  registrant_id: 'registrantId',
+  page: 'page',
+  block_key: 'block_key',
+  block_type: 'block_type',
+};
 
-function serverTimestamp() {
+export function serverTimestamp() {
   return { _serverTimestamp: true };
 }
 
 function resolveValue(v) {
-  if (v && typeof v === 'object' && v._serverTimestamp) {
-    return new Date().toISOString();
-  }
+  if (v && typeof v === 'object' && v._serverTimestamp) return new Date().toISOString();
   return v;
 }
 
 function serializeData(obj = {}) {
   const out = {};
   for (const [k, v] of Object.entries(obj)) {
+    if (v === undefined) continue;
     out[k] = resolveValue(v);
   }
   return out;
@@ -178,59 +218,56 @@ function makeTimestamp(val) {
   return {
     toDate: () => d,
     toMillis: () => d.getTime(),
+    seconds: Math.floor(d.getTime() / 1000),
+    nanoseconds: 0,
   };
 }
 
+/** Row from Supabase → plain page-shaped object. */
 function rowToDoc(row) {
   if (!row) return {};
   const data = { ...(row.data || {}) };
+
+  // Real columns win for the indexed fields (they are the source of truth).
   for (const [col, field] of Object.entries(COL_TO_FIELD)) {
-    if (row[col] !== undefined && row[col] !== null && data[field] === undefined) {
-      data[field] = row[col];
-    }
+    if (row[col] !== undefined && row[col] !== null) data[field] = row[col];
   }
+
   for (const f of TS_FIELDS) {
-    const col = FIELD_TO_COL[f] || f;
-    const raw = data[f] ?? row[col];
-    if (raw) data[f] = makeTimestamp(raw);
+    if (data[f]) data[f] = makeTimestamp(data[f]);
   }
-  if (row.published !== undefined && row.published !== null) {
-    data.published = row.published;
-  }
-  if (row.session) data.session = row.session;
-  if (row.registrant_id) data.registrantId = row.registrant_id;
-  if (row.page) data.page = row.page;
-  if (row.block_key) data.block_key = row.block_key;
-  if (row.block_type) data.block_type = row.block_type;
   return data;
 }
 
-function buildRowPayload(rawData, existingId, table = '') {
-  const data = serializeData(rawData);
-  const row = { data };
+/** Indexed columns derived from the fields present in `fields`. */
+function columnsFromFields(table, fields) {
+  const cols = {};
+  const set = (col, val) => { if (hasCol(table, col)) cols[col] = val; };
 
-  if (existingId) row.id = existingId;
+  if (fields.startDate !== undefined) set('start_date', fields.startDate);
+  if (fields.createdAt) set('created_at', fields.createdAt);
+  if (fields.updatedAt) set('updated_at', fields.updatedAt);
+  if (fields.timestamp) set('timestamp', fields.timestamp);
+  if (fields.session !== undefined) set('session', fields.session);
+  if (fields.published !== undefined) set('published', !!fields.published);
+  if (fields.date !== undefined) set('service_date', fields.date || null);
+  if (fields.key !== undefined) set('product_key', fields.key);
+  if (fields.day !== undefined) set('day_name', fields.day);
+  if (fields.time !== undefined) set('time_slot', fields.time);
+  if (fields.registrantId !== undefined) set('registrant_id', fields.registrantId);
+  if (fields.page !== undefined) set('page', fields.page);
+  if (fields.block_key !== undefined) set('block_key', fields.block_key);
+  if (fields.block_type !== undefined) set('block_type', fields.block_type);
+  return cols;
+}
 
-  if (data.startDate !== undefined) row.start_date = data.startDate;
-  if (data.createdAt) row.created_at = data.createdAt;
-  else if (!existingId) row.created_at = new Date().toISOString();
-  if (data.updatedAt) row.updated_at = data.updatedAt;
-  if (TABLES_WITH_TIMESTAMP.has(table)) {
-    if (data.timestamp) row.timestamp = data.timestamp;
-    else if (data.createdAt && !data.timestamp) row.timestamp = data.createdAt;
-  }
-  if (data.session !== undefined) row.session = data.session;
-  if (data.published !== undefined) row.published = !!data.published;
-  if (data.date !== undefined) row.service_date = data.date;
-  if (data.key !== undefined) row.product_key = data.key;
-  if (data.day !== undefined) row.day_name = data.day;
-  if (data.time !== undefined) row.time_slot = data.time;
-  if (data.registrantId !== undefined) row.registrant_id = data.registrantId;
-  if (data.page !== undefined) row.page = data.page;
-  if (data.block_key !== undefined) row.block_key = data.block_key;
-  if (data.block_type !== undefined) row.block_type = data.block_type;
-
-  return { data, row };
+function newId() {
+  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+  // Fallback for very old browsers (RFC4122 v4)
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+  });
 }
 
 function makeSnapshot(rows) {
@@ -246,23 +283,20 @@ function makeSnapshot(rows) {
   };
 }
 
+// ═══════════════════════════════════════════════
+//  QUERY BUILDING
+// ═══════════════════════════════════════════════
 export function collection(_db, table) {
   return { _table: table, _type: 'collection' };
 }
 
 export function doc(_db, tableOrCollection, id) {
-  const table = typeof tableOrCollection === 'string'
-    ? tableOrCollection
-    : tableOrCollection._table;
+  const table = typeof tableOrCollection === 'string' ? tableOrCollection : tableOrCollection._table;
   return { _table: table, _id: id, _type: 'doc' };
 }
 
 export function query(ref, ...constraints) {
-  return {
-    _table: ref._table,
-    _constraints: constraints,
-    _type: 'query',
-  };
+  return { _table: ref._table, _constraints: constraints, _type: 'query' };
 }
 
 export function orderBy(field, direction = 'asc') {
@@ -281,18 +315,15 @@ function applyConstraints(builder, constraints = []) {
     if (!c) continue;
     if (c._type === 'where') {
       if (c.op !== '==') throw new Error(`Unsupported where operator: ${c.op}`);
-      const col = FIELD_TO_COL[c.field] || c.field;
       if (c.field === 'key') {
-        q = q.or(`id.eq.${c.value},data->>key.eq.${c.value}`);
-      } else if (c.field === 'productKey') {
+        // Product docs are looked up by their `key` (stored in product_key)
         q = q.eq('product_key', c.value);
       } else {
-        q = q.eq(col, c.value);
+        q = q.eq(FIELD_TO_COL[c.field] || c.field, c.value);
       }
     }
     if (c._type === 'orderBy') {
-      const col = FIELD_TO_COL[c.field] || c.field;
-      order = { col, ascending: c.direction === 'asc' };
+      order = { col: FIELD_TO_COL[c.field] || c.field, ascending: c.direction === 'asc' };
     }
   }
 
@@ -300,19 +331,15 @@ function applyConstraints(builder, constraints = []) {
   return q;
 }
 
-async function fetchRows(table, constraints = []) {
-  let q = supabase.from(table).select('*');
-  q = applyConstraints(q, constraints);
+// ═══════════════════════════════════════════════
+//  READ
+// ═══════════════════════════════════════════════
+export async function getDocs(ref) {
+  let q = supabase.from(ref._table).select('*');
+  q = applyConstraints(q, ref._constraints || []);
   const { data, error } = await q;
   if (error) throw error;
-  return data || [];
-}
-
-export async function getDocs(ref) {
-  const table = ref._table;
-  const constraints = ref._constraints || [];
-  const rows = await fetchRows(table, constraints);
-  return makeSnapshot(rows);
+  return makeSnapshot(data || []);
 }
 
 export async function getDoc(docRef) {
@@ -329,73 +356,133 @@ export async function getDoc(docRef) {
   };
 }
 
+// ═══════════════════════════════════════════════
+//  WRITE
+// ═══════════════════════════════════════════════
+
+/**
+ * Insert a record. The id is generated here and the row is NOT read back —
+ * public visitors can insert testimonies / prayers / orders / registrations but
+ * (by design) cannot SELECT them, and an insert-then-select would be rejected.
+ */
 export async function addDoc(colRef, rawData) {
-  const { row } = buildRowPayload(rawData, null, colRef._table);
-  const { data, error } = await supabase
-    .from(colRef._table)
-    .insert(row)
-    .select('*')
-    .single();
+  const table = colRef._table;
+  const data = serializeData(rawData);
+  const id = newId();
+  const now = new Date().toISOString();
+
+  const row = { id, data, ...columnsFromFields(table, data) };
+  if (hasCol(table, 'created_at') && !row.created_at) row.created_at = now;
+  if (hasCol(table, 'timestamp') && !row.timestamp) row.timestamp = row.created_at || now;
+
+  const { error } = await supabase.from(table).insert(row);
   if (error) throw error;
-  return { id: data.id };
+  return { id };
 }
 
+/** Create or fully replace a record with a known id. */
 export async function setDoc(docRef, rawData) {
-  const { row } = buildRowPayload(rawData, docRef._id, docRef._table);
-  row.id = docRef._id;
-  const { error } = await supabase.from(docRef._table).upsert(row, { onConflict: 'id' });
+  const table = docRef._table;
+  const data = serializeData(rawData);
+  const row = { id: docRef._id, data, ...columnsFromFields(table, data) };
+  const { error } = await supabase.from(table).upsert(row, { onConflict: 'id' });
   if (error) throw error;
 }
 
+/**
+ * Merge `rawData` into an existing record (like Firestore updateDoc).
+ * Existing fields not mentioned are kept, and created_at is never touched.
+ */
 export async function updateDoc(docRef, rawData) {
-  const { row } = buildRowPayload(rawData, null, docRef._table);
-  delete row.id;
-  const { error } = await supabase.from(docRef._table).update(row).eq('id', docRef._id);
+  const table = docRef._table;
+  const patch = serializeData(rawData);
+
+  const { data: existing, error: readErr } = await supabase
+    .from(table).select('data').eq('id', docRef._id).maybeSingle();
+  if (readErr) throw readErr;
+  if (!existing) throw new Error('Record not found, or you do not have permission to change it.');
+
+  const row = {
+    data: { ...(existing.data || {}), ...patch },
+    ...columnsFromFields(table, patch),
+  };
+
+  const { data: updated, error } = await supabase
+    .from(table).update(row).eq('id', docRef._id).select('id');
   if (error) throw error;
+  if (!updated || !updated.length) throw new Error('Update was not permitted for this account.');
 }
 
 export async function deleteDoc(docRef) {
-  const { error } = await supabase.from(docRef._table).delete().eq('id', docRef._id);
+  const { data: removed, error } = await supabase
+    .from(docRef._table).delete().eq('id', docRef._id).select('id');
   if (error) throw error;
+  if (!removed || !removed.length) throw new Error('Delete was not permitted for this account.');
 }
 
-const realtimeChannels = new Map();
+// ═══════════════════════════════════════════════
+//  LIVE UPDATES
+// ═══════════════════════════════════════════════
+let listenerCount = 0;
 
+/**
+ * Calls `callback(snapshot)` now and again whenever the table changes.
+ * Each listener owns its own realtime channel, and a 60s refresh is kept as a
+ * safety net in case a realtime message is missed. Returns an unsubscribe fn.
+ */
 export function onSnapshot(ref, callback, onError) {
   const table = ref._table;
-  const constraints = ref._constraints || [];
-  const channelKey = `${table}:${JSON.stringify(constraints)}`;
+  let alive = true;
+  let seq = 0;
+  let timer = null;
 
-  const refresh = async () => {
+  const run = async () => {
+    const mine = ++seq;
     try {
-      const snap = await getDocs(ref);
+      let snap;
+      if (ref._type === 'doc') {
+        const d = await getDoc(ref);
+        snap = d;
+      } else {
+        snap = await getDocs(ref);
+      }
+      if (!alive || mine !== seq) return;   // a newer fetch superseded this one
       callback(snap);
     } catch (err) {
-      if (onError) onError(err);
-      else console.error(err);
+      if (!alive) return;
+      if (onError) onError(err); else console.error(err);
     }
   };
 
-  refresh();
+  const soon = () => { clearTimeout(timer); timer = setTimeout(run, 150); };
 
-  if (!realtimeChannels.has(channelKey)) {
-    const channel = supabase
-      .channel(`rt-${table}-${Math.random().toString(36).slice(2)}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table }, () => refresh())
-      .subscribe();
-    realtimeChannels.set(channelKey, channel);
-  }
+  run();
+
+  const channel = supabase
+    .channel(`camp-${table}-${++listenerCount}`)
+    .on('postgres_changes', { event: '*', schema: 'public', table }, soon)
+    .subscribe();
+
+  const poll = setInterval(() => { if (!document.hidden) run(); }, 60000);
 
   return () => {
-    const ch = realtimeChannels.get(channelKey);
-    if (ch) {
-      supabase.removeChannel(ch);
-      realtimeChannels.delete(channelKey);
-    }
+    alive = false;
+    clearTimeout(timer);
+    clearInterval(poll);
+    supabase.removeChannel(channel);
   };
 }
 
-export {
-  serverTimestamp,
-  INDEX_COLS,
-};
+// ═══════════════════════════════════════════════
+//  PUBLIC COUNTS
+// ═══════════════════════════════════════════════
+/**
+ * Registration + order totals for the public camp landing page.
+ * Uses a SECURITY DEFINER function so visitors get counts only, never the
+ * personal details inside the rows.
+ */
+export async function getCampStats() {
+  const { data, error } = await supabase.rpc('camp_public_stats');
+  if (error) throw error;
+  return { registrations: Number(data?.registrations) || 0, orders: Number(data?.orders) || 0 };
+}

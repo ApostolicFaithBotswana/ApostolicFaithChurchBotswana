@@ -1,37 +1,32 @@
-/* Contact page — tabs, forms, config */
+/* Contact page — tabs and forms (forms open the visitor's email app, no backend) */
 
-import { DB } from './data.js';
+const CHURCH_EMAIL = 'contact@apostolicfaith.org.bw';
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   initContactTabs();
-  try {
-    const cfg = await DB.getConfig();
-    setContactField('contactEmail', cfg.contact_email, 'mailto:');
-    setContactField('contactPhone', cfg.contact_phone, 'tel:');
-  } catch {
-    /* keep HTML defaults */
-  }
 });
 
 function initContactTabs() {
   const tabs = document.querySelectorAll('.contact-tab');
   const panels = document.querySelectorAll('.contact-tab-panel');
+
   if (!tabs.length) return;
 
   tabs.forEach((tab) => {
     tab.addEventListener('click', () => {
       const target = tab.dataset.tab;
+
       tabs.forEach((t) => {
         const active = t.dataset.tab === target;
         t.classList.toggle('active', active);
         t.setAttribute('aria-selected', active ? 'true' : 'false');
       });
+
       panels.forEach((panel) => {
-        const isMessage = panel.id === 'panel-message';
-        const isPrayer = panel.id === 'panel-prayer';
         const show =
-          (target === 'message' && isMessage) ||
-          (target === 'prayer' && isPrayer);
+          (target === 'message' && panel.id === 'panel-message') ||
+          (target === 'prayer' && panel.id === 'panel-prayer');
+
         panel.classList.toggle('active', show);
         panel.hidden = !show;
       });
@@ -39,64 +34,73 @@ function initContactTabs() {
   });
 }
 
-function setContactField(id, val, hrefPrefix) {
-  const el = document.getElementById(id);
-  if (!el || !val || el.hasAttribute('data-edit')) return;
-  el.textContent = val;
-  if (el.tagName === 'A') {
-    const clean = hrefPrefix === 'tel:' ? val.replace(/\s/g, '') : val;
-    el.href = hrefPrefix + clean;
-  }
+/**
+ * Open the visitor's email app with a pre-filled message
+ * addressed to the church.
+ */
+function openMailto(subject, body) {
+  const url =
+    `mailto:${CHURCH_EMAIL}` +
+    `?subject=${encodeURIComponent(subject)}` +
+    `&body=${encodeURIComponent(body)}`;
+
+  window.location.href = url;
 }
 
-window.handleContactForm = async function (e) {
+/** CONTACT US FORM */
+window.handleContactForm = function (e) {
   e.preventDefault();
-  const btn = e.submitter || e.target.querySelector('[type=submit]');
-  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
-  try {
-    await DB.addRegistration({
-      type: 'contact_message',
-      name: document.getElementById('cName')?.value.trim() || '',
-      email: document.getElementById('cEmail')?.value.trim() || '',
-      subject: document.getElementById('cSubject')?.value.trim() || '',
-      message: document.getElementById('cMsg')?.value.trim() || '',
-      event_name: 'Contact Form',
-    });
-    showToast('Message sent! We will get back to you soon.', 'success');
-    e.target.reset();
-  } catch {
-    showToast('Send failed — please try again.', 'error');
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Send Message'; }
-  }
+  const form = e.currentTarget;
+
+  const name = document.getElementById('cName')?.value.trim() || '';
+  const email = document.getElementById('cEmail')?.value.trim() || '';
+  const subject = document.getElementById('cSubject')?.value.trim() || '';
+  const message = document.getElementById('cMsg')?.value.trim() || '';
+
+  const body =
+    `Name: ${name}\r\n` +
+    `Email: ${email}\r\n\r\n` +
+    `${message}`;
+
+  openMailto(subject || 'General enquiry', body);
+
+  showToast('Opening your email app — please press Send to deliver your message.', 'success');
+  form.reset();
 };
 
-window.handlePrayerForm = async function (e) {
+/** PRAYER REQUEST FORM */
+window.handlePrayerForm = function (e) {
   e.preventDefault();
-  const btn = e.submitter || e.target.querySelector('[type=submit]');
-  if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
 
-  try {
-    await DB.addPrayerRequest({
-      name: document.getElementById('prName')?.value.trim() || 'Anonymous',
-      category: document.getElementById('prCategory')?.value || 'General',
-      request: document.getElementById('prRequest')?.value.trim() || '',
-      anon: document.getElementById('prAnon')?.value === 'yes',
-    });
-    showToast('Prayer request received. Our ministers will pray for you.', 'success');
-    e.target.reset();
-  } catch {
-    showToast('Submit failed — please try again.', 'error');
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Submit Prayer Request'; }
-  }
+  const form = e.currentTarget;
+
+  const name = document.getElementById('prName')?.value.trim() || '';
+  const category = document.getElementById('prCategory')?.value || 'General';
+  const request = document.getElementById('prRequest')?.value.trim() || '';
+  const anon = document.getElementById('prAnon')?.value === 'yes';
+
+  const displayName = anon || !name ? 'Anonymous' : name;
+
+  const body =
+    `Name: ${displayName}\r\n` +
+    `Category: ${category}\r\n` +
+    `Anonymous: ${anon ? 'Yes' : 'No'}\r\n\r\n` +
+    `Prayer Request:\r\n${request}`;
+
+  openMailto(`Prayer Request: ${category}`, body);
+
+  showToast('Opening your email app — please press Send to submit your prayer request.', 'success');
+  form.reset();
 };
 
 function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
+
   if (!t) return;
+
   t.textContent = msg;
   t.className = `toast show ${type}`;
-  setTimeout(() => t.classList.remove('show'), 4000);
+
+  setTimeout(() => t.classList.remove('show'), 5000);
 }

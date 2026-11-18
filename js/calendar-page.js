@@ -208,17 +208,27 @@ function renderUpcomingCards(now = Date.now()) {
   refreshLucideIcons(grid);
 }
 
+
 function getFilteredCalendar() {
-  const q = (document.getElementById('calSearch')?.value || '').toLowerCase().trim();
-  return calendarEvents.filter((ev) => {
+  const q = (document.getElementById('calSearch')?.value || '')
+    .toLowerCase()
+    .trim();
+
+  return allUnified().filter((ev) => {
     let matchFilter = true;
+
     if (currentFilter !== 'all') {
       matchFilter = ev.type === currentFilter || ev.scope === currentFilter;
     }
-    const hay = `${ev.name} ${ev.place} ${ev.type} ${ev.scope} ${ev.resp || ''}`.toLowerCase();
+
+    const hay = `${ev.name || ''} ${ev.place || ''} ${ev.type || ''} ${
+      ev.scope || ''
+    } ${ev.resp || ''}`.toLowerCase();
+
     return matchFilter && (!q || hay.includes(q));
   });
 }
+
 
 function renderList(now = Date.now()) {
   const el = document.getElementById('calListContent');
@@ -288,23 +298,34 @@ function renderList(now = Date.now()) {
   el.innerHTML = html;
 }
 
+
 function updateStats(now = Date.now()) {
   const unified = allUnified();
+
   const set = (id, val) => {
     const n = document.getElementById(id);
     if (n) n.textContent = val;
   };
-  set('statTotal', calendarEvents.length);
-  set('statNational', calendarEvents.filter((e) => e.scope === 'national').length);
-  set('statLive', unified.filter((e) => classify(e, now) === 'live').length);
-  set('statUpcoming', unified.filter((e) => classify(e, now) === 'upcoming').length);
+
+  set('statTotal', unified.length);
+  set('statNational', unified.filter(
+    (e) => e.scope === 'national'
+  ).length);
+  set('statLive', unified.filter(
+    (e) => classify(e, now) === 'live'
+  ).length);
+  set('statUpcoming', unified.filter(
+    (e) => classify(e, now) === 'upcoming'
+  ).length);
 }
+
 
 function tick() {
   const now = Date.now();
   renderSpotlight(now);
   renderUpcomingCards(now);
 }
+
 
 function refreshStaticViews() {
   lastFocusKey = '';
@@ -410,6 +431,15 @@ export function initCalendarPage() {
   }
 
   document.getElementById('calSearch')?.addEventListener('input', () => renderList());
+
+window.addEventListener('afc:events-changed', async () => {
+  try {
+    siteEvents = await DB.getEvents();
+    refreshStaticViews();
+  } catch (err) {
+    console.warn('Could not refresh calendar events:', err);
+  }
+});
 
   refreshStaticViews();
   loadSiteEvents();
