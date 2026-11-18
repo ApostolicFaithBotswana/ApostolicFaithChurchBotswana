@@ -4,11 +4,11 @@
    alongside page-specific scripts.
    ============================================================ */
 
-import { initSiteMotion } from './site-motion.js';
-import { initLiveAdmin } from './live-admin.js';
-import { initSiteNav } from './site-nav.js';
-import { initSiteFooter } from './site-footer.js';
-import { initLucideIcons } from './lucide-icons.js';
+import { initSiteMotion } from './site-motion.js?v=20261118a';
+import { initLiveAdmin } from './live-admin.js?v=20261118a';
+import { initSiteNav } from './site-nav.js?v=20261118a';
+import { initSiteFooter } from './site-footer.js?v=20261118a';
+import { initLucideIcons } from './lucide-icons.js?v=20261118a';
 
 document.addEventListener('DOMContentLoaded', () => {
   initSiteNav();

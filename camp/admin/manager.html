@@ -6,7 +6,7 @@
 <title>Camp Manager Dashboard · AFC Botswana</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../camp-shared.css">
+<link rel="stylesheet" href="../camp-shared.css?v=20261118a">
 
 <style>
 /* ── LAYOUT ── */
@@ -701,7 +701,19 @@ tr.editing-row td { background:rgba(212,175,55,.06) !important; }
       <!-- ── PRAYERS ── -->
       <div class="atab" id="atab-prayers">
         <div class="a-card">
-          <div class="a-card-title">Prayer Requests</div>
+          <div class="a-card-title">
+            <span>Prayer Requests</span>
+            <span id="prayerNewCount" class="badge badge-red" style="display:none;"></span>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+            <select id="prayerFilter" class="btn-outline-sm" style="cursor:pointer;">
+              <option value="all">All requests</option>
+              <option value="new">Not yet prayed for</option>
+              <option value="urgent">Urgent only</option>
+              <option value="public-form">From prayer form</option>
+              <option value="registration">From registration</option>
+            </select>
+          </div>
           <div id="prayerList"><div class="loading">Loading…</div></div>
         </div>
       </div>
@@ -789,7 +801,7 @@ import {
   CAMP_REGS, CAMP_ORDERS, CAMP_ANN, CAMP_ATT,
   CAMP_PRAYERS, CAMP_JOURNAL, CAMP_TESTIM, CAMP_SERVICE_ATT,
   ROLE_EMAILS
-} from '../camp-firebase.js';
+} from '../camp-firebase.js?v=20261118a';
 
 // ── Collection name for schedule ──
 const CAMP_SCHEDULE = 'camp_schedule';
@@ -1737,38 +1749,97 @@ document.getElementById('ordFilter').addEventListener('change', () => renderOrde
 // ════════════════════════════════════════════════════
 //  PRAYERS
 // ════════════════════════════════════════════════════
-async function loadPrayers(){
-  try {
-    const snap = await getDocs(query(collection(db, CAMP_PRAYERS), orderBy('createdAt','desc')));
-    const el = document.getElementById('prayerList');
-    if(snap.empty){
-      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🙏</div><p>No prayer requests yet.</p></div>`;
-      return;
-    }
-    el.innerHTML = snap.docs.map(d => {
-      const p = d.data();
-      return `
-        <div class="review-card">
-          <div class="review-card-header">
-            <div>
-              <div class="review-card-name">${esc(p.name||'Anonymous')}</div>
-              <div class="review-card-meta">${fmtDate(p.createdAt)} · ${esc(p.branch||'')}</div>
-            </div>
-            <button class="btn-delete btn-action" data-id="${d.id}">Delete</button>
-          </div>
-          <div class="review-card-body">${esc(p.request||p.body||'').replace(/\n/g,'<br>')}</div>
-        </div>`;
-    }).join('');
+// Live list: new submissions from testimonies.html (prayer form) and
+// registration.html (notes field) appear without reloading the dashboard.
+let allPrayers = [];
+let prayersUnsub = null;
 
-    el.querySelectorAll('.btn-delete').forEach(btn => {
-      btn.onclick = async () => {
-        if(!confirm('Delete this prayer request?')) return;
-        try { await deleteDoc(doc(db, CAMP_PRAYERS, btn.dataset.id)); loadPrayers(); toast('Deleted ✓'); }
-        catch(e){ toast('Error: '+e.message, false); }
-      };
-    });
-  } catch(e){ console.error(e); }
+function loadPrayers(){
+  if (prayersUnsub) prayersUnsub();
+  prayersUnsub = onSnapshot(
+    query(collection(db, CAMP_PRAYERS), orderBy('createdAt','desc')),
+    snap => {
+      allPrayers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderPrayers();
+    },
+    err => {
+      console.error('Prayers error:', err);
+      document.getElementById('prayerList').innerHTML =
+        `<div class="empty-state"><p>Could not load prayer requests: ${esc(err.message)}</p></div>`;
+    }
+  );
 }
+
+function renderPrayers(){
+  const el = document.getElementById('prayerList');
+  const filter = document.getElementById('prayerFilter').value;
+
+  const unread = allPrayers.filter(p => !p.read).length;
+  const badge = document.getElementById('prayerNewCount');
+  badge.textContent   = unread + ' new';
+  badge.style.display = unread ? 'inline-block' : 'none';
+
+  const list = allPrayers.filter(p => {
+    if (filter === 'new')    return !p.read;
+    if (filter === 'urgent') return p.urgency === 'urgent';
+    if (filter === 'public-form' || filter === 'registration') return (p.source || 'public-form') === filter;
+    return true;
+  });
+
+  if(!list.length){
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">🙏</div><p>${
+      allPrayers.length ? 'No prayer requests match this filter.' : 'No prayer requests yet.'
+    }</p></div>`;
+    return;
+  }
+
+  el.innerHTML = list.map(p => {
+    const fromReg = p.source === 'registration';
+    const meta = [fmtDate(p.createdAt), p.branch, p.phone].filter(Boolean).map(esc).join(' · ');
+    return `
+      <div class="review-card" style="${p.read ? 'opacity:.6;' : ''}">
+        <div class="review-card-header">
+          <div>
+            <div class="review-card-name">
+              ${esc(p.name||'Anonymous')}
+              ${p.urgency === 'urgent' ? '<span class="badge badge-red" style="margin-left:6px;font-size:.62rem;">Urgent</span>' : ''}
+              <span class="badge ${fromReg ? 'badge-blue' : 'badge-gold'}" style="margin-left:6px;font-size:.62rem;">${fromReg ? 'Registration' : 'Prayer form'}</span>
+            </div>
+            <div class="review-card-meta">${meta}</div>
+          </div>
+          <span class="badge ${p.read ? 'badge-green' : 'badge-gray'}">${p.read ? '✅ Prayed for' : '⏳ New'}</span>
+        </div>
+        <div class="review-card-body" style="margin:10px 0;">${esc(p.request||p.body||'').replace(/\n/g,'<br>')}</div>
+        <div class="review-card-actions">
+          <button class="btn-outline-sm" data-action="toggle-read" data-id="${p.id}" data-read="${p.read ? '1' : ''}">
+            ${p.read ? '↩ Mark as new' : '🙏 Mark as prayed for'}
+          </button>
+          ${p.phone ? `<a class="btn-outline-sm" href="tel:${esc(p.phone)}" style="text-decoration:none;">📞 Call</a>` : ''}
+          <button class="btn-delete btn-action" data-id="${p.id}">🗑 Delete</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  el.querySelectorAll('[data-action="toggle-read"]').forEach(btn => {
+    btn.onclick = async () => {
+      btn.disabled = true;
+      try {
+        await updateDoc(doc(db, CAMP_PRAYERS, btn.dataset.id), { read: !btn.dataset.read });
+        toast(btn.dataset.read ? 'Marked as new' : '🙏 Marked as prayed for');
+      } catch(e){ toast('Error: '+e.message, false); btn.disabled = false; }
+    };
+  });
+
+  el.querySelectorAll('.btn-delete').forEach(btn => {
+    btn.onclick = async () => {
+      if(!confirm('Delete this prayer request?')) return;
+      try { await deleteDoc(doc(db, CAMP_PRAYERS, btn.dataset.id)); toast('Deleted ✓'); }
+      catch(e){ toast('Error: '+e.message, false); }
+    };
+  });
+}
+
+document.getElementById('prayerFilter').addEventListener('change', renderPrayers);
 
 // ════════════════════════════════════════════════════
 //  TESTIMONIES

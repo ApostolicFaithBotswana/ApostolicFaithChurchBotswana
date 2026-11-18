@@ -13,10 +13,10 @@
 import {
   auth, onAuthStateChanged, ROLE_EMAILS,
   onSnapshot, collection, query, where,
-} from '../camp/camp-firebase.js';
-import { DB } from './data.js';
-import { icon } from './icons.js';
-import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js';
+} from '../camp/camp-firebase.js?v=20261118a';
+import { DB } from './data.js?v=20261118a';
+import { icon } from './icons.js?v=20261118a';
+import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js?v=20261118a';
 import {
   initSectionLists,
   applyListBlocksFromCache,
@@ -27,8 +27,8 @@ import {
   attachListToolbars,
   deleteListItem,
   setListsUpdateCallback,
-} from './section-lists.js';
-import { getListConfig } from './section-lists-config.js';
+} from './section-lists.js?v=20261118a';
+import { getListConfig } from './section-lists-config.js?v=20261118a';
 
 const SITE_BLOCKS = 'site_blocks';
 const FIELD_TYPES = new Set(['card', 'district', 'profile', 'timeline', 'panel', 'section', 'event-card', 'fields']);
@@ -138,7 +138,7 @@ function ensureEditorShell() {
   document.getElementById('liveEditCancel').onclick = closeEditModal;
   document.getElementById('liveEditSave').onclick = saveEditModal;
   document.getElementById('liveAdminLogout').onclick = async () => {
-    const { signOut } = await import('../camp/camp-firebase.js');
+    const { signOut } = await import('../camp/camp-firebase.js?v=20261118a');
     await signOut();
     window.location.reload();
   };

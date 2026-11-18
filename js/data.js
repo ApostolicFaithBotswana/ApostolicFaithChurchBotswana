@@ -7,7 +7,7 @@ import {
   supabase,
   collection, addDoc, getDocs, doc, updateDoc, deleteDoc,
   query, orderBy, where, setDoc, getDoc, serverTimestamp, onSnapshot
-} from '../camp/camp-firebase.js';
+} from '../camp/camp-firebase.js?v=20261118a';
 
 const SITE_EVENTS = 'site_events';
 const SITE_CONFIG = 'site_config';

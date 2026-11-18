@@ -1,6 +1,6 @@
 /* YouTube live stream page — polls for live broadcasts and embeds the player */
 
-import { DB } from './data.js';
+import { DB } from './data.js?v=20261118a';
 
 const DEFAULT_HANDLE = 'apostolicfaithbotswanahead3540';
 const DEFAULT_POLL_SEC = 45;

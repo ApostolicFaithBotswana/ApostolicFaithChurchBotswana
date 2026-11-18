@@ -1,10 +1,10 @@
 /* Dynamic section lists — add/edit/delete cards per section with realtime sync */
 
-import { DB } from './data.js';
-import { icon } from './icons.js';
+import { DB } from './data.js?v=20261118a';
+import { icon } from './icons.js?v=20261118a';
 import {
   SECTION_LISTS, getListConfig, listBlockKey, FIELD_LABELS,
-} from './section-lists-config.js';
+} from './section-lists-config.js?v=20261118a';
 
 const listsCache = {};
 let currentPage = 'index';

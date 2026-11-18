@@ -2,7 +2,7 @@
    AFC BOTSWANA — SVG ICON LIBRARY
    ────────────────────────────────────────────────────────────
    HOW TO USE:
-     import { icon } from './icons.js';
+     import { icon } from './icons.js?v=20261118a';
      element.innerHTML = icon('calendar') + ' Sunday Service';
 
    HOW TO ADD A NEW ICON:

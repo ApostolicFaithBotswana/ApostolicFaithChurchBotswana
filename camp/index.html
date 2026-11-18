@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Camp Meeting 2027 — AFC Botswana</title>
-  <link rel="stylesheet" href="../css/site-enhancements.css"/>
+  <link rel="stylesheet" href="../css/site-enhancements.css?v=20261118a"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="camp-shared.css"/>
+  <link rel="stylesheet" href="camp-shared.css?v=20261118a"/>
 
 <style>
 :root{
@@ -968,10 +968,10 @@ import {
   db,
   collection, getDocs, getDoc, doc, query, orderBy,
   CAMP_REGS, CAMP_ORDERS, CAMP_CONFIG
-} from './camp-firebase.js';
-import { campIcon, weatherIconFromCode, hydrateCampIcons } from './camp-icons.js';
-import { initCampShell } from './camp-shell.js';
-import { initLiveAdmin } from '../js/live-admin.js';
+} from './camp-firebase.js?v=20261118a';
+import { campIcon, weatherIconFromCode, hydrateCampIcons } from './camp-icons.js?v=20261118a';
+import { initCampShell } from './camp-shell.js?v=20261118a';
+import { initLiveAdmin } from '../js/live-admin.js?v=20261118a';
 
 initCampShell({ whatsapp: false }); // float mounted after config loads
 initLiveAdmin('camp-index'); // enables live-editing of the 2026 recap section for the main-site admin

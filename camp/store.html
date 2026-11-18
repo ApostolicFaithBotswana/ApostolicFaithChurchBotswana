@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Merch Store — Camp Meeting 2027</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="camp-shared.css"/>
+<link rel="stylesheet" href="camp-shared.css?v=20261118a"/>
 <style>
 /* ── RESET ── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -419,8 +419,8 @@ import {
   collection, getDocs, addDoc,
   serverTimestamp,
   CAMP_ORDERS, STORE_PRODUCTS
-} from './camp-firebase.js';
-import { campIcon } from './camp-icons.js';
+} from './camp-firebase.js?v=20261118a';
+import { campIcon } from './camp-icons.js?v=20261118a';
 
 // ═══════════════════════════════════════════════════════
 //  CATALOGUE — names, images, sizes hardcoded here.
@@ -645,8 +645,8 @@ mobileNav.querySelectorAll('a').forEach(link => {
 
 
 <script type="module">
-  import { initCampShell } from './camp-shell.js';
-  import { hydrateCampIcons } from './camp-icons.js';
+  import { initCampShell } from './camp-shell.js?v=20261118a';
+  import { hydrateCampIcons } from './camp-icons.js?v=20261118a';
   initCampShell();
   hydrateCampIcons();
 </script>

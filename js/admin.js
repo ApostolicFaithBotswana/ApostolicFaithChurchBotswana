@@ -3,9 +3,9 @@
    Login: Supabase Auth (email + password)
    ============================================================ */
 
-import { DB } from './data.js';
-import { icon } from './icons.js';
-import { initSectionsAdmin } from './section-lists-admin.js';
+import { DB } from './data.js?v=20261118a';
+import { icon } from './icons.js?v=20261118a';
+import { initSectionsAdmin } from './section-lists-admin.js?v=20261118a';
 import {
   auth,
   signInWithEmailAndPassword,
@@ -13,7 +13,7 @@ import {
   onAuthStateChanged,
   sendPasswordResetEmail,
   ROLE_EMAILS
-} from '../camp/camp-firebase.js';
+} from '../camp/camp-firebase.js?v=20261118a';
 
 const CONFIG_FIELD_IDS = ['cfgHeroTitle', 'cfgVerseText', 'cfgVerseRef', 'cfgAboutText', 'cfgEmail', 'cfgPhone'];
 const EVENT_FIELD_IDS = ['evtName', 'evtStartDate', 'evtEndDate', 'evtLocation', 'evtDesc', 'evtPoster', 'evtExternalUrl'];

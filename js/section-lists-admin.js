@@ -1,15 +1,15 @@
 /* Admin dashboard — manage repeatable section cards */
 
-import { DB } from './data.js';
-import { icon } from './icons.js';
-import { SECTION_LISTS, listBlockKey, FIELD_LABELS } from './section-lists-config.js';
+import { DB } from './data.js?v=20261118a';
+import { icon } from './icons.js?v=20261118a';
+import { SECTION_LISTS, listBlockKey, FIELD_LABELS } from './section-lists-config.js?v=20261118a';
 import {
   buildListItemForm,
   addListItem,
   updateListItem,
   deleteListItem,
-} from './section-lists.js';
-import { lockScroll, unlockScroll } from './modal-lock.js';
+} from './section-lists.js?v=20261118a';
+import { lockScroll, unlockScroll } from './modal-lock.js?v=20261118a';
 
 let sectionsUnsub = null;
 let editingSection = null;

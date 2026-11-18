@@ -1,6 +1,6 @@
 /* Locations page — filters, search, maps, nearest branch */
 
-import { refreshLucideIcons } from './lucide-icons.js';
+import { refreshLucideIcons } from './lucide-icons.js?v=20261118a';
 
 const DISTRICTS = [
   { id: 'gaborone', name: 'Greater Gaborone', lat: -24.68379, lng: 25.88294 },

@@ -2,12 +2,12 @@
    AFC BOTSWANA — MAIN JS (index.html)
    ============================================================ */
 
-import { DB } from './data.js';
-import { initSiteMotion, softNavigate } from './site-motion.js';
-import { initLiveAdmin, isLiveAdmin } from './live-admin.js';
-import { initSiteNav } from './site-nav.js';
-import { initSiteFooter } from './site-footer.js';
-import { initLucideIcons } from './lucide-icons.js';
+import { DB } from './data.js?v=20261118a';
+import { initSiteMotion, softNavigate } from './site-motion.js?v=20261118a';
+import { initLiveAdmin, isLiveAdmin } from './live-admin.js?v=20261118a';
+import { initSiteNav } from './site-nav.js?v=20261118a';
+import { initSiteFooter } from './site-footer.js?v=20261118a';
+import { initLucideIcons } from './lucide-icons.js?v=20261118a';
 
 /* ---------- INIT ---------- */
 document.addEventListener('DOMContentLoaded', async () => {

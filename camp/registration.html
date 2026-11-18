@@ -6,7 +6,7 @@
 <title>Register — Camp Meeting 2027 · AFC Botswana</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="camp-shared.css"/>
+<link rel="stylesheet" href="camp-shared.css?v=20261118a"/>
 <style>
 /* STEP PROGRESS */
 .steps-bar { display: flex; gap: 0; margin-bottom: 2.5rem; position: relative; }
@@ -292,9 +292,9 @@
 <div id="toast" class="camp-toast"></div>
 
 <script type="module">
-import { db, collection, addDoc, serverTimestamp, CAMP_REGS, CAMP_PRAYERS } from './camp-firebase.js';
-import { campIcon, hydrateCampIcons } from './camp-icons.js';
-import { initCampShell } from './camp-shell.js';
+import { db, collection, addDoc, serverTimestamp, CAMP_REGS, CAMP_PRAYERS } from './camp-firebase.js?v=20261118a';
+import { campIcon, hydrateCampIcons } from './camp-icons.js?v=20261118a';
+import { initCampShell } from './camp-shell.js?v=20261118a';
 
 initCampShell();
 hydrateCampIcons();

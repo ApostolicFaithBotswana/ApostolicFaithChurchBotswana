@@ -2,7 +2,7 @@
    Camp portal shell — shared footer matching main site
    ============================================================ */
 
-import { campIcon, hydrateCampIcons } from './camp-icons.js';
+import { campIcon, hydrateCampIcons } from './camp-icons.js?v=20261118a';
 
 function footerHtml(base = '.') {
   const root = base === '.' ? '..' : '../..';

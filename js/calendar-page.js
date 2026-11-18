@@ -2,9 +2,9 @@
    Calendar page — real-time countdown + upcoming schedule
    ============================================================ */
 
-import { DB } from './data.js';
-import { refreshLucideIcons } from './lucide-icons.js';
-import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js';
+import { DB } from './data.js?v=20261118a';
+import { refreshLucideIcons } from './lucide-icons.js?v=20261118a';
+import { lockScroll, unlockScroll, trapModalWheel } from './modal-lock.js?v=20261118a';
 import {
   EVENTS_2026_DEFAULT,
   MONTH_SHORT,
@@ -19,7 +19,7 @@ import {
   unifyEvents,
   pickFocus,
   remainingMs,
-} from './event-countdown.js';
+} from './event-countdown.js?v=20261118a';
 
 export { EVENTS_2026_DEFAULT };
 
